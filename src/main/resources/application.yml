@@ -1,0 +1,33 @@
+   ### FINAL CONFIGURATION ###  (warning: avoid tabs, indent with two spaces)
+# see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+  http:
+    converters:
+      preferred-json-mapper: jackson
+
+server:
+  compression:
+    enabled: false # compression is handled by Nginx proxy
+  display-name: manon
+  ssl:
+    enabled: false # encryption is handled by Nginx proxy
+  undertow:
+    accesslog:
+      enabled: false
+
+manon:
+  admin:
+    defaultAdmin:
+      username: ROOT
+      password: woot
+  security:
+    bcrypt:
+      strength: 6
+  matchmaking:
+    job:
+      start: false

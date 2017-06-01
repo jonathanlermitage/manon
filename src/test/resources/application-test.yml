@@ -1,0 +1,13 @@
+   ### DEV CONFIGURATION for local unit testing ###  (warning: avoid tabs, indent with two spaces)
+
+spring:
+  data:
+    mongodb:
+      database: manondev
+      username: root
+      password: woot
+
+manon:
+  security:
+    bcrypt:
+      strength: 4

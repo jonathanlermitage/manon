@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60000">
+
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return marker==null &amp;&amp; event.getLevel().toInt() == Level.ERROR_INT;</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>ACCEPT</OnMatch>
+        </filter>
+        <file>logs/manon-core-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/manon-core-error_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>4GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return marker==null &amp;&amp; event.getLevel().toInt() == Level.WARN_INT;</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>ACCEPT</OnMatch>
+        </filter>
+        <file>logs/manon-core-warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/manon-core-warn_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>4GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return marker==null &amp;&amp; event.getLevel().toInt() == Level.INFO_INT;</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>ACCEPT</OnMatch>
+        </filter>
+        <file>logs/manon-core-info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/manon-core-info_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>4GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>return marker==null &amp;&amp; event.getLevel().toInt() == Level.DEBUG_INT;</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>ACCEPT</OnMatch>
+        </filter>
+        <file>logs/manon-core-debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/manon-core-debug_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>4GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_ALL_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/manon-core-all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/manon-core-all_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>4GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE_ALL_TRACE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- See http://logback.qos.ch/manual/layouts.html -->
+            <pattern>%d{HH:mm:ss} %-5p %c{30}:%L - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="manon" level="TRACE" additivity="false">
+        <appender-ref ref="FILE_ERROR"/>
+        <appender-ref ref="FILE_WARN"/>
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="FILE_DEBUG"/>
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+
+    <logger name="org.springframework" level="INFO">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+    <logger name="org.hibernate" level="INFO">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+
+</configuration>

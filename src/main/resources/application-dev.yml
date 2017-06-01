@@ -1,0 +1,16 @@
+   ### DEV CONFIGURATION for local application ###  (warning: avoid tabs, indent with two spaces)
+
+spring:
+  data:
+    mongodb:
+      database: manondev
+      username: root
+      password: woot
+
+manon:
+  security:
+    bcrypt:
+      strength: 4
+  matchmaking:
+    job:
+      start: true

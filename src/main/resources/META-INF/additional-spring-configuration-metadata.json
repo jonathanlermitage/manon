@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "manon.admin.defaultAdmin.username",
+      "type": "java.lang.String",
+      "description": "An admin user is created in database with this username if no admin found in database during start-up."
+    },
+    {
+      "name": "manon.admin.defaultAdmin.password",
+      "type": "java.lang.String",
+      "description": "An admin user is created in database with this password if no admin found in database during start-up."
+    },
+    {
+      "name": "manon.security.bcrypt.strength",
+      "type": "java.lang.Integer",
+      "description": "Password bcrypt strength."
+    },
+    {
+      "name": "manon.matchmaking.job.start",
+      "type": "java.lang.Boolean",
+      "description": "Start matchmaking job on this server."
+    }
+  ]
+}

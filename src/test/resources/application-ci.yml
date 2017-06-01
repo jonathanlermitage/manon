@@ -1,0 +1,8 @@
+   ### CI CONFIGURATION for unit testing on CI ###  (warning: avoid tabs, indent with two spaces)
+  
+spring:
+  data:
+    mongodb:
+      database: manonci
+      username: root
+      password: woot
