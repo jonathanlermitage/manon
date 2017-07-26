@@ -73,8 +73,8 @@
         <aspectjrt.version>1.8.10</aspectjrt.version>
 
         <!-- Spring -->
-        <spring-boot.version>1.5.4.RELEASE</spring-boot.version>
-        <spring-framework.version>4.3.9.RELEASE</spring-framework.version>
+        <spring-boot.version>1.5.5.RELEASE</spring-boot.version>
+        <spring-framework.version>4.3.10.RELEASE</spring-framework.version>
         <spring-security-config.version>4.2.3.RELEASE</spring-security-config.version>
         <spring-security-web.version>4.2.3.RELEASE</spring-security-web.version>
 
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-            <!--scope>provided</scope--><!-- because we won't use embedded server but a real one -->
+            <!--scope>provided</scope-->
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
