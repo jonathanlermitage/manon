@@ -1,7 +1,7 @@
 package manon.app.config;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,7 +13,11 @@ import java.io.IOException;
  * Enable Cross-Origin Resource Sharing (CORS).
  */
 @Component
-public class CorsFilter extends OncePerRequestFilter {
+public class CorsFilter extends org.springframework.web.filter.CorsFilter {
+    
+    public CorsFilter(CorsConfigurationSource configSource) {
+        super(configSource);
+    }
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
