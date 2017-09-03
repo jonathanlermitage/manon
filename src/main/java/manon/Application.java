@@ -5,7 +5,6 @@ import manon.app.management.service.TraceService;
 import manon.profile.ProfileNotFoundException;
 import manon.user.UserExistsException;
 import manon.user.admin.service.AdminService;
-import manon.util.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,12 +19,14 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+import static java.lang.System.currentTimeMillis;
 import static manon.app.management.document.AppTrace.CAT.APP_START;
 import static manon.app.management.document.AppTrace.CAT.APP_STOP;
 import static manon.app.management.document.AppTrace.CAT.PERFORMANCE_STATS;
 import static manon.app.management.document.AppTrace.TRACE_LEVEL.APP_LIFECYCLE;
 import static manon.app.management.document.AppTrace.TRACE_LEVEL.INFO;
 import static manon.util.MethodExecutionTimeRecorder.showAllStats;
+import static manon.util.Tools.str;
 
 @SuppressWarnings("SpringAutowiredFieldsWarningInspection")
 @SpringBootApplication
@@ -39,7 +40,7 @@ public class Application extends SpringBootServletInitializer {
     @Autowired
     private TraceService traceService;
     
-    private long startUpTime = System.currentTimeMillis();
+    private long startUpTime = currentTimeMillis();
     
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication.run(Application.class, args);
@@ -54,7 +55,7 @@ public class Application extends SpringBootServletInitializer {
     @PostConstruct
     public void initApp() throws IOException, UserExistsException, ProfileNotFoundException {
         log.warn("*** MANON APPLICATION START ***");
-        String initAppEvent = Tools.str("Admin username is %s", adminService.ensureAdmin().getUsername());
+        String initAppEvent = str("Admin username is %s", adminService.ensureAdmin().getUsername());
         log.info(initAppEvent);
         traceService.log(APP_LIFECYCLE, APP_START, initAppEvent);
     }
@@ -62,8 +63,8 @@ public class Application extends SpringBootServletInitializer {
     @PreDestroy
     public void destroy() {
         traceService.log(INFO, PERFORMANCE_STATS, showAllStats());
-        String destroyEvent = Tools.str("Application was alive during %s seconds (started on %s)",
-                (System.currentTimeMillis() - startUpTime) / 1_000,
+        String destroyEvent = str("Application was alive during %s seconds (started on %s)",
+                (currentTimeMillis() - startUpTime) / 1_000,
                 new Date(startUpTime).toString());
         traceService.log(APP_LIFECYCLE, APP_STOP, destroyEvent);
         log.warn(destroyEvent);

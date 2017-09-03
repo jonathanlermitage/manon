@@ -6,6 +6,14 @@ spring:
       database: manonprod
       username: MONGODB_USERNAME_HERE
       password: MONGODB_PASSWORD_HERE
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: MARIADB_USERNAME_HERE
+    password: MARIADB_PASSWORD_HERE
+    url: jdbc:mysql://127.0.0.1:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+  jpa:
+    hibernate:
+      ddl-auto: update # validate | update | create | create-drop
 
 manon:
   admin:

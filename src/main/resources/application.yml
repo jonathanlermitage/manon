@@ -28,6 +28,3 @@ manon:
   security:
     bcrypt:
       strength: 6
-  matchmaking:
-    job:
-      start: false
