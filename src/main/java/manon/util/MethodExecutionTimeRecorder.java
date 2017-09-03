@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.System.currentTimeMillis;
+import static java.util.Arrays.stream;
 import static manon.util.Tools.str;
 
 @Aspect
@@ -36,15 +38,15 @@ public class MethodExecutionTimeRecorder {
      */
     @Around("execution(* manon..*WS.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        long start = System.currentTimeMillis();
+        long start = currentTimeMillis();
         Object result = point.proceed();
-        long execTime = System.currentTimeMillis() - start;
+        long execTime = currentTimeMillis() - start;
         String signature = point.getThis().getClass().getName();
         if (signature.contains("$")) {
             signature = signature.substring(0, signature.indexOf("$"));
         }
         Method method = MethodSignature.class.cast(point.getSignature()).getMethod();
-        signature += ":" + method.getName() + Arrays.toString(Arrays.stream(method.getParameterTypes()).map(Class::getSimpleName).toArray());
+        signature += ":" + method.getName() + Arrays.toString(stream(method.getParameterTypes()).map(Class::getSimpleName).toArray());
         saveTime(allStats, signature, execTime);
         saveTime(hourlyStats, signature, execTime);
         return result;
@@ -52,24 +54,29 @@ public class MethodExecutionTimeRecorder {
     
     /**
      * Log and return all collected statistics (since application start).
-     * Also, this method is execute hourly.
      * @return statistics as readable text.
      */
-    @Scheduled(fixedRate = 3600_000, initialDelay = 3600_000)
     public static String showAllStats() {
         return showStats(allStats, "All stats");
     }
     
     /**
-     * Log, return hourly collected statistics and reset them.
+     * Log and return all collected statistics (since application start).
      * Also, this method is execute hourly.
-     * @return statistics as readable text.
      */
     @Scheduled(fixedRate = 3600_000, initialDelay = 3600_000)
-    public static String showHourlyStats() {
-        String text = showStats(hourlyStats, "Last hour stats");
+    public static void showAllStatsJob() {
+        showStats(allStats, "All stats");
+    }
+    
+    /**
+     * Log, return hourly collected statistics and reset them.
+     * Also, this method is execute hourly.
+     */
+    @Scheduled(fixedRate = 3600_000, initialDelay = 3600_000)
+    public static void showHourlyStatsJob() {
+        showStats(hourlyStats, "Last hour stats");
         hourlyStats.clear();
-        return text;
     }
     
     /**
@@ -85,15 +92,13 @@ public class MethodExecutionTimeRecorder {
         view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
         StringBuilder buff = new StringBuilder(2048);
         buff.append("    calls       min       max       total       avg   name\n");
-        for (ServiceStats s : view) {
-            buff.append(str("%9s %9s %9s   %9s %9s   %s\n",
-                    s.getCalls(),
-                    s.getMinTime(),
-                    s.getMaxTime(),
-                    s.getTotalTime(),
-                    s.getTotalTime() / s.getCalls(),
-                    s.getService().replaceAll("\\[", "(").replaceAll("]", ")")));
-        }
+        view.stream().map(s -> str("%9s %9s %9s   %9s %9s   %s\n",
+                s.getCalls(),
+                s.getMinTime(),
+                s.getMaxTime(),
+                s.getTotalTime(),
+                s.getTotalTime() / s.getCalls(),
+                s.getService().replaceAll("\\[", "(").replaceAll("]", ")"))).forEach(buff::append);
         String lines = buff.toString();
         log.info("\n" + title + " - services performance (ms): \n{}", lines);
         return lines;
