@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -20,6 +21,8 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 import static java.lang.System.currentTimeMillis;
+import static java.util.Arrays.asList;
+import static manon.app.config.Profiles.METRICS;
 import static manon.app.management.document.AppTrace.CAT.APP_START;
 import static manon.app.management.document.AppTrace.CAT.APP_STOP;
 import static manon.app.management.document.AppTrace.CAT.PERFORMANCE_STATS;
@@ -39,6 +42,8 @@ public class Application extends SpringBootServletInitializer {
     private AdminService adminService;
     @Autowired
     private TraceService traceService;
+    @Autowired
+    private Environment env;
     
     private long startUpTime = currentTimeMillis();
     
@@ -62,7 +67,9 @@ public class Application extends SpringBootServletInitializer {
     
     @PreDestroy
     public void destroy() {
-        traceService.log(INFO, PERFORMANCE_STATS, showAllStats());
+        if (asList(env.getActiveProfiles()).contains(METRICS)) {
+            traceService.log(INFO, PERFORMANCE_STATS, showAllStats());
+        }
         String destroyEvent = str("Application was alive during %s seconds (started on %s)",
                 (currentTimeMillis() - startUpTime) / 1_000,
                 new Date(startUpTime).toString());

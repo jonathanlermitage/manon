@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
-import manon.app.config.Profiles;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,12 +21,13 @@ import java.util.Map;
 
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.stream;
+import static manon.app.config.Profiles.METRICS;
 import static manon.util.Tools.str;
 
 @Aspect
 @Component
 @Slf4j
-@Profile(Profiles.METRICS)
+@Profile(METRICS)
 public class MethodExecutionTimeRecorder {
     
     private static final Map<String, ServiceStats> allStats = new HashMap<>();
