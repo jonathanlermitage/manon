@@ -4,9 +4,9 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.EncoderConfig;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
-import manon.profile.ProfileNotFoundException;
 import manon.profile.repository.ProfileRepository;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
@@ -15,7 +15,6 @@ import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +42,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static manon.app.config.API.API_V1;
+import static manon.util.Tools.objId;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.testng.Assert.fail;
 
@@ -88,7 +88,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     public final String ADMIN_NAME = "ROOT"; // IMPORTANT must reflect application.yml:manon.admin.defaultAdmin.username
     public final String ADMIN_PWD = "woot"; // IMPORTANT must reflect application.yml:manon.admin.defaultAdmin.password
     
-    public final String UNKNOWN_USER_ID = new ObjectId().toString();
+    public final String UNKNOWN_USER_ID = objId();
     public long NUMBER_OF_USERS;
     
     public int getNumberOfProfiles() {
@@ -111,7 +111,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
         }
     }
     
-    public void initDb() throws UserExistsException, UserNotFoundException, InterruptedException {
+    public void initDb() throws InterruptedException {
         long t1 = System.currentTimeMillis();
         
         for (String cn : mongoTemplate.getDb().getCollectionNames()) {
@@ -124,7 +124,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
         tasks.add(() -> {
             try {
                 adminService.ensureAdmin();
-            } catch (UserExistsException | ProfileNotFoundException e) {
+            } catch (UserExistsException e) {
                 log.error("", e);
             }
         });
@@ -158,7 +158,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
             User user = registrationService.registerPlayer(makeName(idx), makePwd(idx));
             registrationService.activate(user.getId());
             profiles.add(new TestProfile(user.getId(), user.getProfileId(), user.getUsername(), user.getPassword()));
-        } catch (UserExistsException | UserNotFoundException | ProfileNotFoundException e) {
+        } catch (UserExistsException | UserNotFoundException e) {
             log.error("", e);
             fail("(init) can't add profile '" + makeName(idx) + "': " + e.getMessage());
         }
@@ -276,7 +276,8 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     // Utils
     //
     
-    public <T> T readValue(String content, Class<T> valueType) throws IOException {
+    @SneakyThrows(IOException.class)
+    public <T> T readValue(String content, Class<T> valueType) {
         return Tools.JSON.readValue(content, valueType);
     }
 }

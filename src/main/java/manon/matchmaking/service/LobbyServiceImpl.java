@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import manon.matchmaking.LobbyLeagueEnum;
 import manon.matchmaking.ProfileLobbyStatus;
 import manon.matchmaking.TeamFullException;
+import manon.matchmaking.TeamInvitation;
+import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
@@ -13,10 +15,13 @@ import manon.matchmaking.document.LobbySolo;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.repository.LobbySoloRepository;
 import manon.matchmaking.repository.LobbyTeamRepository;
+import manon.matchmaking.repository.TeamInvitationRepository;
+import manon.profile.ProfileNotFoundException;
 import manon.profile.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -29,6 +34,7 @@ public class LobbyServiceImpl implements LobbyService {
     
     private final LobbySoloRepository lobbySoloRepository;
     private final LobbyTeamRepository lobbyTeamRepository;
+    private final TeamInvitationRepository teamInvitationRepository;
     private final ProfileService profileService;
     
     @Override
@@ -57,24 +63,21 @@ public class LobbyServiceImpl implements LobbyService {
     
     @Override
     public void quit(String profileId) {
-        long nbProfileDeleted = lobbySoloRepository.removeByProfileId(profileId);
-        if (nbProfileDeleted > 1) {
-            log.warn("removed profile {} from solo lobby, but was present {} times (should be O or 1)",
-                    profileId, nbProfileDeleted);
-        }
-        long nbProfileRemovedFromTeam = lobbyTeamRepository.unsetProfileId(profileId);
-        if (nbProfileRemovedFromTeam > 1) {
-            log.warn("removed profile {} from team lobby, but was present {} times (should be O or 1)",
-                    profileId, nbProfileRemovedFromTeam);
-        }
-        if (nbProfileDeleted > 1 && nbProfileRemovedFromTeam > 1) {
-            log.warn("removed profile {} from solo and team lobby, was present {} times in solo and {} times in team",
-                    profileId, nbProfileDeleted, nbProfileRemovedFromTeam);
-        }
+        lobbySoloRepository.removeByProfileId(profileId);
+        lobbyTeamRepository.findByProfileIds(profileId).ifPresent(team -> {
+            team.getProfileIds().remove(profileId);
+            if (team.getProfileIds().isEmpty()) {
+                lobbyTeamRepository.delete(team);
+            } else if (team.getLeader().equals(profileId)) { // promote new leader
+                lobbyTeamRepository.save(team.toBuilder().leader(team.getProfileIds().get(0)).build());
+            } else {
+                lobbyTeamRepository.save(team);
+            }
+        });
     }
     
     @Override
-    public LobbyTeam createTeam(String profileId, LobbyLeagueEnum league) {
+    public LobbyTeam createTeamAndEnter(String profileId, LobbyLeagueEnum league) {
         quit(profileId);
         LobbyTeam team = LobbyTeam.builder()
                 .league(league)
@@ -87,42 +90,69 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
-    public LobbyTeam enterIntoTeam(String profileId, String teamId)
+    public LobbyTeam addToTeam(String profileId, String teamId)
             throws TeamNotFoundException, TeamFullException {
-        // TODO
-        return null;
+        quit(profileId);
+        LobbyTeam team = lobbyTeamRepository.findById(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
+        if (team.getProfileIds().size() >= team.getMaxSize()) {
+            throw new TeamFullException(teamId);
+        }
+        if (team.getProfileIds().contains(profileId)) {
+            log.warn("profile {} is already in team {}, ignoring add request", profileId, team);
+        } else {
+            team.getProfileIds().add(profileId);
+            lobbyTeamRepository.save(team);
+        }
+        return team;
     }
     
     @Override
-    public LobbyTeam inviteToTeam(String profileId, String teamId)
-            throws TeamNotFoundException {
-        // TODO
-        return null;
+    public TeamInvitation inviteToTeam(String profileId, String profileIdToInvite)
+            throws TeamNotFoundException, TeamInvitationException, ProfileNotFoundException {
+        profileService.ensureExist(profileIdToInvite);
+        if (profileId.equals(profileIdToInvite)) {
+            throw new TeamInvitationException(TeamInvitationException.Cause.INVITE_ITSELF);
+        }
+        LobbyTeam originatorLobbyTeam = getTeam(profileId);
+        Optional<TeamInvitation> invitation = teamInvitationRepository.findByProfileIdAndTeamId(profileIdToInvite, originatorLobbyTeam.getId());
+        if (!invitation.isPresent()) {
+            invitation = Optional.of(TeamInvitation.builder()
+                    .profileId(profileIdToInvite)
+                    .teamId(originatorLobbyTeam.getId())
+                    .build());
+            teamInvitationRepository.save(invitation.get());
+        }
+        return invitation.get();
+    }
+    
+    @Override
+    public List<TeamInvitation> getTeamInvitations(String profileId) {
+        return teamInvitationRepository.findByProfileId(profileId);
     }
     
     @Override
     public LobbyTeam acceptTeamInvitation(String profileId, String invitationId)
             throws TeamInvitationNotFoundException, TeamFullException, TeamNotFoundException {
+        TeamInvitation invitation = teamInvitationRepository.findOne(invitationId);
+        if (invitation == null || !profileId.equals(invitation.getProfileId())) {
+            throw new TeamInvitationNotFoundException(profileId, invitationId);
+        }
         quit(profileId);
-        // TODO
-        return null;
+        LobbyTeam team = addToTeam(profileId, invitation.getTeamId());
+        teamInvitationRepository.delete(invitationId);
+        return team;
     }
     
     @Override
-    public LobbyTeam getTeamByProfile(String profileId)
+    public LobbyTeam getTeam(String profileId)
             throws TeamNotFoundException {
-        Optional<LobbyTeam> team = lobbyTeamRepository.findByProfileIds(profileId);
-        if (team.isPresent()) {
-            return team.get();
-        } else {
-            throw new TeamNotFoundException(profileId);
-        }
+        return lobbyTeamRepository.findByProfileIds(profileId).orElseThrow(() -> new TeamNotFoundException(profileId));
     }
     
     @Override
     public LobbyTeam markTeamReady(String profileId, boolean ready)
             throws TeamNotFoundException, TeamLeaderOnlyException {
-        LobbyTeam team = getTeamByProfile(profileId);
+        LobbyTeam team = getTeam(profileId);
         checkIsTeamLeader(profileId, team);
         team = team.toBuilder().ready(ready).build();
         lobbyTeamRepository.save(team);
@@ -132,7 +162,7 @@ public class LobbyServiceImpl implements LobbyService {
     @Override
     public LobbyTeam changeTeamLeader(String profileId, String newLeaderProfileId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException {
-        LobbyTeam team = getTeamByProfile(profileId);
+        LobbyTeam team = getTeam(profileId);
         checkIsTeamLeader(profileId, team);
         checkIsTeamMember(newLeaderProfileId, team);
         team = team.toBuilder().leader(newLeaderProfileId).build();

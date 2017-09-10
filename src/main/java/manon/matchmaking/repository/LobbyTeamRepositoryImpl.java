@@ -1,6 +1,6 @@
 package manon.matchmaking.repository;
 
-import manon.profile.document.Profile;
+import manon.matchmaking.document.LobbyTeam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Update;
@@ -25,6 +25,6 @@ public class LobbyTeamRepositoryImpl implements LobbyTeamRepositoryCustom {
                 query(where("profileIds").in(profileId)),
                 new Update()
                         .pull("profileIds", profileId),
-                Profile.class).getN();
+                LobbyTeam.class).getN();
     }
 }

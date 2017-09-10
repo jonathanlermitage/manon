@@ -13,7 +13,7 @@ import java.util.List;
 
 import static manon.util.Tools.JSON;
 
-public class ListUserDeserializer extends JsonDeserializer<Collection<User>> {
+public class UserListDeserializer extends JsonDeserializer<Collection<User>> {
     
     @Override
     public List<User> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

@@ -1,7 +1,6 @@
 package manon.user.service;
 
 import lombok.RequiredArgsConstructor;
-import manon.profile.ProfileNotFoundException;
 import manon.profile.service.ProfileService;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User create(User user)
-            throws UserExistsException, ProfileNotFoundException {
+            throws UserExistsException {
         if (userRepository.usernameExists(user.getUsername())) {
             throw new UserExistsException(user.getUsername());
         }

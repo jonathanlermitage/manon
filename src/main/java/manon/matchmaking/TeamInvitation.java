@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -18,6 +18,9 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class TeamInvitation {
     
-    private ObjectId profileId;
-    private ObjectId teamId;
+    @Id
+    private String id;
+    
+    private String profileId;
+    private String teamId;
 }

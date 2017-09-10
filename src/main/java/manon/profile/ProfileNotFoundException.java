@@ -12,4 +12,8 @@ public class ProfileNotFoundException extends Exception {
     public ProfileNotFoundException(String... ids) {
         this.ids = ids;
     }
+    
+    public ProfileNotFoundException(String id) {
+        this.ids = new String[]{id};
+    }
 }

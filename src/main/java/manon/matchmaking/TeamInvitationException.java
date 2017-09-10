@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class TeamInvitationNotFoundException extends Exception {
+public class TeamInvitationException extends Exception {
     
-    private String profileId;
-    private String teamId;
+    private Cause errorCause;
+    
+    public enum Cause {
+        INVITE_ITSELF
+    }
 }

@@ -25,6 +25,13 @@ public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
     
     @Override
+    public void ensureExist(String... ids) throws ProfileNotFoundException {
+        for (String id : ids) {
+            readOne(id);
+        }
+    }
+    
+    @Override
     public Profile readOne(String id) throws ProfileNotFoundException {
         Optional<Profile> profile = profileRepository.findById(id);
         if (!profile.isPresent()) {
@@ -75,21 +82,21 @@ public class ProfileServiceImpl implements ProfileService {
     
     @Override
     public void rejectFriendshipRequest(String profileIdFrom, String profileIdTo)
-            throws ProfileNotFoundException, FriendshipRequestNotFoundException {
+            throws ProfileNotFoundException {
         profileRepository.rejectFriendshipRequest(profileIdFrom, profileIdTo);
         keepEvents(profileIdFrom, profileIdTo);
     }
     
     @Override
     public void cancelFriendshipRequest(String profileIdFrom, String profileIdTo)
-            throws ProfileNotFoundException, FriendshipRequestNotFoundException {
+            throws ProfileNotFoundException {
         profileRepository.cancelFriendshipRequest(profileIdFrom, profileIdTo);
         keepEvents(profileIdFrom, profileIdTo);
     }
     
     @Override
     public void revokeFriendship(String profileIdFrom, String profileIdTo)
-            throws ProfileNotFoundException, FriendshipRequestNotFoundException {
+            throws ProfileNotFoundException {
         profileRepository.revokeFriendship(profileIdFrom, profileIdTo);
         keepEvents(profileIdFrom, profileIdTo);
     }

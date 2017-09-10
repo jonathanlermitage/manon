@@ -5,18 +5,23 @@ import lombok.extern.slf4j.Slf4j;
 import manon.app.security.UserSimpleDetails;
 import manon.matchmaking.LobbyLeagueEnum;
 import manon.matchmaking.TeamFullException;
+import manon.matchmaking.TeamInvitation;
+import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.service.LobbyService;
+import manon.profile.ProfileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_V1;
@@ -45,23 +50,30 @@ public class LobbyTeamWS {
                                         @PathVariable("league") LobbyLeagueEnum league)
             throws TeamFullException, TeamNotFoundException {
         log.info("user {} creates team", user.getIdentity());
-        LobbyTeam team = lobbyService.createTeam(user.getProfileId(), league);
-        return lobbyService.enterIntoTeam(user.getProfileId(), team.getId().toString());
+        return lobbyService.createTeamAndEnter(user.getProfileId(), league);
     }
     
     /**
      * Invite a profile to a team.
      * @param user user.
-     * @param teamId team id.
      * @param profileId profile id to invite.
      */
-    @RequestMapping(value = "/invite/profile/{profileId}/team/{teamId}", method = PUT)
-    public LobbyTeam inviteToTeam(@AuthenticationPrincipal UserSimpleDetails user,
-                                  @PathVariable("teamId") String teamId,
-                                  @PathVariable("profileId") String profileId)
-            throws TeamNotFoundException {
-        log.info("user {} invites profile {} into team {}", user.getIdentity(), profileId, teamId);
-        return lobbyService.inviteToTeam(profileId, teamId);
+    @RequestMapping(value = "/invite/profile/{profileId}/team", method = PUT)
+    public TeamInvitation inviteToTeam(@AuthenticationPrincipal UserSimpleDetails user,
+                                       @PathVariable("profileId") String profileId)
+            throws TeamNotFoundException, TeamInvitationException, ProfileNotFoundException {
+        log.info("user {} invites profile {} into team {}", user.getIdentity(), profileId);
+        return lobbyService.inviteToTeam(user.getProfileId(), profileId);
+    }
+    
+    /**
+     * Get teams invitations.
+     * @param user user who may be invited by teams.
+     * @return invitations.
+     */
+    @RequestMapping(value = "/team/invitations", method = GET)
+    public List<TeamInvitation> getTeamInvitations(@AuthenticationPrincipal UserSimpleDetails user) {
+        return lobbyService.getTeamInvitations(user.getProfileId());
     }
     
     /**
@@ -85,7 +97,7 @@ public class LobbyTeamWS {
     public LobbyTeam getTeam(@AuthenticationPrincipal UserSimpleDetails user)
             throws TeamNotFoundException {
         log.info("user {} gets his team", user.getIdentity());
-        return lobbyService.getTeamByProfile(user.getProfileId());
+        return lobbyService.getTeam(user.getProfileId());
     }
     
     /**
@@ -93,9 +105,9 @@ public class LobbyTeamWS {
      * @param user team leader.
      * @param ready ready.
      */
-    @RequestMapping(value = "/team/ready/{ready}", method = PUT)
-    public LobbyTeam markReady(@AuthenticationPrincipal UserSimpleDetails user,
-                               @PathVariable("ready") boolean ready)
+    @RequestMapping(value = "/team/ready/{ready}", method = PUT) // TODO unit test
+    public LobbyTeam markTeamReady(@AuthenticationPrincipal UserSimpleDetails user,
+                                   @PathVariable("ready") boolean ready)
             throws TeamNotFoundException, TeamLeaderOnlyException {
         log.info("user {} marks his team ready: {}", user.getIdentity(), ready);
         return lobbyService.markTeamReady(user.getProfileId(), ready);
@@ -106,7 +118,7 @@ public class LobbyTeamWS {
      * @param user team leader.
      * @param newLeaderProfileId profile id of new team leader.
      */
-    @RequestMapping(value = "/team/leader/{newLeaderProfileId}", method = PUT)
+    @RequestMapping(value = "/team/leader/{newLeaderProfileId}", method = PUT) // TODO unit test
     public LobbyTeam changeTeamLeader(@AuthenticationPrincipal UserSimpleDetails user,
                                       @PathVariable("newLeaderProfileId") String newLeaderProfileId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException {

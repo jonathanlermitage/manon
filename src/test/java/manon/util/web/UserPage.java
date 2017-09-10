@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 public class UserPage {
     
-    @JsonSerialize(using = ListUserSerializer.class)
-    @JsonDeserialize(using = ListUserDeserializer.class)
+    @JsonSerialize(using = UserListSerializer.class)
+    @JsonDeserialize(using = UserListDeserializer.class)
     private List<User> content;
     
     private Sort[] sort;

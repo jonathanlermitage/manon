@@ -15,6 +15,8 @@ import java.util.Collection;
 
 public interface ProfileService {
     
+    void ensureExist(String... ids) throws ProfileNotFoundException;
+    
     Profile readOne(String id) throws ProfileNotFoundException;
     
     /**
@@ -58,7 +60,7 @@ public interface ProfileService {
      * @param profileIdTo id of profile that rejects friendship.
      */
     void rejectFriendshipRequest(String profileIdFrom, String profileIdTo)
-            throws ProfileNotFoundException, FriendshipRequestNotFoundException;
+            throws ProfileNotFoundException;
     
     /**
      * Cancel a friendship request between two profiles.
@@ -68,7 +70,7 @@ public interface ProfileService {
      * @param profileIdTo id of profile that accepts friendship.
      */
     void cancelFriendshipRequest(String profileIdFrom, String profileIdTo)
-            throws ProfileNotFoundException, FriendshipRequestNotFoundException;
+            throws ProfileNotFoundException;
     
     /**
      * Delete a friendship relation between two profiles.
@@ -78,7 +80,7 @@ public interface ProfileService {
      * @param profileIdTo if of friend profile.
      */
     void revokeFriendship(String profileIdFrom, String profileIdTo)
-            throws ProfileNotFoundException, FriendshipRequestNotFoundException;
+            throws ProfileNotFoundException;
     
     /**
      * Keep only {@link Profile.Validation#MAX_EVENTS} recent friendshipEvents on profile.

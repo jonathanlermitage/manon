@@ -2,6 +2,7 @@ package manon.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xebia.jacksonlombok.JacksonLombokAnnotationIntrospector;
+import org.bson.types.ObjectId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,5 +74,13 @@ public final class Tools {
             }
         }
         return false;
+    }
+    
+    /**
+     * Create a new MongoDB ObjectId.
+     * @return ObjectId as String.
+     */
+    public static String objId() {
+        return new ObjectId().toString();
     }
 }

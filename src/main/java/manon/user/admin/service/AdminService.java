@@ -1,7 +1,6 @@
 package manon.user.admin.service;
 
 import lombok.RequiredArgsConstructor;
-import manon.profile.ProfileNotFoundException;
 import manon.user.UserExistsException;
 import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
@@ -25,7 +24,7 @@ public class AdminService {
     @Value("${manon.admin.defaultAdmin.password}")
     private String adminPassword;
     
-    public User ensureAdmin() throws UserExistsException, ProfileNotFoundException {
+    public User ensureAdmin() throws UserExistsException {
         Optional<User> opAdmin = userService.findByUsername(adminUsername);
         if (opAdmin.isPresent()) {
             return opAdmin.get();

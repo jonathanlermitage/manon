@@ -1,6 +1,5 @@
 package manon.user.registration.service;
 
-import manon.profile.ProfileNotFoundException;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
@@ -31,9 +30,8 @@ public interface RegistrationService {
     /**
      * Delete a user.
      * @param userId user id.
-     * @return user.
      */
-    User delete(String userId) throws UserNotFoundException;
+    void delete(String userId) throws UserNotFoundException;
     
     /**
      * Register a profile.
@@ -43,7 +41,7 @@ public interface RegistrationService {
      * @return user.
      */
     User registerPlayer(String username, String password)
-            throws UserExistsException, ProfileNotFoundException;
+            throws UserExistsException;
     
     /**
      * Register an admin (root).
@@ -53,5 +51,5 @@ public interface RegistrationService {
      * @return admin user.
      */
     User registerRoot(String username, String password)
-            throws UserExistsException, ProfileNotFoundException;
+            throws UserExistsException;
 }

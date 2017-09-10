@@ -1,6 +1,5 @@
 package manon.user.service;
 
-import manon.profile.ProfileNotFoundException;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
@@ -49,7 +48,7 @@ public interface UserService {
      * @return new user.
      */
     User create(User user)
-            throws UserExistsException, ProfileNotFoundException;
+            throws UserExistsException;
     
     void setPassword(String id, String password)
             throws UserNotFoundException;

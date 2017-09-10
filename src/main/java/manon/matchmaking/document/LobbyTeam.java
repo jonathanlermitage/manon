@@ -42,7 +42,10 @@ public final class LobbyTeam {
     /** Profile that leads the team. */
     private String leader;
     private long skill;
-    private boolean ready;
+    @Builder.Default
+    private boolean ready = false;
+    @Builder.Default
+    private short maxSize = 3;
     private LobbyLeagueEnum league;
     
     @JsonFormat(pattern = DATE_FORMAT)
@@ -52,12 +55,4 @@ public final class LobbyTeam {
     @JsonFormat(pattern = DATE_FORMAT)
     @LastModifiedDate
     private Date updateDate;
-    
-    /**
-     * {@link LobbyTeam} validation rules.
-     */
-    public static class Validation {
-        /** Maximum number of members: {@value}. */
-        public static final int MAX_SIZE = 3;
-    }
 }

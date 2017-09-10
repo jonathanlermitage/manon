@@ -2,7 +2,6 @@ package manon.user.registration.service;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.security.PasswordEncoderService;
-import manon.profile.ProfileNotFoundException;
 import manon.user.UserAuthority;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
@@ -45,20 +44,19 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
     
     @Override
-    public User delete(String userId) throws UserNotFoundException {
+    public void delete(String userId) throws UserNotFoundException {
         userService.setRegistrationState(userId, DELETED);
-        return userService.readOne(userId);
     }
     
     @Override
     public User registerPlayer(String username, String password)
-            throws UserExistsException, ProfileNotFoundException {
+            throws UserExistsException {
         return register(PLAYER, username, password, ACTIVE);
     }
     
     @Override
     public User registerRoot(String username, String password)
-            throws UserExistsException, ProfileNotFoundException {
+            throws UserExistsException {
         return register(ADMIN, username, password, ACTIVE);
     }
     
@@ -71,7 +69,7 @@ public class RegistrationServiceImpl implements RegistrationService {
      * @return user.
      */
     private User register(UserAuthority role, String username, String password, RegistrationStateEnum registrationState)
-            throws UserExistsException, ProfileNotFoundException {
+            throws UserExistsException {
         User user = User.builder()
                 .username(username.trim())
                 .roles(role.name())

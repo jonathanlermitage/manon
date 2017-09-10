@@ -2,20 +2,19 @@ package manon.matchmaking.api;
 
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
+import lombok.SneakyThrows;
 import manon.matchmaking.ProfileLobbyStatus;
 import manon.matchmaking.repository.LobbySoloRepository;
 import manon.matchmaking.repository.LobbyTeamRepository;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.InitBeforeTest;
 import manon.util.basetest.Rs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeMethod;
 
-import java.io.IOException;
-
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertNull;
 
-public abstract class LobbyWSBaseTest extends InitBeforeClass {
+public abstract class LobbyWSBaseTest extends InitBeforeTest {
     
     @Autowired
     private LobbySoloRepository lobbySoloRepository;
@@ -28,7 +27,8 @@ public abstract class LobbyWSBaseTest extends InitBeforeClass {
         lobbyTeamRepository.deleteAll();
     }
     
-    public void shouldQuitLobbyAndCheckStatus(Rs rs) throws IOException {
+    @SneakyThrows
+    public void shouldQuitLobbyAndCheckStatus(Rs rs) {
         rs.getRequestSpecification()
                 .put(getApiV1() + TEST_API_LOBBY + "/quit")
                 .then().statusCode(SC_OK);

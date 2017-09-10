@@ -8,7 +8,7 @@ import manon.user.document.User;
 import java.io.IOException;
 import java.util.Collection;
 
-public class ListUserSerializer extends JsonSerializer<Collection<User>> {
+public class UserListSerializer extends JsonSerializer<Collection<User>> {
     
     @Override
     public void serialize(Collection<User> value, JsonGenerator jgen, SerializerProvider provider) throws IOException {

@@ -3,6 +3,7 @@ package manon.app.config;
 import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import manon.matchmaking.TeamFullException;
+import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
@@ -193,7 +194,7 @@ public class ControllerAdvice {
     public Map<String, Object> handle(TeamInvitationNotFoundException error) {
         Map<String, Object> map = new HashMap<>();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, error.getTeamInvitationId());
+        map.put(FIELD_MESSAGE, new String[]{error.getProfileId(), error.getTeamId()});
         return map;
     }
     
@@ -204,6 +205,16 @@ public class ControllerAdvice {
         Map<String, Object> map = new HashMap<>();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
         map.put(FIELD_MESSAGE, error.getTeamId());
+        return map;
+    }
+    
+    @ExceptionHandler(TeamInvitationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public Map<String, Object> handle(TeamInvitationException error) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
+        map.put(FIELD_MESSAGE, error.getErrorCause());
         return map;
     }
 }

@@ -15,7 +15,7 @@ import static org.testng.Assert.assertEquals;
 public class LobbyWSTest extends LobbyWSBaseTest {
     
     @Test(dataProvider = DP_RS_USERS)
-    public void shouldGetStatusInLobby(Rs rs) throws IOException {
+    public void shouldGetStatusInLobby(Rs rs) {
         Response res = rs.getRequestSpecification()
                 .get(getApiV1() + TEST_API_LOBBY + "/status");
         res.then()
@@ -33,7 +33,7 @@ public class LobbyWSTest extends LobbyWSBaseTest {
     }
     
     @Test(dataProvider = DP_RS_USERS)
-    public void shouldQuitLobbyAndCheckStatus(Rs rs) throws IOException {
+    public void shouldQuitLobbyAndCheckStatus(Rs rs) {
         super.shouldQuitLobbyAndCheckStatus(rs);
     }
     
