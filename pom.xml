@@ -78,7 +78,7 @@
 
         <!-- Spring -->
         <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
-        <spring-framework.version>4.3.10.RELEASE</spring-framework.version>
+        <spring-framework.version>4.3.11.RELEASE</spring-framework.version>
         <spring-security-config.version>4.2.3.RELEASE</spring-security-config.version>
         <spring-security-web.version>4.2.3.RELEASE</spring-security-web.version>
 
