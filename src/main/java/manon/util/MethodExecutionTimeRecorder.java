@@ -15,9 +15,12 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.stream;
@@ -91,13 +94,14 @@ public class MethodExecutionTimeRecorder {
         view.addAll(stats.values());
         view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
         StringBuilder buff = new StringBuilder(2048);
-        buff.append("    calls       min       max       total       avg   name\n");
-        view.stream().map(s -> str("%9s %9s %9s   %9s %9s   %s\n",
+        buff.append(" calls     min     max     total     avg  median  name\n");
+        view.stream().map(s -> str("%6s %7s %7s   %7s %7s %7s  %s\n",
                 s.getCalls(),
                 s.getMinTime(),
                 s.getMaxTime(),
                 s.getTotalTime(),
                 s.getTotalTime() / s.getCalls(),
+                ((long) median(s.getTimes())),
                 s.getService().replaceAll("\\[", "(").replaceAll("]", ")"))).forEach(buff::append);
         String lines = buff.toString();
         log.info("\n" + title + " - services performance (ms): \n{}", lines);
@@ -114,6 +118,7 @@ public class MethodExecutionTimeRecorder {
         ServiceStats stat;
         if (stats.containsKey(signature)) {
             stat = stats.get(signature);
+            stat.getTimes().add(execTime);
             stat.setCalls(stat.getCalls() + 1L);
             if (execTime < stat.getMinTime()) {
                 stat.setMinTime(execTime);
@@ -123,7 +128,7 @@ public class MethodExecutionTimeRecorder {
             }
             stat.setTotalTime(execTime + stat.getTotalTime());
         } else {
-            stat = new ServiceStats(signature, 1L, execTime, execTime, execTime);
+            stat = new ServiceStats(signature, 1L, execTime, execTime, execTime, Stream.of(execTime).collect(Collectors.toList()));
         }
         stats.put(signature, stat);
     }
@@ -137,5 +142,15 @@ public class MethodExecutionTimeRecorder {
         private long minTime;
         private long maxTime;
         private long totalTime;
+        private List<Long> times;
+    }
+    
+    private static double median(List<Long> v) {
+        Collections.sort(v);
+        int middle = v.size() / 2;
+        if (v.size() % 2 == 1) {
+            return v.get(middle);
+        }
+        return (v.get(middle - 1) + v.get(middle)) / 2.0;
     }
 }
