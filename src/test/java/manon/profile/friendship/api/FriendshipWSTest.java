@@ -3,12 +3,10 @@ package manon.profile.friendship.api;
 import manon.profile.ProfileNotFoundException;
 import manon.profile.document.Profile;
 import manon.profile.friendship.FriendshipEvent;
-import manon.profile.service.ProfileService;
 import manon.util.basetest.InitBeforeClass;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -24,9 +22,6 @@ public class FriendshipWSTest extends InitBeforeClass {
         return 3;
     }
     
-    @Autowired
-    protected ProfileService profileService;
-    
     @AfterMethod
     public void reinitFriendships() throws ProfileNotFoundException {
         for (String profileId : new String[]{profileId(1), profileId(2), profileId(3)}) {
@@ -35,7 +30,7 @@ public class FriendshipWSTest extends InitBeforeClass {
             profile.getFriendshipRequestsTo().clear();
             profile.getFriendshipRequestsFrom().clear();
             profile.getFriendshipEvents().clear();
-            profileRepository.save(profile);
+            profileService.save(profile);
         }
     }
     

@@ -4,8 +4,7 @@ import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import lombok.SneakyThrows;
 import manon.matchmaking.ProfileLobbyStatus;
-import manon.matchmaking.repository.LobbySoloRepository;
-import manon.matchmaking.repository.LobbyTeamRepository;
+import manon.matchmaking.service.LobbyService;
 import manon.util.basetest.InitBeforeTest;
 import manon.util.basetest.Rs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,11 @@ import static org.testng.Assert.assertNull;
 public abstract class LobbyWSBaseTest extends InitBeforeTest {
     
     @Autowired
-    private LobbySoloRepository lobbySoloRepository;
-    @Autowired
-    private LobbyTeamRepository lobbyTeamRepository;
+    private LobbyService lobbyService;
     
     @BeforeMethod(dependsOnMethods = "beforeMethod")
-    public void initLobby() throws Exception {
-        lobbySoloRepository.deleteAll();
-        lobbyTeamRepository.deleteAll();
+    public void initLobby() {
+        lobbyService.flush();
     }
     
     @SneakyThrows

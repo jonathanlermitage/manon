@@ -7,7 +7,8 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
-import manon.profile.repository.ProfileRepository;
+import manon.app.cache.CacheService;
+import manon.profile.service.ProfileService;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.admin.service.AdminService;
@@ -71,6 +72,9 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     private String apiV1;
     
     @Autowired
+    private CacheService cacheService;
+    
+    @Autowired
     protected AdminService adminService;
     @Autowired
     protected RegistrationService registrationService;
@@ -80,7 +84,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     @Autowired
     private MongoTemplate mongoTemplate;
     @Autowired
-    protected ProfileRepository profileRepository;
+    protected ProfileService profileService;
     
     private final List<TestProfile> profiles = Collections.synchronizedList(new ArrayList<>());
     private final Map<Integer, User> userCache = new ConcurrentHashMap<>();
@@ -114,6 +118,8 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     public void initDb() throws InterruptedException {
         long t1 = System.currentTimeMillis();
         
+        cacheService.flushDb();
+        
         for (String cn : mongoTemplate.getDb().getCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }
@@ -140,7 +146,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
             taskExecutor.awaitTermination(10, TimeUnit.SECONDS);
         }
         
-        NUMBER_OF_USERS = profileRepository.count();
+        NUMBER_OF_USERS = profileService.count();
         
         log.debug("(Unit Test) called initDb from test class {}, took {} ms", this.getClass().getSimpleName(), System.currentTimeMillis() - t1);
     }

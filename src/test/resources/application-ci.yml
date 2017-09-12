@@ -6,3 +6,5 @@ spring:
       database: manonci
       username: root
       password: woot
+  redis:
+    database: 3

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.util.Tools;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class FriendshipEvent {
+public class FriendshipEvent implements Serializable {
     
     @Builder.Default
     private Date date = Tools.now();

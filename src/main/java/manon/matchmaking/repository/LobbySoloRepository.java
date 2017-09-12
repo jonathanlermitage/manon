@@ -11,5 +11,5 @@ public interface LobbySoloRepository extends MongoRepository<LobbySolo, String> 
     
     Optional<LobbySolo> findByProfileId(String profileId);
     
-    long removeByProfileId(String profileId);
+    void removeByProfileId(String profileId);
 }

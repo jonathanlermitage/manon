@@ -15,6 +15,11 @@ import java.util.Collection;
 
 public interface ProfileService {
     
+    long count();
+    
+    @SuppressWarnings("UnusedReturnValue") // return value is used for caching
+    Profile save(Profile profile);
+    
     void ensureExist(String... ids) throws ProfileNotFoundException;
     
     Profile readOne(String id) throws ProfileNotFoundException;
@@ -84,9 +89,9 @@ public interface ProfileService {
     
     /**
      * Keep only {@link Profile.Validation#MAX_EVENTS} recent friendshipEvents on profile.
-     * @param ids profiles id.
+     * @param id profile id.
      */
-    void keepEvents(String... ids) throws ProfileNotFoundException;
+    void keepEvents(String id) throws ProfileNotFoundException;
     
     /**
      * Update the state of a profile.

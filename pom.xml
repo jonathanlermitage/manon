@@ -76,11 +76,15 @@
         <jcabi-aspects.version>0.22.5</jcabi-aspects.version>
         <aspectjrt.version>1.8.10</aspectjrt.version>
 
+        <!-- Caching -->
+        <jedis.version>2.9.0</jedis.version>
+
         <!-- Spring -->
-        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
         <spring-framework.version>4.3.11.RELEASE</spring-framework.version>
         <spring-security-config.version>4.2.3.RELEASE</spring-security-config.version>
         <spring-security-web.version>4.2.3.RELEASE</spring-security-web.version>
+        <spring-data-redis.version>1.8.7.RELEASE</spring-data-redis.version>
 
         <javaee-web-api.version>7.0</javaee-web-api.version>
 
@@ -153,6 +157,20 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
             <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- Spring Cache. -->
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-data-redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

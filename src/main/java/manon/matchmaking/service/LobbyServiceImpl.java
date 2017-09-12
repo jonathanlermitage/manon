@@ -38,6 +38,12 @@ public class LobbyServiceImpl implements LobbyService {
     private final ProfileService profileService;
     
     @Override
+    public void flush() {
+        lobbySoloRepository.deleteAll();
+        lobbyTeamRepository.deleteAll();
+    }
+    
+    @Override
     public ProfileLobbyStatus getStatus(String profileId) {
         Optional<LobbySolo> solo = lobbySoloRepository.findByProfileId(profileId);
         if (solo.isPresent()) {

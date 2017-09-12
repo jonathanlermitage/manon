@@ -8,6 +8,10 @@ import manon.user.document.User;
 import manon.user.registration.RegistrationStateEnum;
 import manon.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
     
+    private static final String CACHE_READ_USER_BY_ID = "READ_USER_BY_ID";
     private final UserRepository userRepository;
     private final ProfileService profileService;
     
@@ -42,15 +47,13 @@ public class UserServiceImpl implements UserService {
         return user.get();
     }
     
+    @Cacheable(value = CACHE_READ_USER_BY_ID, key = "#id")
     @Override
     public User readOne(String id) throws UserNotFoundException {
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            throw new UserNotFoundException(id);
-        }
-        return user.get();
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
     
+    @Caching(put = @CachePut(value = CACHE_READ_USER_BY_ID, key = "#result.id"))
     @Override
     public User create(User user)
             throws UserExistsException {
@@ -65,11 +68,13 @@ public class UserServiceImpl implements UserService {
         return user;
     }
     
+    @CacheEvict(value = CACHE_READ_USER_BY_ID, key = "#id")
     @Override
     public void setPassword(String id, String password) throws UserNotFoundException {
         userRepository.setPassword(id, password);
     }
     
+    @CacheEvict(value = CACHE_READ_USER_BY_ID, key = "#id")
     @Override
     public void setRegistrationState(String id, RegistrationStateEnum registrationState) throws UserNotFoundException {
         userRepository.setRegistrationState(id, registrationState);

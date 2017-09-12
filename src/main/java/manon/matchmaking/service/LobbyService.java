@@ -17,6 +17,8 @@ import java.util.List;
 /** Handle lobby. */
 public interface LobbyService {
     
+    void flush();
+    
     /**
      * Indicate if a profile is in the lobby already, and where.
      * @param profileId profile id.
