@@ -71,13 +71,11 @@ public class LobbyServiceImpl implements LobbyService {
     public void quit(String profileId) {
         lobbySoloRepository.removeByProfileId(profileId);
         lobbyTeamRepository.findByProfileIds(profileId).ifPresent(team -> {
-            team.getProfileIds().remove(profileId);
+            team = lobbyTeamRepository.removeProfileId(team.getId(), profileId);
             if (team.getProfileIds().isEmpty()) {
                 lobbyTeamRepository.delete(team);
             } else if (team.getLeader().equals(profileId)) { // promote new leader
-                lobbyTeamRepository.save(team.toBuilder().leader(team.getProfileIds().get(0)).build());
-            } else {
-                lobbyTeamRepository.save(team);
+                lobbyTeamRepository.setLeader(team.getId(), team.getProfileIds().get(0));
             }
         });
     }
@@ -96,6 +94,7 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
+    //@Synchronized
     public LobbyTeam addToTeam(String profileId, String teamId)
             throws TeamNotFoundException, TeamFullException {
         quit(profileId);
@@ -106,8 +105,7 @@ public class LobbyServiceImpl implements LobbyService {
         if (team.getProfileIds().contains(profileId)) {
             log.warn("profile {} is already in team {}, ignoring add request", profileId, team);
         } else {
-            team.getProfileIds().add(profileId);
-            lobbyTeamRepository.save(team);
+            return lobbyTeamRepository.addProfileId(teamId, profileId);
         }
         return team;
     }

@@ -45,7 +45,7 @@ public final class LobbyTeam {
     @Builder.Default
     private boolean ready = false;
     @Builder.Default
-    private short maxSize = 3;
+    private short maxSize = Default.MAX_TEAM_SIZE;
     private LobbyLeagueEnum league;
     
     @JsonFormat(pattern = DATE_FORMAT)
@@ -55,4 +55,11 @@ public final class LobbyTeam {
     @JsonFormat(pattern = DATE_FORMAT)
     @LastModifiedDate
     private Date updateDate;
+    
+    /**
+     * {@link LobbyTeam} fields default or initial values.
+     */
+    public static class Default {
+        public static final short MAX_TEAM_SIZE = 6;
+    }
 }

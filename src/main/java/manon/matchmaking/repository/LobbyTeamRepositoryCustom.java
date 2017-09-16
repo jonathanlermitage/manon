@@ -1,6 +1,12 @@
 package manon.matchmaking.repository;
 
+import manon.matchmaking.document.LobbyTeam;
+
 public interface LobbyTeamRepositoryCustom {
     
-    long unsetProfileId(String profileId);
+    LobbyTeam removeProfileId(String id, String profileId);
+    
+    LobbyTeam addProfileId(String id, String profileId);
+    
+    void setLeader(String id, String profileId);
 }

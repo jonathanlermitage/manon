@@ -10,6 +10,7 @@ import manon.util.basetest.Rs;
 import manon.util.web.TeamInvitationList;
 import org.testng.annotations.Test;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static manon.util.Tools.objId;
@@ -27,7 +28,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     
     @Override
     public int getNumberOfProfiles() {
-        return 4;
+        return 7;
     }
     
     @Test(dataProvider = DP_RS_USERS)
@@ -153,64 +154,58 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     
     @Test
     public void shouldNotAcceptInvitationToFullTeamUnlessAMemberLeaves() {
-        Rs rs2 = whenP2();
         Rs rs3 = whenP3();
-        Rs rs4 = whenPX(4);
         String p1TeamId = createTeam(whenP1(), LobbyLeagueEnum.REGULAR).getId();
-        String profile2Id = userService.readByUsername(rs2.getUsername()).getProfileId();
-        String profile3Id = userService.readByUsername(rs3.getUsername()).getProfileId();
-        String profile4Id = userService.readByUsername(rs4.getUsername()).getProfileId();
-        Stream.of(profile2Id, profile3Id, profile4Id).parallel().forEach(s -> whenP1().getRequestSpecification()
-                .contentType(ContentType.JSON)
-                .put(getApiV1() + TEST_API_LOBBY + "/invite/profile/" + s + "/team")
-                .then().statusCode(SC_OK));
         
-        Response res2Invitations = rs2.getRequestSpecification()
+        // P1 invites P2 to P7
+        IntStream.rangeClosed(2, 7).parallel().forEach(s -> {
+            String profileId = userService.readByUsername(whenPX(s).getUsername()).getProfileId();
+            whenP1().getRequestSpecification()
+                    .contentType(ContentType.JSON)
+                    .put(getApiV1() + TEST_API_LOBBY + "/invite/profile/" + profileId + "/team")
+                    .then().statusCode(SC_OK);
+        });
+        
+        // P2 to P6 accept invitation
+        IntStream.rangeClosed(2, 6).parallel().forEach(s -> {
+            Rs rs = whenPX(s);
+            Response resInvitations = rs.getRequestSpecification()
+                    .contentType(ContentType.JSON)
+                    .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
+            resInvitations.then().statusCode(SC_OK);
+            TeamInvitationList invitations = readValue(resInvitations.asString(), TeamInvitationList.class);
+            assertThat(invitations).hasSize(1);
+            rs.getRequestSpecification()
+                    .contentType(ContentType.JSON)
+                    .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations.get(0).getId())
+                    .then().statusCode(SC_OK);
+        });
+        
+        // P7 can't enter since team is full
+        Rs rs7 = whenPX(7);
+        Response res7Invitations = rs7.getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
-        res2Invitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations2 = readValue(res2Invitations.asString(), TeamInvitationList.class);
-        assertThat(invitations2).hasSize(1);
-        rs2.getRequestSpecification()
+        res7Invitations.then().statusCode(SC_OK);
+        TeamInvitationList invitations7 = readValue(res7Invitations.asString(), TeamInvitationList.class);
+        assertThat(invitations7).hasSize(1);
+        rs7.getRequestSpecification()
                 .contentType(ContentType.JSON)
-                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations2.get(0).getId())
-                .then().statusCode(SC_OK);
-        
-        Response res3Invitations = rs3.getRequestSpecification()
-                .contentType(ContentType.JSON)
-                .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
-        res3Invitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations3 = readValue(res3Invitations.asString(), TeamInvitationList.class);
-        assertThat(invitations3).hasSize(1);
-        rs3.getRequestSpecification()
-                .contentType(ContentType.JSON)
-                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations3.get(0).getId())
-                .then().statusCode(SC_OK);
-        
-        // P4 can't enter since team is full
-        Response res4Invitations = rs4.getRequestSpecification()
-                .contentType(ContentType.JSON)
-                .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
-        res4Invitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations4 = readValue(res4Invitations.asString(), TeamInvitationList.class);
-        assertThat(invitations4).hasSize(1);
-        rs4.getRequestSpecification()
-                .contentType(ContentType.JSON)
-                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations4.get(0).getId())
+                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations7.get(0).getId())
                 .then().statusCode(SC_CONFLICT);
         
-        // P3 leaves team, than P4 can now enter
-        rs3.getRequestSpecification()
+        // P3 leaves team, than P7 can now enter
+        Response res3Invitations = rs3.getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .put(getApiV1() + TEST_API_LOBBY + "/quit");
         res3Invitations.then().statusCode(SC_OK);
-        rs4.getRequestSpecification()
+        rs7.getRequestSpecification()
                 .contentType(ContentType.JSON)
-                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations4.get(0).getId())
+                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations7.get(0).getId())
                 .then().statusCode(SC_OK);
         
-        // check that P1 P2 P4 are on the same team, and P3 is out
-        Stream.of(whenP1(), whenP2(), whenPX(4)).parallel().forEach(rs -> {
+        // check that P1 P2 P4 P5 P6 P7 are on the same team, and P3 is out
+        Stream.of(whenP1(), whenP2(), whenPX(4), whenPX(5), whenPX(6), whenPX(7)).parallel().forEach(rs -> {
             Response res = rs.getRequestSpecification()
                     .contentType(ContentType.JSON)
                     .get(getApiV1() + TEST_API_LOBBY + "/team");
