@@ -65,7 +65,6 @@ public final class Profile implements Serializable {
     private String description;
     
     /** Email, NOT mandatory. */
-    @Indexed(background = true)
     private String email;
     
     /** Level. */
@@ -74,8 +73,15 @@ public final class Profile implements Serializable {
     
     /** Skill, recomputed after each win or loss. */
     @Builder.Default
-    private long skill = Default.INITIAL_SKILL;
+    private boolean cheater = false;
     
+    // gaming TODO split to dedicated document?
+    @JsonFormat(pattern = DATE_FORMAT)
+    private Date lastGameStartDate;
+    @JsonFormat(pattern = DATE_FORMAT)
+    private Date lastGameActionDate;
+    @Builder.Default
+    private long skill = Default.INITIAL_SKILL;
     @Builder.Default
     private long coins = Default.INITIAL_COIN;
     @Builder.Default
@@ -83,16 +89,13 @@ public final class Profile implements Serializable {
     @Builder.Default
     private long moneySpent = 0;
     @Builder.Default
-    private boolean cheater = false;
-    private Date lastPlayedGame;
+    private long nbFightWin = 0;
     @Builder.Default
-    private long nbWins = 0;
+    private long nbFightLost = 0;
     @Builder.Default
-    private long nbLosts = 0;
-    @Builder.Default
-    private long nbEqualities = 0;
-    @Builder.Default
-    private long nbAbandons = 0;
+    private long nbFightEscape = 0;
+    
+    // social TODO split to dedicated document?
     @Builder.Default
     private Set<ProfileSharingOptionsEnum> sharingOptions = new HashSet<>();
     @Builder.Default
@@ -101,17 +104,18 @@ public final class Profile implements Serializable {
     private List<String> friendshipRequestsFrom = new ArrayList<>();
     @Builder.Default
     private List<String> friends = new ArrayList<>();
+    
+    // history TODO split to dedicated document?
     @Builder.Default
-    private Map<Date, String> lastAllieds = new HashMap<>();
+    private Map<Date, String> lastAlliedProfileIds = new HashMap<>();
     @Builder.Default
-    private Map<Date, String> lastEnnemies = new HashMap<>();
+    private Map<Date, String> lastHostileProfileIds = new HashMap<>();
+    @Builder.Default
+    private Map<Date, String> lastHostileMonsterNames = new HashMap<>();
     @Builder.Default
     private List<FriendshipEvent> friendshipEvents = new ArrayList<>();
     @Builder.Default
     private ProfileStateEnum state = ProfileStateEnum.DISCONNECTED_OR_IDLE;
-    
-    @JsonFormat(pattern = DATE_FORMAT)
-    private Date lastGameDate;
     
     @Version
     private long version;
