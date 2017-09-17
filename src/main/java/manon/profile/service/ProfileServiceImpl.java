@@ -11,10 +11,6 @@ import manon.profile.friendship.FriendshipRequestExistsException;
 import manon.profile.friendship.FriendshipRequestNotFoundException;
 import manon.profile.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -25,7 +21,6 @@ import static manon.profile.document.Profile.Validation.MAX_EVENTS;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProfileServiceImpl implements ProfileService {
     
-    private static final String CACHE_READ_PROFILE_BY_ID = "READ_PROFILE_BY_ID";
     private final ProfileRepository profileRepository;
     
     @Override
@@ -33,10 +28,9 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.count();
     }
     
-    @Caching(put = @CachePut(value = CACHE_READ_PROFILE_BY_ID, key = "#result.id"))
     @Override
-    public Profile save(Profile profile) {
-        return profileRepository.save(profile);
+    public void save(Profile profile) {
+        profileRepository.save(profile);
     }
     
     @Override
@@ -46,13 +40,11 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
     
-    @Cacheable(value = CACHE_READ_PROFILE_BY_ID, key = "#id")
     @Override
     public Profile readOne(String id) throws ProfileNotFoundException {
         return profileRepository.findById(id).orElseThrow(() -> new ProfileNotFoundException(id));
     }
     
-    @CachePut(value = CACHE_READ_PROFILE_BY_ID, key = "#result.id")
     @Override
     public Profile create() {
         Profile profile = Profile.builder().build();
@@ -60,17 +52,12 @@ public class ProfileServiceImpl implements ProfileService {
         return profile;
     }
     
-    @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileId")
     @Override
     public void update(String profileId, ProfileUpdateForm profileUpdateForm)
             throws ProfileNotFoundException, DuplicateKeyException {
         profileRepository.updateField(profileId, profileUpdateForm.getField(), profileUpdateForm.getValue());
     }
     
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdFrom"),
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdTo")
-    })
     @Override
     public void askFriendship(String profileIdFrom, String profileIdTo)
             throws ProfileNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
@@ -89,10 +76,6 @@ public class ProfileServiceImpl implements ProfileService {
         keepEvents(profileIdTo);
     }
     
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdFrom"),
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdTo")
-    })
     @Override
     public void acceptFriendshipRequest(String profileIdFrom, String profileIdTo)
             throws ProfileNotFoundException, FriendshipRequestNotFoundException {
@@ -104,10 +87,6 @@ public class ProfileServiceImpl implements ProfileService {
         keepEvents(profileIdTo);
     }
     
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdFrom"),
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdTo")
-    })
     @Override
     public void rejectFriendshipRequest(String profileIdFrom, String profileIdTo)
             throws ProfileNotFoundException {
@@ -116,10 +95,6 @@ public class ProfileServiceImpl implements ProfileService {
         keepEvents(profileIdTo);
     }
     
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdFrom"),
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdTo")
-    })
     @Override
     public void cancelFriendshipRequest(String profileIdFrom, String profileIdTo)
             throws ProfileNotFoundException {
@@ -128,10 +103,6 @@ public class ProfileServiceImpl implements ProfileService {
         keepEvents(profileIdTo);
     }
     
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdFrom"),
-            @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#profileIdTo")
-    })
     @Override
     public void revokeFriendship(String profileIdFrom, String profileIdTo)
             throws ProfileNotFoundException {
@@ -140,13 +111,11 @@ public class ProfileServiceImpl implements ProfileService {
         keepEvents(profileIdTo);
     }
     
-    @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#id")
     @Override
     public void keepEvents(String id) throws ProfileNotFoundException {
         profileRepository.keepEvents(id, MAX_EVENTS);
     }
     
-    @CacheEvict(value = CACHE_READ_PROFILE_BY_ID, key = "#id")
     @Override
     public void setState(String id, ProfileStateEnum state)
             throws ProfileNotFoundException {

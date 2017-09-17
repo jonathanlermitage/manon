@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
-import manon.app.cache.CacheService;
 import manon.profile.service.ProfileService;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
@@ -72,9 +71,6 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     private String apiV1;
     
     @Autowired
-    private CacheService cacheService;
-    
-    @Autowired
     protected AdminService adminService;
     @Autowired
     protected RegistrationService registrationService;
@@ -117,8 +113,6 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     
     public void initDb() throws InterruptedException {
         long t1 = System.currentTimeMillis();
-        
-        cacheService.flushDb();
         
         for (String cn : mongoTemplate.getDb().getCollectionNames()) {
             mongoTemplate.dropCollection(cn);

@@ -6,8 +6,6 @@ spring:
       database: manondev
       username: root
       password: woot
-  redis:
-    database: 5
 
 manon:
   security:

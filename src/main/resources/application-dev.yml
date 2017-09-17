@@ -6,8 +6,6 @@ spring:
       database: manondev
       username: root
       password: woot
-  redis:
-    database: 4
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root

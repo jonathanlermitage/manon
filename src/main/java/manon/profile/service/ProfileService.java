@@ -17,8 +17,7 @@ public interface ProfileService {
     
     long count();
     
-    @SuppressWarnings("UnusedReturnValue") // return value is used for caching
-    Profile save(Profile profile);
+    void save(Profile profile);
     
     void ensureExist(String... ids) throws ProfileNotFoundException;
     
