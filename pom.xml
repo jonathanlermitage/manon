@@ -365,34 +365,6 @@
         <finalName>manon-core</finalName>
         <plugins>
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.3</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                    <!-- See https://github.com/ktoso/maven-git-commit-id-plugin/ for validation -->
-                </executions>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <prefix>git</prefix>
-                    <dateFormat>dd.MM.yyyy '@' HH:mm:ss z</dateFormat>
-                    <verbose>true</verbose>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
-                    </generateGitPropertiesFilename>
-                    <format>properties</format>
-                    <injectAllReactorProjects>false</injectAllReactorProjects>
-                    <failOnNoGitDirectory>true</failOnNoGitDirectory>
-                    <failOnUnableToExtractRepoInfo>true</failOnUnableToExtractRepoInfo>
-                    <useNativeGit>true</useNativeGit>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
@@ -511,6 +483,44 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>gitinfos</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                        <version>2.2.3</version>
+                        <executions>
+                            <execution>
+                                <id>get-the-git-infos</id>
+                                <goals>
+                                    <goal>revision</goal>
+                                </goals>
+                            </execution>
+                            <!-- See https://github.com/ktoso/maven-git-commit-id-plugin/ for validation -->
+                        </executions>
+                        <configuration>
+                            <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                            <prefix>git</prefix>
+                            <dateFormat>dd.MM.yyyy '@' HH:mm:ss z</dateFormat>
+                            <verbose>true</verbose>
+                            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                            <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                            </generateGitPropertiesFilename>
+                            <format>properties</format>
+                            <injectAllReactorProjects>false</injectAllReactorProjects>
+                            <failOnNoGitDirectory>true</failOnNoGitDirectory>
+                            <failOnUnableToExtractRepoInfo>true</failOnUnableToExtractRepoInfo>
+                            <useNativeGit>true</useNativeGit>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>coverage</id>
             <activation>
