@@ -44,6 +44,9 @@
         <!-- Annotation -->
         <lombok.version>1.16.18</lombok.version>
 
+        <!-- Misc -->
+        <streamex.version>0.6.5</streamex.version>
+
         <!-- Testing -->
         <assertj-core.version>3.8.0</assertj-core.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
@@ -61,7 +64,7 @@
         <morphia.version>1.3.2</morphia.version>
 
         <!-- SQL -->
-        <mariadb.version>2.1.1</mariadb.version>
+        <mariadb.version>2.1.2</mariadb.version>
         <hsqldb.version>2.4.0</hsqldb.version>
 
         <mysema-querydsl.version>3.7.4</mysema-querydsl.version>
@@ -74,7 +77,7 @@
 
         <!-- Aspect -->
         <jcabi-aspects.version>0.22.5</jcabi-aspects.version>
-        <aspectjrt.version>1.8.10</aspectjrt.version>
+        <aspectjrt.version>1.8.11</aspectjrt.version>
 
         <!-- Spring -->
         <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
@@ -349,6 +352,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Misc -->
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId> <!-- enhancing Java 8 streams -->
+            <version>${streamex.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -491,7 +501,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.5</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
                     <rulesUri>file:///${basedir}/rule-set.xml</rulesUri>
