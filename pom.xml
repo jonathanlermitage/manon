@@ -61,7 +61,6 @@
 
         <!-- MongoDB -->
         <mongo.version>3.4.2</mongo.version>
-        <morphia.version>1.3.2</morphia.version>
 
         <!-- SQL -->
         <mariadb.version>2.1.2</mariadb.version>

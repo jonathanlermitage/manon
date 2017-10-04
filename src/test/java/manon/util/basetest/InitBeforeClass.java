@@ -272,6 +272,16 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
         };
     }
     
+    public final String DP_TRUEFALSE = "dataProviderTrueFalse";
+    
+    @DataProvider
+    public Object[][] dataProviderTrueFalse() {
+        return new Object[][]{
+                {true},
+                {false}
+        };
+    }
+    
     //
     // Utils
     //

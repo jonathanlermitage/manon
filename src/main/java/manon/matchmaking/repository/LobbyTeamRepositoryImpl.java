@@ -47,4 +47,13 @@ public class LobbyTeamRepositoryImpl implements LobbyTeamRepositoryCustom {
                         .set("leader", profileId),
                 LobbyTeam.class);
     }
+    
+    @Override
+    public void setReady(String id, boolean ready) {
+        mongoTemplate.updateMulti(
+                query(where("id").is(id)),
+                new Update()
+                        .set("ready", ready),
+                LobbyTeam.class);
+    }
 }

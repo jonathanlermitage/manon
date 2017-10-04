@@ -169,7 +169,7 @@ public class ControllerAdvice {
     }
     
     @ExceptionHandler(TeamLeaderOnlyException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ResponseBody
     public Map<String, Object> handle(TeamLeaderOnlyException error) {
         Map<String, Object> map = new HashMap<>();

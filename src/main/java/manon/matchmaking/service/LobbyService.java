@@ -96,6 +96,6 @@ public interface LobbyService {
      * @param profileId profile id of current leader.
      * @param newLeaderProfileId profile id of new leader.
      */
-    LobbyTeam changeTeamLeader(String profileId, String newLeaderProfileId)
+    LobbyTeam setTeamLeader(String profileId, String newLeaderProfileId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException;
 }

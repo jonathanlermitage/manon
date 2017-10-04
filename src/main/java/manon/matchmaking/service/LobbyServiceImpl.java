@@ -94,7 +94,6 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
-    //@Synchronized
     public LobbyTeam addToTeam(String profileId, String teamId)
             throws TeamNotFoundException, TeamFullException {
         quit(profileId);
@@ -158,20 +157,18 @@ public class LobbyServiceImpl implements LobbyService {
             throws TeamNotFoundException, TeamLeaderOnlyException {
         LobbyTeam team = getTeam(profileId);
         checkIsTeamLeader(profileId, team);
-        team = team.toBuilder().ready(ready).build();
-        lobbyTeamRepository.save(team);
-        return team;
+        lobbyTeamRepository.setReady(team.getId(), ready);
+        return team.toBuilder().ready(ready).build();
     }
     
     @Override
-    public LobbyTeam changeTeamLeader(String profileId, String newLeaderProfileId)
+    public LobbyTeam setTeamLeader(String profileId, String newLeaderProfileId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException {
         LobbyTeam team = getTeam(profileId);
         checkIsTeamLeader(profileId, team);
         checkIsTeamMember(newLeaderProfileId, team);
-        team = team.toBuilder().leader(newLeaderProfileId).build();
-        lobbyTeamRepository.save(team);
-        return team;
+        lobbyTeamRepository.setLeader(team.getId(), newLeaderProfileId);
+        return team.toBuilder().leader(newLeaderProfileId).build();
     }
     
     /** Fail if profile is not team leader. */

@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 public class LobbyTeamWSTest extends LobbyWSBaseTest {
     
@@ -33,7 +34,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     
     @Test(dataProvider = DP_RS_USERS)
     public void shouldCreateTeamAndQuit(Rs rs) {
-        createTeam(rs, LobbyLeagueEnum.REGULAR);
+        createTeamAlone(rs);
         checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
     }
     
@@ -46,7 +47,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     
     @Test(dataProvider = DP_RS_USERS)
     public void shouldCreateTeamAndEnterSolo(Rs rs) {
-        createTeam(rs, LobbyLeagueEnum.REGULAR);
+        createTeamAlone(rs);
         checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         rs.getRequestSpecification()
                 .put(getApiV1() + TEST_API_LOBBY + "/enter/" + LobbyLeagueEnum.REGULAR)
@@ -73,7 +74,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     public void shouldInvite() {
         Rs rs = whenP1();
         Rs rs2 = whenP2();
-        createTeam(rs, LobbyLeagueEnum.REGULAR);
+        createTeamAlone(rs);
         String profile2Id = userService.readByUsername(rs2.getUsername()).getProfileId();
         rs.getRequestSpecification()
                 .contentType(ContentType.JSON)
@@ -86,7 +87,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     @Test
     public void shouldNotInviteHimself() {
         Rs rs = whenP1();
-        createTeam(rs, LobbyLeagueEnum.REGULAR);
+        createTeamAlone(rs);
         String profileId = userService.readByUsername(rs.getUsername()).getProfileId();
         rs.getRequestSpecification()
                 .contentType(ContentType.JSON)
@@ -98,7 +99,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     @Test
     public void shouldNotInviteUnknownProfile() {
         Rs rs = whenP1();
-        createTeam(rs, LobbyLeagueEnum.REGULAR);
+        createTeamAlone(rs);
         rs.getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .put(getApiV1() + TEST_API_LOBBY + "/invite/profile/" + objId() + "/team")
@@ -118,7 +119,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     public void shouldAcceptInvitationCheckTeamAndCheckPendingInvitations() {
         Rs rs = whenP1();
         Rs rs2 = whenP2();
-        createTeam(rs, LobbyLeagueEnum.REGULAR);
+        createTeamAlone(rs);
         String profileId = userService.readByUsername(rs.getUsername()).getProfileId();
         String profile2Id = userService.readByUsername(rs2.getUsername()).getProfileId();
         rs.getRequestSpecification()
@@ -155,7 +156,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     @Test
     public void shouldNotAcceptInvitationToFullTeamUnlessAMemberLeaves() {
         Rs rs3 = whenP3();
-        String p1TeamId = createTeam(whenP1(), LobbyLeagueEnum.REGULAR).getId();
+        String p1TeamId = createTeamAlone(whenP1()).getId();
         
         // P1 invites P2 to P7
         IntStream.rangeClosed(2, 7).parallel().forEach(s -> {
@@ -231,7 +232,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     public void shouldNotAcceptOtherProfileInvitation() {
         Rs rs2 = whenP2();
         Rs rs3 = whenP3();
-        createTeam(whenP1(), LobbyLeagueEnum.REGULAR);
+        createTeamAlone(whenP1());
         String profile2Id = userService.readByUsername(rs2.getUsername()).getProfileId();
         String profile3Id = userService.readByUsername(rs3.getUsername()).getProfileId();
         Stream.of(profile2Id, profile3Id).parallel().forEach(s -> whenP1().getRequestSpecification()
@@ -263,6 +264,145 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         whenAnonymous().getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + objId())
+                .then().statusCode(SC_UNAUTHORIZED);
+    }
+    
+    @Test(dataProvider = DP_TRUEFALSE)
+    public void shouldSetTeamReadyWhenAlone(boolean ready) {
+        Rs rs = whenP1();
+        createTeamAlone(rs);
+        Response res = rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/ready/" + ready);
+        res.then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        assertTrue(team.isReady() == ready);
+    }
+    
+    @Test(dataProvider = DP_TRUEFALSE)
+    public void shouldSetTeamReadyWhenNotAlone(boolean ready) {
+        Rs rs = whenP1();
+        createTeamOfTwo(rs, whenP2());
+        rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/ready/" + ready).then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+    }
+    
+    @Test
+    public void shouldNotSetTeamReadyWhenNotLeader() {
+        Rs rs2 = whenP2();
+        createTeamOfTwo(whenP1(), rs2);
+        rs2.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/ready/true").then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_CONFLICT);
+    }
+    
+    @Test
+    public void shouldNotSetTeamReadyWhenNotInTeam() {
+        whenP1().getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/ready/true").then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_NOT_FOUND);
+    }
+    
+    @Test
+    public void shouldNotSetTeamReady_anonymous() {
+        whenAnonymous().getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .put(getApiV1() + TEST_API_LOBBY + "/team/ready/true")
+                .then().statusCode(SC_UNAUTHORIZED);
+    }
+    
+    @Test
+    public void shouldSetTeamLeader() {
+        Rs rs = whenP1();
+        Rs rs2 = whenP2();
+        String profile2Id = profileId(2);
+        createTeamOfTwo(rs, rs2);
+        Response res = rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profile2Id);
+        res.then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        assertEquals(team.getLeader(), profile2Id);
+    }
+    
+    @Test
+    public void shouldSetTeamLeaderHimselfWhenLeader() {
+        Rs rs = whenP1();
+        Rs rs2 = whenP2();
+        String profile1Id = profileId(1);
+        createTeamOfTwo(rs, rs2);
+        Response res = rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profile1Id);
+        res.then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        assertEquals(team.getLeader(), profile1Id);
+    }
+    
+    @Test(dependsOnMethods = "shouldSetTeamLeader")
+    public void shouldSetTeamLeaderAndSetAnotherAgain() {
+        shouldSetTeamLeader();
+        String profile1Id = profileId(2);
+        Response res = whenP2().getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profile1Id);
+        res.then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        assertEquals(team.getLeader(), profile1Id);
+    }
+    
+    @Test
+    public void shouldNotSetTeamLeaderWhenNotLeader() {
+        Rs rs = whenP1();
+        Rs rs2 = whenP2();
+        createTeamOfTwo(rs, rs2);
+        rs2.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profileId(2)).then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_CONFLICT);
+    }
+    
+    @Test(dependsOnMethods = {"shouldSetTeamLeader", "shouldNotSetTeamLeaderWhenNotLeader"})
+    public void shouldNotSetTeamLeaderWhenNotLeaderAnymore() {
+        Rs rs = whenP1();
+        Rs rs2 = whenP2();
+        String profile2Id = profileId(2);
+        createTeamOfTwo(rs, rs2);
+        Response res = rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profile2Id);
+        res.then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        assertEquals(team.getLeader(), profile2Id);
+        
+        rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profileId(2)).then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_CONFLICT);
+    }
+    
+    @Test
+    public void shouldNotSetTeamLeaderWhenNotInTeam() {
+        whenP1().getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profileId(1)).then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_NOT_FOUND);
+    }
+    
+    @Test
+    public void shouldNotSetTeamLeader_anonymous() {
+        whenAnonymous().getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + objId())
                 .then().statusCode(SC_UNAUTHORIZED);
     }
     
@@ -298,12 +438,35 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         }
     }
     
-    private LobbyTeam createTeam(Rs rs, LobbyLeagueEnum league) {
+    private LobbyTeam createTeamAlone(Rs rs) {
         Response res = rs.getRequestSpecification()
                 .contentType(ContentType.JSON)
-                .post(getApiV1() + TEST_API_LOBBY + "/team/" + league);
+                .post(getApiV1() + TEST_API_LOBBY + "/team/" + LobbyLeagueEnum.REGULAR);
         res.then().statusCode(SC_CREATED);
         return readValue(res.asString(), LobbyTeam.class);
+    }
+    
+    private void createTeamOfTwo(Rs rsLeader, Rs rs2) {
+        createTeamAlone(rsLeader);
+        String profile2Id = userService.readByUsername(rs2.getUsername()).getProfileId();
+        rsLeader.getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .put(getApiV1() + TEST_API_LOBBY + "/invite/profile/" + profile2Id + "/team")
+                .then().statusCode(SC_OK);
+        checkStatus(rsLeader, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatusOut(rs2);
+        
+        Response resInvitations = rs2.getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
+        resInvitations.then().statusCode(SC_OK);
+        TeamInvitationList invitations = readValue(resInvitations.asString(), TeamInvitationList.class);
+        assertThat(invitations).hasSize(1);
+        
+        Response resAccept = rs2.getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .put(getApiV1() + TEST_API_LOBBY + "/accept/team/invitation/" + invitations.get(0).getId());
+        resAccept.then().statusCode(SC_OK);
     }
     
     private enum LobbyStatus {

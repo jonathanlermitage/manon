@@ -9,4 +9,6 @@ public interface LobbyTeamRepositoryCustom {
     LobbyTeam addProfileId(String id, String profileId);
     
     void setLeader(String id, String profileId);
+    
+    void setReady(String id, boolean ready);
 }

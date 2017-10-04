@@ -101,11 +101,11 @@ public class LobbyTeamWS {
     }
     
     /**
-     * Mark current team as ready. Only team leader can do that.
+     * Mark current team as ready or not ready. Only team leader can do that.
      * @param user team leader.
      * @param ready ready.
      */
-    @RequestMapping(value = "/team/ready/{ready}", method = PUT) // TODO unit test
+    @RequestMapping(value = "/team/ready/{ready}", method = PUT)
     public LobbyTeam markTeamReady(@AuthenticationPrincipal UserSimpleDetails user,
                                    @PathVariable("ready") boolean ready)
             throws TeamNotFoundException, TeamLeaderOnlyException {
@@ -118,11 +118,11 @@ public class LobbyTeamWS {
      * @param user team leader.
      * @param newLeaderProfileId profile id of new team leader.
      */
-    @RequestMapping(value = "/team/leader/{newLeaderProfileId}", method = PUT) // TODO unit test
-    public LobbyTeam changeTeamLeader(@AuthenticationPrincipal UserSimpleDetails user,
-                                      @PathVariable("newLeaderProfileId") String newLeaderProfileId)
+    @RequestMapping(value = "/team/leader/{newLeaderProfileId}", method = PUT)
+    public LobbyTeam setTeamLeader(@AuthenticationPrincipal UserSimpleDetails user,
+                                   @PathVariable("newLeaderProfileId") String newLeaderProfileId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException {
         log.info("user {} set profile {} has new team leader", user.getIdentity(), newLeaderProfileId);
-        return lobbyService.changeTeamLeader(user.getProfileId(), newLeaderProfileId);
+        return lobbyService.setTeamLeader(user.getProfileId(), newLeaderProfileId);
     }
 }
