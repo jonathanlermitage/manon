@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.profile.ProfileSharingOptionsEnum;
-import manon.profile.ProfileStateEnum;
 import manon.profile.friendship.FriendshipEvent;
 import manon.user.document.User;
 import org.springframework.data.annotation.CreatedDate;
@@ -114,8 +113,6 @@ public final class Profile implements Serializable {
     private Map<Date, String> lastHostileMonsterNames = new HashMap<>();
     @Builder.Default
     private List<FriendshipEvent> friendshipEvents = new ArrayList<>();
-    @Builder.Default
-    private ProfileStateEnum state = ProfileStateEnum.DISCONNECTED_OR_IDLE;
     
     @Version
     private long version;

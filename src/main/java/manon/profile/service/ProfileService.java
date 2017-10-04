@@ -3,7 +3,6 @@ package manon.profile.service;
 import com.mongodb.DuplicateKeyException;
 import manon.profile.ProfileFieldEnum;
 import manon.profile.ProfileNotFoundException;
-import manon.profile.ProfileStateEnum;
 import manon.profile.ProfileUpdateForm;
 import manon.profile.document.Profile;
 import manon.profile.friendship.FriendshipExistsException;
@@ -91,14 +90,6 @@ public interface ProfileService {
      * @param id profile id.
      */
     void keepEvents(String id) throws ProfileNotFoundException;
-    
-    /**
-     * Update the state of a profile.
-     * @param id profile id.
-     * @param state state.
-     */
-    void setState(String id, ProfileStateEnum state)
-            throws ProfileNotFoundException;
     
     /**
      * Get skill of a profile.

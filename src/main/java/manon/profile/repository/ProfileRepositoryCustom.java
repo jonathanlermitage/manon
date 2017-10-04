@@ -2,7 +2,6 @@ package manon.profile.repository;
 
 import manon.profile.ProfileFieldEnum;
 import manon.profile.ProfileNotFoundException;
-import manon.profile.ProfileStateEnum;
 
 import java.util.Collection;
 
@@ -51,13 +50,6 @@ public interface ProfileRepositoryCustom {
      * @param numberOfEventsToKeep number of recent friendshipEvents to keep.
      */
     void keepEvents(String id, int numberOfEventsToKeep) throws ProfileNotFoundException;
-    
-    /**
-     * Update the state of a profile.
-     * @param id profile id.
-     * @param state state.
-     */
-    void setState(String id, ProfileStateEnum state) throws ProfileNotFoundException;
     
     /**
      * Get skill of a profile.

@@ -3,7 +3,6 @@ package manon.profile.service;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import manon.profile.ProfileNotFoundException;
-import manon.profile.ProfileStateEnum;
 import manon.profile.ProfileUpdateForm;
 import manon.profile.document.Profile;
 import manon.profile.friendship.FriendshipExistsException;
@@ -113,12 +112,6 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void keepEvents(String id) throws ProfileNotFoundException {
         profileRepository.keepEvents(id, MAX_EVENTS);
-    }
-    
-    @Override
-    public void setState(String id, ProfileStateEnum state)
-            throws ProfileNotFoundException {
-        profileRepository.setState(id, state);
     }
     
     @Override

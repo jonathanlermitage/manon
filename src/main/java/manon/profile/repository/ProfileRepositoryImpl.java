@@ -3,7 +3,6 @@ package manon.profile.repository;
 import com.mongodb.WriteResult;
 import manon.profile.ProfileFieldEnum;
 import manon.profile.ProfileNotFoundException;
-import manon.profile.ProfileStateEnum;
 import manon.profile.document.Profile;
 import manon.profile.friendship.FriendshipEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,15 +164,6 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
                             .set("friendshipEvents", friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
                     Profile.class));
         }
-    }
-    
-    @Override
-    public void setState(String id, ProfileStateEnum state) throws ProfileNotFoundException {
-        verify(id, mongoTemplate.updateFirst(
-                query(where("id").is(id)),
-                new Update()
-                        .set("state", state),
-                Profile.class));
     }
     
     @Override
