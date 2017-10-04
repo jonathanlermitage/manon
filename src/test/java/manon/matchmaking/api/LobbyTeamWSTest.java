@@ -360,14 +360,60 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
     }
     
     @Test
-    public void shouldNotSetTeamLeaderWhenNotLeader() {
+    public void shouldElectNewTeamLeaderWhenOriginalLeaves() {
         Rs rs = whenP1();
         Rs rs2 = whenP2();
         createTeamOfTwo(rs, rs2);
+        rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/quit")
+                .then()
+                .statusCode(SC_OK);
+        
+        rs.getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .get(getApiV1() + TEST_API_LOBBY + "/team").then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_NOT_FOUND);
+        
+        Response res = rs2.getRequestSpecification()
+                .contentType(ContentType.JSON)
+                .get(getApiV1() + TEST_API_LOBBY + "/team");
+        res.then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_OK);
+        LobbyTeam actualTeam = readValue(res.asString(), LobbyTeam.class);
+        assertEquals(actualTeam.getLeader(), profileId(2));
+    }
+    
+    @Test
+    public void shouldNotSetTeamLeaderWhenNotLeader() {
+        Rs rs2 = whenP2();
+        createTeamOfTwo(whenP1(), rs2);
         rs2.getRequestSpecification()
                 .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profileId(2)).then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_CONFLICT);
+    }
+    
+    @Test
+    public void shouldNotSetTeamLeaderFromNoTeam() {
+        Rs rs = whenP1();
+        createTeamOfTwo(rs, whenP2());
+        rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profileId(3)).then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_NOT_FOUND);
+    }
+    
+    @Test
+    public void shouldNotSetTeamLeaderFromOtherTeam() {
+        Rs rs = whenP1();
+        createTeamAlone(whenP3());
+        createTeamOfTwo(rs, whenP2());
+        rs.getRequestSpecification()
+                .put(getApiV1() + TEST_API_LOBBY + "/team/leader/" + profileId(3)).then()
+                .contentType(ContentType.JSON)
+                .statusCode(SC_NOT_FOUND);
     }
     
     @Test(dependsOnMethods = {"shouldSetTeamLeader", "shouldNotSetTeamLeaderWhenNotLeader"})
