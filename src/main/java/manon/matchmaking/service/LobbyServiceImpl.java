@@ -18,7 +18,6 @@ import manon.matchmaking.repository.LobbyTeamRepository;
 import manon.matchmaking.repository.TeamInvitationRepository;
 import manon.profile.ProfileNotFoundException;
 import manon.profile.service.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +28,7 @@ import static java.util.Collections.singletonList;
 
 @Service("LobbyService")
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class LobbyServiceImpl implements LobbyService {
     
     private final LobbySoloRepository lobbySoloRepository;

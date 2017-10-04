@@ -8,7 +8,6 @@ import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.registration.RegistrationStateEnum;
 import manon.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static manon.user.UserAuthority.ADMIN;
@@ -19,7 +18,7 @@ import static manon.user.registration.RegistrationStateEnum.DELETED;
 import static manon.user.registration.RegistrationStateEnum.SUSPENDED;
 
 @Service("RegistrationService")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
     
     private final PasswordEncoderService passwordEncoderService;

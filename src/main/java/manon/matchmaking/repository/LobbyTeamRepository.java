@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface LobbyTeamRepository extends MongoRepository<LobbyTeam, String>, LobbyTeamRepositoryCustom {
     
     Optional<LobbyTeam> findById(String id);
+    
     Optional<LobbyTeam> findByProfileIds(String profileId);
 }

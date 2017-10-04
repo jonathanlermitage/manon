@@ -14,7 +14,6 @@ import manon.matchmaking.TeamNotFoundException;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.service.LobbyService;
 import manon.profile.ProfileNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 /** Matchmaking API. */
 @RestController
 @RequestMapping(value = API_V1 + API_LOBBY)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
 public class LobbyTeamWS {
     

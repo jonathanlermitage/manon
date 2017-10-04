@@ -7,7 +7,6 @@ import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 /** User API. */
 @RestController
 @RequestMapping(value = API_V1 + API_USER)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
 public class UserWS {
     

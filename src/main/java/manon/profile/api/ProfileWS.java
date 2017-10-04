@@ -21,7 +21,6 @@ import manon.user.registration.RegistrationFormException;
 import manon.user.registration.RegistrationValidator;
 import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
@@ -42,7 +41,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 /** Profile API. */
 @RestController
 @RequestMapping(value = API_V1 + API_PROFILE)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
 public class ProfileWS {
     

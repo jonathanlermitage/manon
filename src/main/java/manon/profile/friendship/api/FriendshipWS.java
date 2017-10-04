@@ -8,7 +8,6 @@ import manon.profile.friendship.FriendshipExistsException;
 import manon.profile.friendship.FriendshipRequestExistsException;
 import manon.profile.friendship.FriendshipRequestNotFoundException;
 import manon.profile.service.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(value = API_V1 + API_PROFILE)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Slf4j
 public class FriendshipWS {
     

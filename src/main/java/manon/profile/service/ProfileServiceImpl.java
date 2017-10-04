@@ -10,7 +10,6 @@ import manon.profile.friendship.FriendshipExistsException;
 import manon.profile.friendship.FriendshipRequestExistsException;
 import manon.profile.friendship.FriendshipRequestNotFoundException;
 import manon.profile.repository.ProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,7 +17,7 @@ import java.util.Collection;
 import static manon.profile.document.Profile.Validation.MAX_EVENTS;
 
 @Service("ProfileService")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
     
     private final ProfileRepository profileRepository;

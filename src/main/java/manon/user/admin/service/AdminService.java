@@ -5,14 +5,13 @@ import manon.user.UserExistsException;
 import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service("AdminService")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class AdminService {
     
     private final UserService userService;
