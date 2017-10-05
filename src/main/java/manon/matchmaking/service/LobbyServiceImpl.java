@@ -93,22 +93,6 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
-    public LobbyTeam addToTeam(String profileId, String teamId)
-            throws TeamNotFoundException, TeamFullException {
-        quit(profileId);
-        LobbyTeam team = lobbyTeamRepository.findById(teamId).orElseThrow(() -> new TeamNotFoundException(teamId));
-        if (team.getProfileIds().size() >= team.getMaxSize()) {
-            throw new TeamFullException(teamId);
-        }
-        if (team.getProfileIds().contains(profileId)) {
-            log.warn("profile {} is already in team {}, ignoring add request", profileId, team);
-        } else {
-            return lobbyTeamRepository.addProfileId(teamId, profileId);
-        }
-        return team;
-    }
-    
-    @Override
     public TeamInvitation inviteToTeam(String profileId, String profileIdToInvite)
             throws TeamNotFoundException, TeamInvitationException, ProfileNotFoundException {
         profileService.ensureExist(profileIdToInvite);
@@ -140,7 +124,12 @@ public class LobbyServiceImpl implements LobbyService {
             throw new TeamInvitationNotFoundException(profileId, invitationId);
         }
         quit(profileId);
-        LobbyTeam team = addToTeam(profileId, invitation.getTeamId());
+        LobbyTeam team = lobbyTeamRepository.findById(invitation.getTeamId())
+                .orElseThrow(() -> new TeamNotFoundException(invitation.getTeamId()));
+        if (team.getProfileIds().size() >= team.getMaxSize()) {
+            throw new TeamFullException(invitation.getTeamId());
+        }
+        team = lobbyTeamRepository.addProfileId(invitation.getTeamId(), profileId);
         teamInvitationRepository.delete(invitationId);
         return team;
     }

@@ -61,14 +61,6 @@ public interface LobbyService {
     List<TeamInvitation> getTeamInvitations(String profileId);
     
     /**
-     * Add a profile to a team.
-     * @param profileId profile id to add.
-     * @param teamId team id.
-     */
-    LobbyTeam addToTeam(String profileId, String teamId)
-            throws TeamNotFoundException, TeamFullException;
-    
-    /**
      * Add a profiles into a team to the lobby.
      * @param profileId profile id.
      * @param invitationId team invitation id.
