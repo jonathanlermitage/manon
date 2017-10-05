@@ -34,7 +34,7 @@ public class UserWSTest extends InitBeforeClass {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserPage result = readValue(res.asString(), UserPage.class);
+        UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(NUMBER_OF_USERS, users.size());
         assertEquals(NUMBER_OF_USERS, result.getTotalElements());
@@ -52,7 +52,7 @@ public class UserWSTest extends InitBeforeClass {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserPage result = readValue(res.asString(), UserPage.class);
+        UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(NUMBER_OF_USERS, users.size());
         assertEquals(NUMBER_OF_USERS, result.getTotalElements());
@@ -70,7 +70,7 @@ public class UserWSTest extends InitBeforeClass {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserPage result = readValue(res.asString(), UserPage.class);
+        UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), 3);
         assertEquals(result.getTotalElements(), NUMBER_OF_USERS);
@@ -83,7 +83,7 @@ public class UserWSTest extends InitBeforeClass {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserPage result = readValue(res.asString(), UserPage.class);
+        UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), NUMBER_OF_USERS - 3);
         assertEquals(result.getTotalElements(), NUMBER_OF_USERS);
@@ -96,7 +96,7 @@ public class UserWSTest extends InitBeforeClass {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserPage result = readValue(res.asString(), UserPage.class);
+        UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), 1);
         assertEquals(result.getTotalElements(), NUMBER_OF_USERS);

@@ -43,24 +43,24 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 
                 .antMatchers(API_V1 + API_USER + "/**").hasAuthority(ADMIN) // users management
-                .antMatchers(API_V1 + API_CFG + "/**").hasAnyAuthority(ADMIN) // system configuration
+                .antMatchers(API_V1 + API_CFG + "/**").hasAuthority(ADMIN) // system configuration
                 
                 .antMatchers(POST, API_V1 + API_PROFILE).permitAll() // user registration
-                .antMatchers(PUT, API_V1 + API_PROFILE + "/**").hasAnyAuthority(PLAYER, ADMIN)
-                .antMatchers(GET, API_V1 + API_PROFILE + "/**").hasAnyAuthority(PLAYER, ADMIN)
-                .antMatchers(POST, API_V1 + API_PROFILE + "/**").hasAnyAuthority(PLAYER, ADMIN)
-                .antMatchers(DELETE, API_V1 + API_PROFILE).hasAnyAuthority(PLAYER)
+                .antMatchers(PUT, API_V1 + API_PROFILE + "/**").hasAuthority(PLAYER)
+                .antMatchers(GET, API_V1 + API_PROFILE + "/**").hasAuthority(PLAYER)
+                .antMatchers(POST, API_V1 + API_PROFILE + "/**").hasAuthority(PLAYER)
+                .antMatchers(DELETE, API_V1 + API_PROFILE).hasAuthority(PLAYER)
                 
-                .antMatchers(API_V1 + API_LOBBY + "/**").hasAnyAuthority(PLAYER, ADMIN)
+                .antMatchers(API_V1 + API_LOBBY + "/**").hasAuthority(PLAYER)
                 
                 // actuator endpoints, see http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
-                .antMatchers("/beans").hasAnyAuthority(ADMIN)
-                .antMatchers("/configprops").hasAnyAuthority(ADMIN)
-                .antMatchers("/dump").hasAnyAuthority(ADMIN)
-                .antMatchers("/env").hasAnyAuthority(ADMIN)
+                .antMatchers("/beans").hasAuthority(ADMIN)
+                .antMatchers("/configprops").hasAuthority(ADMIN)
+                .antMatchers("/dump").hasAuthority(ADMIN)
+                .antMatchers("/env").hasAuthority(ADMIN)
                 .antMatchers("/health").permitAll()
-                .antMatchers("/info").hasAnyAuthority(ADMIN)
-                .antMatchers("/metrics").hasAnyAuthority(ADMIN)
+                .antMatchers("/info").hasAuthority(ADMIN)
+                .antMatchers("/metrics").hasAuthority(ADMIN)
                 
                 .antMatchers(API_V1 + "/**").permitAll()
                 .anyRequest().denyAll()

@@ -18,6 +18,7 @@ import static manon.user.registration.RegistrationStateEnum.ACTIVE;
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_CREATED;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
@@ -45,7 +46,7 @@ public class ProfileWSNoDataTest extends InitBeforeClass {
                 .statusCode(SC_CREATED);
         User user = userService.findByUsername(name).orElseThrow(UserNotFoundException::new);
         assertEquals(user.getUsername(), name);
-        assertEquals(user.getRoles(), PLAYER.name());
+        assertThat(user.getRoles()).containsExactly(PLAYER);
         assertEquals(user.getVersion(), 0);
         assertEquals(user.getRegistrationState(), ACTIVE);
         assertNotEquals(pwd, user.getPassword(), "don't store raw passwords!"); // IMPORTANT always hash stored password

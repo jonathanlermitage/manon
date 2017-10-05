@@ -9,7 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Collections;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.singleton;
 
 @Configuration
 public class UserLoaderService implements UserDetailsService {
@@ -27,7 +29,9 @@ public class UserLoaderService implements UserDetailsService {
         return UserSimpleDetails.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority(user.getRoles())))
+                .authorities(user.getRoles().size() == 1 ?
+                        singleton(new SimpleGrantedAuthority(user.getRoles().get(0).name())) :
+                        user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toList()))
                 .enabled(RegistrationStateEnum.ACTIVE == user.getRegistrationState())
                 .user(user)
                 .build();

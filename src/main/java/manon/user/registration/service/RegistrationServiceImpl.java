@@ -10,6 +10,10 @@ import manon.user.registration.RegistrationStateEnum;
 import manon.user.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 import static manon.user.UserAuthority.ADMIN;
 import static manon.user.UserAuthority.PLAYER;
 import static manon.user.registration.RegistrationStateEnum.ACTIVE;
@@ -56,12 +60,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public User registerRoot(String username, String password)
             throws UserExistsException {
-        return register(ADMIN, username, password, ACTIVE);
+        return register(Arrays.asList(ADMIN, PLAYER), username, password, ACTIVE);
     }
     
     /**
      * Register a user.
-     * @param role role.
+     * @param role single role.
      * @param username username.
      * @param password password.
      * @param registrationState registration state.
@@ -69,9 +73,22 @@ public class RegistrationServiceImpl implements RegistrationService {
      */
     private User register(UserAuthority role, String username, String password, RegistrationStateEnum registrationState)
             throws UserExistsException {
+        return register(singletonList(role), username, password, registrationState);
+    }
+    
+    /**
+     * Register a user.
+     * @param roles roles.
+     * @param username username.
+     * @param password password.
+     * @param registrationState registration state.
+     * @return user.
+     */
+    private User register(List<UserAuthority> roles, String username, String password, RegistrationStateEnum registrationState)
+            throws UserExistsException {
         User user = User.builder()
                 .username(username.trim())
-                .roles(role.name())
+                .roles(roles)
                 .password(passwordEncoderService.encode(password))
                 .registrationState(registrationState)
                 .build();

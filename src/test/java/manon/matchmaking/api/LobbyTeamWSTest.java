@@ -133,7 +133,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
         resInvitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations = readValue(resInvitations.asString(), TeamInvitationList.class);
+        TeamInvitationList invitations = readValue(resInvitations, TeamInvitationList.class);
         assertThat(invitations).hasSize(1);
         
         Response resAccept = rs2.getRequestSpecification()
@@ -145,9 +145,9 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
         resInvitations.then().statusCode(SC_OK);
-        invitations = readValue(resInvitations.asString(), TeamInvitationList.class);
+        invitations = readValue(resInvitations, TeamInvitationList.class);
         assertThat(invitations).hasSize(0);
-        LobbyTeam team = readValue(resAccept.asString(), LobbyTeam.class);
+        LobbyTeam team = readValue(resAccept, LobbyTeam.class);
         assertThat(team.getProfileIds()).hasSize(2).contains(profileId).contains(profile2Id);
         checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         checkStatus(rs2, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
@@ -174,7 +174,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                     .contentType(ContentType.JSON)
                     .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
             resInvitations.then().statusCode(SC_OK);
-            TeamInvitationList invitations = readValue(resInvitations.asString(), TeamInvitationList.class);
+            TeamInvitationList invitations = readValue(resInvitations, TeamInvitationList.class);
             assertThat(invitations).hasSize(1);
             rs.getRequestSpecification()
                     .contentType(ContentType.JSON)
@@ -188,7 +188,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
         res7Invitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations7 = readValue(res7Invitations.asString(), TeamInvitationList.class);
+        TeamInvitationList invitations7 = readValue(res7Invitations, TeamInvitationList.class);
         assertThat(invitations7).hasSize(1);
         rs7.getRequestSpecification()
                 .contentType(ContentType.JSON)
@@ -211,7 +211,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                     .contentType(ContentType.JSON)
                     .get(getApiV1() + TEST_API_LOBBY + "/team");
             res.then().statusCode(SC_OK);
-            LobbyTeam actualTeam = readValue(res.asString(), LobbyTeam.class);
+            LobbyTeam actualTeam = readValue(res, LobbyTeam.class);
             assertEquals(actualTeam.getId(), p1TeamId);
         });
         rs3.getRequestSpecification()
@@ -244,14 +244,14 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
         res2Invitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations2 = readValue(res2Invitations.asString(), TeamInvitationList.class);
+        TeamInvitationList invitations2 = readValue(res2Invitations, TeamInvitationList.class);
         assertThat(invitations2).hasSize(1);
         
         Response res3Invitations = rs3.getRequestSpecification()
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
         res3Invitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations3 = readValue(res3Invitations.asString(), TeamInvitationList.class);
+        TeamInvitationList invitations3 = readValue(res3Invitations, TeamInvitationList.class);
         assertThat(invitations3).hasSize(1);
         rs3.getRequestSpecification()
                 .contentType(ContentType.JSON)
@@ -276,7 +276,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        LobbyTeam team = readValue(res, LobbyTeam.class);
         assertTrue(team.isReady() == ready);
     }
     
@@ -327,7 +327,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), profile2Id);
     }
     
@@ -342,7 +342,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), profile1Id);
     }
     
@@ -355,7 +355,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), profile1Id);
     }
     
@@ -381,7 +381,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        LobbyTeam actualTeam = readValue(res.asString(), LobbyTeam.class);
+        LobbyTeam actualTeam = readValue(res, LobbyTeam.class);
         assertEquals(actualTeam.getLeader(), profileId(2));
     }
     
@@ -427,7 +427,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        LobbyTeam team = readValue(res.asString(), LobbyTeam.class);
+        LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), profile2Id);
         
         rs.getRequestSpecification()
@@ -463,7 +463,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        ProfileLobbyStatus profileLobbyStatus = readValue(res.asString(), ProfileLobbyStatus.class);
+        ProfileLobbyStatus profileLobbyStatus = readValue(res, ProfileLobbyStatus.class);
         switch (lobbyStatus) {
             case OUT:
                 assertNull(profileLobbyStatus.getLobbySolo());
@@ -489,7 +489,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                 .contentType(ContentType.JSON)
                 .post(getApiV1() + TEST_API_LOBBY + "/team/" + LobbyLeagueEnum.REGULAR);
         res.then().statusCode(SC_CREATED);
-        return readValue(res.asString(), LobbyTeam.class);
+        return readValue(res, LobbyTeam.class);
     }
     
     private void createTeamOfTwo(Rs rsLeader, Rs rs2) {
@@ -506,7 +506,7 @@ public class LobbyTeamWSTest extends LobbyWSBaseTest {
                 .contentType(ContentType.JSON)
                 .get(getApiV1() + TEST_API_LOBBY + "/team/invitations");
         resInvitations.then().statusCode(SC_OK);
-        TeamInvitationList invitations = readValue(resInvitations.asString(), TeamInvitationList.class);
+        TeamInvitationList invitations = readValue(resInvitations, TeamInvitationList.class);
         assertThat(invitations).hasSize(1);
         
         Response resAccept = rs2.getRequestSpecification()

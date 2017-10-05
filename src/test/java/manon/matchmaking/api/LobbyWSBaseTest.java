@@ -33,7 +33,7 @@ public abstract class LobbyWSBaseTest extends InitBeforeTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        ProfileLobbyStatus profileLobbyStatus = readValue(res.asString(), ProfileLobbyStatus.class);
+        ProfileLobbyStatus profileLobbyStatus = readValue(res, ProfileLobbyStatus.class);
         assertNull(profileLobbyStatus.getLobbySolo());
         assertNull(profileLobbyStatus.getLobbyTeam());
     }

@@ -23,7 +23,6 @@ import java.util.List;
 
 import static manon.app.config.ControllerAdvice.FIELD_ERRORS;
 import static manon.app.config.ControllerAdvice.FIELD_MESSAGE;
-import static manon.util.Tools.JSON;
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
@@ -36,31 +35,30 @@ public class ProfileWSTest extends InitBeforeTest {
     @Autowired
     protected ProfileService profileService;
     
-    @Test(dataProvider = DP_RS_USERS_NO_ADMIN)
-    public void shouldDelete(Rs rs) throws Exception {
-        rs.getRequestSpecification().delete(getApiV1() + TEST_API_PROFILE).then().statusCode(SC_OK);
-        assertEquals(userService.readByUsername(rs.getUsername()).getRegistrationState(), RegistrationStateEnum.DELETED);
-    }
-    
-    /** Can't delete a deleted profile. */
-    @Test(dataProvider = DP_RS_USERS_NO_ADMIN)
-    public void shouldNotDeleteTwice(Rs rs) throws Exception {
-        rs.getRequestSpecification().delete(getApiV1() + TEST_API_PROFILE).then().statusCode(SC_OK);
-        assertEquals(userService.readByUsername(rs.getUsername()).getRegistrationState(), RegistrationStateEnum.DELETED);
-        assertEquals(userService.readByUsername(ADMIN_NAME).getRegistrationState(), RegistrationStateEnum.ACTIVE);
+    @Test(dataProvider = DP_RS_USERS)
+    public void shouldDeleteAndLooseAuthorisations(Rs rs) throws Exception {
         rs.getRequestSpecification()
-                .delete(getApiV1() + TEST_API_PROFILE)
-                .then()
+                .get(getApiV1() + TEST_API_PROFILE).then()
+                .statusCode(SC_OK);
+        rs.getRequestSpecification()
+                .delete(getApiV1() + TEST_API_PROFILE).then()
+                .statusCode(SC_OK);
+        assertEquals(userService.readByUsername(rs.getUsername()).getRegistrationState(), RegistrationStateEnum.DELETED);
+        rs.getRequestSpecification()
+                .get(getApiV1() + TEST_API_PROFILE).then()
                 .statusCode(SC_UNAUTHORIZED);
     }
     
-    /** Admin is protected from deletion. */
-    @Test(dataProvider = DP_RS_ADMINS)
-    public void shouldNotDeleteAdmin(Rs rs) throws Exception {
+    /** Can't delete a deleted profile. */
+    @Test(dataProvider = DP_RS_USERS)
+    public void shouldNotDeleteTwice(Rs rs) throws Exception {
         rs.getRequestSpecification()
-                .delete(getApiV1() + TEST_API_PROFILE)
-                .then()
-                .statusCode(HttpStatus.SC_FORBIDDEN);
+                .delete(getApiV1() + TEST_API_PROFILE).then()
+                .statusCode(SC_OK);
+        assertEquals(userService.readByUsername(rs.getUsername()).getRegistrationState(), RegistrationStateEnum.DELETED);
+        rs.getRequestSpecification()
+                .delete(getApiV1() + TEST_API_PROFILE).then()
+                .statusCode(SC_UNAUTHORIZED);
     }
     
     @Test
@@ -78,7 +76,7 @@ public class ProfileWSTest extends InitBeforeTest {
                 .get(getApiV1() + TEST_API_PROFILE);
         res.then()
                 .statusCode(SC_OK);
-        Profile webProfil = JSON.readValue(res.asString(), Profile.class);
+        Profile webProfil = readValue(res, Profile.class);
         User user = userService.readByUsername((rs.getUsername()));
         Profile profile = profileService.readOne(user.getProfileId());
         assertEquals(webProfil, profile);

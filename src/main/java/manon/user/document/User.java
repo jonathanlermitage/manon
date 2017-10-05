@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import manon.user.UserAuthority;
 import manon.user.registration.RegistrationStateEnum;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,6 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -49,7 +51,7 @@ public final class User implements Serializable {
     private String username;
     
     @NotNull
-    private String roles;
+    private List<UserAuthority> roles;
     
     @NotEmpty
     @JsonIgnore

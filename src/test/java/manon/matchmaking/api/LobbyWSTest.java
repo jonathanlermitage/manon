@@ -21,7 +21,7 @@ public class LobbyWSTest extends LobbyWSBaseTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        ProfileLobbyStatus profileLobbyStatus = readValue(res.asString(), ProfileLobbyStatus.class);
+        ProfileLobbyStatus profileLobbyStatus = readValue(res, ProfileLobbyStatus.class);
         assertEquals(profileLobbyStatus, ProfileLobbyStatus.EMPTY);
     }
     

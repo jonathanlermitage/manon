@@ -2,6 +2,7 @@ package manon.util.basetest;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.EncoderConfig;
+import com.jayway.restassured.response.Response;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -287,7 +288,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     //
     
     @SneakyThrows(IOException.class)
-    public <T> T readValue(String content, Class<T> valueType) {
-        return Tools.JSON.readValue(content, valueType);
+    public <T> T readValue(Response content, Class<T> valueType) {
+        return Tools.JSON.readValue(content.asString(), valueType);
     }
 }
