@@ -62,10 +62,6 @@
         <!-- MongoDB -->
         <mongo.version>3.4.2</mongo.version>
 
-        <!-- SQL -->
-        <mariadb.version>2.1.2</mariadb.version>
-        <hsqldb.version>2.4.0</hsqldb.version>
-
         <mysema-querydsl.version>3.7.4</mysema-querydsl.version>
 
         <!-- Log -->
@@ -94,11 +90,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-batch</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
@@ -216,11 +207,6 @@
             <artifactId>querydsl-mongodb</artifactId>
             <version>${mysema-querydsl.version}</version>
         </dependency-->
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>${mariadb.version}</version>
-        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Logging. -->
@@ -315,31 +301,6 @@
             <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${hsqldb.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-spring</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency-->
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Annotations. -->

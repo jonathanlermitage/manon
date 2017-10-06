@@ -6,14 +6,6 @@ spring:
       database: manondev
       username: root
       password: woot
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: woot
-    url: jdbc:mysql://127.0.0.1:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true
-  jpa:
-    hibernate:
-      ddl-auto: create-drop # validate | update | create | create-drop
 
 manon:
   security:
