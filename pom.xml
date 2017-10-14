@@ -28,10 +28,6 @@
         </license>
     </licenses>
 
-    <prerequisites>
-        <maven>3.3.9</maven> <!-- should work with 3.0.X too, but I'm lazy... -->
-    </prerequisites>
-
     <properties>
         <start-class>manon.Application</start-class>
 
@@ -46,6 +42,7 @@
 
         <!-- Misc -->
         <streamex.version>0.6.5</streamex.version>
+        <jool.version>0.9.12</jool.version>
 
         <!-- Testing -->
         <assertj-core.version>3.8.0</assertj-core.version>
@@ -53,14 +50,18 @@
         <janino.version>3.0.7</janino.version>
         <testng.version>6.11</testng.version>
         <rest-assured.version>2.9.0</rest-assured.version>
-        <mockito-core.version>2.10.0</mockito-core.version>
+        <mockito-core.version>2.11.0</mockito-core.version>
 
         <!-- JSON -->
-        <jackson.version>2.9.1</jackson.version>
-        <jackson-databind.version>2.9.1</jackson-databind.version>
+        <jackson.version>2.9.2</jackson.version>
+        <jackson-databind.version>2.9.2</jackson-databind.version>
 
         <!-- MongoDB -->
         <mongo.version>3.4.2</mongo.version>
+
+        <!-- SQL -->
+        <mariadb.version>2.1.2</mariadb.version>
+        <hsqldb.version>2.4.0</hsqldb.version>
 
         <mysema-querydsl.version>3.7.4</mysema-querydsl.version>
 
@@ -76,9 +77,10 @@
 
         <!-- Spring -->
         <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
-        <spring-framework.version>4.3.11.RELEASE</spring-framework.version>
+        <spring-framework.version>4.3.12.RELEASE</spring-framework.version>
         <spring-security-config.version>4.2.3.RELEASE</spring-security-config.version>
         <spring-security-web.version>4.2.3.RELEASE</spring-security-web.version>
+        <spring-batch-test.version>3.0.8.RELEASE</spring-batch-test.version>
 
     </properties>
 
@@ -90,6 +92,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
@@ -207,6 +214,11 @@
             <artifactId>querydsl-mongodb</artifactId>
             <version>${mysema-querydsl.version}</version>
         </dependency-->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
+        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Logging. -->
@@ -268,8 +280,8 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
             <version>${spring-boot.version}</version>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>junit</groupId>
@@ -278,16 +290,22 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-test</artifactId>
+            <version>${spring-batch-test.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
-            <scope>test</scope>
             <version>${rest-assured.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
-            <scope>test</scope>
             <version>${hamcrest-library.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -299,6 +317,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -314,9 +338,9 @@
 
         <!-- Misc -->
         <dependency>
-            <groupId>one.util</groupId>
-            <artifactId>streamex</artifactId> <!-- enhancing Java 8 streams -->
-            <version>${streamex.version}</version>
+            <groupId>org.jooq</groupId>
+            <artifactId>jool</artifactId>
+            <version>${jool.version}</version>
         </dependency>
 
     </dependencies>

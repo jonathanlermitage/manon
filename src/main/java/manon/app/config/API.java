@@ -8,6 +8,9 @@ public class API {
      * User registration.*/
     public static final String API_USER = "/user";
     
+    /** Operations on tasks (Spring Batch).*/
+    public static final String API_TASK = "/task";
+    
     /** Operations on profiles.
      * Friendship, profile data. */
     public static final String API_PROFILE = "/profile";

@@ -7,12 +7,12 @@ import manon.matchmaking.LobbyLeagueEnum;
 import manon.matchmaking.service.LobbyService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_V1;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /** Matchmaking API. */
 @RestController
@@ -27,7 +27,7 @@ public class LobbySoloWS {
      * Add a profile to the lobby.
      * @param user user.
      */
-    @RequestMapping(value = "/enter/{league}", method = PUT)
+    @PutMapping(value = "/enter/{league}")
     public void enter(@AuthenticationPrincipal UserSimpleDetails user,
                       @PathVariable("league") LobbyLeagueEnum league) {
         log.info("user {} enters in lobby", user.getIdentity());

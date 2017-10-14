@@ -48,8 +48,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.testng.Assert.fail;
 
 /**
- * Recreate data beforeMethod test class.
- * To recreate data beforeMethod every test method, see {@link InitBeforeTest}.
+ * Recreate data before test class.
+ * To recreate data before every test method, see {@link InitBeforeTest}.
  */
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)

@@ -16,6 +16,8 @@ import manon.matchmaking.service.LobbyService;
 import manon.profile.ProfileNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +29,6 @@ import static manon.app.config.API.API_V1;
 import static manon.util.Tools.MEDIA_JSON;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /** Matchmaking API. */
 @RestController
@@ -43,7 +43,7 @@ public class LobbyTeamWS {
      * Create a team and enter into it.
      * @param user user.
      */
-    @RequestMapping(value = "/team/{league}", method = POST, consumes = MEDIA_JSON)
+    @PostMapping(value = "/team/{league}", consumes = MEDIA_JSON)
     @ResponseStatus(CREATED)
     public LobbyTeam createTeamAndEnter(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("league") LobbyLeagueEnum league)
@@ -57,7 +57,7 @@ public class LobbyTeamWS {
      * @param user user.
      * @param profileId profile id to invite.
      */
-    @RequestMapping(value = "/invite/profile/{profileId}/team", method = PUT)
+    @PutMapping(value = "/invite/profile/{profileId}/team")
     public TeamInvitation inviteToTeam(@AuthenticationPrincipal UserSimpleDetails user,
                                        @PathVariable("profileId") String profileId)
             throws TeamNotFoundException, TeamInvitationException, ProfileNotFoundException {
@@ -80,7 +80,7 @@ public class LobbyTeamWS {
      * @param user user.
      * @param invitationId team invitation id.
      */
-    @RequestMapping(value = "/accept/team/invitation/{invitationId}", method = PUT)
+    @PutMapping(value = "/accept/team/invitation/{invitationId}")
     public LobbyTeam acceptTeamInvitation(@AuthenticationPrincipal UserSimpleDetails user,
                                           @PathVariable("invitationId") String invitationId)
             throws TeamInvitationNotFoundException, TeamFullException, TeamNotFoundException {
@@ -104,7 +104,7 @@ public class LobbyTeamWS {
      * @param user team leader.
      * @param ready ready.
      */
-    @RequestMapping(value = "/team/ready/{ready}", method = PUT)
+    @PutMapping(value = "/team/ready/{ready}")
     public LobbyTeam markTeamReady(@AuthenticationPrincipal UserSimpleDetails user,
                                    @PathVariable("ready") boolean ready)
             throws TeamNotFoundException, TeamLeaderOnlyException {
@@ -117,7 +117,7 @@ public class LobbyTeamWS {
      * @param user team leader.
      * @param newLeaderProfileId profile id of new team leader.
      */
-    @RequestMapping(value = "/team/leader/{newLeaderProfileId}", method = PUT)
+    @PutMapping(value = "/team/leader/{newLeaderProfileId}")
     public LobbyTeam setTeamLeader(@AuthenticationPrincipal UserSimpleDetails user,
                                    @PathVariable("newLeaderProfileId") String newLeaderProfileId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException {

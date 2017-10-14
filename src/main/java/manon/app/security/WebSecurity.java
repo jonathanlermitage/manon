@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import static manon.app.config.API.API_CFG;
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_PROFILE;
+import static manon.app.config.API.API_TASK;
 import static manon.app.config.API.API_USER;
 import static manon.app.config.API.API_V1;
 import static org.springframework.http.HttpMethod.DELETE;
@@ -24,6 +25,7 @@ import static org.springframework.http.HttpMethod.PUT;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     
+    private static final String SYS = UserAuthority.ADMIN.name();
     private static final String ADMIN = UserAuthority.ADMIN.name();
     private static final String PLAYER = UserAuthority.PLAYER.name();
     
@@ -44,6 +46,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 
                 .antMatchers(API_V1 + API_USER + "/**").hasAuthority(ADMIN) // users management
                 .antMatchers(API_V1 + API_CFG + "/**").hasAuthority(ADMIN) // system configuration
+                
+                .antMatchers(API_V1 + API_TASK + "/**").hasAuthority(SYS) // system tasks
                 
                 .antMatchers(POST, API_V1 + API_PROFILE).permitAll() // user registration
                 .antMatchers(PUT, API_V1 + API_PROFILE + "/**").hasAuthority(PLAYER)

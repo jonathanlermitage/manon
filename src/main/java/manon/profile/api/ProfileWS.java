@@ -24,6 +24,9 @@ import manon.user.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,10 +36,6 @@ import static manon.app.config.API.API_PROFILE;
 import static manon.app.config.API.API_V1;
 import static manon.util.Tools.MEDIA_JSON;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /** Profile API. */
 @RestController
@@ -52,8 +51,7 @@ public class ProfileWS {
     
     /** Register a new profile.
      * Create {@link User} and associated {@link Profile}. */
-    @RequestMapping(method = POST, consumes = MEDIA_JSON, produces = MEDIA_JSON)
-    // TODO move to UserWS API since it works at user level
+    @PostMapping(consumes = MEDIA_JSON, produces = MEDIA_JSON) // TODO move to UserWS API since it works at user level
     @ResponseStatus(CREATED)
     public User register(@RequestBody RegistrationForm registrationForm, BindingResult bindingResult)
             throws UserExistsException, RegistrationFormException, ProfileNotFoundException {
@@ -66,7 +64,7 @@ public class ProfileWS {
     }
     
     /** Unregister a profile. */
-    @RequestMapping(method = DELETE) // TODO move to UserWS API since it works at user level
+    @DeleteMapping // TODO move to UserWS API since it works at user level
     public void delete(@AuthenticationPrincipal UserSimpleDetails user)
             throws UserNotFoundException {
         log.info("user {} deletes himself", user.getIdentity());
@@ -74,7 +72,7 @@ public class ProfileWS {
     }
     
     /** Get user's profile. */
-    @RequestMapping(method = GET)
+    @RequestMapping
     public Profile read(@AuthenticationPrincipal UserSimpleDetails user)
             throws ProfileNotFoundException {
         log.info("user {} reads his profile", user.getIdentity());
@@ -82,7 +80,7 @@ public class ProfileWS {
     }
     
     /** Update one user's profile field. */
-    @RequestMapping(value = "/field", method = PUT, consumes = MEDIA_JSON)
+    @PutMapping(value = "/field", consumes = MEDIA_JSON)
     public void updateField(@AuthenticationPrincipal UserSimpleDetails user,
                             @RequestBody ProfileUpdateForm profileUpdateForm,
                             BindingResult bindingResult)
@@ -96,7 +94,7 @@ public class ProfileWS {
     }
     
     /** Update current user's password. */
-    @RequestMapping(value = "/password", method = PUT, consumes = MEDIA_JSON)
+    @PutMapping(value = "/password", consumes = MEDIA_JSON)
     // TODO move to UserWS API since it works at user level
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
                                @RequestBody UserPasswordUpdateForm userPasswordUpdateForm,
