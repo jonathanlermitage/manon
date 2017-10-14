@@ -6,3 +6,6 @@ spring:
       database: manonci
       username: root
       password: woot
+  batch:
+    job:
+      enabled: false # to be unit tested

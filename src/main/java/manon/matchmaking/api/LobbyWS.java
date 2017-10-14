@@ -6,13 +6,13 @@ import manon.app.security.UserSimpleDetails;
 import manon.matchmaking.ProfileLobbyStatus;
 import manon.matchmaking.service.LobbyService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_V1;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /** Matchmaking API. */
 @RestController
@@ -37,7 +37,7 @@ public class LobbyWS {
      * Remove a profile from the lobby.
      * @param user user.
      */
-    @RequestMapping(value = "/quit", method = PUT)
+    @PutMapping(value = "/quit")
     public void quit(@AuthenticationPrincipal UserSimpleDetails user) {
         log.info("user {} quits lobby", user.getIdentity());
         lobbyService.quit(user.getProfileId());

@@ -19,6 +19,16 @@
       "name": "manon.matchmaking.job.start",
       "type": "java.lang.Boolean",
       "description": "Start matchmaking job on this server."
+    },
+    {
+      "name": "manon.batch.ProfileSnapshotTask.profile.chunk",
+      "type": "java.lang.Integer",
+      "description": "ProfileSnapshotTask: profile chunk size."
+    },
+    {
+      "name": "manon.batch.ProfileSnapshotTask.profileSnapshot.maxAge",
+      "type": "java.lang.Integer",
+      "description": "ProfileSnapshotTask: profile snapshot max age in days."
     }
   ]
 }

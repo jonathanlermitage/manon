@@ -3,7 +3,7 @@ package manon.util.basetest;
 import org.testng.annotations.BeforeMethod;
 
 /**
- * Recreate data beforeMethod every test method.
+ * Recreate data before every test method.
  */
 public abstract class InitBeforeTest extends InitBeforeClass {
     

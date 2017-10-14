@@ -5,7 +5,9 @@ import com.xebia.jacksonlombok.JacksonLombokAnnotationIntrospector;
 import org.bson.types.ObjectId;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Utility methods related to now and time.
@@ -23,12 +25,42 @@ public final class Tools {
         JSON.setAnnotationIntrospector(new JacksonLombokAnnotationIntrospector());
     }
     
-    /**
-     * Get current date.
-     * @return current date.
-     */
+    /** Get current date. */
     public static Date now() {
         return new Date();
+    }
+    
+    /** Get current date plus given days. */
+    public static Date nowPlusDays(int nbDays) {
+        Calendar cal = new GregorianCalendar();
+        cal.add(Calendar.DAY_OF_MONTH, nbDays);
+        return cal.getTime();
+    }
+    
+    /**
+     * Get today's date with given hours, minutes, seconds and milliseconds.
+     * @param hourOfDay hours (0-23).
+     * @param minute minutes (0-59).
+     * @param second seconds (0-59).
+     * @param millisecond milliseconds (0-999).
+     */
+    public static Calendar calendar(int hourOfDay, int minute, int second, int millisecond) {
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, second);
+        cal.set(Calendar.MILLISECOND, millisecond);
+        return cal;
+    }
+    
+    /** Get current date at 0:00'0 000. */
+    public static Date startOfDay() {
+        return calendar(0, 0, 0, 0).getTime();
+    }
+    
+    /** Get current date at 23:59'59 999. */
+    public static Date endOfDay() {
+        return calendar(23, 59, 59, 999).getTime();
     }
     
     /**

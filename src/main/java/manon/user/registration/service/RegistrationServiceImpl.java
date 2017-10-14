@@ -16,6 +16,7 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 import static manon.user.UserAuthority.ADMIN;
 import static manon.user.UserAuthority.PLAYER;
+import static manon.user.UserAuthority.SYS;
 import static manon.user.registration.RegistrationStateEnum.ACTIVE;
 import static manon.user.registration.RegistrationStateEnum.BANNED;
 import static manon.user.registration.RegistrationStateEnum.DELETED;
@@ -60,7 +61,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public User registerRoot(String username, String password)
             throws UserExistsException {
-        return register(Arrays.asList(ADMIN, PLAYER), username, password, ACTIVE);
+        return register(Arrays.asList(SYS, ADMIN, PLAYER), username, password, ACTIVE);
     }
     
     /**

@@ -28,3 +28,7 @@ manon:
   security:
     bcrypt:
       strength: 6
+  batch:
+    ProfileSnapshotTask:
+      profile.chunk: 100
+      profileSnapshot.maxAge: 30

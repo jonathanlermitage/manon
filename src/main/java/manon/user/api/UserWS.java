@@ -11,13 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_USER;
 import static manon.app.config.API.API_V1;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /** User API. */
 @RestController
@@ -30,7 +29,7 @@ public class UserWS {
     private final RegistrationService registrationService;
     
     /** Get all users. */
-    @RequestMapping(value = "/all", method = GET)
+    @RequestMapping(value = "/all")
     public Page<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                               Pageable pageable)
             throws Exception {
@@ -39,7 +38,7 @@ public class UserWS {
     }
     
     /** Activate a user. */
-    @RequestMapping(value = "/{userId}/activate", method = POST)
+    @PostMapping(value = "/{userId}/activate")
     public String activate(@AuthenticationPrincipal UserSimpleDetails admin,
                            @PathVariable("userId") String userId)
             throws UserNotFoundException {
@@ -48,7 +47,7 @@ public class UserWS {
     }
     
     /** Suspend a user. */
-    @RequestMapping(value = "/{userId}/suspend", method = POST)
+    @PostMapping(value = "/{userId}/suspend")
     public String suspend(@AuthenticationPrincipal UserSimpleDetails admin,
                           @PathVariable("userId") String userId)
             throws UserNotFoundException {
@@ -57,7 +56,7 @@ public class UserWS {
     }
     
     /** Ban a user. */
-    @RequestMapping(value = "/{userId}/ban", method = POST)
+    @PostMapping(value = "/{userId}/ban")
     public String ban(@AuthenticationPrincipal UserSimpleDetails admin,
                       @PathVariable("userId") String userId)
             throws UserNotFoundException {
