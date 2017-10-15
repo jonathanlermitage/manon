@@ -1,4 +1,4 @@
-package manon.dashboard.document;
+package manon.snapshot.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

@@ -8,16 +8,16 @@ public class API {
      * User registration.*/
     public static final String API_USER = "/user";
     
-    /** Operations on tasks (Spring Batch).*/
-    public static final String API_TASK = "/task";
-    
     /** Operations on profiles.
      * Friendship, profile data. */
     public static final String API_PROFILE = "/profile";
     
-    /** System management. */
-    public static final String API_CFG = "/cfg";
-    
     /** Lobby management. */
     public static final String API_LOBBY = "/lobby";
+    
+    /** System management. */
+    public static final String API_SYS = "/sys";
+    
+    /** Operations on tasks (Spring Batch).*/
+    public static final String API_TASK = "/sys/task";
 }

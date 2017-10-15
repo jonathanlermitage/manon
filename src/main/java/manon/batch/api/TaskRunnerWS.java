@@ -3,6 +3,7 @@ package manon.batch.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.security.UserSimpleDetails;
+import manon.batch.TaskStatus;
 import manon.batch.service.TaskRunnerService;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,11 +24,15 @@ public class TaskRunnerWS {
     
     private final TaskRunnerService taskRunnerService;
     
-    /** Get all users. */
-    @PostMapping(value = "/{task}")
-    public ExitStatus startJob(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("task") String task)
+    @PostMapping(value = "/start/{task}")
+    public TaskStatus startTask(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("task") String task)
             throws Exception {
-        log.info("system user {} starts job {}", sys.getUsername(), task);
-        return taskRunnerService.run(task);
+        log.warn("admin {} starts task {}", sys.getUsername(), task);
+        ExitStatus exitStatus = taskRunnerService.run(task);
+        return TaskStatus.builder()
+                .running(exitStatus.isRunning())
+                .exitCode(exitStatus.getExitCode())
+                .exitDescription(exitStatus.getExitDescription())
+                .build();
     }
 }

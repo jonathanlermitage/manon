@@ -1,6 +1,6 @@
-package manon.dashboard.repository;
+package manon.snapshot.repository;
 
-import manon.dashboard.document.ProfileSnapshot;
+import manon.snapshot.document.ProfileSnapshot;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;

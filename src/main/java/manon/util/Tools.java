@@ -8,15 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.function.Function;
 
 /**
  * Utility methods related to now and time.
  */
 public final class Tools {
     
+    /** {@value} media type. */
     public static final String MEDIA_JSON = "application/json";
-    public static final String MEDIA_TEXT = "text/plain";
+    /** {@value} date format. */
     public static final String DATE_FORMAT = "yyyy-MM-ddHH:mm:ssS Z";
+    
     public static final ObjectMapper JSON;
     
     static {
@@ -63,39 +66,22 @@ public final class Tools {
         return calendar(23, 59, 59, 999).getTime();
     }
     
-    /**
-     * Return a formatted string using the specified format string and arguments.
-     * @param format format.
-     * @param args   arguments.
-     * @return A formatted string.
-     */
+    /** Return a formatted string using the specified format string and arguments. */
     public static String str(String format, Object... args) {
         return String.format(format, args);
     }
     
-    /**
-     * Generate an easy to remember password.
-     * Short and numerical only.
-     * @return password.
-     */
+    /** Get an easy-to-remember password. */
     public static String easyPassword() {
         return Double.toString(Math.random() * 10_000).replace(".", "");
     }
     
-    /**
-     * Returns {@code true} if the provided string is null or empty once trimmed.
-     * @param str string.
-     * @return {@code true} is null/empty, otherwise {@code false}.
-     */
+    /** Return {@code true} if the provided string is null or empty once trimmed, otherwise {@code false}. */
     public static boolean isBlank(String str) {
         return str == null || str.trim().isEmpty();
     }
     
-    /**
-     * Returns {@code true} if any of the provided reference is {@code null} otherwise returns {@code false}.
-     * @param objects references to be checked against {@code null}.
-     * @return {@code true} if any of the provided reference is {@code null} otherwise {@code false}.
-     */
+    /** Return {@code true} if any of the provided reference is {@code null} otherwise returns {@code false}. */
     public static boolean anyNull(Object... objects) {
         if (null == objects) {
             return true;
@@ -108,11 +94,22 @@ public final class Tools {
         return false;
     }
     
-    /**
-     * Create a new MongoDB ObjectId.
-     * @return ObjectId as String.
-     */
+    /** Get a new MongoDB ObjectId as String. */
     public static String objId() {
         return new ObjectId().toString();
+    }
+    
+    /**
+     * Handle checked exceptions in stream.
+     * See <a href="https://www.oreilly.com/ideas/handling-checked-exceptions-in-java-streams">online article</a>.
+     */
+    public static <T, R, E extends Exception> Function<T, R> wrapper(FunctionWithException<T, R, E> fe) {
+        return arg -> {
+            try {
+                return fe.apply(arg);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
     }
 }

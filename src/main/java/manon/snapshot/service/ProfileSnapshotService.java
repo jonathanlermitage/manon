@@ -1,6 +1,6 @@
-package manon.dashboard.service;
+package manon.snapshot.service;
 
-import manon.dashboard.document.ProfileSnapshot;
+import manon.snapshot.document.ProfileSnapshot;
 
 import java.util.Optional;
 

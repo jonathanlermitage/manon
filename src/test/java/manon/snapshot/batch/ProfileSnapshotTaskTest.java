@@ -1,11 +1,10 @@
-package manon.dashboard.batch;
+package manon.snapshot.batch;
 
 import manon.batch.service.TaskRunnerService;
-import manon.dashboard.document.ProfileSnapshot;
-import manon.dashboard.service.ProfileSnapshotService;
+import manon.snapshot.document.ProfileSnapshot;
+import manon.snapshot.service.ProfileSnapshotService;
 import manon.profile.service.ProfileService;
 import manon.util.basetest.InitBeforeClass;
-import org.jooq.lambda.Seq;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
@@ -13,6 +12,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static manon.util.Tools.nowPlusDays;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,8 +58,8 @@ public class ProfileSnapshotTaskTest extends InitBeforeClass {
             assertEquals(COMPLETED, run);
             assertEquals(profileSnapshotService.countToday(), expectedTodayProfileSnapshots);
             assertEquals(profileSnapshotService.count(), expectedProfileSnapshots);
-            Seq.of(1, 2).forEach(integer -> assertThat(profileSnapshotService.findOne(profileSnapshots.get(integer).getId())).isPresent());
-            Seq.of(0, 3, 4, 5, 6).forEach(integer -> assertThat(profileSnapshotService.findOne(profileSnapshots.get(integer).getId())).isNotPresent());
+            Stream.of(1, 2).forEach(integer -> assertThat(profileSnapshotService.findOne(profileSnapshots.get(integer).getId())).isPresent());
+            Stream.of(0, 3, 4, 5, 6).forEach(integer -> assertThat(profileSnapshotService.findOne(profileSnapshots.get(integer).getId())).isNotPresent());
         }
     }
 }

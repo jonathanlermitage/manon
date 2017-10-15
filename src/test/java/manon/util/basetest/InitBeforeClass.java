@@ -61,6 +61,7 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     public final String TEST_API_PROFILE = "/profile";
     public final String TEST_API_USER = "/user";
     public final String TEST_API_LOBBY = "/lobby";
+    public final String TEST_API_TASK = "/sys/task";
     
     @Setter
     private boolean initialized = false;

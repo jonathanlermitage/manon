@@ -1,4 +1,4 @@
-package manon.dashboard.batch;
+package manon.snapshot.batch;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;

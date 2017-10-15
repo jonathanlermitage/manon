@@ -2,6 +2,7 @@ package manon.app.config;
 
 import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
+import manon.batch.TaskNotFoundException;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
@@ -215,6 +216,18 @@ public class ControllerAdvice {
         Map<String, Object> map = new HashMap<>();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
         map.put(FIELD_MESSAGE, error.getErrorCause());
+        return map;
+    }
+    
+    @ExceptionHandler(TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public Map<String, Object> handle(TaskNotFoundException error) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
+        if (error.getName() != null) {
+            map.put(FIELD_MESSAGE, error.getName());
+        }
         return map;
     }
 }

@@ -10,12 +10,12 @@ import manon.profile.friendship.FriendshipRequestNotFoundException;
 import manon.profile.service.ProfileService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_PROFILE;
 import static manon.app.config.API.API_V1;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(value = API_V1 + API_PROFILE)
@@ -26,7 +26,7 @@ public class FriendshipWS {
     private final ProfileService profileService;
     
     /** Create a friendship request to another profile. */
-    @RequestMapping(value = "/askfriendship/profile/{id}", method = POST)
+    @PostMapping(value = "/askfriendship/profile/{id}")
     public void askFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                               @PathVariable("id") String id)
             throws ProfileNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
@@ -35,7 +35,7 @@ public class FriendshipWS {
     }
     
     /** Accept a friendship request from another profile. */
-    @RequestMapping(value = "/acceptfriendship/profile/{id}", method = POST)
+    @PostMapping(value = "/acceptfriendship/profile/{id}")
     public void acceptFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
             throws ProfileNotFoundException, FriendshipRequestNotFoundException {
@@ -44,7 +44,7 @@ public class FriendshipWS {
     }
     
     /** Reject a friendship request from another profile. */
-    @RequestMapping(value = "/rejectfriendship/profile/{id}", method = POST)
+    @PostMapping(value = "/rejectfriendship/profile/{id}")
     public void rejectFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
             throws ProfileNotFoundException, FriendshipRequestNotFoundException {
@@ -53,7 +53,7 @@ public class FriendshipWS {
     }
     
     /** Cancel a friendship request to another profile. */
-    @RequestMapping(value = "/cancelfriendship/profile/{id}", method = POST)
+    @PostMapping(value = "/cancelfriendship/profile/{id}")
     public void cancelFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
             throws ProfileNotFoundException, FriendshipRequestNotFoundException {
@@ -62,7 +62,7 @@ public class FriendshipWS {
     }
     
     /** Delete an existing friendship relation with another profile. */
-    @RequestMapping(value = "/revokefriendship/profile/{id}", method = POST)
+    @PostMapping(value = "/revokefriendship/profile/{id}")
     public void revokeFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                                  @PathVariable("id") String id)
             throws ProfileNotFoundException, FriendshipRequestNotFoundException {
