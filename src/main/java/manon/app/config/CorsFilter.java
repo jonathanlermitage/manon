@@ -1,7 +1,7 @@
 package manon.app.config;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,8 +15,8 @@ import java.io.IOException;
 @Component
 public class CorsFilter extends org.springframework.web.filter.CorsFilter {
     
-    public CorsFilter(CorsConfigurationSource configSource) {
-        super(configSource);
+    public CorsFilter(WebMvcConfigurationSupport configSource) {
+        super(configSource.mvcHandlerMappingIntrospector());
     }
     
     @Override

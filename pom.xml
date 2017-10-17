@@ -76,7 +76,7 @@
         <aspectjrt.version>1.8.11</aspectjrt.version>
 
         <!-- Spring -->
-        <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
         <spring-framework.version>4.3.12.RELEASE</spring-framework.version>
         <spring-security-config.version>4.2.3.RELEASE</spring-security-config.version>
         <spring-security-web.version>4.2.3.RELEASE</spring-security-web.version>
