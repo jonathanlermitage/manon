@@ -10,6 +10,7 @@ import manon.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class UserWS {
     private final RegistrationService registrationService;
     
     /** Get all users. */
-    @RequestMapping(value = "/all")
+    @GetMapping(value = "/all")
     public Page<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                               Pageable pageable)
             throws Exception {

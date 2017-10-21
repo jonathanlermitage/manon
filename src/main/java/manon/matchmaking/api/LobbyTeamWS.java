@@ -15,6 +15,7 @@ import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.service.LobbyService;
 import manon.profile.ProfileNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,7 +29,6 @@ import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_V1;
 import static manon.util.Tools.MEDIA_JSON;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /** Matchmaking API. */
 @RestController
@@ -70,7 +70,7 @@ public class LobbyTeamWS {
      * @param user user who may be invited by teams.
      * @return invitations.
      */
-    @RequestMapping(value = "/team/invitations", method = GET)
+    @GetMapping(value = "/team/invitations")
     public List<TeamInvitation> getTeamInvitations(@AuthenticationPrincipal UserSimpleDetails user) {
         return lobbyService.getTeamInvitations(user.getProfileId());
     }
@@ -92,7 +92,7 @@ public class LobbyTeamWS {
      * Get current team.
      * @param user user.
      */
-    @RequestMapping(value = "/team", method = GET)
+    @GetMapping(value = "/team")
     public LobbyTeam getTeam(@AuthenticationPrincipal UserSimpleDetails user)
             throws TeamNotFoundException {
         log.info("user {} gets his team", user.getIdentity());

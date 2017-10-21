@@ -6,13 +6,13 @@ import manon.app.security.UserSimpleDetails;
 import manon.matchmaking.ProfileLobbyStatus;
 import manon.matchmaking.service.LobbyService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_V1;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /** Matchmaking API. */
 @RestController
@@ -27,7 +27,7 @@ public class LobbyWS {
      * Indicate if a profile is in the lobby already, and where.
      * @param user user.
      */
-    @RequestMapping(value = "/status", method = GET)
+    @GetMapping(value = "/status")
     public ProfileLobbyStatus getStatus(@AuthenticationPrincipal UserSimpleDetails user) {
         log.info("user {} gets his lobby status", user.getIdentity());
         return lobbyService.getStatus(user.getProfileId());

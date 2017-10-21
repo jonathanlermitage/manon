@@ -25,6 +25,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,7 +73,7 @@ public class ProfileWS {
     }
     
     /** Get user's profile. */
-    @RequestMapping
+    @GetMapping
     public Profile read(@AuthenticationPrincipal UserSimpleDetails user)
             throws ProfileNotFoundException {
         log.info("user {} reads his profile", user.getIdentity());
