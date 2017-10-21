@@ -73,7 +73,7 @@
 
         <!-- Aspect -->
         <jcabi-aspects.version>0.22.5</jcabi-aspects.version>
-        <aspectjrt.version>1.8.11</aspectjrt.version>
+        <aspectjrt.version>1.8.12</aspectjrt.version>
 
         <!-- Spring -->
         <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
