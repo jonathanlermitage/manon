@@ -262,11 +262,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.xebia</groupId>
-            <artifactId>jackson-lombok</artifactId>
-            <version>1.1</version>
-        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Unit Testing. -->

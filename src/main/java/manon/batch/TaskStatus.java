@@ -1,10 +1,16 @@
 package manon.batch;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Builder
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
+@Builder(toBuilder = true)
 public class TaskStatus {
     
     private boolean running;

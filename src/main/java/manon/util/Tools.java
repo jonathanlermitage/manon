@@ -1,7 +1,6 @@
 package manon.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xebia.jacksonlombok.JacksonLombokAnnotationIntrospector;
 import org.bson.types.ObjectId;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +24,6 @@ public final class Tools {
     static {
         JSON = new ObjectMapper();
         JSON.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
-        JSON.setAnnotationIntrospector(new JacksonLombokAnnotationIntrospector());
     }
     
     /** Get current date. */

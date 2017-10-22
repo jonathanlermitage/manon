@@ -1,8 +1,14 @@
 package manon.util.web;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
 public class Sort {
     
     private String direction;

@@ -2,12 +2,18 @@ package manon.util.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import manon.user.document.User;
 
 import java.util.List;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Getter
 public class UserPage {
     
     @JsonSerialize(using = UserListSerializer.class)
