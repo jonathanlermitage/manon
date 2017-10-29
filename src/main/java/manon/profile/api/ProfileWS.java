@@ -52,7 +52,7 @@ public class ProfileWS {
     
     /** Register a new profile.
      * Create {@link User} and associated {@link Profile}. */
-    @PostMapping(consumes = MEDIA_JSON, produces = MEDIA_JSON) // TODO move to UserWS API since it works at user level
+    @PostMapping(consumes = MEDIA_JSON, produces = MEDIA_JSON)
     @ResponseStatus(CREATED)
     public User register(@RequestBody RegistrationForm registrationForm, BindingResult bindingResult)
             throws UserExistsException, RegistrationFormException, ProfileNotFoundException {
@@ -65,7 +65,7 @@ public class ProfileWS {
     }
     
     /** Unregister a profile. */
-    @DeleteMapping // TODO move to UserWS API since it works at user level
+    @DeleteMapping
     public void delete(@AuthenticationPrincipal UserSimpleDetails user)
             throws UserNotFoundException {
         log.info("user {} deletes himself", user.getIdentity());
@@ -96,7 +96,6 @@ public class ProfileWS {
     
     /** Update current user's password. */
     @PutMapping(value = "/password", consumes = MEDIA_JSON)
-    // TODO move to UserWS API since it works at user level
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
                                @RequestBody UserPasswordUpdateForm userPasswordUpdateForm,
                                BindingResult bindingResult)

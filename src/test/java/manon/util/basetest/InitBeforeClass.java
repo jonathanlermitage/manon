@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -53,7 +52,6 @@ import static org.testng.Assert.fail;
  */
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
-@ContextConfiguration(locations = {"classpath:/spring-context.xml"})
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class})
 @Slf4j
 public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
@@ -209,12 +207,6 @@ public abstract class InitBeforeClass extends AbstractTestNGSpringContextTests {
     @SuppressWarnings("SameParameterValue")
     public String pwd(int humanIdx) {
         return makePwd(humanIdx - 1);
-    }
-    
-    /** Get name of player n°humanIdx, where humanIdx is an index starting at 1. */
-    @SuppressWarnings("SameParameterValue")
-    public String name(int humanIdx) {
-        return makeName(humanIdx - 1);
     }
     
     /** Get profile id of player n°humanIdx, where humanIdx is an index starting at 1. */
