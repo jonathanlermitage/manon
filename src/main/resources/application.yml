@@ -2,33 +2,26 @@
 # see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 
 spring:
+  batch.job.enabled: false
   data:
     mongodb:
       host: localhost
       port: 27017
-  http:
-    converters:
-      preferred-json-mapper: jackson
+  http.converters.preferred-json-mapper: jacksonœ
 
 server:
-  compression:
-    enabled: false # compression is handled by Nginx proxy
+  compression.enabled: false # compression is handled by Nginx proxy
   display-name: manon
-  ssl:
-    enabled: false # encryption is handled by Nginx proxy
-  undertow:
-    accesslog:
-      enabled: false
+  ssl.enabled: false # encryption is handled by Nginx proxy
+  undertow.accesslog.enabled: false
 
 manon:
   admin:
     defaultAdmin:
       username: ROOT
       password: woot
-  security:
-    bcrypt:
-      strength: 6
   batch:
     ProfileSnapshotTask:
       profile.chunk: 100
       profileSnapshot.maxAge: 30
+  security.bcrypt.strength: 6

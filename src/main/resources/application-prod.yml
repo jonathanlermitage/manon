@@ -1,4 +1,4 @@
-   ### PRODUCTION CONFIGURATION for production master-application ###  (warning: avoid tabs, indent with two spaces)
+   ### PRODUCTION CONFIGURATION for production application ###  (warning: avoid tabs, indent with two spaces)
   
 spring:
   data:
@@ -12,6 +12,3 @@ manon:
     defaultAdmin:
       username: MANON_ADMIN_USERNAME_HERE
       password: MANON_ADMIN_PASSWORD_HERE
-  matchmaking:
-    job:
-      start: true
