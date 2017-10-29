@@ -1,6 +1,6 @@
 package manon.util.web;
 
-import manon.matchmaking.TeamInvitation;
+import manon.matchmaking.document.TeamInvitation;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
 package manon.snapshot.batch;
 
+import manon.profile.document.Profile;
 import manon.snapshot.document.ProfileSnapshot;
 import manon.snapshot.service.ProfileSnapshotService;
-import manon.profile.document.Profile;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;

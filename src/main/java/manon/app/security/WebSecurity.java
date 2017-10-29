@@ -10,9 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
-import static manon.app.config.API.API_SYS;
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_PROFILE;
+import static manon.app.config.API.API_SYS;
 import static manon.app.config.API.API_TASK;
 import static manon.app.config.API.API_USER;
 import static manon.app.config.API.API_V1;

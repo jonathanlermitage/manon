@@ -1,6 +1,6 @@
 package manon.matchmaking.repository;
 
-import manon.matchmaking.TeamInvitation;
+import manon.matchmaking.document.TeamInvitation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
 package manon.snapshot.batch;
 
 import manon.batch.service.TaskRunnerService;
+import manon.profile.service.ProfileService;
 import manon.snapshot.document.ProfileSnapshot;
 import manon.snapshot.service.ProfileSnapshotService;
-import manon.profile.service.ProfileService;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
