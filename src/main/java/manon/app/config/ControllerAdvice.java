@@ -77,8 +77,8 @@ public class ControllerAdvice {
     public Map<String, Object> handle(ProfileNotFoundException error) {
         Map<String, Object> map = new HashMap<>();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        if (error.getIds() != null) {
-            map.put(FIELD_MESSAGE, error.getIds());
+        if (error.getId() != null) {
+            map.put(FIELD_MESSAGE, error.getId());
         }
         return map;
     }

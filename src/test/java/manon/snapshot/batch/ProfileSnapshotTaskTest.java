@@ -3,7 +3,9 @@ package manon.snapshot.batch;
 import manon.batch.service.TaskRunnerService;
 import manon.profile.service.ProfileService;
 import manon.snapshot.document.ProfileSnapshot;
+import manon.snapshot.document.ProfilesStats;
 import manon.snapshot.service.ProfileSnapshotService;
+import manon.snapshot.service.ProfilesStatsService;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class ProfileSnapshotTaskTest extends InitBeforeClass {
     private ProfileService profileService;
     @Autowired
     private ProfileSnapshotService profileSnapshotService;
+    @Autowired
+    private ProfilesStatsService profilesStatsService;
     
     @Override
     public int getNumberOfProfiles() {
@@ -61,5 +65,10 @@ public class ProfileSnapshotTaskTest extends InitBeforeClass {
             Stream.of(1, 2).forEach(integer -> assertThat(profileSnapshotService.findOne(profileSnapshots.get(integer).getId())).isPresent());
             Stream.of(0, 3, 4, 5, 6).forEach(integer -> assertThat(profileSnapshotService.findOne(profileSnapshots.get(integer).getId())).isNotPresent());
         }
+        
+        //THEN statistics are written
+        List<ProfilesStats> profilesStats = profilesStatsService.findAll();
+        assertThat(profilesStats).isNotNull().hasSize(3);
+        profilesStats.forEach(profilesStats1 -> assertEquals(profilesStats1.getNbProfiles(), expectedTodayProfileSnapshots));
     }
 }

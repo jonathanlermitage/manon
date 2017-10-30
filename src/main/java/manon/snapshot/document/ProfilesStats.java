@@ -17,6 +17,7 @@ import java.util.Date;
 import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
+/** Statistics on all Profiles. */
 @Document(collection = "ProfilesStats")
 @TypeAlias("ProfilesStats")
 @Getter
@@ -30,7 +31,7 @@ public class ProfilesStats {
     @Id
     private String id;
     
-    private int nbProfiles;
+    private long nbProfiles;
     
     @JsonFormat(pattern = DATE_FORMAT)
     @CreatedDate

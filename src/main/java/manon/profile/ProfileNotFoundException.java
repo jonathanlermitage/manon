@@ -1,19 +1,11 @@
 package manon.profile;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class ProfileNotFoundException extends Exception {
     
-    private String[] ids;
-    
-    public ProfileNotFoundException(String... ids) {
-        this.ids = ids;
-    }
-    
-    public ProfileNotFoundException(String id) {
-        this.ids = new String[]{id};
-    }
+    private String id;
 }

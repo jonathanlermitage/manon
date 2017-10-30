@@ -1,7 +1,6 @@
 package manon.profile.api;
 
 import com.jayway.restassured.http.ContentType;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.registration.RegistrationForm;
 import manon.user.service.UserService;
@@ -44,7 +43,7 @@ public class ProfileWSNoDataTest extends InitBeforeClass {
                 .post(getApiV1() + TEST_API_PROFILE)
                 .then()
                 .statusCode(SC_CREATED);
-        User user = userService.findByUsername(name).orElseThrow(UserNotFoundException::new);
+        User user = userService.findByUsername(name).orElseThrow(Exception::new);
         assertEquals(user.getUsername(), name);
         assertThat(user.getRoles()).containsExactly(PLAYER);
         assertEquals(user.getVersion(), 0);

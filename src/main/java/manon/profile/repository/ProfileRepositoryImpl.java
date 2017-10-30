@@ -33,7 +33,7 @@ public class ProfileRepositoryImpl implements ProfileRepositoryCustom {
                 query(where("id").is(id)),
                 new Update().set(field.getFieldname(), value),
                 Profile.class).getN()) {
-            throw new ProfileNotFoundException(id);
+            throw new ProfileNotFoundException(id); // TODO test use case
         }
     }
     

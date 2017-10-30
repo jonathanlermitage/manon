@@ -63,7 +63,7 @@ public class ProfileUpdateValidator implements Validator {
                 break;
             
             default:
-                errors.reject("BAD_FIELDNAME");
+                errors.reject("BAD_FIELDNAME"); // TODO test BAD_FIELDNAME use case
         }
     }
 }

@@ -2,7 +2,9 @@ package manon.snapshot.batch;
 
 import manon.profile.document.Profile;
 import manon.snapshot.document.ProfileSnapshot;
+import manon.snapshot.document.ProfilesStats;
 import manon.snapshot.service.ProfileSnapshotService;
+import manon.snapshot.service.ProfilesStatsService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -34,12 +36,14 @@ public class ProfileSnapshotTask {
     public static final String JOB_NAME = "profileSnapshotJob";
     public static final String JOB_STEP0_NAME = "profileSnapshotJobStepFlush";
     public static final String JOB_STEP1_NAME = "profileSnapshotJobStepSnapshot";
+    public static final String JOB_STEP2_NAME = "profileSnapshotJobStepStats";
     
     private final MongoTemplate mongoTemplate;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
     private final ProfileSnapshotTaskListener listener;
     private final ProfileSnapshotService profileSnapshotService;
+    private final ProfilesStatsService profilesStatsService;
     
     @Value("${manon.batch.ProfileSnapshotTask.profile.chunk}")
     private Integer chunk;
@@ -48,12 +52,15 @@ public class ProfileSnapshotTask {
     
     @Autowired
     public ProfileSnapshotTask(MongoTemplate mongoTemplate, JobBuilderFactory jfb, StepBuilderFactory sbf,
-                               ProfileSnapshotTaskListener listener, ProfileSnapshotService profileSnapshotService) {
+                               ProfileSnapshotTaskListener listener,
+                               ProfileSnapshotService profileSnapshotService,
+                               ProfilesStatsService profilesStatsService) {
         this.mongoTemplate = mongoTemplate;
         this.jbf = jfb;
         this.sbf = sbf;
         this.listener = listener;
         this.profileSnapshotService = profileSnapshotService;
+        this.profilesStatsService = profilesStatsService;
     }
     
     @Bean
@@ -99,6 +106,13 @@ public class ProfileSnapshotTask {
                 .build();
     }
     
+    @Bean(JOB_STEP2_NAME)
+    public Step profileSnapshotJobStepStats() throws Exception {
+        return sbf.get(JOB_STEP1_NAME)
+                .tasklet(new StatsTasklet())
+                .build();
+    }
+    
     @Bean(JOB_NAME)
     Job profileSnapshotJob() throws Exception {
         return jbf.get(JOB_NAME)
@@ -106,6 +120,7 @@ public class ProfileSnapshotTask {
                 .listener(listener)
                 .start(profileSnapshotJobStepFlush())
                 .next(profileSnapshotJobStepSnapshot())
+                .next(profileSnapshotJobStepStats())
                 .build();
     }
     
@@ -114,6 +129,14 @@ public class ProfileSnapshotTask {
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
             profileSnapshotService.deleteToday();
             profileSnapshotService.keepRecent(maxAge);
+            return RepeatStatus.FINISHED;
+        }
+    }
+    
+    private class StatsTasklet implements Tasklet {
+        @Override
+        public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+            profilesStatsService.save(ProfilesStats.builder().nbProfiles(profileSnapshotService.countToday()).build());
             return RepeatStatus.FINISHED;
         }
     }
