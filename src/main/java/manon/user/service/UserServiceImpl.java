@@ -1,10 +1,11 @@
 package manon.user.service;
 
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
-import manon.profile.service.ProfileService;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
+import manon.user.form.UserUpdateForm;
 import manon.user.registration.RegistrationStateEnum;
 import manon.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -14,12 +15,38 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service("UserService")
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
-    private final ProfileService profileService;
+    
+    @Override
+    public long count() {
+        return userRepository.count();
+    }
+    
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+    
+    @Override
+    public void ensureExist(String... ids) throws UserNotFoundException {
+        for (String id : ids) {
+            readOne(id);
+        }
+    }
+    
+    @Override
+    public User readOne(String id) throws UserNotFoundException {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    }
+    
+    @Override
+    public void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException, DuplicateKeyException {
+        userRepository.updateField(userId, userUpdateForm.getField(), userUpdateForm.getValue());
+    }
     
     @Override
     public Page<User> findAll(Pageable pageable) {
@@ -32,32 +59,16 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public User readByUsername(String username)
-            throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new UsernameNotFoundException(username);
-        }
-        return user.get();
+    public User readByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
     
     @Override
-    public User readOne(String id) throws UserNotFoundException {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-    }
-    
-    @Override
-    public User create(User user)
-            throws UserExistsException {
+    public User create(User user) throws UserExistsException {
         if (userRepository.usernameExists(user.getUsername())) {
             throw new UserExistsException(user.getUsername());
         }
-        String profileId = profileService.create().getId();
-        user = user.toBuilder()
-                .profileId(profileId)
-                .build();
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
     
     @Override

@@ -6,6 +6,7 @@ spring:
       database: manontest
       username: root
       password: woot
+      authentication-database: manontest
 
 manon:
   security.bcrypt.strength: 4

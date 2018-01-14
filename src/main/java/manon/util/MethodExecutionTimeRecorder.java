@@ -15,17 +15,17 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.stream;
-import static manon.app.config.Profiles.METRICS;
-import static manon.util.Tools.str;
+import static java.util.Collections.sort;
+import static manon.app.config.SpringProfiles.METRICS;
 
 @Aspect
 @Component
@@ -90,19 +90,18 @@ public class MethodExecutionTimeRecorder {
      */
     @Synchronized
     private static String showStats(Map<String, ServiceStats> stats, String title) {
-        List<ServiceStats> view = new ArrayList<>();
-        view.addAll(stats.values());
+        List<ServiceStats> view = new ArrayList<>(stats.values());
         view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
         StringBuilder buff = new StringBuilder(2048);
         buff.append(" calls     min     max     total     avg  median  name\n");
-        view.stream().map(s -> str("%6s %7s %7s   %7s %7s %7s  %s\n",
+        view.stream().map(s -> format("%6s %7s %7s   %7s %7s %7s  %s\n",
                 s.getCalls(),
                 s.getMinTime(),
                 s.getMaxTime(),
                 s.getTotalTime(),
                 s.getTotalTime() / s.getCalls(),
                 ((long) median(s.getTimes())),
-                s.getService().replaceAll("\\[", "(").replaceAll("]", ")"))).forEach(buff::append);
+                "m." + s.getService().replaceAll("\\[", "(").replaceAll("]", ")").substring("manon.".length()))).forEach(buff::append);
         String lines = buff.toString();
         log.info("\n" + title + " - services performance (ms): \n{}", lines);
         return lines;
@@ -146,7 +145,7 @@ public class MethodExecutionTimeRecorder {
     }
     
     private static double median(List<Long> v) {
-        Collections.sort(v);
+        sort(v);
         int middle = v.size() / 2;
         if (v.size() % 2 == 1) {
             return v.get(middle);

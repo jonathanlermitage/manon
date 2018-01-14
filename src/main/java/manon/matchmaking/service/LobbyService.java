@@ -1,16 +1,16 @@
 package manon.matchmaking.service;
 
 import manon.matchmaking.LobbyLeagueEnum;
-import manon.matchmaking.ProfileLobbyStatus;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
+import manon.matchmaking.UserLobbyStatus;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.document.TeamInvitation;
-import manon.profile.ProfileNotFoundException;
+import manon.user.UserNotFoundException;
 
 import java.util.List;
 
@@ -20,74 +20,73 @@ public interface LobbyService {
     void flush();
     
     /**
-     * Indicate if a profile is in the lobby already, and where.
-     * @param profileId profile id.
+     * Indicate if a user is in the lobby already, and where.
+     * @param userId user id.
      */
-    ProfileLobbyStatus getStatus(String profileId);
+    UserLobbyStatus getStatus(String userId);
     
     /**
-     * Add a profile to the lobby.
-     * @param profileId profile id.
+     * Add a user to the lobby.
+     * @param userId user id.
      */
-    void enter(String profileId, LobbyLeagueEnum league);
+    void enter(String userId, LobbyLeagueEnum league);
     
     /**
-     * Remove a profile from the lobby.
-     * If profile is a team leader, another team member is promoted.
+     * Remove a user from the lobby.
+     * If user is a team leader, another team member is promoted.
      * If team gets empty, it's deleted.
-     * @param profileId profile id.
+     * @param userId user id.
      */
-    void quit(String profileId);
+    void quit(String userId);
     
     /**
      * Create a team and enter into.
-     * @param profileId profile id.
+     * @param userId user id.
      */
-    LobbyTeam createTeamAndEnter(String profileId, LobbyLeagueEnum league);
+    LobbyTeam createTeamAndEnter(String userId, LobbyLeagueEnum league);
     
     /**
-     * Invite a profile to a team.
-     * @param profileId profile id that is in the team.
-     * @param profileIdToInvite profile id to invite.
+     * Invite a user to a team.
+     * @param userId user id that is in the team.
+     * @param userIdToInvite user id to invite.
      */
-    TeamInvitation inviteToTeam(String profileId, String profileIdToInvite)
-            throws TeamNotFoundException, TeamInvitationException, ProfileNotFoundException;
+    TeamInvitation inviteToTeam(String userId, String userIdToInvite)
+            throws TeamNotFoundException, TeamInvitationException, UserNotFoundException;
     
     /**
-     * Find a profile pending invitations to teams.
-     * @param profileId profile id.
+     * Find a user pending invitations to teams.
+     * @param userId user id.
      * @return team invitations.
      */
-    List<TeamInvitation> getTeamInvitations(String profileId);
+    List<TeamInvitation> getTeamInvitations(String userId);
     
     /**
-     * Add a profiles into a team to the lobby.
-     * @param profileId profile id.
+     * Add a user into a team to the lobby.
+     * @param userId user id.
      * @param invitationId team invitation id.
      */
-    LobbyTeam acceptTeamInvitation(String profileId, String invitationId)
+    LobbyTeam acceptTeamInvitation(String userId, String invitationId)
             throws TeamInvitationNotFoundException, TeamFullException, TeamNotFoundException;
     
     /**
      * Get a team.
-     * @param profileId profile id.
+     * @param userId user id.
      */
-    LobbyTeam getTeam(String profileId)
-            throws TeamNotFoundException;
+    LobbyTeam getTeam(String userId) throws TeamNotFoundException;
     
     /**
      * Mark a team as ready. Only team leader can do that.
-     * @param profileId profile id.
+     * @param userId user id.
      * @param ready ready.
      */
-    LobbyTeam markTeamReady(String profileId, boolean ready)
+    LobbyTeam markTeamReady(String userId, boolean ready)
             throws TeamNotFoundException, TeamLeaderOnlyException;
     
     /**
      * Set a new leader for current team. Only team leader can do that.
-     * @param profileId profile id of current leader.
-     * @param newLeaderProfileId profile id of new leader.
+     * @param userId user id of current leader.
+     * @param newLeaderUserId user id of new leader.
      */
-    LobbyTeam setTeamLeader(String profileId, String newLeaderProfileId)
+    LobbyTeam setTeamLeader(String userId, String newLeaderUserId)
             throws TeamNotFoundException, TeamLeaderOnlyException, TeamMemberNotFoundException;
 }

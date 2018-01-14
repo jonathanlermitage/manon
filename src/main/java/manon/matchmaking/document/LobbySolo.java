@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
 /**
- * A profile that waits for matchmaking.
+ * A user that waits for matchmaking.
  */
 @Document(collection = "LobbySolo")
 @TypeAlias("LobbySolo")
@@ -35,8 +35,10 @@ public final class LobbySolo {
     @Id
     private String id;
     
-    private String profileId;
+    private String userId;
+    
     private long skill;
+    
     private LobbyLeagueEnum league;
     
     @JsonFormat(pattern = DATE_FORMAT)

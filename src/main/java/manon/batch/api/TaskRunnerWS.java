@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_TASK;
-import static manon.app.config.API.API_V1;
 
 /** Task API. */
 @RestController
-@RequestMapping(value = API_V1 + API_TASK)
+@RequestMapping(value = API_TASK)
 @RequiredArgsConstructor
 @Slf4j
 public class TaskRunnerWS {

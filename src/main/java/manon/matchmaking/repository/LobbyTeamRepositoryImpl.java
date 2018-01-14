@@ -20,31 +20,31 @@ public class LobbyTeamRepositoryImpl implements LobbyTeamRepositoryCustom {
     }
     
     @Override
-    public LobbyTeam removeProfileId(String id, String profileId) {
+    public LobbyTeam removeUserId(String id, String userId) {
         mongoTemplate.updateMulti(
-                query(where("profileIds").in(profileId)),
+                query(where("userIds").in(userId)),
                 new Update()
-                        .pull("profileIds", profileId),
+                        .pull("userIds", userId),
                 LobbyTeam.class);
         return mongoTemplate.findById(id, LobbyTeam.class);
     }
     
     @Override
-    public LobbyTeam addProfileId(String id, String profileId) {
+    public LobbyTeam addUserId(String id, String userId) {
         mongoTemplate.updateMulti(
                 query(where("id").is(id)),
                 new Update()
-                        .addToSet("profileIds", profileId),
+                        .addToSet("userIds", userId),
                 LobbyTeam.class);
         return mongoTemplate.findById(id, LobbyTeam.class);
     }
     
     @Override
-    public void setLeader(String id, String profileId) {
+    public void setLeader(String id, String userId) {
         mongoTemplate.updateMulti(
                 query(where("id").is(id)),
                 new Update()
-                        .set("leader", profileId),
+                        .set("leader", userId),
                 LobbyTeam.class);
     }
     

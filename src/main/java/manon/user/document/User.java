@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.user.UserAuthority;
+import manon.user.friendship.FriendshipEvent;
 import manon.user.registration.RegistrationStateEnum;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -19,18 +19,19 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.CASE_INSENSITIVE;
+import static java.util.regex.Pattern.compile;
 import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
 /**
- * Registered user.
- * Used for registration and authentication only, see {@link manon.profile.document.Profile} for more relevant data.
+ * User user.
  */
 @Document(collection = "User")
 @TypeAlias("User")
@@ -46,21 +47,32 @@ public final class User implements Serializable {
     private String id;
     
     /** Unique, non case-sensitive and not modifiable login name. */
-    @NotEmpty
     @Indexed(background = true, unique = true)
     private String username;
     
-    @NotNull
     private List<UserAuthority> roles;
     
-    @NotEmpty
     @JsonIgnore
     private String password;
     
-    @NotNull
     private RegistrationStateEnum registrationState;
     
-    private String profileId;
+    /** A non-unique name that can change. */
+    @Indexed(background = true)
+    private String nickname;
+    
+    /** Email, NOT mandatory. */
+    private String email;
+    
+    // social
+    @Builder.Default
+    private List<String> friendshipRequestsTo = new ArrayList<>();
+    @Builder.Default
+    private List<String> friendshipRequestsFrom = new ArrayList<>();
+    @Builder.Default
+    private List<String> friends = new ArrayList<>();
+    @Builder.Default
+    private List<FriendshipEvent> friendshipEvents = new ArrayList<>();
     
     @Version
     private long version;
@@ -80,7 +92,16 @@ public final class User implements Serializable {
         public static final Pattern USERNAME_PATTERN = Pattern.compile("^[A-Z0-9_\\-\\u0020]+$");
         public static final int USERNAME_MIN_LENGTH = 3;
         public static final int USERNAME_MAX_LENGTH = 24;
+        
+        public static final Pattern NICKNAME_PATTERN = compile("^[A-Z0-9_\\-\\u0020]+$", CASE_INSENSITIVE);
+        public static final int NICKNAME_MAX_LENGTH = 24;
+        
+        public static final Pattern EMAIL_PATTERN = compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", CASE_INSENSITIVE);
+        public static final int EMAIL_MAX_LENGTH = 256;
+        
         public static final int PASSWORD_MIN_LENGTH = 5;
         public static final int PASSWORD_MAX_LENGTH = 256;
+        
+        public static final int MAX_EVENTS = 30;
     }
 }

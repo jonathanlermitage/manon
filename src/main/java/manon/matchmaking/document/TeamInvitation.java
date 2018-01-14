@@ -21,6 +21,6 @@ public class TeamInvitation {
     @Id
     private String id;
     
-    private String profileId;
+    private String userId;
     private String teamId;
 }

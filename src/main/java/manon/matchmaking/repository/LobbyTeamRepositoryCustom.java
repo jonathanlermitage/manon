@@ -4,11 +4,11 @@ import manon.matchmaking.document.LobbyTeam;
 
 public interface LobbyTeamRepositoryCustom {
     
-    LobbyTeam removeProfileId(String id, String profileId);
+    LobbyTeam removeUserId(String id, String userId);
     
-    LobbyTeam addProfileId(String id, String profileId);
+    LobbyTeam addUserId(String id, String userId);
     
-    void setLeader(String id, String profileId);
+    void setLeader(String id, String userId);
     
     void setReady(String id, boolean ready);
 }

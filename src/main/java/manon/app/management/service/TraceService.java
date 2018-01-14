@@ -11,5 +11,5 @@ public interface TraceService {
      * @param msg log message.
      * @param args parameters to replace in log message (via 'String.format').
      */
-    void log(AppTrace.TRACE_LEVEL level, AppTrace.CAT category, String msg, Object... args);
+    void log(AppTrace.LVL level, AppTrace.CAT category, String msg, Object... args);
 }

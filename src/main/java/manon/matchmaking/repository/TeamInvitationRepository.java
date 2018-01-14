@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface TeamInvitationRepository extends MongoRepository<TeamInvitation, String> {
     
-    Optional<TeamInvitation> findByProfileIdAndTeamId(String profileId, String teamId);
+    Optional<TeamInvitation> findByUserIdAndTeamId(String userId, String teamId);
     
-    List<TeamInvitation> findByProfileId(String profileId);
+    List<TeamInvitation> findByUserId(String userId);
 }

@@ -34,7 +34,7 @@ public final class AppTrace {
     private String msg;
     
     @Indexed(background = true)
-    private TRACE_LEVEL level;
+    private LVL level;
     
     @Indexed(background = true)
     private CAT cat;
@@ -44,12 +44,11 @@ public final class AppTrace {
     @CreatedDate
     private Date creationDate;
     
-    public enum TRACE_LEVEL {
+    public enum LVL {
         DEBUG,
         INFO,
-        WARNING,
-        ERROR,
-        APP_LIFECYCLE
+        WARN,
+        ERROR
     }
     
     public enum CAT {

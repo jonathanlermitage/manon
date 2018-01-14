@@ -1,10 +1,10 @@
 package manon.util.basetest;
 
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.specification.RequestSpecification;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @AllArgsConstructor
 public class Rs {
     

@@ -6,9 +6,10 @@ spring:
       database: manondev
       username: root
       password: woot
+      authentication-database: manondev
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: woot
     url: jdbc:mysql://127.0.0.1:3307/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true
-  jpa.hibernate.ddl-auto: create-drop # validate | update | create | create-drop
+  jpa.hibernate.ddl-auto: create-drop

@@ -1,5 +1,6 @@
 package manon.app.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -38,15 +39,13 @@ public class UserSimpleDetails implements UserDetails, Serializable {
     
     // Accelerators.
     
-    public String getProfileId() {
-        return getUser().getProfileId();
-    }
-    
+    @JsonIgnore
     public String getUserId() {
         return getUser().getId();
     }
     
+    @JsonIgnore
     public String getIdentity() {
-        return getUsername() + " (profile " + getProfileId() + ")";
+        return getUsername() + " (id " + getUserId() + ")";
     }
 }

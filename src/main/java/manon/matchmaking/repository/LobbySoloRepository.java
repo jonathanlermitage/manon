@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface LobbySoloRepository extends MongoRepository<LobbySolo, String> {
     
-    Optional<LobbySolo> findByProfileId(String profileId);
+    Optional<LobbySolo> findByUserId(String userId);
     
-    void removeByProfileId(String profileId);
+    void removeByUserId(String userId);
 }

@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
 /**
- * A team of profiles that wait for matchmaking.
+ * A team of users that wait for matchmaking.
  */
 @Document(collection = "LobbyTeam")
 @TypeAlias("LobbyTeam")
@@ -38,14 +38,19 @@ public final class LobbyTeam {
     private String id;
     
     @Builder.Default
-    private List<String> profileIds = new ArrayList<>();
-    /** Profile that leads the team. */
+    private List<String> userIds = new ArrayList<>();
+    
+    /** User that leads the team. */
     private String leader;
+    
     private long skill;
+    
     @Builder.Default
     private boolean ready = false;
+    
     @Builder.Default
     private short maxSize = Default.MAX_TEAM_SIZE;
+    
     private LobbyLeagueEnum league;
     
     @JsonFormat(pattern = DATE_FORMAT)

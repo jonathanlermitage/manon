@@ -21,7 +21,7 @@ import static manon.user.registration.RegistrationStateEnum.BANNED;
 import static manon.user.registration.RegistrationStateEnum.DELETED;
 import static manon.user.registration.RegistrationStateEnum.SUSPENDED;
 
-@Service("RegistrationService")
+@Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
     

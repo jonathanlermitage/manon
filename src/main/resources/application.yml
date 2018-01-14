@@ -7,7 +7,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-  http.converters.preferred-json-mapper: jacksonœ
+  http.converters.preferred-json-mapper: jackson
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy
@@ -15,13 +15,19 @@ server:
   ssl.enabled: false # encryption is handled by Nginx proxy
   undertow.accesslog.enabled: false
 
+management:
+  endpoint.health.show-details: false
+  endpoints:
+    enabled-by-default: true
+    web.expose: ["*"]
+
 manon:
   admin:
     defaultAdmin:
       username: ROOT
       password: woot
   batch:
-    ProfileSnapshotTask:
-      profile.chunk: 100
-      profileSnapshot.maxAge: 30
+    UserSnapshotTask:
+      user.chunk: 1000
+      userSnapshot.maxAge: 30
   security.bcrypt.strength: 6

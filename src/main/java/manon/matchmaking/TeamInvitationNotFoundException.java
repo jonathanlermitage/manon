@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class TeamInvitationNotFoundException extends Exception {
     
-    private String profileId;
+    private String userId;
     private String teamId;
 }

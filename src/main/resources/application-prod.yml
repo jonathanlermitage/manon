@@ -6,6 +6,8 @@ spring:
       database: manonprod
       username: MONGODB_USERNAME_HERE
       password: MONGODB_PASSWORD_HERE
+      authentication-database: manonprod
+  jpa.hibernate.ddl-auto: update
 
 manon:
   admin:

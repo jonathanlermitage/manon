@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.function.Function;
 
 /**
  * Utility methods related to now and time.
@@ -16,6 +15,7 @@ public final class Tools {
     
     /** {@value} media type. */
     public static final String MEDIA_JSON = "application/json";
+    
     /** {@value} date format. */
     public static final String DATE_FORMAT = "yyyy-MM-ddHH:mm:ssS Z";
     
@@ -29,13 +29,6 @@ public final class Tools {
     /** Get current date. */
     public static Date now() {
         return new Date();
-    }
-    
-    /** Get current date plus given days. */
-    public static Date nowPlusDays(int nbDays) {
-        Calendar cal = new GregorianCalendar();
-        cal.add(Calendar.DAY_OF_MONTH, nbDays);
-        return cal.getTime();
     }
     
     /**
@@ -64,50 +57,24 @@ public final class Tools {
         return calendar(23, 59, 59, 999).getTime();
     }
     
-    /** Return a formatted string using the specified format string and arguments. */
-    public static String str(String format, Object... args) {
-        return String.format(format, args);
-    }
-    
-    /** Get an easy-to-remember password. */
-    public static String easyPassword() {
-        return Double.toString(Math.random() * 10_000).replace(".", "");
-    }
-    
     /** Return {@code true} if the provided string is null or empty once trimmed, otherwise {@code false}. */
     public static boolean isBlank(String str) {
         return str == null || str.trim().isEmpty();
     }
     
-    /** Return {@code true} if any of the provided reference is {@code null} otherwise returns {@code false}. */
-    public static boolean anyNull(Object... objects) {
-        if (null == objects) {
-            return true;
+    public static String shortenLog(Object obj) {
+        if (obj == null) {
+            return "null";
         }
-        for (Object o : objects) {
-            if (null == o) {
-                return true;
-            }
+        String str = obj.toString();
+        if (str.length() > 100) {
+            return str.substring(0, 30) + "... (long string, length=" + str.length() + ")";
         }
-        return false;
+        return str;
     }
     
     /** Get a new MongoDB ObjectId as String. */
     public static String objId() {
         return new ObjectId().toString();
-    }
-    
-    /**
-     * Handle checked exceptions in stream.
-     * See <a href="https://www.oreilly.com/ideas/handling-checked-exceptions-in-java-streams">online article</a>.
-     */
-    public static <T, R, E extends Exception> Function<T, R> wrapper(FunctionWithException<T, R, E> fe) {
-        return arg -> {
-            try {
-                return fe.apply(arg);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        };
     }
 }

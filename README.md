@@ -11,8 +11,10 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Branches
 
-* [spring4](https://github.com/jonathanlermitage/manon): default active branch, based on Spring Framework 4 and JDK8.
-* [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): next active branch, based on upcoming Spring Framework 5 and JDK9. Maybe Kotlin.
+* [spring5](https://github.com/jonathanlermitage/manon): active branch, based on Spring Framework 5, Spring Boot 2, JDK9.
+* [spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo): use embedded MongoDB during tests.
+* [spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle): migration from Maven 3.5 to Gradle 4. Under development (stable and functional, but still needs some improvements).
+* [spring4](https://github.com/jonathanlermitage/manon/tree/spring4): previous active branch, based on Spring Framework 4, Spring Boot, JDK8.
 * [spring4-redis-cache](https://github.com/jonathanlermitage/manon/tree/spring4-redis-cache): enable caching based on Redis server.
 * other branches may appear and disappear quickly, depending on experimentation results and motivation ;-)
 

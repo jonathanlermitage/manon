@@ -1,7 +1,7 @@
 package manon.batch.service;
 
 import manon.batch.TaskNotFoundException;
-import manon.snapshot.batch.ProfileSnapshotTask;
+import manon.snapshot.batch.UserSnapshotTask;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -16,30 +16,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.util.Collections.unmodifiableMap;
 
 @Component
 public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerService {
     
     private final JobLauncher launcher;
-    private final Job profileSnapshotJob;
+    private final Job userSnapshotJob;
     private Map<String, Job> jobs;
     
     @Autowired
-    public TaskRunnerServiceImpl(JobLauncher launcher, @Qualifier(ProfileSnapshotTask.JOB_NAME) Job profileSnapshotJob) {
+    public TaskRunnerServiceImpl(JobLauncher launcher, @Qualifier(UserSnapshotTask.JOB_NAME) Job userSnapshotJob) {
         this.launcher = launcher;
-        this.profileSnapshotJob = profileSnapshotJob;
+        this.userSnapshotJob = userSnapshotJob;
     }
     
     @Override
-    public void afterPropertiesSet()
-            throws Exception {
+    public void afterPropertiesSet() {
         Map<String, Job> jobs = new HashMap<>();
-        jobs.put(ProfileSnapshotTask.JOB_NAME, profileSnapshotJob);
-        this.jobs = Collections.unmodifiableMap(jobs);
+        jobs.put(UserSnapshotTask.JOB_NAME, userSnapshotJob);
+        this.jobs = unmodifiableMap(jobs);
     }
     
     @Override

@@ -21,14 +21,14 @@
       "description": "Start matchmaking job on this server."
     },
     {
-      "name": "manon.batch.ProfileSnapshotTask.profile.chunk",
+      "name": "manon.batch.UserSnapshotTask.user.chunk",
       "type": "java.lang.Integer",
-      "description": "ProfileSnapshotTask: profile chunk size."
+      "description": "UserSnapshotTask: user chunk size."
     },
     {
-      "name": "manon.batch.ProfileSnapshotTask.profileSnapshot.maxAge",
+      "name": "manon.batch.UserSnapshotTask.userSnapshot.maxAge",
       "type": "java.lang.Integer",
-      "description": "ProfileSnapshotTask: profile snapshot max age in days."
+      "description": "UserSnapshotTask: user snapshot max age in days."
     }
   ]
 }

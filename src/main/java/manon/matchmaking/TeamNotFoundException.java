@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class TeamNotFoundException extends Exception {
     
-    private String profileIdMember;
+    private String userIdMember;
 }

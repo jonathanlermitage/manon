@@ -1,6 +1,7 @@
 package manon.user.repository;
 
 import manon.user.document.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends MongoRepository<User, String>, UserRepositoryCustom {
     
-    Optional<User> findById(String id);
+    @NotNull Optional<User> findById(@NotNull String id);
     
     Optional<User> findByUsername(String username);
     

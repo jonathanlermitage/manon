@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.stream.Collectors;
 
-import static java.util.Collections.singleton;
-
 @Configuration
 public class UserLoaderService implements UserDetailsService {
     
@@ -29,9 +27,7 @@ public class UserLoaderService implements UserDetailsService {
         return UserSimpleDetails.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRoles().size() == 1 ?
-                        singleton(new SimpleGrantedAuthority(user.getRoles().get(0).name())) :
-                        user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toList()))
+                .authorities(user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toList()))
                 .enabled(RegistrationStateEnum.ACTIVE == user.getRegistrationState())
                 .user(user)
                 .build();

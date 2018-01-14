@@ -34,7 +34,7 @@ public interface RegistrationService {
     void delete(String userId) throws UserNotFoundException;
     
     /**
-     * Register a profile.
+     * Register a user.
      * Activation is pending.
      * @param username username.
      * @param password password.
