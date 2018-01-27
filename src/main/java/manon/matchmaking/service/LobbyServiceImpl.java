@@ -9,7 +9,7 @@ import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
-import manon.matchmaking.UserLobbyStatus;
+import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.document.LobbySolo;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.document.TeamInvitation;
@@ -43,16 +43,16 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
-    public UserLobbyStatus getStatus(String userId) {
+    public LobbyStatus getStatus(String userId) {
         Optional<LobbySolo> solo = lobbySoloRepository.findByUserId(userId);
         if (solo.isPresent()) {
-            return UserLobbyStatus.builder().lobbySolo(solo.get()).build();
+            return LobbyStatus.builder().lobbySolo(solo.get()).build();
         }
         Optional<LobbyTeam> team = lobbyTeamRepository.findByUserIds(userId);
         if (team.isPresent()) {
-            return UserLobbyStatus.builder().lobbyTeam(team.get()).build();
+            return LobbyStatus.builder().lobbyTeam(team.get()).build();
         }
-        return UserLobbyStatus.EMPTY;
+        return LobbyStatus.EMPTY;
     }
     
     @Override

@@ -27,7 +27,7 @@ public class UserLoaderService implements UserDetailsService {
         return UserSimpleDetails.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toList()))
+                .authorities(user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toSet()))
                 .enabled(RegistrationStateEnum.ACTIVE == user.getRegistrationState())
                 .user(user)
                 .build();

@@ -10,7 +10,7 @@ import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
-import manon.matchmaking.UserLobbyStatus;
+import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.document.TeamInvitation;
 import manon.matchmaking.service.LobbyService;
@@ -43,7 +43,7 @@ public class LobbyWS {
      * @param user user.
      */
     @GetMapping(value = "/status")
-    public UserLobbyStatus getStatus(@AuthenticationPrincipal UserSimpleDetails user) {
+    public LobbyStatus getStatus(@AuthenticationPrincipal UserSimpleDetails user) {
         log.info("user {} gets his lobby status", user.getIdentity());
         return lobbyService.getStatus(user.getUserId());
     }

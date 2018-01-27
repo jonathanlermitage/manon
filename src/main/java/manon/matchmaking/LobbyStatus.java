@@ -17,9 +17,9 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class UserLobbyStatus {
+public class LobbyStatus {
     
-    public static final UserLobbyStatus EMPTY = new UserLobbyStatus();
+    public static final LobbyStatus EMPTY = new LobbyStatus();
     
     private LobbySolo lobbySolo;
     private LobbyTeam lobbyTeam;

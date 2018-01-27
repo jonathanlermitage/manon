@@ -15,7 +15,7 @@ public class ActuatorTest extends InitBeforeClass {
     /**
      * Spring Boot 1 actuator endpoints.
      * <p>
-     * See http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+     * See <a href="http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html">endpoints</a>.
      */
     @DataProvider
     public Object[][] dataProviderSpringBoot1Actuator() {
@@ -33,8 +33,8 @@ public class ActuatorTest extends InitBeforeClass {
     /**
      * Spring Boot 2 actuator endpoints and configured visibility to public.
      * <p>
-     * See https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0.0-M7-Release-Notes<br>
-     * See https://docs.spring.io/spring-boot/docs/2.0.0.M7/reference/htmlsingle/#production-ready
+     * See <a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0.0-M7-Release-Notes">release notes</a> and
+     * <a href="https://docs.spring.io/spring-boot/docs/2.0.0.M7/reference/htmlsingle/#production-ready">reference</a>.
      */
     @DataProvider
     public Object[][] dataProviderSpringBoot2Actuator() {

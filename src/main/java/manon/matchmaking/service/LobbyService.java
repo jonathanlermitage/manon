@@ -7,7 +7,7 @@ import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
-import manon.matchmaking.UserLobbyStatus;
+import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.document.TeamInvitation;
 import manon.user.UserNotFoundException;
@@ -23,7 +23,7 @@ public interface LobbyService {
      * Indicate if a user is in the lobby already, and where.
      * @param userId user id.
      */
-    UserLobbyStatus getStatus(String userId);
+    LobbyStatus getStatus(String userId);
     
     /**
      * Add a user to the lobby.

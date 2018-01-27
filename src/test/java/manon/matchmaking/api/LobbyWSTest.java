@@ -4,7 +4,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import lombok.SneakyThrows;
 import manon.matchmaking.LobbyLeagueEnum;
-import manon.matchmaking.UserLobbyStatus;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.service.LobbyService;
 import manon.util.basetest.InitBeforeTest;
@@ -50,8 +49,8 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserLobbyStatus userLobbyStatus = readValue(res, UserLobbyStatus.class);
-        assertEquals(userLobbyStatus, UserLobbyStatus.EMPTY);
+        manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
+        assertEquals(lobbyStatus, manon.matchmaking.LobbyStatus.EMPTY);
     }
     
     @Test
@@ -64,9 +63,9 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserLobbyStatus userLobbyStatus = readValue(res, UserLobbyStatus.class);
-        assertNull(userLobbyStatus.getLobbySolo());
-        assertNull(userLobbyStatus.getLobbyTeam());
+        manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
+        assertNull(lobbyStatus.getLobbySolo());
+        assertNull(lobbyStatus.getLobbyTeam());
     }
     
     @Test
@@ -121,10 +120,10 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserLobbyStatus userLobbyStatus = readValue(res, UserLobbyStatus.class);
-        assertNotNull(userLobbyStatus.getLobbySolo());
-        assertNull(userLobbyStatus.getLobbyTeam());
-        assertEquals(userLobbyStatus.getLobbySolo().getLeague(), league);
+        manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
+        assertNotNull(lobbyStatus.getLobbySolo());
+        assertNull(lobbyStatus.getLobbyTeam());
+        assertEquals(lobbyStatus.getLobbySolo().getLeague(), league);
     }
     
     // Lobby team
@@ -132,7 +131,7 @@ public class LobbyWSTest extends InitBeforeTest {
     @Test
     public void shouldCreateTeamAndQuit() {
         createTeamAlone(whenP1());
-        checkStatus(whenP1(), LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
     }
     
     @Test(dependsOnMethods = "shouldCreateTeamAndQuit")
@@ -145,11 +144,11 @@ public class LobbyWSTest extends InitBeforeTest {
     @Test
     public void shouldCreateTeamAndEnterSolo() {
         createTeamAlone(whenP1());
-        checkStatus(whenP1(), LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         whenP1().getRequestSpecification()
                 .put(API_LOBBY + "/enter/" + LobbyLeagueEnum.REGULAR)
                 .then().statusCode(SC_OK);
-        checkStatus(whenP1(), LobbyStatus.SOLO, LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.SOLO, LobbyLeagueEnum.REGULAR);
     }
     
     @Test(dependsOnMethods = "shouldCreateTeamAndEnterSolo")
@@ -169,7 +168,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(ContentType.JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
-        checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         checkStatusOut(rs2);
     }
     
@@ -182,7 +181,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(ContentType.JSON)
                 .put(API_LOBBY + "/invite/user/" + userId + "/team")
                 .then().statusCode(SC_CONFLICT);
-        checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
     }
     
     @Test
@@ -193,7 +192,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(ContentType.JSON)
                 .put(API_LOBBY + "/invite/user/" + objId() + "/team")
                 .then().statusCode(SC_NOT_FOUND);
-        checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
     }
     
     @Test
@@ -207,7 +206,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(ContentType.JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
-        checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         checkStatusOut(rs2);
         
         Response resInvitations = rs2.getRequestSpecification()
@@ -230,8 +229,8 @@ public class LobbyWSTest extends InitBeforeTest {
         assertThat(invitations).hasSize(0);
         LobbyTeam team = readValue(resAccept, LobbyTeam.class);
         assertThat(team.getUserIds()).hasSize(2).contains(userId).contains(user2Id);
-        checkStatus(rs, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
-        checkStatus(rs2, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs2, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
     }
     
     @Test
@@ -510,7 +509,7 @@ public class LobbyWSTest extends InitBeforeTest {
     }
     
     private void checkStatusOut(Rs rs) {
-        checkStatus(rs, LobbyStatus.OUT, null);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.OUT, null);
     }
     
     @SneakyThrows
@@ -520,7 +519,7 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(ContentType.JSON)
                 .statusCode(SC_OK);
-        UserLobbyStatus userLobbyStatus = readValue(res, UserLobbyStatus.class);
+        manon.matchmaking.LobbyStatus userLobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
         switch (lobbyStatus) {
             case OUT:
                 assertNull(userLobbyStatus.getLobbySolo());
@@ -556,7 +555,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(ContentType.JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
-        checkStatus(rsLeader, LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rsLeader, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         checkStatusOut(rs2);
         
         Response resInvitations = rs2.getRequestSpecification()
