@@ -27,4 +27,5 @@ manon:
     UserSnapshotTask:
       user.chunk: 1000
       userSnapshot.maxAge: 30
+  mongodb.version: "3.4.10"
   security.bcrypt.strength: 6

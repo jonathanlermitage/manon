@@ -29,6 +29,11 @@
       "name": "manon.batch.UserSnapshotTask.userSnapshot.maxAge",
       "type": "java.lang.Integer",
       "description": "UserSnapshotTask: user snapshot max age in days."
+    },
+    {
+      "name": "manon.mongodb.version",
+      "type": "java.lang.String",
+      "description": "MongoDB version, used to configure test embedded database."
     }
   ]
 }
