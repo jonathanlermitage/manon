@@ -3,10 +3,6 @@
 
 spring:
   batch.job.enabled: false
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
   jpa.hibernate.ddl-auto: update
   http.converters.preferred-json-mapper: jackson
 

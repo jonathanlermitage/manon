@@ -1,12 +1,6 @@
    ### DEV CONFIGURATION for local unit testing ###  (warning: avoid tabs, indent with two spaces)
 
 spring:
-  data:
-    mongodb:
-      database: manontest
-      username: root
-      password: woot
-      authentication-database: manontest
   jpa.hibernate.ddl-auto: create
 
 manon:
