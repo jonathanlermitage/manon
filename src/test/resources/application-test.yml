@@ -7,6 +7,7 @@ spring:
       username: root
       password: woot
       authentication-database: manontest
+  jpa.hibernate.ddl-auto: create
 
 manon:
   security.bcrypt.strength: 4

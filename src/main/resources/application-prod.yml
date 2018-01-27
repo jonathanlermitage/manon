@@ -3,14 +3,13 @@
 spring:
   data:
     mongodb:
-      database: manonprod
-      username: MONGODB_USERNAME_HERE
-      password: MONGODB_PASSWORD_HERE
-      authentication-database: manonprod
-  jpa.hibernate.ddl-auto: update
+      database: ${MANON_PROD_MONGODB_DB_NAME}
+      username: ${MANON_PROD_MONGODB_USERNAME}
+      password: ${MANON_PROD_MONGODB_PASSWORD}
+      authentication-database: ${MANON_PROD_MONGODB_AUTH_DB_NAME}
 
 manon:
   admin:
     defaultAdmin:
-      username: MANON_ADMIN_USERNAME_HERE
-      password: MANON_ADMIN_PASSWORD_HERE
+      username: ${MANON_PROD_ADMIN_USERNAME}
+      password: ${MANON_PROD_ADMIN_PASSWORD}
