@@ -44,7 +44,7 @@
         <!-- Misc -->
         <streamex.version>0.6.5</streamex.version>
         <jool.version>0.9.12</jool.version>
-        <kotlin-stdlib.version>1.2.10</kotlin-stdlib.version>
+        <kotlin-stdlib.version>1.2.21</kotlin-stdlib.version>
 
         <!-- Testing -->
         <assertj-core.version>3.9.0</assertj-core.version>
@@ -55,10 +55,10 @@
         <mockito-core.version>2.13.0</mockito-core.version>
 
         <!-- JSON -->
-        <jackson.version>2.9.3</jackson.version>
-        <jackson-annotations.version>2.9.3</jackson-annotations.version>
-        <jackson-databind.version>2.9.3</jackson-databind.version>
-        <jackson-module-kotlin.version>2.9.3</jackson-module-kotlin.version>
+        <jackson.version>2.9.4</jackson.version>
+        <jackson-annotations.version>2.9.4</jackson-annotations.version>
+        <jackson-databind.version>2.9.4</jackson-databind.version>
+        <jackson-module-kotlin.version>2.9.4</jackson-module-kotlin.version>
 
         <!-- SQL -->
         <mariadb.version>2.2.1</mariadb.version>
@@ -77,9 +77,10 @@
 
         <!-- Spring -->
         <spring-boot.version>2.0.0.M7</spring-boot.version>
-        <spring-framework.version>5.0.2.RELEASE</spring-framework.version>
-        <spring-security-config.version>5.0.0.RELEASE</spring-security-config.version>
-        <spring-security-web.version>5.0.0.RELEASE</spring-security-web.version>
+        <spring-framework.version>5.0.3.RELEASE</spring-framework.version>
+        <spring-security-core.version>5.0.1.RELEASE</spring-security-core.version>
+        <spring-security-config.version>5.0.1.RELEASE</spring-security-config.version>
+        <spring-security-web.version>5.0.1.RELEASE</spring-security-web.version>
         <spring-batch-test.version>4.0.0.RELEASE</spring-batch-test.version>
 
     </properties>
@@ -218,6 +219,11 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Spring Security. -->
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security-core.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
