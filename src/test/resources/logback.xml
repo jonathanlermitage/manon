@@ -114,7 +114,28 @@
         <appender-ref ref="FILE_ALL_TRACE"/>
         <appender-ref ref="CONSOLE_ALL_TRACE"/>
     </logger>
-    <logger name="org.hibernate" level="INFO">
+    <logger name="org.springframework.context.annotation.ConfigurationClassEnhancer" level="ERROR">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+    <logger name="org.hibernate" level="WARN">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+
+    <logger name="de.flapdoodle.embed" level="ERROR">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+    <logger name="org.springframework.boot.autoconfigure.mongo.embedded" level="ERROR">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+    <logger name="org.springframework.web.context.ContextLoader" level="ERROR">
+        <appender-ref ref="FILE_ALL_TRACE"/>
+        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+    </logger>
+    <logger name="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" level="ERROR">
         <appender-ref ref="FILE_ALL_TRACE"/>
         <appender-ref ref="CONSOLE_ALL_TRACE"/>
     </logger>
