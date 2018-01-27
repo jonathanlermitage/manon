@@ -13,6 +13,10 @@ import java.util.GregorianCalendar;
  */
 public final class Tools {
     
+    public static final String MDC_KEY_ENV = "env";
+    public static final String MDC_KEY_REQUEST_ID = "r";
+    public static final String MDC_KEY_USER = "u";
+    
     /** {@value} media type. */
     public static final String MEDIA_JSON = "application/json";
     

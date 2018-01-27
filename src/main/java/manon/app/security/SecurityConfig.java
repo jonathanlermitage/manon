@@ -2,9 +2,12 @@ package manon.app.security;
 
 import manon.user.UserAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -20,7 +23,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     private static final String ADMIN = UserAuthority.ADMIN.name();
     private static final String PLAYER = UserAuthority.PLAYER.name();
@@ -29,7 +32,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final UserLoaderService userLoaderService;
     
     @Autowired
-    public WebSecurity(UserLoaderService userLoaderService, PasswordEncoderService passwordEncoderService) {
+    public SecurityConfig(UserLoaderService userLoaderService, PasswordEncoderService passwordEncoderService) {
         this.userLoaderService = userLoaderService;
         this.passwordEncoderService = passwordEncoderService;
     }
@@ -60,7 +63,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
     
     @Override
-    public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) {
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers(OPTIONS, "/**")
                 .antMatchers(GET, "/static/**");
@@ -69,5 +72,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userLoaderService).passwordEncoder(passwordEncoderService.getEncoder());
+    }
+    
+    @Bean
+    public FilterRegistrationBean getFilterRegistrationBean() {
+        FilterRegistrationBean<LoggingFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new LoggingFilter());
+        registration.addUrlPatterns("/*");
+        registration.setOrder(1);
+        return registration;
     }
 }

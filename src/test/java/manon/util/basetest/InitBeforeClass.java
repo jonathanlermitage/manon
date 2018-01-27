@@ -13,6 +13,7 @@ import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserAdminService;
 import manon.user.service.UserService;
 import manon.util.Tools;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static java.lang.System.currentTimeMillis;
+import static manon.util.Tools.MDC_KEY_ENV;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
@@ -92,7 +94,9 @@ public abstract class InitBeforeClass extends BaseTests {
             registrationService.activate(registrationService.registerPlayer(makeName(idx), makePwd(idx)).getId());
         }
         userCount = userService.count();
-        log.debug("(Unit Test) called initDb from test class {}, took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
+        MDC.put(MDC_KEY_ENV, "testng");
+        log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
+        MDC.clear();
     }
     
     public String makeName(int idx) {

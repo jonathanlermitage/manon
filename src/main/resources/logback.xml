@@ -9,15 +9,15 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
-        <file>logs/manon-core-error.log</file>
+        <file>logs/manon-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/manon-core-error_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/manon-error_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
             <totalSizeCap>4GB</totalSizeCap>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -29,15 +29,15 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
-        <file>logs/manon-core-warn.log</file>
+        <file>logs/manon-warn.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/manon-core-warn_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/manon-warn_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
             <totalSizeCap>4GB</totalSizeCap>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -49,15 +49,15 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
-        <file>logs/manon-core-info.log</file>
+        <file>logs/manon-info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/manon-core-info_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/manon-info_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
             <totalSizeCap>4GB</totalSizeCap>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -69,35 +69,35 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
-        <file>logs/manon-core-debug.log</file>
+        <file>logs/manon-debug.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/manon-core-debug_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/manon-debug_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
             <totalSizeCap>4GB</totalSizeCap>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
         </encoder>
     </appender>
 
     <appender name="FILE_ALL_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/manon-core-all.log</file>
+        <file>logs/manon-all.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/manon-core-all_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/manon-all_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
             <totalSizeCap>4GB</totalSizeCap>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L - %msg%n</Pattern>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
         </encoder>
     </appender>
 
     <appender name="CONSOLE_ALL_TRACE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!-- See http://logback.qos.ch/manual/layouts.html -->
-            <pattern>%d{HH:mm:ss} %-5p %c{30}:%L - %m%n</pattern>
+            <pattern>%d{HH:mm:ss} %-5p %c{30}:%L [%mdc] %m%n</pattern>
         </encoder>
     </appender>
 
