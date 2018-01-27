@@ -3,6 +3,8 @@
 spring:
   data:
     mongodb:
+      host: localhost
+      port: 27017
       database: manondev
       username: root
       password: woot

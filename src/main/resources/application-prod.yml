@@ -3,6 +3,8 @@
 spring:
   data:
     mongodb:
+      host: ${MANON_PROD_MONGODB_HOST}
+      port: ${MANON_PROD_MONGODB_PORT}
       database: ${MANON_PROD_MONGODB_DB_NAME}
       username: ${MANON_PROD_MONGODB_USERNAME}
       password: ${MANON_PROD_MONGODB_PASSWORD}
