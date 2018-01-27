@@ -1,4 +1,5 @@
-*WIP*
+[![Build status](https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true)](https://ci.appveyor.com/project/jonathanlermitage/manon) 
+[![license](https://img.shields.io/github/license/jonathanlermitage/manon.svg)](https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt)
 
 Some experimentation with Spring Boot 2, JDK9, NoSQL, etc.    
 For fun and to show some skills.
