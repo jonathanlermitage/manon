@@ -67,6 +67,16 @@ public class UserWSCtrlTest extends MockBeforeClass {
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    public void shouldVerifyReadVersion(Rs rs, Integer status) throws Exception {
+        rs.getRequestSpecification()
+                .body(new RegistrationForm())
+                .get(API_USER + "/version")
+                .then()
+                .statusCode(status);
+        verify(ws, status).readVersion(any());
+    }
+    
+    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdateField(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
                 .body(new UserUpdateForm())

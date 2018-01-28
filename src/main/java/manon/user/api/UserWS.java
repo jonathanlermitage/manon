@@ -60,12 +60,20 @@ public class UserWS {
         registrationService.delete(user.getUserId());
     }
     
-    /** Get user's user. */
+    /** Get user. */
     @GetMapping
     public User read(@AuthenticationPrincipal UserSimpleDetails user)
             throws UserNotFoundException {
         log.info("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
+    }
+    
+    /** Get user's version. */
+    @GetMapping("/version")
+    public long readVersion(@AuthenticationPrincipal UserSimpleDetails user)
+            throws UserNotFoundException {
+        log.info("user {} reads his version", user.getIdentity());
+        return userService.readVersionById(user.getUserId()).getVersion();
     }
     
     /** Update one user's user field. */

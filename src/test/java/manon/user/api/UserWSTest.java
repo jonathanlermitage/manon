@@ -130,7 +130,6 @@ public class UserWSTest extends InitBeforeTest {
                 .statusCode(SC_UNAUTHORIZED);
     }
     
-    /** Can't delete a deleted user. */
     @Test
     public void shouldNotDeleteTwice() throws Exception {
         whenP1().getRequestSpecification()
@@ -142,7 +141,6 @@ public class UserWSTest extends InitBeforeTest {
                 .statusCode(SC_UNAUTHORIZED);
     }
     
-    /** A user should be able to retrieve its own user data. */
     @Test
     public void shouldRead() throws Exception {
         Response res = whenP1().getRequestSpecification()
@@ -152,6 +150,17 @@ public class UserWSTest extends InitBeforeTest {
         User webUser = readValue(res, User.class);
         User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
         assertEquals(webUser, dbUser);
+    }
+    
+    @Test
+    public void shouldReadVersion() throws Exception {
+        Response res = whenP1().getRequestSpecification()
+                .get(API_USER + "/version");
+        res.then()
+                .statusCode(SC_OK);
+        Long webUserVersion = readValue(res, Long.class);
+        Long dbUserVersion = userService.readOne(userId(1)).getVersion();
+        assertEquals(webUserVersion, dbUserVersion);
     }
     
     @Test
@@ -201,7 +210,6 @@ public class UserWSTest extends InitBeforeTest {
         };
     }
     
-    /** Check user update's that don't respect their validators. */
     @Test(dataProvider = "dataProviderNotUpdateInvalidData")
     public void shouldNotUpdateInvalidData(UserFieldEnum field, Object value, String[] errMsg) {
         whenP1().getRequestSpecification()

@@ -1,6 +1,5 @@
 package manon.matchmaking.api;
 
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import lombok.SneakyThrows;
 import manon.matchmaking.LobbyLeagueEnum;
@@ -16,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static io.restassured.http.ContentType.JSON;
 import static manon.util.Tools.objId;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_CREATED;
@@ -47,7 +47,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = whenP1().getRequestSpecification()
                 .get(API_LOBBY + "/status");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
         assertEquals(lobbyStatus, manon.matchmaking.LobbyStatus.EMPTY);
@@ -61,7 +61,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = whenP1().getRequestSpecification()
                 .get(API_LOBBY + "/status");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
         assertNull(lobbyStatus.getLobbySolo());
@@ -118,7 +118,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = rs.getRequestSpecification()
                 .get(API_LOBBY + "/status");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
         assertNotNull(lobbyStatus.getLobbySolo());
@@ -165,7 +165,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamAlone(rs);
         String user2Id = userService.readByUsername(rs2.getUsername()).getId();
         rs.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
         checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
@@ -178,7 +178,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamAlone(rs);
         String userId = userService.readByUsername(rs.getUsername()).getId();
         rs.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + userId + "/team")
                 .then().statusCode(SC_CONFLICT);
         checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
@@ -189,7 +189,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Rs rs = whenP1();
         createTeamAlone(rs);
         rs.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + objId() + "/team")
                 .then().statusCode(SC_NOT_FOUND);
         checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
@@ -203,26 +203,26 @@ public class LobbyWSTest extends InitBeforeTest {
         String userId = userService.readByUsername(rs.getUsername()).getId();
         String user2Id = userService.readByUsername(rs2.getUsername()).getId();
         rs.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
         checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         checkStatusOut(rs2);
         
         Response resInvitations = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team/invitations");
         resInvitations.then().statusCode(SC_OK);
         TeamInvitationList invitations = readValue(resInvitations, TeamInvitationList.class);
         assertThat(invitations).hasSize(1);
         
         Response resAccept = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/accept/team/invitation/" + invitations.get(0).getId());
         resAccept.then().statusCode(SC_OK);
         
         resInvitations = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team/invitations");
         resInvitations.then().statusCode(SC_OK);
         invitations = readValue(resInvitations, TeamInvitationList.class);
@@ -242,7 +242,7 @@ public class LobbyWSTest extends InitBeforeTest {
         IntStream.rangeClosed(2, 7).parallel().forEach(s -> {
             String userId = userService.readByUsername(whenPX(s).getUsername()).getId();
             whenP1().getRequestSpecification()
-                    .contentType(ContentType.JSON)
+                    .contentType(JSON)
                     .put(API_LOBBY + "/invite/user/" + userId + "/team")
                     .then().statusCode(SC_OK);
         });
@@ -251,13 +251,13 @@ public class LobbyWSTest extends InitBeforeTest {
         IntStream.rangeClosed(2, 6).parallel().forEach(s -> {
             Rs rs = whenPX(s);
             Response resInvitations = rs.getRequestSpecification()
-                    .contentType(ContentType.JSON)
+                    .contentType(JSON)
                     .get(API_LOBBY + "/team/invitations");
             resInvitations.then().statusCode(SC_OK);
             TeamInvitationList invitations = readValue(resInvitations, TeamInvitationList.class);
             assertThat(invitations).hasSize(1);
             rs.getRequestSpecification()
-                    .contentType(ContentType.JSON)
+                    .contentType(JSON)
                     .put(API_LOBBY + "/accept/team/invitation/" + invitations.get(0).getId())
                     .then().statusCode(SC_OK);
         });
@@ -265,37 +265,37 @@ public class LobbyWSTest extends InitBeforeTest {
         // P7 can't enter since team is full
         Rs rs7 = whenPX(7);
         Response res7Invitations = rs7.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team/invitations");
         res7Invitations.then().statusCode(SC_OK);
         TeamInvitationList invitations7 = readValue(res7Invitations, TeamInvitationList.class);
         assertThat(invitations7).hasSize(1);
         rs7.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/accept/team/invitation/" + invitations7.get(0).getId())
                 .then().statusCode(SC_CONFLICT);
         
         // P3 leaves team, than P7 can now enter
         Response res3Invitations = rs3.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/quit");
         res3Invitations.then().statusCode(SC_OK);
         rs7.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/accept/team/invitation/" + invitations7.get(0).getId())
                 .then().statusCode(SC_OK);
         
         // check that P1 P2 P4 P5 P6 P7 are on the same team, and P3 is out
         Stream.of(whenP1(), whenP2(), whenPX(4), whenPX(5), whenPX(6), whenPX(7)).parallel().forEach(rs -> {
             Response res = rs.getRequestSpecification()
-                    .contentType(ContentType.JSON)
+                    .contentType(JSON)
                     .get(API_LOBBY + "/team");
             res.then().statusCode(SC_OK);
             LobbyTeam actualTeam = readValue(res, LobbyTeam.class);
             assertEquals(actualTeam.getId(), p1TeamId);
         });
         rs3.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team")
                 .then().statusCode(SC_NOT_FOUND);
     }
@@ -303,7 +303,7 @@ public class LobbyWSTest extends InitBeforeTest {
     @Test
     public void shouldNotAcceptUnknownInvitation() {
         whenP1().getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/accept/team/invitation/" + objId())
                 .then().statusCode(SC_NOT_FOUND);
     }
@@ -316,25 +316,25 @@ public class LobbyWSTest extends InitBeforeTest {
         String user2Id = userService.readByUsername(rs2.getUsername()).getId();
         String user3Id = userService.readByUsername(rs3.getUsername()).getId();
         Stream.of(user2Id, user3Id).parallel().forEach(s -> whenP1().getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + s + "/team")
                 .then().statusCode(SC_OK));
         
         Response res2Invitations = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team/invitations");
         res2Invitations.then().statusCode(SC_OK);
         TeamInvitationList invitations2 = readValue(res2Invitations, TeamInvitationList.class);
         assertThat(invitations2).hasSize(1);
         
         Response res3Invitations = rs3.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team/invitations");
         res3Invitations.then().statusCode(SC_OK);
         TeamInvitationList invitations3 = readValue(res3Invitations, TeamInvitationList.class);
         assertThat(invitations3).hasSize(1);
         rs3.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/accept/team/invitation/" + invitations2.get(0).getId())
                 .then().statusCode(SC_NOT_FOUND);
     }
@@ -346,7 +346,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/ready/" + ready);
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         LobbyTeam team = readValue(res, LobbyTeam.class);
         assertTrue(team.isReady() == ready);
@@ -358,7 +358,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamOfTwo(rs, whenP2());
         rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/ready/" + ready).then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
     }
     
@@ -368,7 +368,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamOfTwo(whenP1(), rs2);
         rs2.getRequestSpecification()
                 .put(API_LOBBY + "/team/ready/true").then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_CONFLICT);
     }
     
@@ -376,7 +376,7 @@ public class LobbyWSTest extends InitBeforeTest {
     public void shouldNotSetTeamReadyWhenNotInTeam() {
         whenP1().getRequestSpecification()
                 .put(API_LOBBY + "/team/ready/true").then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_NOT_FOUND);
     }
     
@@ -389,7 +389,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + user2Id);
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), user2Id);
@@ -404,7 +404,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + user1Id);
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), user1Id);
@@ -417,7 +417,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = whenP2().getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + user1Id);
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), user1Id);
@@ -434,16 +434,16 @@ public class LobbyWSTest extends InitBeforeTest {
                 .statusCode(SC_OK);
         
         rs.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team").then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_NOT_FOUND);
         
         Response res = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         LobbyTeam actualTeam = readValue(res, LobbyTeam.class);
         assertEquals(actualTeam.getLeader(), userId(2));
@@ -455,7 +455,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamOfTwo(whenP1(), rs2);
         rs2.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + userId(2)).then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_CONFLICT);
     }
     
@@ -465,7 +465,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamOfTwo(rs, whenP2());
         rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + userId(3)).then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_NOT_FOUND);
     }
     
@@ -476,7 +476,7 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamOfTwo(rs, whenP2());
         rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + userId(3)).then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_NOT_FOUND);
     }
     
@@ -489,14 +489,14 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + user2Id);
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         LobbyTeam team = readValue(res, LobbyTeam.class);
         assertEquals(team.getLeader(), user2Id);
         
         rs.getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + userId(2)).then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_CONFLICT);
     }
     
@@ -504,7 +504,7 @@ public class LobbyWSTest extends InitBeforeTest {
     public void shouldNotSetTeamLeaderWhenNotInTeam() {
         whenP1().getRequestSpecification()
                 .put(API_LOBBY + "/team/leader/" + userId(1)).then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_NOT_FOUND);
     }
     
@@ -517,7 +517,7 @@ public class LobbyWSTest extends InitBeforeTest {
         Response res = rs.getRequestSpecification()
                 .get(API_LOBBY + "/status");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         manon.matchmaking.LobbyStatus userLobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
         switch (lobbyStatus) {
@@ -542,7 +542,6 @@ public class LobbyWSTest extends InitBeforeTest {
     
     private LobbyTeam createTeamAlone(Rs rs) {
         Response res = rs.getRequestSpecification()
-                .contentType(ContentType.JSON)
                 .post(API_LOBBY + "/team/" + LobbyLeagueEnum.REGULAR);
         res.then().statusCode(SC_CREATED);
         return readValue(res, LobbyTeam.class);
@@ -552,21 +551,21 @@ public class LobbyWSTest extends InitBeforeTest {
         createTeamAlone(rsLeader);
         String user2Id = userService.readByUsername(rs2.getUsername()).getId();
         rsLeader.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
         checkStatus(rsLeader, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
         checkStatusOut(rs2);
         
         Response resInvitations = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .get(API_LOBBY + "/team/invitations");
         resInvitations.then().statusCode(SC_OK);
         TeamInvitationList invitations = readValue(resInvitations, TeamInvitationList.class);
         assertThat(invitations).hasSize(1);
         
         Response resAccept = rs2.getRequestSpecification()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .put(API_LOBBY + "/accept/team/invitation/" + invitations.get(0).getId());
         resAccept.then().statusCode(SC_OK);
     }

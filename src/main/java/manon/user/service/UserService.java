@@ -4,6 +4,7 @@ import com.mongodb.DuplicateKeyException;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
+import manon.user.document.UserVersion;
 import manon.user.form.UserFieldEnum;
 import manon.user.form.UserUpdateForm;
 import manon.user.registration.RegistrationStateEnum;
@@ -27,6 +28,8 @@ public interface UserService {
     User readByUsername(String username) throws UsernameNotFoundException;
     
     Optional<User> findByUsername(String username);
+    
+    UserVersion readVersionById(String id) throws UserNotFoundException;
     
     /**
      * Update a user's field.

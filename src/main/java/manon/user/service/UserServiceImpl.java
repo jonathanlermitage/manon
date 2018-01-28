@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
+import manon.user.document.UserVersion;
 import manon.user.form.UserUpdateForm;
 import manon.user.registration.RegistrationStateEnum;
 import manon.user.repository.UserRepository;
@@ -61,6 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User readByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+    
+    @Override
+    public UserVersion readVersionById(String id) throws UserNotFoundException {
+        return userRepository.findVersionById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
     
     @Override

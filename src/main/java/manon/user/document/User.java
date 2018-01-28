@@ -41,7 +41,7 @@ import static manon.util.Tools.DATE_FORMAT;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public final class User implements Serializable {
+public final class User implements Serializable, UserVersion {
     
     @Id
     private String id;

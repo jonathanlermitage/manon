@@ -1,4 +1,5 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true)](https://ci.appveyor.com/project/jonathanlermitage/manon) 
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true)](https://ci.appveyor.com/project/jonathanlermitage/manon) 
+[![Travis Build status](https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5)](https://travis-ci.org/jonathanlermitage/manon) 
 [![license](https://img.shields.io/github/license/jonathanlermitage/manon.svg)](https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt)
 
 Some experimentation with Spring Boot 2, JDK9, NoSQL, etc.    
