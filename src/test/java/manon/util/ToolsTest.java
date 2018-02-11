@@ -47,4 +47,27 @@ public class ToolsTest {
     public void shouldVerifyShortenLog(Object input, Object expected) {
         assertEquals(Tools.shortenLog(input), expected);
     }
+    
+    @DataProvider(name = "dataProviderShortenAndAnonymizeLog")
+    public Object[][] dataProviderShortenAndAnonymizeLog() {
+        return new Object[][]{
+                {"abc", "***"},
+                {repeat("a", 200), "******************************... (long string, length=200)"},
+                {repeat("ab", 100), "******************************... (long string, length=200)"},
+                {repeat("A", 250), "******************************... (long string, length=250)"},
+                {null, "null"},
+                {1, "*"},
+                {1000, "****"},
+                {1000.1, "******"},
+                {UserFieldEnum.EMAIL, "*****"},
+                {UserFieldEnum.NICKNAME, "********"},
+                {LobbyLeagueEnum.COMPETITIVE, "***********"},
+                {LobbyLeagueEnum.REGULAR, "*******"}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderShortenAndAnonymizeLog")
+    public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
+        assertEquals(Tools.shortenAndAnonymizeLog(input), expected);
+    }
 }

@@ -1,12 +1,12 @@
 {
   "properties": [
     {
-      "name": "manon.admin.defaultAdmin.username",
+      "name": "manon.admin.default-admin.username",
       "type": "java.lang.String",
       "description": "An admin user is created in database with this username if no admin found in database during start-up."
     },
     {
-      "name": "manon.admin.defaultAdmin.password",
+      "name": "manon.admin.default-admin.password",
       "type": "java.lang.String",
       "description": "An admin user is created in database with this password if no admin found in database during start-up."
     },
@@ -21,14 +21,14 @@
       "description": "Start matchmaking job on this server."
     },
     {
-      "name": "manon.batch.UserSnapshotTask.user.chunk",
+      "name": "manon.batch.user-snapshot.user.chunk",
       "type": "java.lang.Integer",
-      "description": "UserSnapshotTask: user chunk size."
+      "description": "user chunk size."
     },
     {
-      "name": "manon.batch.UserSnapshotTask.userSnapshot.maxAge",
+      "name": "manon.batch.user-snapshot.snapshot.max-age",
       "type": "java.lang.Integer",
-      "description": "UserSnapshotTask: user snapshot max age in days."
+      "description": "user snapshot max age in days."
     },
     {
       "name": "manon.mongodb.version",

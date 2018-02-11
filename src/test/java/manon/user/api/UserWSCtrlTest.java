@@ -5,9 +5,6 @@ import manon.user.form.UserUpdateForm;
 import manon.user.registration.form.RegistrationForm;
 import manon.util.basetest.MockBeforeClass;
 import manon.util.basetest.Rs;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -16,14 +13,6 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 
 public class UserWSCtrlTest extends MockBeforeClass {
-    
-    @MockBean
-    private UserWS ws;
-    
-    @BeforeMethod
-    private void clearInvocations() {
-        Mockito.clearInvocations(ws);
-    }
     
     @DataProvider
     public Object[][] dataProviderRegister() {
@@ -42,7 +31,7 @@ public class UserWSCtrlTest extends MockBeforeClass {
                 .post(API_USER)
                 .then()
                 .statusCode(status);
-        verify(ws, status).register(any(), any());
+        verify(userWs, status).register(any(), any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -53,7 +42,7 @@ public class UserWSCtrlTest extends MockBeforeClass {
                 .delete(API_USER)
                 .then()
                 .statusCode(status);
-        verify(ws, status).delete(any());
+        verify(userWs, status).delete(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -63,7 +52,7 @@ public class UserWSCtrlTest extends MockBeforeClass {
                 .get(API_USER)
                 .then()
                 .statusCode(status);
-        verify(ws, status).read(any());
+        verify(userWs, status).read(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -73,7 +62,7 @@ public class UserWSCtrlTest extends MockBeforeClass {
                 .get(API_USER + "/version")
                 .then()
                 .statusCode(status);
-        verify(ws, status).readVersion(any());
+        verify(userWs, status).readVersion(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -84,7 +73,7 @@ public class UserWSCtrlTest extends MockBeforeClass {
                 .put(API_USER + "/field")
                 .then()
                 .statusCode(status);
-        verify(ws, status).updateField(any(), any(), any());
+        verify(userWs, status).updateField(any(), any(), any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -95,6 +84,6 @@ public class UserWSCtrlTest extends MockBeforeClass {
                 .put(API_USER + "/password")
                 .then()
                 .statusCode(status);
-        verify(ws, status).updatePassword(any(), any(), any());
+        verify(userWs, status).updatePassword(any(), any(), any());
     }
 }

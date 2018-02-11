@@ -2,23 +2,12 @@ package manon.user.friendship.api;
 
 import manon.util.basetest.MockBeforeClass;
 import manon.util.basetest.Rs;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 public class FriendshipWSCtrlTest extends MockBeforeClass {
-    
-    @MockBean
-    private FriendshipWS ws;
-    
-    @BeforeMethod
-    private void clearInvocations() {
-        Mockito.clearInvocations(ws);
-    }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyAskFriendship(Rs rs, Integer status) throws Exception {
@@ -27,7 +16,7 @@ public class FriendshipWSCtrlTest extends MockBeforeClass {
                 .post(API_USER + "/askfriendship/user/{id}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).askFriendship(any(), eq(FAKE_ID));
+        verify(friendshipWS, status).askFriendship(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -37,7 +26,7 @@ public class FriendshipWSCtrlTest extends MockBeforeClass {
                 .post(API_USER + "/acceptfriendship/user/{id}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).acceptFriendshipRequest(any(), eq(FAKE_ID));
+        verify(friendshipWS, status).acceptFriendshipRequest(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -47,7 +36,7 @@ public class FriendshipWSCtrlTest extends MockBeforeClass {
                 .post(API_USER + "/rejectfriendship/user/{id}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).rejectFriendshipRequest(any(), eq(FAKE_ID));
+        verify(friendshipWS, status).rejectFriendshipRequest(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -57,7 +46,7 @@ public class FriendshipWSCtrlTest extends MockBeforeClass {
                 .post(API_USER + "/cancelfriendship/user/{id}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).cancelFriendshipRequest(any(), eq(FAKE_ID));
+        verify(friendshipWS, status).cancelFriendshipRequest(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -67,6 +56,6 @@ public class FriendshipWSCtrlTest extends MockBeforeClass {
                 .post(API_USER + "/revokefriendship/user/{id}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).revokeFriendship(any(), eq(FAKE_ID));
+        verify(friendshipWS, status).revokeFriendship(any(), eq(FAKE_ID));
     }
 }

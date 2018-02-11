@@ -2,9 +2,6 @@ package manon.matchmaking.api;
 
 import manon.util.basetest.MockBeforeClass;
 import manon.util.basetest.Rs;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static manon.matchmaking.LobbyLeagueEnum.REGULAR;
@@ -13,21 +10,13 @@ import static org.mockito.ArgumentMatchers.eq;
 
 public class LobbyWSCtrlTest extends MockBeforeClass {
     
-    @MockBean
-    private LobbyWS ws;
-    
-    @BeforeMethod
-    private void clearInvocations() {
-        Mockito.clearInvocations(ws);
-    }
-    
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyGetStatus(Rs rs, Integer status) {
         rs.getRequestSpecification()
                 .get(API_LOBBY + "/status")
                 .then()
                 .statusCode(status);
-        verify(ws, status).getStatus(any());
+        verify(lobbyWS, status).getStatus(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -36,7 +25,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .put(API_LOBBY + "/quit")
                 .then()
                 .statusCode(status);
-        verify(ws, status).quit(any());
+        verify(lobbyWS, status).quit(any());
     }
     
     // Lobby solo
@@ -48,7 +37,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .put(API_LOBBY + "/enter/{league}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).enter(any(), eq(REGULAR));
+        verify(lobbyWS, status).enter(any(), eq(REGULAR));
     }
     
     // Lobby team
@@ -60,7 +49,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .post(API_LOBBY + "/team/{league}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).createTeamAndEnter(any(), eq(REGULAR));
+        verify(lobbyWS, status).createTeamAndEnter(any(), eq(REGULAR));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -70,7 +59,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .put(API_LOBBY + "/invite/user/{userId}/team")
                 .then()
                 .statusCode(status);
-        verify(ws, status).inviteToTeam(any(), eq(FAKE_ID));
+        verify(lobbyWS, status).inviteToTeam(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -79,7 +68,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .get(API_LOBBY + "/team/invitations")
                 .then()
                 .statusCode(status);
-        verify(ws, status).getTeamInvitations(any());
+        verify(lobbyWS, status).getTeamInvitations(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -89,7 +78,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .put(API_LOBBY + "/accept/team/invitation/{invitationId}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).acceptTeamInvitation(any(), eq(FAKE_ID));
+        verify(lobbyWS, status).acceptTeamInvitation(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -98,7 +87,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .get(API_LOBBY + "/team")
                 .then()
                 .statusCode(status);
-        verify(ws, status).getTeam(any());
+        verify(lobbyWS, status).getTeam(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -108,7 +97,7 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .put(API_LOBBY + "/team/ready/{ready}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).markTeamReady(any(), eq(FAKE_BOOL));
+        verify(lobbyWS, status).markTeamReady(any(), eq(FAKE_BOOL));
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -118,6 +107,6 @@ public class LobbyWSCtrlTest extends MockBeforeClass {
                 .put(API_LOBBY + "/team/leader/{newLeaderUserId}")
                 .then()
                 .statusCode(status);
-        verify(ws, status).setTeamLeader(any(), eq(FAKE_ID));
+        verify(lobbyWS, status).setTeamLeader(any(), eq(FAKE_ID));
     }
 }

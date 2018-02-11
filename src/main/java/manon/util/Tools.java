@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static org.apache.commons.lang3.StringUtils.repeat;
+
 /**
  * Utility methods related to now and time.
  */
@@ -75,6 +77,17 @@ public final class Tools {
             return str.substring(0, 30) + "... (long string, length=" + str.length() + ")";
         }
         return str;
+    }
+    
+    public static String shortenAndAnonymizeLog(Object obj) {
+        if (obj == null) {
+            return "null";
+        }
+        String str = obj.toString();
+        if (str.length() > 100) {
+            return repeat("*", 30) + "... (long string, length=" + str.length() + ")";
+        }
+        return repeat("*", str.length());
     }
     
     /** Get a new MongoDB ObjectId as String. */

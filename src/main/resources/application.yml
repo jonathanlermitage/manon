@@ -20,12 +20,12 @@ management:
 
 manon:
   admin:
-    defaultAdmin:
+    default-admin:
       username: ROOT
       password: woot
   batch:
-    UserSnapshotTask:
+    user-snapshot:
       user.chunk: 1000
-      userSnapshot.maxAge: 30
-  mongodb.version: "3.4.10"
+      snapshot.max-age: 30
+  mongodb.version: "3.4.13"
   security.bcrypt.strength: 6

@@ -1,4 +1,4 @@
-package manon.snapshot.batch;
+package manon.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
@@ -10,7 +10,7 @@ import static org.springframework.batch.core.BatchStatus.COMPLETED;
 
 @Component
 @Slf4j
-public class UserSnapshotTaskListener extends JobExecutionListenerSupport {
+public class TaskListener extends JobExecutionListenerSupport {
     
     @Override
     public void afterJob(JobExecution jobExecution) {

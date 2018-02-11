@@ -1,31 +1,26 @@
 package manon.user.repository;
 
 import com.mongodb.client.result.UpdateResult;
+import lombok.RequiredArgsConstructor;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.form.UserFieldEnum;
 import manon.user.friendship.FriendshipEvent;
 import manon.user.registration.RegistrationStateEnum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static java.util.Collections.singletonList;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Repository
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
     
     private final MongoTemplate mongoTemplate;
-    
-    @Autowired
-    public UserRepositoryImpl(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
     
     @Override
     public void updateField(String id, UserFieldEnum field, Object value) throws UserNotFoundException {
@@ -45,7 +40,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .addToSet("friendshipRequestsFrom", userIdFrom)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.TARGET_SENT_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
         verify(userIdFrom, mongoTemplate.updateFirst(
@@ -54,7 +49,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .addToSet("friendshipRequestsTo", userIdTo)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.YOU_SENT_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
     }
@@ -68,7 +63,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .addToSet("friends", userIdFrom)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.YOU_ACCEPTED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
         verify(userIdFrom, mongoTemplate.updateFirst(
@@ -78,7 +73,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .addToSet("friends", userIdTo)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.TARGET_ACCEPTED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
     }
@@ -91,7 +86,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .pull("friendshipRequestsFrom", userIdFrom)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.YOU_REJECTED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
         verify(userIdFrom, mongoTemplate.updateFirst(
@@ -100,7 +95,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .pull("friendshipRequestsTo", userIdTo)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.TARGET_REJECTED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
     }
@@ -113,7 +108,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .pull("friendshipRequestsFrom", userIdFrom)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.TARGET_CANCELED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
         verify(userIdFrom, mongoTemplate.updateFirst(
@@ -122,7 +117,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .pull("friendshipRequestsTo", userIdTo)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.YOU_CANCELED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
     }
@@ -135,7 +130,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .pull("friends", userIdFrom)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.TARGET_REVOKED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
         verify(userIdFrom, mongoTemplate.updateFirst(
@@ -144,7 +139,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .pull("friends", userIdTo)
                         .addToSet("friendshipEvents", FriendshipEvent.builder()
                                 .event(FriendshipEvent.Code.YOU_REVOKED_FRIEND_REQUEST)
-                                .params(singletonList(userIdFrom))
+                                .params(List.of(userIdFrom))
                                 .build()),
                 User.class));
     }

@@ -2,6 +2,7 @@ package manon.util.basetest;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -120,7 +121,9 @@ public abstract class InitBeforeClass extends BaseTests {
     //
     
     public Rs whenAnonymous() {
-        return new Rs(RestAssured.given().auth().none(), "", "");
+        return new Rs(RestAssured.given()
+                .header("X-Request-Id", "0x-1")
+                .auth().none(), "", "");
     }
     
     public Rs whenAdmin() {
@@ -130,9 +133,10 @@ public abstract class InitBeforeClass extends BaseTests {
     /** When player n°humanId, where humanId is an index starting at 1. */
     public Rs whenPX(int humanId) {
         int idx = humanId - 1;
-        return new Rs(RestAssured.given().auth().basic(
-                makeName(idx), makePwd(idx)),
-                makeName(idx), makePwd(idx));
+        RequestSpecification rs = RestAssured.given()
+                .header("X-Request-Id", "0x" + idx)
+                .auth().basic(makeName(idx), makePwd(idx));
+        return new Rs(rs, makeName(idx), makePwd(idx));
     }
     
     /** When player 1. */

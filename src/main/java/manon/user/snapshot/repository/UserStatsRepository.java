@@ -1,6 +1,6 @@
-package manon.snapshot.repository;
+package manon.user.snapshot.repository;
 
-import manon.snapshot.document.UsersStats;
+import manon.user.snapshot.document.UsersStats;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

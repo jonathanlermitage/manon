@@ -8,7 +8,6 @@ import manon.util.basetest.InitBeforeClass;
 import manon.util.web.UserPage;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
@@ -101,7 +100,7 @@ public class UserAdminWSTest extends InitBeforeClass {
     
     @Test
     public void shouldCycleRegistrationState() {
-        List<String> uids = Arrays.asList(userId(1), userId(2));
+        List<String> uids = List.of(userId(1), userId(2));
         for (String uid : uids) {
             whenAdmin().getRequestSpecification()
                     .post(API_USER_ADMIN + "/" + uid + "/suspend")

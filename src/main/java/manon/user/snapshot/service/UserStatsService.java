@@ -1,6 +1,6 @@
-package manon.snapshot.service;
+package manon.user.snapshot.service;
 
-import manon.snapshot.document.UsersStats;
+import manon.user.snapshot.document.UsersStats;
 
 import java.util.List;
 

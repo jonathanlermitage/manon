@@ -1,8 +1,8 @@
-package manon.snapshot.service;
+package manon.user.snapshot.service;
 
 import lombok.RequiredArgsConstructor;
-import manon.snapshot.document.UsersStats;
-import manon.snapshot.repository.UserStatsRepository;
+import manon.user.snapshot.document.UsersStats;
+import manon.user.snapshot.repository.UserStatsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

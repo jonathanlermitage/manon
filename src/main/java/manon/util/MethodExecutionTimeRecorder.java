@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -33,8 +32,7 @@ import static manon.app.config.SpringProfiles.METRICS;
 @Profile(METRICS)
 public class MethodExecutionTimeRecorder {
     
-    private static final Map<String, ServiceStats> allStats = new HashMap<>();
-    private static final Map<String, ServiceStats> hourlyStats = new HashMap<>();
+    private static final Map<String, ServiceStats> stats = new HashMap<>();
     
     /**
      * Collect execution time on every WS class methods.
@@ -50,51 +48,30 @@ public class MethodExecutionTimeRecorder {
         }
         Method method = MethodSignature.class.cast(point.getSignature()).getMethod();
         signature += ":" + method.getName() + Arrays.toString(stream(method.getParameterTypes()).map(Class::getSimpleName).toArray());
-        saveTime(allStats, signature, execTime);
-        saveTime(hourlyStats, signature, execTime);
+        saveTime(stats, signature, execTime);
         return result;
     }
     
     /**
-     * Log and return all collected statistics (since application start).
+     * Log and return collected statistics since application start.
      * @return statistics as readable text.
      */
-    public static String showAllStats() {
-        return showStats(allStats, "All stats");
-    }
-    
-    /**
-     * Log and return all collected statistics (since application start).
-     * Also, this method is execute hourly.
-     */
-    @Scheduled(fixedRate = 3600_000, initialDelay = 3600_000)
-    public static void showAllStatsJob() {
-        showStats(allStats, "All stats");
-    }
-    
-    /**
-     * Log, return hourly collected statistics and reset them.
-     * Also, this method is execute hourly.
-     */
-    @Scheduled(fixedRate = 3600_000, initialDelay = 3600_000)
-    public static void showHourlyStatsJob() {
-        showStats(hourlyStats, "Last hour stats");
-        hourlyStats.clear();
+    public static String showStats() {
+        return showStats(stats);
     }
     
     /**
      * Log and return given statistics.
      * @param stats statistics.
-     * @param title a title to append to readable text.
      * @return statistics as readable text.
      */
     @Synchronized
-    private static String showStats(Map<String, ServiceStats> stats, String title) {
+    private static String showStats(Map<String, ServiceStats> stats) {
         List<ServiceStats> view = new ArrayList<>(stats.values());
         view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
         StringBuilder buff = new StringBuilder(2048);
-        buff.append(" calls     min     max     total     avg  median  name\n");
-        view.stream().map(s -> format("%6s %7s %7s   %7s %7s %7s  %s\n",
+        buff.append("\n calls     min     max     total     avg  median  name");
+        view.stream().map(s -> format("\n%6s %7s %7s   %7s %7s %7s  %s",
                 s.getCalls(),
                 s.getMinTime(),
                 s.getMaxTime(),
@@ -102,9 +79,7 @@ public class MethodExecutionTimeRecorder {
                 s.getTotalTime() / s.getCalls(),
                 ((long) median(s.getTimes())),
                 "m." + s.getService().replaceAll("\\[", "(").replaceAll("]", ")").substring("manon.".length()))).forEach(buff::append);
-        String lines = buff.toString();
-        log.info("\n" + title + " - services performance (ms): \n{}", lines);
-        return lines;
+        return "Services performance (ms):" + buff.toString();
     }
     
     /**

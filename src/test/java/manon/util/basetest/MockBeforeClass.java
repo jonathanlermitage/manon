@@ -1,6 +1,12 @@
 package manon.util.basetest;
 
+import manon.batch.api.TaskRunnerWS;
+import manon.matchmaking.api.LobbyWS;
+import manon.user.api.UserAdminWS;
+import manon.user.api.UserWS;
+import manon.user.friendship.api.FriendshipWS;
 import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.testng.annotations.BeforeMethod;
@@ -23,9 +29,25 @@ public abstract class MockBeforeClass extends InitBeforeClass {
         return 1;
     }
     
+    @MockBean
+    protected FriendshipWS friendshipWS;
+    @MockBean
+    protected LobbyWS lobbyWS;
+    @MockBean
+    protected TaskRunnerWS taskRunnerWS;
+    @MockBean
+    protected UserAdminWS userAdminWS;
+    @MockBean
+    protected UserWS userWs;
+    
     @BeforeMethod
     public void setUpMocks() {
         initMocks(this);
+        Mockito.clearInvocations(friendshipWS);
+        Mockito.clearInvocations(lobbyWS);
+        Mockito.clearInvocations(taskRunnerWS);
+        Mockito.clearInvocations(userAdminWS);
+        Mockito.clearInvocations(userWs);
     }
     
     public <T> T verify(T mock, int status) {

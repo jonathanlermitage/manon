@@ -16,10 +16,10 @@ public class UserAdminServiceImpl implements UserAdminService {
     private final UserService userService;
     private final RegistrationService registrationService;
     
-    @Value("${manon.admin.defaultAdmin.username}")
+    @Value("${manon.admin.default-admin.username}")
     private String adminUsername;
     
-    @Value("${manon.admin.defaultAdmin.password}")
+    @Value("${manon.admin.default-admin.password}")
     private String adminPassword;
     
     @Override

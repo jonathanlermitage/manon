@@ -12,6 +12,6 @@ spring:
 
 manon:
   admin:
-    defaultAdmin:
+    default-admin:
       username: ${MANON_PROD_ADMIN_USERNAME}
       password: ${MANON_PROD_ADMIN_PASSWORD}

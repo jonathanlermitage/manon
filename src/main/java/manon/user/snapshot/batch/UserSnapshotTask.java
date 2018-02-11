@@ -1,10 +1,12 @@
-package manon.snapshot.batch;
+package manon.user.snapshot.batch;
 
-import manon.snapshot.document.UserSnapshot;
-import manon.snapshot.document.UsersStats;
-import manon.snapshot.service.UserSnapshotService;
-import manon.snapshot.service.UserStatsService;
+import lombok.RequiredArgsConstructor;
+import manon.batch.listener.TaskListener;
 import manon.user.document.User;
+import manon.user.snapshot.document.UserSnapshot;
+import manon.user.snapshot.document.UsersStats;
+import manon.user.snapshot.service.UserSnapshotService;
+import manon.user.snapshot.service.UserStatsService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -19,49 +21,36 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.MongoItemReader;
 import org.springframework.batch.item.data.MongoItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import static java.util.Collections.singletonMap;
+import java.util.Map;
 
-/** Keep recent User snapshots, too old and recent ones are deleted, then create snapshot of all existing SpringProfiles. */
+/** Keep recent user snapshots, then create snapshot of all existing users. */
 @Configuration
 @EnableBatchProcessing
+@RequiredArgsConstructor
 public class UserSnapshotTask {
     
     public static final String JOB_NAME = "userSnapshotJob";
-    public static final String JOB_STEP0_NAME = "userSnapshotJobStepFlush";
-    public static final String JOB_STEP1_NAME = "userSnapshotJobStepSnapshot";
-    public static final String JOB_STEP2_NAME = "userSnapshotJobStepStats";
+    public static final String JOB_STEP0_KEEP_RECENT_NAME = "userSnapshotJobStepKeepRecent";
+    public static final String JOB_STEP1_SNAPSHOT_NAME = "userSnapshotJobStepSnapshot";
+    public static final String JOB_STEP2_STATS_NAME = "userSnapshotJobStepStats";
     
     private final MongoTemplate mongoTemplate;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
-    private final UserSnapshotTaskListener listener;
+    private final TaskListener listener;
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
     
-    @Value("${manon.batch.UserSnapshotTask.user.chunk}")
-    private Integer chunk;
-    @Value("${manon.batch.UserSnapshotTask.userSnapshot.maxAge}")
-    private Integer maxAge;
-    
-    @Autowired
-    public UserSnapshotTask(MongoTemplate mongoTemplate, JobBuilderFactory jfb, StepBuilderFactory sbf,
-                            UserSnapshotTaskListener listener,
-                            UserSnapshotService userSnapshotService,
-                            UserStatsService userStatsService) {
-        this.mongoTemplate = mongoTemplate;
-        this.jbf = jfb;
-        this.sbf = sbf;
-        this.listener = listener;
-        this.userSnapshotService = userSnapshotService;
-        this.userStatsService = userStatsService;
-    }
+    @Value("${manon.batch.user-snapshot.user.chunk}")
+    private int chunk;
+    @Value("${manon.batch.user-snapshot.snapshot.max-age}")
+    private int maxAge;
     
     @Bean
     @StepScope
@@ -71,7 +60,7 @@ public class UserSnapshotTask {
         reader.setTargetType(User.class);
         reader.setTemplate(mongoTemplate);
         reader.setQuery("{}");
-        reader.setSort(singletonMap("id", Sort.Direction.ASC));
+        reader.setSort(Map.of("id", Sort.Direction.ASC));
         return reader;
     }
     
@@ -89,16 +78,16 @@ public class UserSnapshotTask {
         return new UserItemProcessor();
     }
     
-    @Bean(JOB_STEP0_NAME)
-    public Step userSnapshotJobStepFlush() {
-        return sbf.get(JOB_STEP1_NAME)
+    @Bean(JOB_STEP0_KEEP_RECENT_NAME)
+    public Step userSnapshotJobStepKeepRecent() {
+        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
                 .tasklet(new FlushTasklet())
                 .build();
     }
     
-    @Bean(JOB_STEP1_NAME)
+    @Bean(JOB_STEP1_SNAPSHOT_NAME)
     public Step userSnapshotJobStepSnapshot() {
-        return sbf.get(JOB_STEP1_NAME)
+        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
                 .<User, UserSnapshot>chunk(chunk)
                 .reader(reader())
                 .processor(processor())
@@ -106,9 +95,9 @@ public class UserSnapshotTask {
                 .build();
     }
     
-    @Bean(JOB_STEP2_NAME)
+    @Bean(JOB_STEP2_STATS_NAME)
     public Step userSnapshotJobStepStats() {
-        return sbf.get(JOB_STEP1_NAME)
+        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
                 .tasklet(new StatsTasklet())
                 .build();
     }
@@ -118,7 +107,7 @@ public class UserSnapshotTask {
         return jbf.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .start(userSnapshotJobStepFlush())
+                .start(userSnapshotJobStepKeepRecent())
                 .next(userSnapshotJobStepSnapshot())
                 .next(userSnapshotJobStepStats())
                 .build();

@@ -1,8 +1,8 @@
-package manon.snapshot.service;
+package manon.user.snapshot.service;
 
 import lombok.RequiredArgsConstructor;
-import manon.snapshot.document.UserSnapshot;
-import manon.snapshot.repository.UserSnapshotRepository;
+import manon.user.snapshot.document.UserSnapshot;
+import manon.user.snapshot.repository.UserSnapshotRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;

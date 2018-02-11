@@ -1,4 +1,5 @@
 version: build-{build}.{branch}
+clone_depth: 10
 
 branches:
   only:
@@ -11,7 +12,10 @@ install:
   - SET PATH=C:\Program Files\Java\jdk9\bin;%PATH%
 
 build_script:
-  - mvnw clean package
+  - mvnw clean package -DskipTests
 
 test_script:
-  - mvnw clean test
+  - mvnw test
+
+cache:
+- C:\Users\appveyor\.m2

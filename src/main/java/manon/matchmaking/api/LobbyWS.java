@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.security.UserSimpleDetails;
 import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
-import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.document.TeamInvitation;
 import manon.matchmaking.service.LobbyService;
@@ -105,6 +105,7 @@ public class LobbyWS {
      */
     @GetMapping(value = "/team/invitations")
     public List<TeamInvitation> getTeamInvitations(@AuthenticationPrincipal UserSimpleDetails user) {
+        log.info("user {} gets his team invitations", user.getIdentity());
         return lobbyService.getTeamInvitations(user.getUserId());
     }
     

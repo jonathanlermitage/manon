@@ -1,6 +1,6 @@
-package manon.snapshot.service;
+package manon.user.snapshot.service;
 
-import manon.snapshot.document.UserSnapshot;
+import manon.user.snapshot.document.UserSnapshot;
 
 import java.util.Optional;
 

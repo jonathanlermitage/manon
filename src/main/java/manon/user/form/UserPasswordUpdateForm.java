@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static manon.util.Tools.shortenLog;
+import static manon.util.Tools.shortenAndAnonymizeLog;
 
 @Data
 @NoArgsConstructor
@@ -18,9 +18,9 @@ public class UserPasswordUpdateForm {
     @Override
     public String toString() {
         return "UserPasswordUpdateForm{" +
-                "oldPassword='" + shortenLog(oldPassword) + '\'' +
-                ", newPassword='" + shortenLog(newPassword) + '\'' +
-                ", newPasswordCheck='" + shortenLog(newPasswordCheck) + '\'' +
+                "oldPassword='" + shortenAndAnonymizeLog(oldPassword) + '\'' +
+                ", newPassword='" + shortenAndAnonymizeLog(newPassword) + '\'' +
+                ", newPasswordCheck='" + shortenAndAnonymizeLog(newPasswordCheck) + '\'' +
                 '}';
     }
 }

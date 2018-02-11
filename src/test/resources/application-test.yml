@@ -5,3 +5,6 @@ spring:
 
 manon:
   security.bcrypt.strength: 4
+  batch:
+    user-snapshot:
+      user.chunk: 10

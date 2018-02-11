@@ -10,10 +10,8 @@ import manon.user.registration.RegistrationStateEnum;
 import manon.user.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static java.util.Collections.singletonList;
 import static manon.user.UserAuthority.ADMIN;
 import static manon.user.UserAuthority.PLAYER;
 import static manon.user.registration.RegistrationStateEnum.ACTIVE;
@@ -60,7 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public User registerRoot(String username, String password)
             throws UserExistsException {
-        return register(Arrays.asList(ADMIN, PLAYER), username, password, ACTIVE);
+        return register(List.of(ADMIN, PLAYER), username, password, ACTIVE);
     }
     
     /**
@@ -73,7 +71,7 @@ public class RegistrationServiceImpl implements RegistrationService {
      */
     private User register(UserAuthority role, String username, String password, RegistrationStateEnum registrationState)
             throws UserExistsException {
-        return register(singletonList(role), username, password, registrationState);
+        return register(List.of(role), username, password, registrationState);
     }
     
     /**

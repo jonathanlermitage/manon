@@ -1,18 +1,18 @@
-package manon.snapshot.batch;
+package manon.user.snapshot.batch;
 
 import manon.batch.service.TaskRunnerService;
-import manon.snapshot.document.UserSnapshot;
-import manon.snapshot.document.UsersStats;
-import manon.snapshot.service.UserSnapshotService;
-import manon.snapshot.service.UserStatsService;
 import manon.user.service.UserService;
+import manon.user.snapshot.document.UserSnapshot;
+import manon.user.snapshot.document.UsersStats;
+import manon.user.snapshot.service.UserSnapshotService;
+import manon.user.snapshot.service.UserStatsService;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -35,16 +35,26 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
     @Autowired
     private UserStatsService userStatsService;
     
+    @Value("${manon.batch.user-snapshot.user.chunk}")
+    private int chunk;
+    @Value("${manon.batch.user-snapshot.snapshot.max-age}")
+    private int maxAge;
+    
     @Override
     public int getNumberOfUsers() {
-        return 100;
+        return chunk * NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY;
     }
     
     @Test
     public void shouldComplete() throws Exception {
+        assertEquals(chunk, 10);
+        assertEquals(maxAge, 30);
+        
         //GIVEN existing old, present, recent and future User snapshots
-        List<Integer> delays = Arrays.asList(-35, -25, -1, 0, 1, 25, 35);
+        List<Integer> delays = List.of(-1 - maxAge, 0 - maxAge, 1 - maxAge, 0, 1);
         List<UserSnapshot> userSnapshots = new ArrayList<>();
+        
+        // workaround: can't save custom creationDate at creation, do it at update
         for (int i = 0; i < delays.size(); i++) {
             userSnapshots.add(UserSnapshot.builder().build());
         }
@@ -53,9 +63,10 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
             userSnapshots.set(i, userSnapshots.get(i).toBuilder().creationDate(nowPlusDays(delays.get(i))).build());
         }
         userSnapshotService.save(userSnapshots);
+        
         long expectedTodayUserSnapshots = userService.count();
-        long expectedUserSnapshots = expectedTodayUserSnapshots + 2; // keep -25 and -1, other are old, present or future
-        for (int i = 0; i < 3; i++) {
+        long expectedUserSnapshots = expectedTodayUserSnapshots + 2; // keep 1 - maxAge and 0, other are too old, present or future
+        for (int i = 0; i < NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY; i++) {
             
             //WHEN run User snapshot job
             ExitStatus run = taskRunnerService.run(UserSnapshotTask.JOB_NAME);
@@ -65,7 +76,7 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
             assertEquals(userSnapshotService.countToday(), expectedTodayUserSnapshots);
             assertEquals(userSnapshotService.count(), expectedUserSnapshots);
             Stream.of(1, 2).forEach(idx -> assertThat(userSnapshotService.findOne(userSnapshots.get(idx).getId())).isPresent());
-            Stream.of(0, 3, 4, 5, 6).forEach(idx -> assertThat(userSnapshotService.findOne(userSnapshots.get(idx).getId())).isNotPresent());
+            Stream.of(0, 3, 4).forEach(idx -> assertThat(userSnapshotService.findOne(userSnapshots.get(idx).getId())).isNotPresent());
         }
         
         //THEN statistics are written

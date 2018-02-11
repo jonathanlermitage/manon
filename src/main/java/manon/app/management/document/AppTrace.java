@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -25,35 +24,37 @@ import static manon.util.Tools.DATE_FORMAT;
 @EqualsAndHashCode
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
-@NoArgsConstructor(access = PRIVATE)
 public final class AppTrace {
     
     @Id
     private String id;
     
+    /** Id associated to current application instance. */
+    @Indexed(background = true)
+    private String appId;
+    
     private String msg;
     
     @Indexed(background = true)
-    private LVL level;
+    private Level level;
     
     @Indexed(background = true)
-    private CAT cat;
+    private Event event;
     
     @Indexed(background = true)
     @JsonFormat(pattern = DATE_FORMAT)
     @CreatedDate
     private Date creationDate;
     
-    public enum LVL {
+    public enum Level {
         DEBUG,
         INFO,
         WARN,
         ERROR
     }
     
-    public enum CAT {
+    public enum Event {
         APP_START,
-        APP_STOP,
-        PERFORMANCE_STATS
+        UPTIME
     }
 }

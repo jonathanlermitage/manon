@@ -10,10 +10,10 @@ import manon.user.repository.UserRepository;
 public interface FriendshipService {
     
     /**
-     * Keep only {@link User.Validation#MAX_EVENTS} recent friendshipEvents on user.
-     * @param id user id.
+     * Keep only {@link User.Validation#MAX_EVENTS} recent friendshipEvents on users.
+     * @param ids users id.
      */
-    void keepEvents(String id) throws UserNotFoundException;
+    void keepEvents(String... ids) throws UserNotFoundException;
     
     /**
      * Add a friendship request between two users.

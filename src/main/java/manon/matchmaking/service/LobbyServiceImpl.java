@@ -3,13 +3,13 @@ package manon.matchmaking.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
 import manon.matchmaking.TeamLeaderOnlyException;
 import manon.matchmaking.TeamMemberNotFoundException;
 import manon.matchmaking.TeamNotFoundException;
-import manon.matchmaking.LobbyStatus;
 import manon.matchmaking.document.LobbySolo;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.document.TeamInvitation;
@@ -23,8 +23,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static java.util.Collections.singletonList;
 
 @Service
 @Slf4j
@@ -83,7 +81,7 @@ public class LobbyServiceImpl implements LobbyService {
         quit(userId);
         LobbyTeam team = LobbyTeam.builder()
                 .league(league)
-                .userIds(singletonList(userId))
+                .userIds(List.of(userId))
                 .leader(userId)
                 .build();
         lobbyTeamRepository.save(team);

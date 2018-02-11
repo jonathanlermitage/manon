@@ -6,4 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AppTraceRepository extends MongoRepository<AppTrace, String> {
+    
+    long countByAppId(String appId);
+    
+    void deleteByAppIdAndEvent(String appId, AppTrace.Event event);
+    
+    long countByAppIdAndEvent(String appId, AppTrace.Event event);
 }

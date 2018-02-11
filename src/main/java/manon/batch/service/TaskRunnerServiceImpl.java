@@ -1,7 +1,8 @@
 package manon.batch.service;
 
+import lombok.RequiredArgsConstructor;
 import manon.batch.TaskNotFoundException;
-import manon.snapshot.batch.UserSnapshotTask;
+import manon.user.snapshot.batch.UserSnapshotTask;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -12,34 +13,26 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Collections.unmodifiableMap;
-
 @Component
+@RequiredArgsConstructor
 public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerService {
     
     private final JobLauncher launcher;
-    private final Job userSnapshotJob;
-    private Map<String, Job> jobs;
     
-    @Autowired
-    public TaskRunnerServiceImpl(JobLauncher launcher, @Qualifier(UserSnapshotTask.JOB_NAME) Job userSnapshotJob) {
-        this.launcher = launcher;
-        this.userSnapshotJob = userSnapshotJob;
-    }
+    @Qualifier(UserSnapshotTask.JOB_NAME)
+    private final Job userSnapshotJob;
+    
+    private Map<String, Job> jobs;
     
     @Override
     public void afterPropertiesSet() {
-        Map<String, Job> jobs = new HashMap<>();
-        jobs.put(UserSnapshotTask.JOB_NAME, userSnapshotJob);
-        this.jobs = unmodifiableMap(jobs);
+        this.jobs = Map.of(UserSnapshotTask.JOB_NAME, userSnapshotJob);
     }
     
     @Override

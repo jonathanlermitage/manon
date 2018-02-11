@@ -20,8 +20,10 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final UserService userService;
     
     @Override
-    public void keepEvents(String id) throws UserNotFoundException {
-        userRepository.keepEvents(id, MAX_EVENTS);
+    public void keepEvents(String... ids) throws UserNotFoundException {
+        for (String id : ids) {
+            userRepository.keepEvents(id, MAX_EVENTS);
+        }
     }
     
     @Override
@@ -38,8 +40,7 @@ public class FriendshipServiceImpl implements FriendshipService {
             throw new FriendshipRequestExistsException(userIdFrom, userIdTo);
         }
         userRepository.askFriendship(userIdFrom, userIdTo);
-        keepEvents(userIdFrom);
-        keepEvents(userIdTo);
+        keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
@@ -49,28 +50,24 @@ public class FriendshipServiceImpl implements FriendshipService {
             throw new FriendshipRequestNotFoundException(userIdFrom, userIdTo);
         }
         userRepository.acceptFriendshipRequest(userIdFrom, userIdTo);
-        keepEvents(userIdFrom);
-        keepEvents(userIdTo);
+        keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
     public void rejectFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
         userRepository.rejectFriendshipRequest(userIdFrom, userIdTo);
-        keepEvents(userIdFrom);
-        keepEvents(userIdTo);
+        keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
     public void cancelFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
         userRepository.cancelFriendshipRequest(userIdFrom, userIdTo);
-        keepEvents(userIdFrom);
-        keepEvents(userIdTo);
+        keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
     public void revokeFriendship(String userIdFrom, String userIdTo) throws UserNotFoundException {
         userRepository.revokeFriendship(userIdFrom, userIdTo);
-        keepEvents(userIdFrom);
-        keepEvents(userIdTo);
+        keepEvents(userIdFrom, userIdTo);
     }
 }

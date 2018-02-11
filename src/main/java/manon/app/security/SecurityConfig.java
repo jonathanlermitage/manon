@@ -1,9 +1,8 @@
 package manon.app.security;
 
+import lombok.RequiredArgsConstructor;
 import manon.user.UserAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +22,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     private static final String ADMIN = UserAuthority.ADMIN.name();
@@ -31,26 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoderService passwordEncoderService;
     private final UserLoaderService userLoaderService;
     
-    @Autowired
-    public SecurityConfig(UserLoaderService userLoaderService, PasswordEncoderService passwordEncoderService) {
-        this.userLoaderService = userLoaderService;
-        this.passwordEncoderService = passwordEncoderService;
-    }
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and().authorizeRequests()
                 
-                .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
-                
                 .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
                 .antMatchers(API_TASK + "/**").hasAuthority(ADMIN)
-                
                 .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
+                
                 .antMatchers(POST, API_USER).permitAll() // user registration
                 .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
+                .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
                 
                 .antMatchers("/actuator").hasAuthority(ADMIN)
                 .antMatchers("/actuator/health").permitAll()
@@ -72,14 +65,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userLoaderService).passwordEncoder(passwordEncoderService.getEncoder());
-    }
-    
-    @Bean
-    public FilterRegistrationBean getFilterRegistrationBean() {
-        FilterRegistrationBean<LoggingFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(new LoggingFilter());
-        registration.addUrlPatterns("/*");
-        registration.setOrder(1);
-        return registration;
     }
 }

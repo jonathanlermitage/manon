@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static manon.util.Tools.shortenAndAnonymizeLog;
 import static manon.util.Tools.shortenLog;
 
 @Data
@@ -18,7 +19,7 @@ public class RegistrationForm {
     public String toString() {
         return "RegistrationForm{" +
                 "username='" + shortenLog(username) + '\'' +
-                ", password='" + shortenLog(password) + '\'' +
+                ", password='" + shortenAndAnonymizeLog(password) + '\'' +
                 '}';
     }
 }
