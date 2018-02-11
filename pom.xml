@@ -34,6 +34,10 @@
         <java.version>1.9</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <surefireArgLine>
+            -ea -Xms128m -Xmx512m -Dspring.profiles.active=test,metrics -Dfile.encoding=UTF-8
+            -Djava.awt.headless=true -XX:CompileThreshold=1500
+        </surefireArgLine>
 
         <!-- Annotation -->
         <lombok.version>1.16.20</lombok.version>
@@ -429,10 +433,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20.1</version>
                 <configuration>
-                    <argLine>
-                        -ea -Xms128m -Xmx512m -Dspring.profiles.active=test,metrics -Dfile.encoding=UTF-8
-                        -Djava.awt.headless=true -XX:CompileThreshold=1500
-                    </argLine>
+                    <argLine>${surefireArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
                 </configuration>
             </plugin>
@@ -448,4 +449,71 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>coverage</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.0</version>
+                        <executions>
+                            <execution>
+                                <id>pre-unit-test</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
+                                    <propertyName>coverageSurefireArgLine</propertyName>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>post-unit-test</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
+                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                                    <excludes>
+                                        <!-- model and DTO coverage is not relevant, so exclude it -->
+                                        <exclude>**/document/*</exclude>
+                                        <exclude>**/model/*</exclude>
+                                        <exclude>**/**Form.*</exclude>
+                                    </excludes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>default-report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.20.1</version>
+                        <configuration>
+                            <!--suppress MavenModelInspection -->
+                            <argLine>${surefireArgLine} ${coverageSurefireArgLine}</argLine>
+                            <workingDirectory>${project.build.directory}</workingDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

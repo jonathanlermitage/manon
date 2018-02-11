@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.user.UserAuthority;
-import manon.user.friendship.FriendshipEvent;
+import manon.user.friendship.model.FriendshipEvent;
 import manon.user.registration.RegistrationStateEnum;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;

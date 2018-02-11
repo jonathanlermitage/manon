@@ -1,4 +1,4 @@
-package manon.user.friendship;
+package manon.user.friendship.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

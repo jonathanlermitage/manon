@@ -2,7 +2,7 @@ package manon.batch.api;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import manon.batch.TaskStatus;
+import manon.batch.model.TaskStatus;
 import manon.util.basetest.InitBeforeTest;
 import org.springframework.batch.core.ExitStatus;
 import org.testng.annotations.Test;

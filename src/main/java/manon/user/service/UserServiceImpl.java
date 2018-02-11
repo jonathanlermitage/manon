@@ -1,6 +1,5 @@
 package manon.user.service;
 
-import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
@@ -45,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException, DuplicateKeyException {
+    public void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException {
         userRepository.updateField(userId, userUpdateForm.getField(), userUpdateForm.getValue());
     }
     

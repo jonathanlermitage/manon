@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.form.UserFieldEnum;
-import manon.user.friendship.FriendshipEvent;
+import manon.user.friendship.model.FriendshipEvent;
 import manon.user.registration.RegistrationStateEnum;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Update;

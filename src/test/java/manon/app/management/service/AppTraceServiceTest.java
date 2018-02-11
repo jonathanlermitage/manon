@@ -60,7 +60,7 @@ public class AppTraceServiceTest extends InitBeforeClass {
         assertEquals(appTraceService.count(), nbTraces + 6);
         assertEquals(appTraceService.countByCurrentAppId(), appTraceService.count());
         assertEquals(appTraceService.countByCurrentAppIdAndEvent(APP_START), 6);
-    
+        
         String appId = appTraceService.getAppId();
         appTraceService.findAll().forEach(appTrace -> assertEquals(appTrace.getAppId(), appId));
     }

@@ -3,6 +3,7 @@ package manon;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.management.service.AppTraceService;
+import manon.app.stats.service.MethodExecutionRecorder;
 import manon.user.UserExistsException;
 import manon.user.service.UserAdminService;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +22,6 @@ import java.util.List;
 import static manon.app.config.SpringProfiles.METRICS;
 import static manon.app.management.document.AppTrace.Event.APP_START;
 import static manon.app.management.document.AppTrace.Level.INFO;
-import static manon.util.MethodExecutionTimeRecorder.showStats;
 
 @SpringBootApplication
 @EnableMongoAuditing
@@ -33,6 +33,7 @@ public class Application extends SpringBootServletInitializer {
     private final UserAdminService userAdminService;
     private final AppTraceService appTraceService;
     private final Environment env;
+    private final MethodExecutionRecorder methodExecutionRecorder;
     
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -52,7 +53,7 @@ public class Application extends SpringBootServletInitializer {
     @PreDestroy
     public void destroy() {
         if (List.of(env.getActiveProfiles()).contains(METRICS)) {
-            log.info(showStats());
+            log.info(methodExecutionRecorder.showStats());
         }
     }
 }

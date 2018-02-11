@@ -1,15 +1,15 @@
-package manon.util;
+package manon.app.stats.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import manon.app.stats.model.MethodExecutionStats;
+import manon.util.VisibleForTesting;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -27,12 +27,12 @@ import static java.util.Collections.sort;
 import static manon.app.config.SpringProfiles.METRICS;
 
 @Aspect
-@Component
+@Service
 @Slf4j
 @Profile(METRICS)
-public class MethodExecutionTimeRecorder {
+public class MethodExecutionRecorder {
     
-    private static final Map<String, ServiceStats> stats = new HashMap<>();
+    private final Map<String, MethodExecutionStats> stats = new HashMap<>();
     
     /**
      * Collect execution time on every WS class methods.
@@ -48,7 +48,7 @@ public class MethodExecutionTimeRecorder {
         }
         Method method = MethodSignature.class.cast(point.getSignature()).getMethod();
         signature += ":" + method.getName() + Arrays.toString(stream(method.getParameterTypes()).map(Class::getSimpleName).toArray());
-        saveTime(stats, signature, execTime);
+        saveTime(signature, execTime);
         return result;
     }
     
@@ -56,18 +56,9 @@ public class MethodExecutionTimeRecorder {
      * Log and return collected statistics since application start.
      * @return statistics as readable text.
      */
-    public static String showStats() {
-        return showStats(stats);
-    }
-    
-    /**
-     * Log and return given statistics.
-     * @param stats statistics.
-     * @return statistics as readable text.
-     */
     @Synchronized
-    private static String showStats(Map<String, ServiceStats> stats) {
-        List<ServiceStats> view = new ArrayList<>(stats.values());
+    public String showStats() {
+        List<MethodExecutionStats> view = new ArrayList<>(stats.values());
         view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
         StringBuilder buff = new StringBuilder(2048);
         buff.append("\n calls     min     max     total     avg  median  name");
@@ -87,9 +78,10 @@ public class MethodExecutionTimeRecorder {
      * @param signature class and method signature.
      * @param execTime execution time.
      */
+    @VisibleForTesting(why = "MethodExecutionTimeRecorderTest")
     @Synchronized
-    public void saveTime(Map<String, ServiceStats> stats, String signature, long execTime) {
-        ServiceStats stat;
+    public void saveTime(String signature, long execTime) {
+        MethodExecutionStats stat;
         if (stats.containsKey(signature)) {
             stat = stats.get(signature);
             stat.getTimes().add(execTime);
@@ -102,24 +94,12 @@ public class MethodExecutionTimeRecorder {
             }
             stat.setTotalTime(execTime + stat.getTotalTime());
         } else {
-            stat = new ServiceStats(signature, 1L, execTime, execTime, execTime, Stream.of(execTime).collect(Collectors.toList()));
+            stat = new MethodExecutionStats(signature, 1L, execTime, execTime, execTime, Stream.of(execTime).collect(Collectors.toList()));
         }
         stats.put(signature, stat);
     }
     
-    /** Statistic. */
-    @Data
-    @AllArgsConstructor
-    private final class ServiceStats {
-        private String service;
-        private long calls;
-        private long minTime;
-        private long maxTime;
-        private long totalTime;
-        private List<Long> times;
-    }
-    
-    private static double median(List<Long> v) {
+    private double median(List<Long> v) {
         sort(v);
         int middle = v.size() / 2;
         if (v.size() % 2 == 1) {

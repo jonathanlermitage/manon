@@ -49,8 +49,8 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(JSON)
                 .statusCode(SC_OK);
-        manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
-        assertEquals(lobbyStatus, manon.matchmaking.LobbyStatus.EMPTY);
+        manon.matchmaking.model.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.model.LobbyStatus.class);
+        assertEquals(lobbyStatus, manon.matchmaking.model.LobbyStatus.EMPTY);
     }
     
     @Test
@@ -63,7 +63,7 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(JSON)
                 .statusCode(SC_OK);
-        manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
+        manon.matchmaking.model.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.model.LobbyStatus.class);
         assertNull(lobbyStatus.getLobbySolo());
         assertNull(lobbyStatus.getLobbyTeam());
     }
@@ -120,7 +120,7 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(JSON)
                 .statusCode(SC_OK);
-        manon.matchmaking.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
+        manon.matchmaking.model.LobbyStatus lobbyStatus = readValue(res, manon.matchmaking.model.LobbyStatus.class);
         assertNotNull(lobbyStatus.getLobbySolo());
         assertNull(lobbyStatus.getLobbyTeam());
         assertEquals(lobbyStatus.getLobbySolo().getLeague(), league);
@@ -519,7 +519,7 @@ public class LobbyWSTest extends InitBeforeTest {
         res.then()
                 .contentType(JSON)
                 .statusCode(SC_OK);
-        manon.matchmaking.LobbyStatus userLobbyStatus = readValue(res, manon.matchmaking.LobbyStatus.class);
+        manon.matchmaking.model.LobbyStatus userLobbyStatus = readValue(res, manon.matchmaking.model.LobbyStatus.class);
         switch (lobbyStatus) {
             case OUT:
                 assertNull(userLobbyStatus.getLobbySolo());

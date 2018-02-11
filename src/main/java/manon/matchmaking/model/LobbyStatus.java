@@ -1,4 +1,4 @@
-package manon.matchmaking;
+package manon.matchmaking.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

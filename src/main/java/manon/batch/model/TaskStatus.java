@@ -1,4 +1,4 @@
-package manon.batch;
+package manon.batch.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

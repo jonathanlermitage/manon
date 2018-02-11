@@ -2,10 +2,10 @@ package manon.user.friendship.api;
 
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
-import manon.user.friendship.FriendshipEvent;
 import manon.user.friendship.FriendshipExistsException;
 import manon.user.friendship.FriendshipRequestExistsException;
 import manon.user.friendship.FriendshipRequestNotFoundException;
+import manon.user.friendship.model.FriendshipEvent;
 import manon.util.basetest.InitBeforeClass;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;

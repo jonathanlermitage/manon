@@ -1,6 +1,5 @@
 package manon.user.service;
 
-import com.mongodb.DuplicateKeyException;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
@@ -37,7 +36,7 @@ public interface UserService {
      * @param userId user id.
      * @param userUpdateForm field name and its new value.
      */
-    void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException, DuplicateKeyException;
+    void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException;
     
     Page<User> findAll(Pageable pageable);
     

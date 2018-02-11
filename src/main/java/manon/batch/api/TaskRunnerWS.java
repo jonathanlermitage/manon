@@ -3,7 +3,7 @@ package manon.batch.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.security.UserSimpleDetails;
-import manon.batch.TaskStatus;
+import manon.batch.model.TaskStatus;
 import manon.batch.service.TaskRunnerService;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

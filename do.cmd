@@ -1,7 +1,8 @@
 @echo off
 
-if [%1] == [-h] ( 
+if [%1] == [help] (
   echo  t: test
+  echo  tc: test and generate coverage data
   echo  b: compile
   echo  c: clean
   echo  p: package
@@ -14,6 +15,10 @@ if [%1] == [-h] (
 if [%1] == [t] ( 
   echo mvnw clean test
   mvnw clean test
+)
+if [%1] == [tc] (
+  echo mvnw clean test -Pcoverage
+  mvnw clean test -Pcoverage
 )
 if [%1] == [b] (
   echo mvnw clean compile -DskipTests -T1
