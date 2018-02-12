@@ -80,7 +80,7 @@ public class UserSnapshotTask {
     
     @Bean(JOB_STEP0_KEEP_RECENT_NAME)
     public Step userSnapshotJobStepKeepRecent() {
-        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
+        return sbf.get(JOB_STEP0_KEEP_RECENT_NAME)
                 .tasklet(new FlushTasklet())
                 .build();
     }
@@ -97,7 +97,7 @@ public class UserSnapshotTask {
     
     @Bean(JOB_STEP2_STATS_NAME)
     public Step userSnapshotJobStepStats() {
-        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
+        return sbf.get(JOB_STEP2_STATS_NAME)
                 .tasklet(new StatsTasklet())
                 .build();
     }

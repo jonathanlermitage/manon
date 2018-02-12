@@ -10,6 +10,7 @@ import manon.util.basetest.InitBeforeClass;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -45,8 +46,16 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
         return chunk * NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY;
     }
     
-    @Test
-    public void shouldComplete() throws Exception {
+    @DataProvider
+    public static Object[][] dataProviderShouldCompleteMultipleTimes() {
+        return new Object[][]{
+                {2, 3},
+                {4, 6}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderShouldCompleteMultipleTimes")
+    public void shouldCompleteMultipleTimes(int snapshotsKept, int nbStats) throws Exception {
         assertEquals(chunk, 10);
         assertEquals(maxAge, 30);
         
@@ -65,7 +74,7 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
         userSnapshotService.save(userSnapshots);
         
         long expectedTodayUserSnapshots = userService.count();
-        long expectedUserSnapshots = expectedTodayUserSnapshots + 2; // keep 1 - maxAge and 0, other are too old, present or future
+        long expectedUserSnapshots = expectedTodayUserSnapshots + snapshotsKept; // keep 1 - maxAge and 0, other are too old, present or future
         for (int i = 0; i < NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY; i++) {
             
             //WHEN run User snapshot job
@@ -81,7 +90,7 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
         
         //THEN statistics are written
         List<UsersStats> usersStats = userStatsService.findAll();
-        assertThat(usersStats).isNotNull().hasSize(3);
+        assertThat(usersStats).isNotNull().hasSize(nbStats);
         usersStats.forEach(ps -> assertEquals(ps.getNbUsers(), expectedTodayUserSnapshots));
     }
     
