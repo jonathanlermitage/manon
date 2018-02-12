@@ -52,12 +52,19 @@ public class MethodExecutionRecorder {
         return result;
     }
     
+    public boolean isEmpty() {
+        return stats.isEmpty();
+    }
+    
     /**
      * Log and return collected statistics since application start.
      * @return statistics as readable text.
      */
     @Synchronized
     public String showStats() {
+        if (stats.isEmpty()) {
+            return "";
+        }
         List<MethodExecutionStats> view = new ArrayList<>(stats.values());
         view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
         StringBuilder buff = new StringBuilder(2048);

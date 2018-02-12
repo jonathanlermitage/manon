@@ -52,7 +52,7 @@ public class Application extends SpringBootServletInitializer {
     
     @PreDestroy
     public void destroy() {
-        if (List.of(env.getActiveProfiles()).contains(METRICS)) {
+        if (List.of(env.getActiveProfiles()).contains(METRICS) && !methodExecutionRecorder.isEmpty()) {
             log.info(methodExecutionRecorder.showStats());
         }
     }
