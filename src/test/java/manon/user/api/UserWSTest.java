@@ -163,35 +163,51 @@ public class UserWSTest extends InitBeforeTest {
         assertEquals(webUserVersion, dbUserVersion);
     }
     
-    @Test
-    public void shouldUpdateNickname() throws Exception {
+    @DataProvider
+    public Object[][] dataProviderShouldUpdateNickname() {
+        return new Object[][]{
+                {""},
+                {"a new nickname"}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderShouldUpdateNickname")
+    public void shouldUpdateNickname(String nickname) throws Exception {
         User userBefore = userService.readOne(userId(1));
         whenP1().getRequestSpecification()
-                .body(new UserUpdateForm(UserFieldEnum.NICKNAME, "a new nickname"))
+                .body(new UserUpdateForm(UserFieldEnum.NICKNAME, nickname))
                 .contentType(ContentType.JSON)
                 .put(API_USER + "/field")
                 .then()
                 .statusCode(SC_OK);
         User userAfter = userService.readOne(userId(1));
         userBefore = userBefore.toBuilder()
-                .nickname("a new nickname")
+                .nickname(nickname)
                 .version(userBefore.getVersion() + 1)
                 .build();
         assertEquals(userAfter, userBefore);
     }
     
-    @Test
-    public void shouldUpdateEmail() throws Exception {
+    @DataProvider
+    public Object[][] dataProviderShouldUpdateEmail() {
+        return new Object[][]{
+                {""},
+                {"test.foo@bar.com"}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderShouldUpdateEmail")
+    public void shouldUpdateEmail(String email) throws Exception {
         User userBefore = userService.readOne(userId(1));
         whenP1().getRequestSpecification()
-                .body(new UserUpdateForm(UserFieldEnum.EMAIL, "test.foo@bar.com"))
+                .body(new UserUpdateForm(UserFieldEnum.EMAIL, email))
                 .contentType(ContentType.JSON)
                 .put(API_USER + "/field")
                 .then()
                 .statusCode(SC_OK);
         User userAfter = userService.readOne(userId(1));
         userBefore = userBefore.toBuilder()
-                .email("test.foo@bar.com")
+                .email(email)
                 .version(userBefore.getVersion() + 1)
                 .build();
         assertEquals(userAfter, userBefore);
@@ -201,11 +217,13 @@ public class UserWSTest extends InitBeforeTest {
     @DataProvider
     public Object[][] dataProviderNotUpdateInvalidData() {
         return new Object[][]{
+                {UserFieldEnum.EMAIL, null, "EMAIL_NULL"},
                 {UserFieldEnum.EMAIL, "test.foo.bar.com", "EMAIL_BAD_FORMAT"},
-                {UserFieldEnum.EMAIL, 1, "EMAIL_BAD_OBJECTCLASS"},
+                {UserFieldEnum.EMAIL, 1, "EMAIL_BAD_CLASS"},
                 {UserFieldEnum.EMAIL, verylongString("averylongemail") + "@test.com", "EMAIL_TOO_LONG"},
+                {UserFieldEnum.NICKNAME, null, "NICKNAME_NULL"},
                 {UserFieldEnum.NICKNAME, "anickname!!!", "NICKNAME_BAD_FORMAT"},
-                {UserFieldEnum.NICKNAME, 1, "NICKNAME_BAD_OBJECTCLASS"},
+                {UserFieldEnum.NICKNAME, 1, "NICKNAME_BAD_CLASS"},
                 {UserFieldEnum.NICKNAME, verylongString("averylongnickname"), "NICKNAME_TOO_LONG"}
         };
     }
