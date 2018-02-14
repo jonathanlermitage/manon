@@ -42,7 +42,7 @@ public class MethodExecutionRecorderTest {
         
         methodExecutionRecorder.saveTime("manon.user.UserService:do1()", 1);
         methodExecutionRecorder.saveTime("manon.user.UserService:do2()", 100);
-    
+        
         assertFalse(methodExecutionRecorder.isEmpty());
         assertEquals(methodExecutionRecorder.showStats(), STATS_HEADER + "\n" +
                 "     1       1       1         1       1       1  m.user.UserService:do1()\n" +
@@ -53,7 +53,7 @@ public class MethodExecutionRecorderTest {
         methodExecutionRecorder.saveTime("manon.user.UserService:do2()", 200);
         methodExecutionRecorder.saveTime("manon.user.UserService:do2()", 300);
         methodExecutionRecorder.saveTime("manon.user.UserService:do2()", 200);
-    
+        
         assertFalse(methodExecutionRecorder.isEmpty());
         assertEquals(methodExecutionRecorder.showStats(), STATS_HEADER + "\n" +
                 "     4     100     300       800     200     200  m.user.UserService:do2()\n" +

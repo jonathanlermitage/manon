@@ -36,7 +36,7 @@ public interface UserService {
      * @param userId user id.
      * @param userUpdateForm field name and its new value.
      */
-    void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException;
+    void update(String userId, UserUpdateForm userUpdateForm);
     
     Page<User> findAll(Pageable pageable);
     
@@ -47,7 +47,7 @@ public interface UserService {
      */
     User create(User user) throws UserExistsException;
     
-    void setPassword(String id, String password) throws UserNotFoundException;
+    void setPassword(String id, String password);
     
-    void setRegistrationState(String id, RegistrationStateEnum registrationState) throws UserNotFoundException;
+    void setRegistrationState(String id, RegistrationStateEnum registrationState);
 }

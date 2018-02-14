@@ -16,9 +16,10 @@ public interface AppTraceService {
      * @param level log level.
      * @param event category.
      * @param msg log message.
-     * @param args parameters to replace in log message (via 'String.format').
      */
-    void log(AppTrace.Level level, AppTrace.Event event, String msg, Object... args);
+    void log(AppTrace.Level level, AppTrace.Event event, String msg);
+    
+    void log(AppTrace.Level level, AppTrace.Event event);
     
     void logUptime();
     

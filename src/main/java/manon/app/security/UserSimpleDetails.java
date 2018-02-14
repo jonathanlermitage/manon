@@ -2,7 +2,6 @@ package manon.app.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import manon.user.document.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,27 +10,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serializable;
 import java.util.Collection;
 
-import static lombok.AccessLevel.PRIVATE;
-
 @Getter
-@Builder
-@AllArgsConstructor(access = PRIVATE)
+@AllArgsConstructor
 public class UserSimpleDetails implements UserDetails, Serializable {
     
     private String username;
     private String password;
-    @SuppressWarnings("UnusedAssignment")
-    @Builder.Default
-    private boolean accountNonExpired = true;
-    @SuppressWarnings("UnusedAssignment")
-    @Builder.Default
-    private boolean accountNonLocked = true;
-    @SuppressWarnings("UnusedAssignment")
-    @Builder.Default
-    private boolean credentialsNonExpired = true;
-    @SuppressWarnings("UnusedAssignment")
-    @Builder.Default
-    private boolean enabled = true;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
     private User user;
     

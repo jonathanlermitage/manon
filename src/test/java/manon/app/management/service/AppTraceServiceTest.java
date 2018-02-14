@@ -55,7 +55,7 @@ public class AppTraceServiceTest extends InitBeforeClass {
         long nbTraces = appTraceService.count();
         for (int i = 0; i < 3; i++) {
             appTraceService.log(level, APP_START, "foo");
-            appTraceService.log(level, APP_START, "foo %s %s", "bar", "thing");
+            appTraceService.log(level, APP_START);
         }
         assertEquals(appTraceService.count(), nbTraces + 6);
         assertEquals(appTraceService.countByCurrentAppId(), appTraceService.count());

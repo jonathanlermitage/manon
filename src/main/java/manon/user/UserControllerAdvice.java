@@ -26,9 +26,7 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     public Map<String, Object> handle(UserNotFoundException error) {
         Map<String, Object> map = error();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        if (error.getId() != null) {
-            map.put(FIELD_MESSAGE, error.getId());
-        }
+        map.put(FIELD_MESSAGE, error.getId());
         return map;
     }
     
@@ -38,9 +36,7 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     public Map<String, Object> handle(UserUpdateFormException error) {
         Map<String, Object> map = error();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        if (error.getErrors() != null && !error.getErrors().isEmpty()) {
-            map.put(FIELD_MESSAGE, error.getErrors().stream().map(DefaultMessageSourceResolvable::getCode).collect(Collectors.toList()));
-        }
+        map.put(FIELD_MESSAGE, error.getErrors().stream().map(DefaultMessageSourceResolvable::getCode).collect(Collectors.toList()));
         return map;
     }
     
@@ -50,9 +46,7 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     public Map<String, Object> handle(RegistrationFormException error) {
         Map<String, Object> map = error();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        if (error.getErrors() != null && !error.getErrors().isEmpty()) {
-            map.put(FIELD_MESSAGE, error.getErrors().stream().map(DefaultMessageSourceResolvable::getCode).collect(Collectors.toList()));
-        }
+        map.put(FIELD_MESSAGE, error.getErrors().stream().map(DefaultMessageSourceResolvable::getCode).collect(Collectors.toList()));
         return map;
     }
     
@@ -72,9 +66,7 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     public Map<String, Object> handle(UserPasswordUpdateFormException error) {
         Map<String, Object> map = error();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        if (error.getErrors() != null && !error.getErrors().isEmpty()) {
-            map.put(FIELD_MESSAGE, error.getErrors().stream().map(DefaultMessageSourceResolvable::getCode).collect(Collectors.toList()));
-        }
+        map.put(FIELD_MESSAGE, error.getErrors().stream().map(DefaultMessageSourceResolvable::getCode).collect(Collectors.toList()));
         return map;
     }
 }

@@ -1,56 +1,55 @@
 package manon.user.repository;
 
-import manon.user.UserNotFoundException;
 import manon.user.form.UserFieldEnum;
 import manon.user.registration.RegistrationStateEnum;
 
 public interface UserRepositoryCustom {
     
-    void updateField(String id, UserFieldEnum field, Object value) throws UserNotFoundException;
+    void updateField(String id, UserFieldEnum field, Object value);
     
     /**
      * Add a friendship request between two users.
      * @param userIdFrom id of user that asks for friendship.
      * @param userIdTo id of user that is targeted.
      */
-    void askFriendship(String userIdFrom, String userIdTo) throws UserNotFoundException;
+    void askFriendship(String userIdFrom, String userIdTo);
     
     /**
      * Create a friendship request between two users.
      * @param userIdFrom id of user that asked for friendship.
      * @param userIdTo id of user that accepts friendship.
      */
-    void acceptFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException;
+    void acceptFriendshipRequest(String userIdFrom, String userIdTo);
     
     /**
      * Reject a friendship request between two users.
      * @param userIdFrom id of user that asked for friendship.
      * @param userIdTo id of user that rejects friendship.
      */
-    void rejectFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException;
+    void rejectFriendshipRequest(String userIdFrom, String userIdTo);
     
     /**
      * cancel a friendship request between two users.
      * @param userIdFrom id of user that asked for friendship.
      * @param userIdTo id of user that rejects friendship.
      */
-    void cancelFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException;
+    void cancelFriendshipRequest(String userIdFrom, String userIdTo);
     
     /**
      * Delete an existing friendship relation between two users.
      * @param userIdFrom id of user who wants to delete friendship.
      * @param userIdTo if of friend user.
      */
-    void revokeFriendship(String userIdFrom, String userIdTo) throws UserNotFoundException;
+    void revokeFriendship(String userIdFrom, String userIdTo);
     
     /**
      * Keep only a certain number of recent friendshipEvents on user.
      * @param id user id.
      * @param numberOfEventsToKeep number of recent friendshipEvents to keep.
      */
-    void keepEvents(String id, int numberOfEventsToKeep) throws UserNotFoundException;
+    void keepEvents(String id, int numberOfEventsToKeep);
     
-    void setPassword(String id, String password) throws UserNotFoundException;
+    void setPassword(String id, String password);
     
-    void setRegistrationState(String id, RegistrationStateEnum registrationState) throws UserNotFoundException;
+    void setRegistrationState(String id, RegistrationStateEnum registrationState);
 }

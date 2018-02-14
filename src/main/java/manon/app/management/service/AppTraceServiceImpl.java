@@ -41,9 +41,8 @@ public class AppTraceServiceImpl implements AppTraceService {
     }
     
     @Override
-    public void log(AppTrace.Level level, AppTrace.Event event, String msg, Object... args) {
-        String formattedMsg = msg == null ? null : args == null || args.length == 0 ? msg : format(msg, args);
-        String logmsg = "[" + event.name() + "]" + (formattedMsg == null ? "" : " " + formattedMsg);
+    public void log(AppTrace.Level level, AppTrace.Event event, String msg) {
+        String logmsg = "[" + event.name() + "]" + (msg == null ? "" : " " + msg);
         switch (level) {
             case INFO:
                 log.info(logmsg);
@@ -57,20 +56,26 @@ public class AppTraceServiceImpl implements AppTraceService {
         }
         appTraceRepository.save(AppTrace.builder()
                 .appId(appId)
-                .msg(formattedMsg)
+                .msg(msg)
                 .event(event)
                 .level(level)
                 .build());
     }
     
     @Override
+    public void log(AppTrace.Level level, AppTrace.Event event) {
+        log(level, event, null);
+    }
+    
+    @Override
     @Scheduled(fixedRate = 30_000, initialDelay = 30_000)
     public void logUptime() {
         deleteByCurrentAppIdAndEvent(UPTIME);
-        log(DEBUG, UPTIME, "Application [%s] is alive since %ss (%s)",
+        log(DEBUG, UPTIME, format("Application [%s] is alive since %ss (%s)",
                 appId,
                 (currentTimeMillis() - startupDate.getTime()) / 1_000,
-                dateFormat.format(startupDate));
+                dateFormat.format(startupDate))
+        );
     }
     
     // VisibleForTesting

@@ -1,8 +1,6 @@
 package manon.user.repository;
 
-import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.form.UserFieldEnum;
 import manon.user.friendship.model.FriendshipEvent;
@@ -23,18 +21,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final MongoTemplate mongoTemplate;
     
     @Override
-    public void updateField(String id, UserFieldEnum field, Object value) throws UserNotFoundException {
-        if (0 == mongoTemplate.updateFirst(
+    public void updateField(String id, UserFieldEnum field, Object value) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(id)),
                 new Update().set(field.getFieldname(), value),
-                User.class).getMatchedCount()) {
-            throw new UserNotFoundException(id);
-        }
+                User.class).getMatchedCount();
     }
     
     @Override
-    public void askFriendship(String userIdFrom, String userIdTo) throws UserNotFoundException {
-        verify(userIdTo, mongoTemplate.updateFirst(
+    public void askFriendship(String userIdFrom, String userIdTo) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdTo)),
                 new Update()
                         .addToSet("friendshipRequestsFrom", userIdFrom)
@@ -42,8 +38,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.TARGET_SENT_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
-        verify(userIdFrom, mongoTemplate.updateFirst(
+                User.class);
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdFrom)),
                 new Update()
                         .addToSet("friendshipRequestsTo", userIdTo)
@@ -51,12 +47,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.YOU_SENT_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
+                User.class);
     }
     
     @Override
-    public void acceptFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
-        verify(userIdTo, mongoTemplate.updateFirst(
+    public void acceptFriendshipRequest(String userIdFrom, String userIdTo) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdTo)),
                 new Update()
                         .pull("friendshipRequestsFrom", userIdFrom)
@@ -65,8 +61,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.YOU_ACCEPTED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
-        verify(userIdFrom, mongoTemplate.updateFirst(
+                User.class);
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdFrom)),
                 new Update()
                         .pull("friendshipRequestsTo", userIdTo)
@@ -75,12 +71,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.TARGET_ACCEPTED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
+                User.class);
     }
     
     @Override
-    public void rejectFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
-        verify(userIdTo, mongoTemplate.updateFirst(
+    public void rejectFriendshipRequest(String userIdFrom, String userIdTo) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdTo)),
                 new Update()
                         .pull("friendshipRequestsFrom", userIdFrom)
@@ -88,8 +84,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.YOU_REJECTED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
-        verify(userIdFrom, mongoTemplate.updateFirst(
+                User.class);
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdFrom)),
                 new Update()
                         .pull("friendshipRequestsTo", userIdTo)
@@ -97,12 +93,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.TARGET_REJECTED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
+                User.class);
     }
     
     @Override
-    public void cancelFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
-        verify(userIdTo, mongoTemplate.updateFirst(
+    public void cancelFriendshipRequest(String userIdFrom, String userIdTo) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdTo)),
                 new Update()
                         .pull("friendshipRequestsFrom", userIdFrom)
@@ -110,8 +106,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.TARGET_CANCELED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
-        verify(userIdFrom, mongoTemplate.updateFirst(
+                User.class);
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdFrom)),
                 new Update()
                         .pull("friendshipRequestsTo", userIdTo)
@@ -119,12 +115,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.YOU_CANCELED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
+                User.class);
     }
     
     @Override
-    public void revokeFriendship(String userIdFrom, String userIdTo) throws UserNotFoundException {
-        verify(userIdTo, mongoTemplate.updateFirst(
+    public void revokeFriendship(String userIdFrom, String userIdTo) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdTo)),
                 new Update()
                         .pull("friends", userIdFrom)
@@ -132,8 +128,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.TARGET_REVOKED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
-        verify(userIdFrom, mongoTemplate.updateFirst(
+                User.class);
+        mongoTemplate.updateFirst(
                 query(where("id").is(userIdFrom)),
                 new Update()
                         .pull("friends", userIdTo)
@@ -141,46 +137,35 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .event(FriendshipEvent.Code.YOU_REVOKED_FRIEND_REQUEST)
                                 .params(List.of(userIdFrom))
                                 .build()),
-                User.class));
+                User.class);
     }
     
     @Override
-    public void keepEvents(String id, int numberOfEventsToKeep) throws UserNotFoundException {
+    public void keepEvents(String id, int numberOfEventsToKeep) {
         User user = mongoTemplate.findOne(query(where("id").is(id)), User.class);
         List<FriendshipEvent> friendshipEvents = user.getFriendshipEvents();
         int nbToRemove = friendshipEvents.size() - numberOfEventsToKeep;
         if (nbToRemove > 0) {
-            verify(id, mongoTemplate.updateFirst(
+            mongoTemplate.updateFirst(
                     query(where("id").is(id)),
-                    new Update()
-                            .set("friendshipEvents", friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
-                    User.class));
+                    new Update().set("friendshipEvents", friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
+                    User.class);
         }
     }
     
     @Override
-    public void setPassword(String id, String password) throws UserNotFoundException {
-        if (0 == mongoTemplate.updateFirst(
+    public void setPassword(String id, String password) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(id)),
                 new Update().set("password", password),
-                User.class).getMatchedCount()) {
-            throw new UserNotFoundException(id);
-        }
+                User.class).getMatchedCount();
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationStateEnum registrationState) throws UserNotFoundException {
-        if (0 == mongoTemplate.updateFirst(
+    public void setRegistrationState(String id, RegistrationStateEnum registrationState) {
+        mongoTemplate.updateFirst(
                 query(where("id").is(id)),
                 new Update().set("registrationState", registrationState),
-                User.class).getMatchedCount()) {
-            throw new UserNotFoundException(id);
-        }
-    }
-    
-    private void verify(String id, UpdateResult updateResult) throws UserNotFoundException {
-        if (0 == updateResult.getMatchedCount()) {
-            throw new UserNotFoundException(id);
-        }
+                User.class).getMatchedCount();
     }
 }

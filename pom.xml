@@ -487,6 +487,7 @@
                                         <exclude>**/document/*</exclude>
                                         <exclude>**/model/*</exclude>
                                         <exclude>**/**Form.*</exclude>
+                                        <exclude>**/Application.*</exclude>
                                     </excludes>
                                 </configuration>
                             </execution>

@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void update(String userId, UserUpdateForm userUpdateForm) throws UserNotFoundException {
+    public void update(String userId, UserUpdateForm userUpdateForm) {
         userRepository.updateField(userId, userUpdateForm.getField(), userUpdateForm.getValue());
     }
     
@@ -77,12 +77,12 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void setPassword(String id, String password) throws UserNotFoundException {
+    public void setPassword(String id, String password) {
         userRepository.setPassword(id, password);
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationStateEnum registrationState) throws UserNotFoundException {
+    public void setRegistrationState(String id, RegistrationStateEnum registrationState) {
         userRepository.setRegistrationState(id, registrationState);
     }
 }
