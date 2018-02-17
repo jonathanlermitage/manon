@@ -62,7 +62,7 @@
         <mariadb.version>2.2.1</mariadb.version>
 
         <!-- Log -->
-        <jboss-logging.version>3.3.1.Final</jboss-logging.version>
+        <jboss-logging.version>3.3.2.Final</jboss-logging.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
 

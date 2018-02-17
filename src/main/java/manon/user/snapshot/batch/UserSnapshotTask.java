@@ -47,7 +47,7 @@ public class UserSnapshotTask {
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
     
-    @Value("${manon.batch.user-snapshot.user.chunk}")
+    @Value("${manon.batch.user-snapshot.chunk}")
     private int chunk;
     @Value("${manon.batch.user-snapshot.snapshot.max-age}")
     private int maxAge;

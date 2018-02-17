@@ -25,7 +25,7 @@ manon:
       password: woot
   batch:
     user-snapshot:
-      user.chunk: 1000
+      chunk: 1000
       snapshot.max-age: 30
   mongodb.version: "3.4.13"
   security.bcrypt.strength: 6

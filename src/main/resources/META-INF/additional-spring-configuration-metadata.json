@@ -21,7 +21,7 @@
       "description": "Start matchmaking job on this server."
     },
     {
-      "name": "manon.batch.user-snapshot.user.chunk",
+      "name": "manon.batch.user-snapshot.chunk",
       "type": "java.lang.Integer",
       "description": "user chunk size."
     },
