@@ -3,4 +3,4 @@ language: java
 jdk: oraclejdk9
 
 before_install:
-  - chmod +x mvnw
+  - chmod +x gradlew

@@ -1,0 +1,22 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.0"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = false
+        csv.enabled = false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['**/document/*',
+                              '**/model/*',
+                              '**/**Form.*',
+                              '**/Application.*'])
+        })
+    }
+}

@@ -1,8 +1,7 @@
 private/
 target/
 out/
-!.mvn/wrapper/maven-wrapper.jar
-pom.xml.versionsBackup
+build/
 
 ### MS Windows ###
 Thumbs.db
