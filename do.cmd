@@ -8,7 +8,7 @@ if [%1] == [help] (
   echo  p: package
   echo  w $V: set or upgrade Maven wrapper to version $V
   echo  cv: check plugins and dependencies versions
-  echo  up: update plugins and dependencies versions
+  echo  uv: update plugins and dependencies versions
   echo  dt: show dependencies tree
 )
 

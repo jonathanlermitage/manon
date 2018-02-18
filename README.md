@@ -21,6 +21,23 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
   * [spring4-redis-cache](https://github.com/jonathanlermitage/manon/tree/spring4-redis-cache): enable caching based on **Redis** server. See commit [0f1eff7](https://github.com/jonathanlermitage/manon/commit/0f1eff768e73a69e07016e153b825a131146a63a).
 * other branches may appear and disappear quickly, depending on experimentation results and motivation ;-)
 
+## Compilation and test
+
+To build and test, simply run `mvnw test`. To enable JaCoCo code coverage, activate the `coverage` profile: `mvnw test -Pcoverage`. Tested on Travis (Linux) and AppVeyor (Windows) CI.
+  
+On Windows, you can use the `do.cmd` script:  
+```
+do t         test without code coverage
+do tc        test with code coverage
+do b         build without testing
+do c         clean
+do p         package application to manon.jar
+do w 3.5.2   set or upgrade Maven wrapper to 3.5.2
+do cv        check plugins and dependencies versions
+do uv        update plugins and dependencies versions
+do dt        show dependencies tree
+```
+
 ## License
 
 MIT License. In other words, you can do what you want: this project is entirely OpenSource, Free and Gratis.
