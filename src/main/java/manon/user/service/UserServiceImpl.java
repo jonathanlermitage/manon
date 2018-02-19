@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public void update(String userId, UserUpdateForm userUpdateForm) {
-        userRepository.updateField(userId, userUpdateForm.getField(), userUpdateForm.getValue());
+        userRepository.update(userId, userUpdateForm);
     }
     
     @Override

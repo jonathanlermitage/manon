@@ -2,7 +2,7 @@ package manon.user.repository;
 
 import lombok.RequiredArgsConstructor;
 import manon.user.document.User;
-import manon.user.form.UserFieldEnum;
+import manon.user.form.UserUpdateForm;
 import manon.user.friendship.model.FriendshipEvent;
 import manon.user.registration.RegistrationStateEnum;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,10 +21,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final MongoTemplate mongoTemplate;
     
     @Override
-    public void updateField(String id, UserFieldEnum field, Object value) {
+    public void update(String id, UserUpdateForm userUpdateForm) {
         mongoTemplate.updateFirst(
                 query(where("id").is(id)),
-                new Update().set(field.getFieldname(), value),
+                new Update()
+                        .set("nickname", userUpdateForm.getNickname())
+                        .set("email", userUpdateForm.getEmail()),
                 User.class).getMatchedCount();
     }
     

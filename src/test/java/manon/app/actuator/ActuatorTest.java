@@ -18,7 +18,7 @@ public class ActuatorTest extends InitBeforeClass {
      * See <a href="http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html">endpoints</a>.
      */
     @DataProvider
-    public Object[][] dataProviderSpringBoot1Actuator() {
+    public Object[][] dataProviderShouldNotGetSpringBoot1Actuator() {
         return new Object[][]{
                 {"/beans"},
                 {"/configprops"},
@@ -30,27 +30,7 @@ public class ActuatorTest extends InitBeforeClass {
         };
     }
     
-    /**
-     * Spring Boot 2 actuator endpoints and configured visibility to public.
-     * <p>
-     * See <a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0.0-M7-Release-Notes">release notes</a> and
-     * <a href="https://docs.spring.io/spring-boot/docs/2.0.0.M7/reference/htmlsingle/#production-ready">reference</a>.
-     */
-    @DataProvider
-    public Object[][] dataProviderSpringBoot2Actuator() {
-        return new Object[][]{
-                {"/actuator", false},
-                {"/actuator/health", true},
-                {"/actuator/info", true},
-                {"/actuator/env", false},
-                {"/actuator/loggers", false},
-                {"/actuator/mappings", false},
-                {"/actuator/metrics", false},
-                {"/actuator/scheduledtasks", false}
-        };
-    }
-    
-    @Test(dataProvider = "dataProviderSpringBoot1Actuator")
+    @Test(dataProvider = "dataProviderShouldNotGetSpringBoot1Actuator")
     public void shouldNotGetSpringBoot1Actuator(String endpoint) {
         whenAdmin().getRequestSpecification()
                 .get(endpoint).then()
@@ -63,7 +43,27 @@ public class ActuatorTest extends InitBeforeClass {
                 .statusCode(SC_UNAUTHORIZED);
     }
     
-    @Test(dataProvider = "dataProviderSpringBoot2Actuator")
+    /**
+     * Spring Boot 2 actuator endpoints and configured visibility to public.
+     * <p>
+     * See <a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0.0-M7-Release-Notes">release notes</a> and
+     * <a href="https://docs.spring.io/spring-boot/docs/2.0.0.M7/reference/htmlsingle/#production-ready">reference</a>.
+     */
+    @DataProvider
+    public Object[][] dataProviderShouldGetSpringBoot2Actuator() {
+        return new Object[][]{
+                {"/actuator", false},
+                {"/actuator/health", true},
+                {"/actuator/info", true},
+                {"/actuator/env", false},
+                {"/actuator/loggers", false},
+                {"/actuator/mappings", false},
+                {"/actuator/metrics", false},
+                {"/actuator/scheduledtasks", false}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderShouldGetSpringBoot2Actuator")
     public void shouldGetSpringBoot2Actuator(String endpoint, boolean isPublic) {
         whenAdmin().getRequestSpecification()
                 .get(endpoint).then()

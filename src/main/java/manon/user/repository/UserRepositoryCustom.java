@@ -1,11 +1,11 @@
 package manon.user.repository;
 
-import manon.user.form.UserFieldEnum;
+import manon.user.form.UserUpdateForm;
 import manon.user.registration.RegistrationStateEnum;
 
 public interface UserRepositoryCustom {
     
-    void updateField(String id, UserFieldEnum field, Object value);
+    void update(String id, UserUpdateForm userUpdateForm);
     
     /**
      * Add a friendship request between two users.

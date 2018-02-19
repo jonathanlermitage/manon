@@ -8,15 +8,12 @@ import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.form.UserPasswordUpdateForm;
-import manon.user.form.UserPasswordUpdateFormException;
 import manon.user.form.UserUpdateForm;
-import manon.user.form.UserUpdateFormException;
 import manon.user.registration.form.RegistrationForm;
-import manon.user.registration.form.RegistrationFormException;
 import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.config.API.API_USER;
 import static manon.util.Tools.MEDIA_JSON;
-import static manon.util.web.ValidationUtils.validate;
 import static org.springframework.http.HttpStatus.CREATED;
 
 /** User API. */
@@ -45,10 +41,9 @@ public class UserWS {
     /** Register a new user. */
     @PostMapping(consumes = MEDIA_JSON)
     @ResponseStatus(CREATED)
-    public User register(@RequestBody RegistrationForm registrationForm, BindingResult bindingResult)
-            throws UserExistsException, RegistrationFormException {
+    public User register(@RequestBody @Validated RegistrationForm registrationForm)
+            throws UserExistsException {
         log.info("user registration with {}", registrationForm);
-        validate(registrationForm, bindingResult);
         return registrationService.registerPlayer(registrationForm.getUsername(), registrationForm.getPassword());
     }
     
@@ -78,23 +73,18 @@ public class UserWS {
     
     /** Update one user's user field. */
     @PutMapping(value = "/field", consumes = MEDIA_JSON)
-    public void updateField(@AuthenticationPrincipal UserSimpleDetails user,
-                            @RequestBody UserUpdateForm userUpdateForm,
-                            BindingResult bindingResult)
-            throws UserNotFoundException, UserUpdateFormException {
+    public void update(@AuthenticationPrincipal UserSimpleDetails user,
+                       @RequestBody @Validated UserUpdateForm userUpdateForm) {
         log.info("user {} updates his user with {}", user.getIdentity(), userUpdateForm);
-        validate(userUpdateForm, bindingResult);
         userService.update(user.getUserId(), userUpdateForm);
     }
     
     /** Update current user's password. */
     @PutMapping(value = "/password", consumes = MEDIA_JSON)
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
-                               @RequestBody UserPasswordUpdateForm userPasswordUpdateForm,
-                               BindingResult bindingResult)
-            throws UserPasswordUpdateFormException, UserNotFoundException {
+                               @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
         log.info("user {} updates his password", user.getIdentity());
-        validate(userPasswordUpdateForm, bindingResult);
+        // TODO verify old password in service, before setting new one
         userService.setPassword(user.getUserId(), passwordEncoderService.encode(userPasswordUpdateForm.getNewPassword()));
     }
 }

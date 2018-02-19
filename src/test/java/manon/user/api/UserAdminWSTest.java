@@ -1,6 +1,5 @@
 package manon.user.api;
 
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
@@ -10,6 +9,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static io.restassured.http.ContentType.JSON;
+import static io.restassured.http.ContentType.TEXT;
 import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
 import static manon.app.config.ControllerAdviceBase.FIELD_MESSAGE;
 import static manon.user.registration.RegistrationStateEnum.ACTIVE;
@@ -28,7 +29,7 @@ public class UserAdminWSTest extends InitBeforeClass {
         Response res = whenAdmin().getRequestSpecification()
                 .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,DESC");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
@@ -46,7 +47,7 @@ public class UserAdminWSTest extends InitBeforeClass {
         Response res = whenAdmin().getRequestSpecification()
                 .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,ASC");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
@@ -64,7 +65,7 @@ public class UserAdminWSTest extends InitBeforeClass {
         Response res = whenAdmin().getRequestSpecification()
                 .get(API_USER_ADMIN + "/all?size=3");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
@@ -77,7 +78,7 @@ public class UserAdminWSTest extends InitBeforeClass {
         Response res = whenAdmin().getRequestSpecification()
                 .get(API_USER_ADMIN + "/all?page=1&size=3");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
@@ -90,7 +91,7 @@ public class UserAdminWSTest extends InitBeforeClass {
         Response res = whenAdmin().getRequestSpecification()
                 .get(API_USER_ADMIN + "/all?size=1");
         res.then()
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
@@ -106,19 +107,19 @@ public class UserAdminWSTest extends InitBeforeClass {
                     .post(API_USER_ADMIN + "/" + uid + "/suspend")
                     .then()
                     .statusCode(SC_OK)
-                    .contentType(ContentType.TEXT)
+                    .contentType(TEXT)
                     .body(equalTo(SUSPENDED.name()));
             whenAdmin().getRequestSpecification()
                     .post(API_USER_ADMIN + "/" + uid + "/ban")
                     .then()
                     .statusCode(SC_OK)
-                    .contentType(ContentType.TEXT)
+                    .contentType(TEXT)
                     .body(equalTo(BANNED.name()));
             whenAdmin().getRequestSpecification()
                     .post(API_USER_ADMIN + "/" + uid + "/activate")
                     .then()
                     .statusCode(SC_OK)
-                    .contentType(ContentType.TEXT)
+                    .contentType(TEXT)
                     .body(equalTo(ACTIVE.name()));
         }
     }
@@ -129,7 +130,7 @@ public class UserAdminWSTest extends InitBeforeClass {
                 .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/activate")
                 .then()
                 .statusCode(SC_NOT_FOUND)
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
                 .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
     }
@@ -140,7 +141,7 @@ public class UserAdminWSTest extends InitBeforeClass {
                 .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/ban")
                 .then()
                 .statusCode(SC_NOT_FOUND)
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
                 .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
     }
@@ -151,7 +152,7 @@ public class UserAdminWSTest extends InitBeforeClass {
                 .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/suspend")
                 .then()
                 .statusCode(SC_NOT_FOUND)
-                .contentType(ContentType.JSON)
+                .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
                 .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
     }

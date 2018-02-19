@@ -15,6 +15,8 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests {
     public static final String API_LOBBY = API_V1 + "/lobby";
     public static final String API_TASK = API_V1 + "/sys/task";
     
+    public static final String ERRORS_MSG = "errors.defaultMessage";
+    
     /** Simply a new unique objectId. */
     public static final String UNKNOWN_USER_ID = objId();
     

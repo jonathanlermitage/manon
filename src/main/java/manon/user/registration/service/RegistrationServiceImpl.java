@@ -45,19 +45,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
     
     @Override
-    public void delete(String userId) throws UserNotFoundException {
+    public void delete(String userId) {
         userService.setRegistrationState(userId, DELETED);
     }
     
     @Override
-    public User registerPlayer(String username, String password)
-            throws UserExistsException {
+    public User registerPlayer(String username, String password) throws UserExistsException {
         return register(PLAYER, username, password, ACTIVE);
     }
     
     @Override
-    public User registerRoot(String username, String password)
-            throws UserExistsException {
+    public User registerRoot(String username, String password) throws UserExistsException {
         return register(List.of(ADMIN, PLAYER), username, password, ACTIVE);
     }
     

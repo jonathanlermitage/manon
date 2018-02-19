@@ -1,7 +1,6 @@
 package manon.util;
 
 import manon.matchmaking.LobbyLeagueEnum;
-import manon.user.form.UserFieldEnum;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -10,8 +9,8 @@ import static org.testng.Assert.assertEquals;
 
 public class ToolsTest {
     
-    @DataProvider(name = "dataProviderIsBlank")
-    public Object[][] dataProviderIsBlank() {
+    @DataProvider
+    public Object[][] dataProviderShouldVerifyIsBlank() {
         return new Object[][]{
                 {null, true},
                 {"", true},
@@ -20,13 +19,13 @@ public class ToolsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderIsBlank")
+    @Test(dataProvider = "dataProviderShouldVerifyIsBlank")
     public void shouldVerifyIsBlank(String input, Object expected) {
         assertEquals(Tools.isBlank(input), expected);
     }
     
-    @DataProvider(name = "dataProviderShortenLog")
-    public Object[][] dataProviderShortenLog() {
+    @DataProvider
+    public Object[][] dataProviderShouldVerifyShortenLog() {
         return new Object[][]{
                 {"abc", "abc"},
                 {repeat("a", 200), "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... (long string, length=200)"},
@@ -36,20 +35,18 @@ public class ToolsTest {
                 {1, "1"},
                 {1000, "1000"},
                 {1000.1, "1000.1"},
-                {UserFieldEnum.EMAIL, "EMAIL"},
-                {UserFieldEnum.NICKNAME, "NICKNAME"},
                 {LobbyLeagueEnum.COMPETITIVE, "COMPETITIVE"},
                 {LobbyLeagueEnum.REGULAR, "REGULAR"}
         };
     }
     
-    @Test(dataProvider = "dataProviderShortenLog")
+    @Test(dataProvider = "dataProviderShouldVerifyShortenLog")
     public void shouldVerifyShortenLog(Object input, Object expected) {
         assertEquals(Tools.shortenLog(input), expected);
     }
     
-    @DataProvider(name = "dataProviderShortenAndAnonymizeLog")
-    public Object[][] dataProviderShortenAndAnonymizeLog() {
+    @DataProvider
+    public Object[][] dataProviderShouldVerifyShortenAndAnonymizeLog() {
         return new Object[][]{
                 {"abc", "***"},
                 {repeat("a", 200), "******************************... (long string, length=200)"},
@@ -59,14 +56,12 @@ public class ToolsTest {
                 {1, "*"},
                 {1000, "****"},
                 {1000.1, "******"},
-                {UserFieldEnum.EMAIL, "*****"},
-                {UserFieldEnum.NICKNAME, "********"},
                 {LobbyLeagueEnum.COMPETITIVE, "***********"},
                 {LobbyLeagueEnum.REGULAR, "*******"}
         };
     }
     
-    @Test(dataProvider = "dataProviderShortenAndAnonymizeLog")
+    @Test(dataProvider = "dataProviderShouldVerifyShortenAndAnonymizeLog")
     public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
         assertEquals(Tools.shortenAndAnonymizeLog(input), expected);
     }

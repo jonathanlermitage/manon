@@ -15,29 +15,28 @@ import static org.mockito.ArgumentMatchers.any;
 public class UserWSCtrlTest extends MockBeforeClass {
     
     @DataProvider
-    public Object[][] dataProviderRegister() {
+    public Object[][] dataProviderShouldVerifyRegister() {
         return new Object[][]{
-                {whenAdmin(), SC_CREATED},
-                {whenP1(), SC_CREATED},
-                {whenAnonymous(), SC_CREATED}
+                {whenAdmin()},
+                {whenP1()},
+                {whenAnonymous()}
         };
     }
     
-    @Test(dataProvider = "dataProviderRegister")
-    public void shouldVerifyRegister(Rs rs, Integer status) throws Exception {
+    @Test(dataProvider = "dataProviderShouldVerifyRegister")
+    public void shouldVerifyRegister(Rs rs) throws Exception {
         rs.getRequestSpecification()
-                .body(new RegistrationForm())
+                .body(RegistrationForm.builder().username("USERNAME").password("PASSWORD").build())
                 .contentType(JSON)
                 .post(API_USER)
                 .then()
-                .statusCode(status);
-        verify(userWs, status).register(any(), any());
+                .statusCode(SC_CREATED);
+        verify(userWs, SC_CREATED).register(any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyDelete(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-                .body(new RegistrationForm())
                 .contentType(JSON)
                 .delete(API_USER)
                 .then()
@@ -48,7 +47,6 @@ public class UserWSCtrlTest extends MockBeforeClass {
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRead(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-                .body(new RegistrationForm())
                 .get(API_USER)
                 .then()
                 .statusCode(status);
@@ -58,7 +56,6 @@ public class UserWSCtrlTest extends MockBeforeClass {
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadVersion(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-                .body(new RegistrationForm())
                 .get(API_USER + "/version")
                 .then()
                 .statusCode(status);
@@ -66,24 +63,24 @@ public class UserWSCtrlTest extends MockBeforeClass {
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyUpdateField(Rs rs, Integer status) throws Exception {
+    public void shouldVerifyUpdateField(Rs rs, Integer status) {
         rs.getRequestSpecification()
-                .body(new UserUpdateForm())
+                .body(UserUpdateForm.builder().build())
                 .contentType(JSON)
                 .put(API_USER + "/field")
                 .then()
                 .statusCode(status);
-        verify(userWs, status).updateField(any(), any(), any());
+        verify(userWs, status).update(any(), any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyUpdatePassword(Rs rs, Integer status) throws Exception {
+    public void shouldVerifyUpdatePassword(Rs rs, Integer status) {
         rs.getRequestSpecification()
-                .body(new UserPasswordUpdateForm())
+                .body(UserPasswordUpdateForm.builder().oldPassword("").newPassword("password").build())
                 .contentType(JSON)
                 .put(API_USER + "/password")
                 .then()
                 .statusCode(status);
-        verify(userWs, status).updatePassword(any(), any(), any());
+        verify(userWs, status).updatePassword(any(), any());
     }
 }

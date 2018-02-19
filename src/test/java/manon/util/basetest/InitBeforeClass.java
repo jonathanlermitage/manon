@@ -8,7 +8,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.user.UserExistsException;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
 import manon.user.service.UserAdminService;
@@ -84,7 +83,7 @@ public abstract class InitBeforeClass extends BaseTests {
         }
     }
     
-    public void initDb() throws UserExistsException, UserNotFoundException {
+    public void initDb() throws UserExistsException {
         long t1 = currentTimeMillis();
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
@@ -92,7 +91,7 @@ public abstract class InitBeforeClass extends BaseTests {
         userCache.clear();
         userAdminService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
-            registrationService.activate(registrationService.registerPlayer(makeName(idx), makePwd(idx)).getId());
+            registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
         userCount = userService.count();
         MDC.put(MDC_KEY_ENV, "testng");
