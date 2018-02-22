@@ -30,7 +30,7 @@ import static manon.app.config.SpringProfiles.METRICS;
 @Service
 @Slf4j
 @Profile(METRICS)
-public class MethodExecutionRecorder {
+public class PerformanceRecorderImpl implements PerformanceRecorder {
     
     private final Map<String, MethodExecutionStats> stats = new HashMap<>();
     
@@ -52,14 +52,12 @@ public class MethodExecutionRecorder {
         return result;
     }
     
+    @Override
     public boolean isEmpty() {
         return stats.isEmpty();
     }
     
-    /**
-     * Log and return collected statistics since application start.
-     * @return statistics as readable text.
-     */
+    @Override
     @Synchronized
     public String showStats() {
         if (stats.isEmpty()) {
@@ -85,7 +83,7 @@ public class MethodExecutionRecorder {
      * @param signature class and method signature.
      * @param execTime execution time.
      */
-    @VisibleForTesting(why = "MethodExecutionTimeRecorderTest")
+    @VisibleForTesting(why = "PerformanceRecorderTest")
     @Synchronized
     public void saveTime(String signature, long execTime) {
         MethodExecutionStats stat;

@@ -8,15 +8,17 @@ spring:
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy
-  display-name: manon
+  servlet.application-display-name: manon
   ssl.enabled: false # encryption is handled by Nginx proxy
   undertow.accesslog.enabled: false
 
 management:
-  endpoint.health.show-details: false
+  endpoint.health.show-details: never
   endpoints:
     enabled-by-default: true
-    web.expose: ["*"]
+    web:
+      base-path: /actuator
+      expose: ["*"]
 
 manon:
   admin:

@@ -54,12 +54,7 @@ public class ActuatorTest extends InitBeforeClass {
         return new Object[][]{
                 {"/actuator", false},
                 {"/actuator/health", true},
-                {"/actuator/info", true},
-                {"/actuator/env", false},
-                {"/actuator/loggers", false},
-                {"/actuator/mappings", false},
-                {"/actuator/metrics", false},
-                {"/actuator/scheduledtasks", false}
+                {"/actuator/info", true}
         };
     }
     

@@ -5,4 +5,7 @@ public interface SpringProfiles {
     
     /** {@value}, an <b>additional profile</b> to enable performance metrics collection. */
     String METRICS = "metrics";
+    
+    /** {@value}. */
+    String NO_METRICS = "!metrics";
 }
