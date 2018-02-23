@@ -3,7 +3,7 @@ package manon.matchmaking;
 /**
  * Category of lobby.
  */
-public enum LobbyLeagueEnum {
+public enum LobbyLeague {
     
     /** Regular league. */
     REGULAR,

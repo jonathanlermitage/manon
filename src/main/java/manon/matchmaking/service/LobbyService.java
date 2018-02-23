@@ -1,6 +1,6 @@
 package manon.matchmaking.service;
 
-import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyLeague;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
@@ -29,7 +29,7 @@ public interface LobbyService {
      * Add a user to the lobby.
      * @param userId user id.
      */
-    void enter(String userId, LobbyLeagueEnum league);
+    void enter(String userId, LobbyLeague league);
     
     /**
      * Remove a user from the lobby.
@@ -43,7 +43,7 @@ public interface LobbyService {
      * Create a team and enter into.
      * @param userId user id.
      */
-    LobbyTeam createTeamAndEnter(String userId, LobbyLeagueEnum league);
+    LobbyTeam createTeamAndEnter(String userId, LobbyLeague league);
     
     /**
      * Invite a user to a team.

@@ -2,7 +2,7 @@ package manon.matchmaking.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyLeague;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
@@ -54,7 +54,7 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
-    public void enter(String userId, LobbyLeagueEnum league) {
+    public void enter(String userId, LobbyLeague league) {
         quit(userId);
         LobbySolo solo = LobbySolo.builder()
                 .league(league)
@@ -77,7 +77,7 @@ public class LobbyServiceImpl implements LobbyService {
     }
     
     @Override
-    public LobbyTeam createTeamAndEnter(String userId, LobbyLeagueEnum league) {
+    public LobbyTeam createTeamAndEnter(String userId, LobbyLeague league) {
         quit(userId);
         LobbyTeam team = LobbyTeam.builder()
                 .league(league)
@@ -91,7 +91,7 @@ public class LobbyServiceImpl implements LobbyService {
     @Override
     public TeamInvitation inviteToTeam(String userId, String userIdToInvite)
             throws TeamNotFoundException, TeamInvitationException, UserNotFoundException {
-        userService.ensureExist(userIdToInvite);
+        userService.existOrFail(userIdToInvite);
         if (userId.equals(userIdToInvite)) {
             throw new TeamInvitationException(TeamInvitationException.Cause.INVITE_ITSELF);
         }

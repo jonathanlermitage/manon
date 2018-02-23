@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyLeague;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -39,7 +39,7 @@ public final class LobbySolo {
     
     private long skill;
     
-    private LobbyLeagueEnum league;
+    private LobbyLeague league;
     
     @JsonFormat(pattern = DATE_FORMAT)
     @CreatedDate

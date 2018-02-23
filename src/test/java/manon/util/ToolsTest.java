@@ -1,6 +1,6 @@
 package manon.util;
 
-import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyLeague;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -35,8 +35,8 @@ public class ToolsTest {
                 {1, "1"},
                 {1000, "1000"},
                 {1000.1, "1000.1"},
-                {LobbyLeagueEnum.COMPETITIVE, "COMPETITIVE"},
-                {LobbyLeagueEnum.REGULAR, "REGULAR"}
+                {LobbyLeague.COMPETITIVE, "COMPETITIVE"},
+                {LobbyLeague.REGULAR, "REGULAR"}
         };
     }
     
@@ -56,8 +56,8 @@ public class ToolsTest {
                 {1, "*"},
                 {1000, "****"},
                 {1000.1, "******"},
-                {LobbyLeagueEnum.COMPETITIVE, "***********"},
-                {LobbyLeagueEnum.REGULAR, "*******"}
+                {LobbyLeague.COMPETITIVE, "***********"},
+                {LobbyLeague.REGULAR, "*******"}
         };
     }
     

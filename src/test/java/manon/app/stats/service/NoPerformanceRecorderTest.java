@@ -8,13 +8,13 @@ public class NoPerformanceRecorderTest {
     
     @Test
     public void shouldCheckIsEmpty() {
-        NoPerformanceRecorder performanceRecorder= new NoPerformanceRecorder();
+        NoPerformanceRecorder performanceRecorder = new NoPerformanceRecorder();
         assertEquals(performanceRecorder.isEmpty(), true);
     }
     
     @Test
     public void shouldCheckShowStats() {
-        NoPerformanceRecorder performanceRecorder= new NoPerformanceRecorder();
+        NoPerformanceRecorder performanceRecorder = new NoPerformanceRecorder();
         assertEquals(performanceRecorder.showStats(), "");
     }
 }

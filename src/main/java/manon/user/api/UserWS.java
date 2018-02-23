@@ -2,7 +2,6 @@ package manon.user.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.app.security.PasswordEncoderService;
 import manon.app.security.UserSimpleDetails;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
@@ -36,7 +35,6 @@ public class UserWS {
     
     private final RegistrationService registrationService;
     private final UserService userService;
-    private final PasswordEncoderService passwordEncoderService;
     
     /** Register a new user. */
     @PostMapping(consumes = MEDIA_JSON)
@@ -85,6 +83,6 @@ public class UserWS {
                                @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
         log.info("user {} updates his password", user.getIdentity());
         // TODO verify old password in service, before setting new one
-        userService.setPassword(user.getUserId(), passwordEncoderService.encode(userPasswordUpdateForm.getNewPassword()));
+        userService.encodeAndSetPassword(user.getUserId(), userPasswordUpdateForm.getNewPassword());
     }
 }

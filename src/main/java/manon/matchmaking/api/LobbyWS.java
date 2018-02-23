@@ -3,7 +3,7 @@ package manon.matchmaking.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.security.UserSimpleDetails;
-import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyLeague;
 import manon.matchmaking.TeamFullException;
 import manon.matchmaking.TeamInvitationException;
 import manon.matchmaking.TeamInvitationNotFoundException;
@@ -66,7 +66,7 @@ public class LobbyWS {
      */
     @PutMapping(value = "/enter/{league}")
     public void enter(@AuthenticationPrincipal UserSimpleDetails user,
-                      @PathVariable("league") LobbyLeagueEnum league) {
+                      @PathVariable("league") LobbyLeague league) {
         log.info("user {} enters in lobby", user.getIdentity());
         lobbyService.enter(user.getUserId(), league);
     }
@@ -80,7 +80,7 @@ public class LobbyWS {
     @PostMapping(value = "/team/{league}")
     @ResponseStatus(CREATED)
     public LobbyTeam createTeamAndEnter(@AuthenticationPrincipal UserSimpleDetails user,
-                                        @PathVariable("league") LobbyLeagueEnum league) {
+                                        @PathVariable("league") LobbyLeague league) {
         log.info("user {} creates team", user.getIdentity());
         return lobbyService.createTeamAndEnter(user.getUserId(), league);
     }

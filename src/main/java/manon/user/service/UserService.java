@@ -5,7 +5,7 @@ import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.document.UserVersion;
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.RegistrationStateEnum;
+import manon.user.registration.RegistrationState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +18,7 @@ public interface UserService {
     
     void save(User user);
     
-    void ensureExist(String... ids) throws UserNotFoundException;
+    void existOrFail(String... ids) throws UserNotFoundException;
     
     User readOne(String id) throws UserNotFoundException;
     
@@ -44,7 +44,7 @@ public interface UserService {
      */
     User create(User user) throws UserExistsException;
     
-    void setPassword(String id, String password);
+    void encodeAndSetPassword(String id, String password);
     
-    void setRegistrationState(String id, RegistrationStateEnum registrationState);
+    void setRegistrationState(String id, RegistrationState registrationState);
 }

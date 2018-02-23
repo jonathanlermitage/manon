@@ -8,10 +8,6 @@ import org.testng.annotations.Test;
 
 import static manon.app.management.document.AppTrace.Event.APP_START;
 import static manon.app.management.document.AppTrace.Event.UPTIME;
-import static manon.app.management.document.AppTrace.Level.DEBUG;
-import static manon.app.management.document.AppTrace.Level.ERROR;
-import static manon.app.management.document.AppTrace.Level.INFO;
-import static manon.app.management.document.AppTrace.Level.WARN;
 import static org.testng.Assert.assertEquals;
 
 public class AppTraceServiceTest extends InitBeforeClass {
@@ -40,13 +36,8 @@ public class AppTraceServiceTest extends InitBeforeClass {
     }
     
     @DataProvider
-    public static Object[][] dataProviderShouldLog() {
-        return new Object[][]{
-                {DEBUG},
-                {INFO},
-                {WARN},
-                {ERROR}
-        };
+    public static Object[] dataProviderShouldLog() {
+        return AppTrace.Level.values();
     }
     
     @Test(dataProvider = "dataProviderShouldLog")

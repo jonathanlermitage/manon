@@ -1,12 +1,11 @@
 package manon.user.registration.service;
 
 import lombok.RequiredArgsConstructor;
-import manon.app.security.PasswordEncoderService;
 import manon.user.UserAuthority;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
-import manon.user.registration.RegistrationStateEnum;
+import manon.user.registration.RegistrationState;
 import manon.user.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +13,15 @@ import java.util.List;
 
 import static manon.user.UserAuthority.ADMIN;
 import static manon.user.UserAuthority.PLAYER;
-import static manon.user.registration.RegistrationStateEnum.ACTIVE;
-import static manon.user.registration.RegistrationStateEnum.BANNED;
-import static manon.user.registration.RegistrationStateEnum.DELETED;
-import static manon.user.registration.RegistrationStateEnum.SUSPENDED;
+import static manon.user.registration.RegistrationState.ACTIVE;
+import static manon.user.registration.RegistrationState.BANNED;
+import static manon.user.registration.RegistrationState.DELETED;
+import static manon.user.registration.RegistrationState.SUSPENDED;
 
 @Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
     
-    private final PasswordEncoderService passwordEncoderService;
     private final UserService userService;
     
     @Override
@@ -67,7 +65,7 @@ public class RegistrationServiceImpl implements RegistrationService {
      * @param registrationState registration state.
      * @return user.
      */
-    private User register(UserAuthority role, String username, String password, RegistrationStateEnum registrationState)
+    private User register(UserAuthority role, String username, String password, RegistrationState registrationState)
             throws UserExistsException {
         return register(List.of(role), username, password, registrationState);
     }
@@ -80,12 +78,12 @@ public class RegistrationServiceImpl implements RegistrationService {
      * @param registrationState registration state.
      * @return user.
      */
-    private User register(List<UserAuthority> roles, String username, String password, RegistrationStateEnum registrationState)
+    private User register(List<UserAuthority> roles, String username, String password, RegistrationState registrationState)
             throws UserExistsException {
         User user = User.builder()
                 .username(username.trim())
                 .roles(roles)
-                .password(passwordEncoderService.encode(password))
+                .password(password)
                 .registrationState(registrationState)
                 .build();
         return userService.create(user);

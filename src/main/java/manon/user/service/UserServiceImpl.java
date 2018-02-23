@@ -1,12 +1,13 @@
 package manon.user.service;
 
 import lombok.RequiredArgsConstructor;
+import manon.app.security.PasswordEncoderService;
 import manon.user.UserExistsException;
 import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.document.UserVersion;
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.RegistrationStateEnum;
+import manon.user.registration.RegistrationState;
 import manon.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
+    private final PasswordEncoderService passwordEncoderService;
     
     @Override
     public long count() {
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void ensureExist(String... ids) throws UserNotFoundException {
+    public void existOrFail(String... ids) throws UserNotFoundException {
         for (String id : ids) {
             readOne(id);
         }
@@ -73,16 +75,18 @@ public class UserServiceImpl implements UserService {
         if (userRepository.usernameExists(user.getUsername())) {
             throw new UserExistsException(user.getUsername());
         }
-        return userRepository.save(user);
+        return userRepository.save(user.toBuilder()
+                .password(passwordEncoderService.encode(user.getPassword()))
+                .build());
     }
     
     @Override
-    public void setPassword(String id, String password) {
-        userRepository.setPassword(id, password);
+    public void encodeAndSetPassword(String id, String password) {
+        userRepository.setPassword(id, passwordEncoderService.encode(password));
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationStateEnum registrationState) {
+    public void setRegistrationState(String id, RegistrationState registrationState) {
         userRepository.setRegistrationState(id, registrationState);
     }
 }

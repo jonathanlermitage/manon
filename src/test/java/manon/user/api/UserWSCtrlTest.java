@@ -15,11 +15,11 @@ import static org.mockito.ArgumentMatchers.any;
 public class UserWSCtrlTest extends MockBeforeClass {
     
     @DataProvider
-    public Object[][] dataProviderShouldVerifyRegister() {
-        return new Object[][]{
-                {whenAdmin()},
-                {whenP1()},
-                {whenAnonymous()}
+    public Object[] dataProviderShouldVerifyRegister() {
+        return new Object[]{
+                whenAdmin(),
+                whenP1(),
+                whenAnonymous()
         };
     }
     

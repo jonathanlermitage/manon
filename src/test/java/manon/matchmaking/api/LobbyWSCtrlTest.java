@@ -4,7 +4,7 @@ import manon.util.basetest.MockBeforeClass;
 import manon.util.basetest.Rs;
 import org.testng.annotations.Test;
 
-import static manon.matchmaking.LobbyLeagueEnum.REGULAR;
+import static manon.matchmaking.LobbyLeague.REGULAR;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 

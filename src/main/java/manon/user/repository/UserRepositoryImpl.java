@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import manon.user.document.User;
 import manon.user.form.UserUpdateForm;
 import manon.user.friendship.model.FriendshipEvent;
-import manon.user.registration.RegistrationStateEnum;
+import manon.user.registration.RegistrationState;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
@@ -164,7 +164,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationStateEnum registrationState) {
+    public void setRegistrationState(String id, RegistrationState registrationState) {
         mongoTemplate.updateFirst(
                 query(where("id").is(id)),
                 new Update().set("registrationState", registrationState),

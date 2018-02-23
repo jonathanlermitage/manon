@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.user.UserAuthority;
 import manon.user.friendship.model.FriendshipEvent;
-import manon.user.registration.RegistrationStateEnum;
+import manon.user.registration.RegistrationState;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -74,7 +74,7 @@ public final class User implements Serializable, UserVersion {
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = PASSWORD_SIZE_ERRMSG)
     private String password;
     
-    private RegistrationStateEnum registrationState;
+    private RegistrationState registrationState;
     
     /** A non-unique name that can change, NOT mandatory. */
     @Indexed(background = true)

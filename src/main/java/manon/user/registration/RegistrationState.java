@@ -1,6 +1,6 @@
 package manon.user.registration;
 
-public enum RegistrationStateEnum {
+public enum RegistrationState {
     
     ACTIVE,
     SUSPENDED,

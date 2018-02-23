@@ -1,7 +1,7 @@
 package manon.user.repository;
 
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.RegistrationStateEnum;
+import manon.user.registration.RegistrationState;
 
 public interface UserRepositoryCustom {
     
@@ -51,5 +51,5 @@ public interface UserRepositoryCustom {
     
     void setPassword(String id, String password);
     
-    void setRegistrationState(String id, RegistrationStateEnum registrationState);
+    void setRegistrationState(String id, RegistrationState registrationState);
 }

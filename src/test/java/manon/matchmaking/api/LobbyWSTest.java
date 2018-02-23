@@ -2,7 +2,7 @@ package manon.matchmaking.api;
 
 import io.restassured.response.Response;
 import lombok.SneakyThrows;
-import manon.matchmaking.LobbyLeagueEnum;
+import manon.matchmaking.LobbyLeague;
 import manon.matchmaking.document.LobbyTeam;
 import manon.matchmaking.service.LobbyService;
 import manon.util.basetest.InitBeforeTest;
@@ -80,17 +80,17 @@ public class LobbyWSTest extends InitBeforeTest {
     @Test
     public void shouldEnterRegularLobbyAndCheckStatus() {
         whenP1().getRequestSpecification()
-                .put(API_LOBBY + "/enter/" + LobbyLeagueEnum.REGULAR)
+                .put(API_LOBBY + "/enter/" + LobbyLeague.REGULAR)
                 .then().statusCode(SC_OK);
-        checkStatus(whenP1(), LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyLeague.REGULAR);
     }
     
     @Test
     public void shouldEnterCompetitiveLobbyAndCheckStatus() {
         whenP1().getRequestSpecification()
-                .put(API_LOBBY + "/enter/" + LobbyLeagueEnum.COMPETITIVE)
+                .put(API_LOBBY + "/enter/" + LobbyLeague.COMPETITIVE)
                 .then().statusCode(SC_OK);
-        checkStatus(whenP1(), LobbyLeagueEnum.COMPETITIVE);
+        checkStatus(whenP1(), LobbyLeague.COMPETITIVE);
     }
     
     @Test
@@ -114,7 +114,7 @@ public class LobbyWSTest extends InitBeforeTest {
     }
     
     @SneakyThrows
-    private void checkStatus(Rs rs, LobbyLeagueEnum league) {
+    private void checkStatus(Rs rs, LobbyLeague league) {
         Response res = rs.getRequestSpecification()
                 .get(API_LOBBY + "/status");
         res.then()
@@ -131,7 +131,7 @@ public class LobbyWSTest extends InitBeforeTest {
     @Test
     public void shouldCreateTeamAndQuit() {
         createTeamAlone(whenP1());
-        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
     }
     
     @Test(dependsOnMethods = "shouldCreateTeamAndQuit")
@@ -144,11 +144,11 @@ public class LobbyWSTest extends InitBeforeTest {
     @Test
     public void shouldCreateTeamAndEnterSolo() {
         createTeamAlone(whenP1());
-        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
         whenP1().getRequestSpecification()
-                .put(API_LOBBY + "/enter/" + LobbyLeagueEnum.REGULAR)
+                .put(API_LOBBY + "/enter/" + LobbyLeague.REGULAR)
                 .then().statusCode(SC_OK);
-        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.SOLO, LobbyLeagueEnum.REGULAR);
+        checkStatus(whenP1(), LobbyWSTest.LobbyStatus.SOLO, LobbyLeague.REGULAR);
     }
     
     @Test(dependsOnMethods = "shouldCreateTeamAndEnterSolo")
@@ -168,7 +168,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
-        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
         checkStatusOut(rs2);
     }
     
@@ -181,7 +181,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + userId + "/team")
                 .then().statusCode(SC_CONFLICT);
-        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
     }
     
     @Test
@@ -192,7 +192,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + objId() + "/team")
                 .then().statusCode(SC_NOT_FOUND);
-        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
     }
     
     @Test
@@ -206,7 +206,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
-        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
         checkStatusOut(rs2);
         
         Response resInvitations = rs2.getRequestSpecification()
@@ -229,8 +229,8 @@ public class LobbyWSTest extends InitBeforeTest {
         assertThat(invitations).hasSize(0);
         LobbyTeam team = readValue(resAccept, LobbyTeam.class);
         assertThat(team.getUserIds()).hasSize(2).contains(userId).contains(user2Id);
-        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
-        checkStatus(rs2, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rs, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
+        checkStatus(rs2, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
     }
     
     @Test
@@ -513,7 +513,7 @@ public class LobbyWSTest extends InitBeforeTest {
     }
     
     @SneakyThrows
-    private void checkStatus(Rs rs, LobbyStatus lobbyStatus, LobbyLeagueEnum league) {
+    private void checkStatus(Rs rs, LobbyStatus lobbyStatus, LobbyLeague league) {
         Response res = rs.getRequestSpecification()
                 .get(API_LOBBY + "/status");
         res.then()
@@ -542,7 +542,7 @@ public class LobbyWSTest extends InitBeforeTest {
     
     private LobbyTeam createTeamAlone(Rs rs) {
         Response res = rs.getRequestSpecification()
-                .post(API_LOBBY + "/team/" + LobbyLeagueEnum.REGULAR);
+                .post(API_LOBBY + "/team/" + LobbyLeague.REGULAR);
         res.then().statusCode(SC_CREATED);
         return readValue(res, LobbyTeam.class);
     }
@@ -554,7 +554,7 @@ public class LobbyWSTest extends InitBeforeTest {
                 .contentType(JSON)
                 .put(API_LOBBY + "/invite/user/" + user2Id + "/team")
                 .then().statusCode(SC_OK);
-        checkStatus(rsLeader, LobbyWSTest.LobbyStatus.TEAM, LobbyLeagueEnum.REGULAR);
+        checkStatus(rsLeader, LobbyWSTest.LobbyStatus.TEAM, LobbyLeague.REGULAR);
         checkStatusOut(rs2);
         
         Response resInvitations = rs2.getRequestSpecification()

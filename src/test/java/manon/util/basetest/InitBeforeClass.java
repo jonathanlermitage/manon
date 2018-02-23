@@ -83,12 +83,16 @@ public abstract class InitBeforeClass extends BaseTests {
         }
     }
     
-    public void initDb() throws UserExistsException {
-        long t1 = currentTimeMillis();
+    public void clearDb() {
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }
         userCache.clear();
+    }
+    
+    public void initDb() throws UserExistsException {
+        long t1 = currentTimeMillis();
+        clearDb();
         userAdminService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
@@ -184,11 +188,8 @@ public abstract class InitBeforeClass extends BaseTests {
     public final String DP_TRUEFALSE = "dataProviderTrueFalse";
     
     @DataProvider
-    public Object[][] dataProviderTrueFalse() {
-        return new Object[][]{
-                {true},
-                {false}
-        };
+    public Object[] dataProviderTrueFalse() {
+        return new Object[]{true, false};
     }
     
     //

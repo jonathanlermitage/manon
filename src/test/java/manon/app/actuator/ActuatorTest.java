@@ -18,15 +18,15 @@ public class ActuatorTest extends InitBeforeClass {
      * See <a href="http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html">endpoints</a>.
      */
     @DataProvider
-    public Object[][] dataProviderShouldNotGetSpringBoot1Actuator() {
-        return new Object[][]{
-                {"/beans"},
-                {"/configprops"},
-                {"/dump"},
-                {"/env"},
-                {"/health"},
-                {"/info"},
-                {"/metrics"}
+    public Object[] dataProviderShouldNotGetSpringBoot1Actuator() {
+        return new Object[]{
+                "/beans",
+                "/configprops",
+                "/dump",
+                "/env",
+                "/health",
+                "/info",
+                "/metrics"
         };
     }
     
