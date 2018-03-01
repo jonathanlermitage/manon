@@ -67,42 +67,20 @@
         <slf4j-api.version>1.7.25</slf4j-api.version>
 
         <!-- Aspect -->
-        <aspectjrt.version>1.9.0.RC4</aspectjrt.version>
+        <aspectjrt.version>1.8.13</aspectjrt.version>
 
         <!-- Spring -->
-        <spring-boot.version>2.0.0.RC2</spring-boot.version>
+        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
         <spring-framework.version>5.0.4.RELEASE</spring-framework.version>
-        <spring-security-core.version>5.0.2.RELEASE</spring-security-core.version>
-        <spring-security-config.version>5.0.2.RELEASE</spring-security-config.version>
-        <spring-security-web.version>5.0.2.RELEASE</spring-security-web.version>
+        <spring-security-core.version>5.0.3.RELEASE</spring-security-core.version>
+        <spring-security-config.version>5.0.3.RELEASE</spring-security-config.version>
+        <spring-security-web.version>5.0.3.RELEASE</spring-security-web.version>
         <spring-batch-test.version>4.0.0.RELEASE</spring-batch-test.version>
-        <spring-boot-devtools.version>2.0.0.RC2</spring-boot-devtools.version>
+        <spring-boot-devtools.version>2.0.0.RELEASE</spring-boot-devtools.version>
 
         <commons-lang3.version>3.7</commons-lang3.version>
 
     </properties>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <dependencies>
 
@@ -372,27 +350,6 @@
     <build>
         <finalName>manon</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>[3.5.2,)</version>
-                                </requireMavenVersion>
-                            </rules>
-                            <fail>true</fail>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
