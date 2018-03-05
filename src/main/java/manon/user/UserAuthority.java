@@ -3,6 +3,7 @@ package manon.user;
 /** User authorities. */
 public enum UserAuthority {
     
-    ADMIN,
-    PLAYER
+    ROLE_ADMIN,
+    ROLE_PLAYER,
+    ROLE_ACTUATOR
 }

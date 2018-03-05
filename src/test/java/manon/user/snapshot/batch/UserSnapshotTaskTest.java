@@ -1,6 +1,6 @@
 package manon.user.snapshot.batch;
 
-import manon.batch.service.TaskRunnerService;
+import manon.app.batch.service.TaskRunnerService;
 import manon.user.service.UserService;
 import manon.user.snapshot.document.UserSnapshot;
 import manon.user.snapshot.document.UsersStats;

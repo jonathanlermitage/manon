@@ -1,7 +1,7 @@
 package manon.user.snapshot.batch;
 
 import lombok.RequiredArgsConstructor;
-import manon.batch.listener.TaskListener;
+import manon.app.batch.listener.TaskListener;
 import manon.user.document.User;
 import manon.user.snapshot.document.UserSnapshot;
 import manon.user.snapshot.document.UsersStats;

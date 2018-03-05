@@ -10,12 +10,9 @@ public interface API {
     /** Administration operations on users.*/
     String API_USER_ADMIN = API_V1 + "/user/admin";
     
-    /** Lobby management. */
+    /** Lobby trace. */
     String API_LOBBY = API_V1 + "/lobby";
     
-    /** System management. */
+    /** System trace. */
     String API_SYS = API_V1 + "/sys";
-    
-    /** Operations on tasks (Spring Batch).*/
-    String API_TASK = API_V1 + "/sys/task";
 }

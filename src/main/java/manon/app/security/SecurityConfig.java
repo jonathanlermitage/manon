@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_SYS;
-import static manon.app.config.API.API_TASK;
 import static manon.app.config.API.API_USER;
 import static manon.app.config.API.API_USER_ADMIN;
 import static org.springframework.http.HttpMethod.GET;
@@ -25,8 +24,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
-    private static final String ADMIN = UserAuthority.ADMIN.name();
-    private static final String PLAYER = UserAuthority.PLAYER.name();
+    private static final String ADMIN = UserAuthority.ROLE_ADMIN.name();
+    private static final String PLAYER = UserAuthority.ROLE_PLAYER.name();
+    private static final String ACTUATOR = UserAuthority.ROLE_ACTUATOR.name();
     
     private final PasswordEncoderService passwordEncoderService;
     private final UserLoaderService userLoaderService;
@@ -38,17 +38,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 
                 .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
-                .antMatchers(API_TASK + "/**").hasAuthority(ADMIN)
                 .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
                 
                 .antMatchers(POST, API_USER).permitAll() // user registration
                 .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
                 .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
                 
-                .antMatchers("/actuator").hasAuthority(ADMIN)
-                .antMatchers("/actuator/health").permitAll()
-                .antMatchers("/actuator/info").permitAll()
-                .antMatchers("/actuator/**").hasAuthority(ADMIN)
+                .antMatchers("/actuator").hasAuthority(ACTUATOR)
+                .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
                 
                 .anyRequest().denyAll()
                 .and().httpBasic()

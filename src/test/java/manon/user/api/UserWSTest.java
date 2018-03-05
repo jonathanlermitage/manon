@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import static io.restassured.http.ContentType.JSON;
 import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
 import static manon.app.config.ControllerAdviceBase.FIELD_MESSAGE;
-import static manon.user.UserAuthority.PLAYER;
+import static manon.user.UserAuthority.ROLE_PLAYER;
 import static manon.user.registration.RegistrationState.ACTIVE;
 import static manon.user.registration.RegistrationState.DELETED;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
@@ -53,7 +53,7 @@ public class UserWSTest extends InitBeforeTest {
                 .statusCode(SC_CREATED);
         User user = userService.readByUsername(name);
         assertEquals(user.getUsername(), name);
-        assertThat(user.getRoles()).containsExactly(PLAYER);
+        assertThat(user.getRoles()).containsExactly(ROLE_PLAYER);
         assertEquals(user.getVersion(), 0);
         assertEquals(user.getRegistrationState(), ACTIVE);
         assertNotEquals(pwd, user.getPassword(), "don't store raw passwords!"); // IMPORTANT always hash stored password

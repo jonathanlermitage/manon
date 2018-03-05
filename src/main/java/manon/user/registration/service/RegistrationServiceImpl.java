@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static manon.user.UserAuthority.ADMIN;
-import static manon.user.UserAuthority.PLAYER;
+import static manon.user.UserAuthority.ROLE_ACTUATOR;
+import static manon.user.UserAuthority.ROLE_ADMIN;
+import static manon.user.UserAuthority.ROLE_PLAYER;
 import static manon.user.registration.RegistrationState.ACTIVE;
 import static manon.user.registration.RegistrationState.BANNED;
 import static manon.user.registration.RegistrationState.DELETED;
@@ -49,12 +50,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     @Override
     public User registerPlayer(String username, String password) throws UserExistsException {
-        return register(PLAYER, username, password, ACTIVE);
+        return register(ROLE_PLAYER, username, password, ACTIVE);
     }
     
     @Override
     public User registerRoot(String username, String password) throws UserExistsException {
-        return register(List.of(ADMIN, PLAYER), username, password, ACTIVE);
+        return register(List.of(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR), username, password, ACTIVE);
     }
     
     /**

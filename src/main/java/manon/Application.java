@@ -2,7 +2,7 @@ package manon;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.app.management.service.AppTraceService;
+import manon.app.trace.service.AppTraceService;
 import manon.app.stats.service.PerformanceRecorder;
 import manon.user.UserExistsException;
 import manon.user.service.UserAdminService;
@@ -20,8 +20,8 @@ import javax.annotation.PreDestroy;
 import java.util.List;
 
 import static manon.app.config.SpringProfiles.METRICS;
-import static manon.app.management.document.AppTrace.Event.APP_START;
-import static manon.app.management.document.AppTrace.Level.INFO;
+import static manon.app.trace.document.AppTrace.Event.APP_START;
+import static manon.app.trace.document.AppTrace.Level.INFO;
 
 @SpringBootApplication
 @EnableMongoAuditing

@@ -13,7 +13,7 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests {
     public static final String API_USER = API_V1 + "/user";
     public static final String API_USER_ADMIN = API_V1 + "/user/admin";
     public static final String API_LOBBY = API_V1 + "/lobby";
-    public static final String API_TASK = API_V1 + "/sys/task";
+    public static final String API_SYS = API_V1 + "/sys";
     
     public static final String ERRORS_MSG = "errors.defaultMessage";
     
