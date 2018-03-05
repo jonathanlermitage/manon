@@ -24,6 +24,7 @@ Some experimentation with Spring Boot 2, JDK9, NoSQL, etc. It demonstrates usage
 * Maven and Gradle wrappers, and a `do.cmd` script that helps you to start some usefull commands
 * code coverage thanks to **JaCoCo** Maven and Gradle plugin
 * some **AOP** to capture performance of API endpoints
+* Spring **Actuator** web endpoints configured
 
 For fun and to show some skills :cat:
 
