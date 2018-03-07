@@ -1,4 +1,5 @@
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true)](https://ci.appveyor.com/project/jonathanlermitage/manon) [![Travis Build status](https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5)](https://travis-ci.org/jonathanlermitage/manon) [![license](https://img.shields.io/github/license/jonathanlermitage/manon.svg)](https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt)
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true)](https://ci.appveyor.com/project/jonathanlermitage/manon) [![Travis Build status](https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5)](https://travis-ci.org/jonathanlermitage/manon) 
+[![codecov](https://codecov.io/gh/jonathanlermitage/manon/branch/spring5/graph/badge.svg)](https://codecov.io/gh/jonathanlermitage/manon) [![license](https://img.shields.io/github/license/jonathanlermitage/manon.svg)](https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt)
 
 1. [Project](https://github.com/jonathanlermitage/manon#project)  
 2. [Author](https://github.com/jonathanlermitage/manon#author)
@@ -20,9 +21,9 @@ Some experimentation with Spring Boot 2, JDK9, NoSQL, etc. It demonstrates usage
 * Spring **Cache** via Redis
 * **integration tests** and (some) unit-test via **TestNG**, because TestNG is so much superior to JUnit4/5... (better keywords, dataproviders, old/mature and very stable API, easily configurable, test suites)
 * tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project, simply run `mvnw test` 
-* some free (for open-source) third-party **CI** like AppVeyor (Windows) and Travis (Linux)
+* integration with some free (for open-source) third-party **CI** like **AppVeyor** (Windows) and **Travis** (Linux)
 * Maven and Gradle wrappers, and a `do.cmd` script that helps you to start some usefull commands
-* code coverage thanks to **JaCoCo** Maven and Gradle plugin
+* code coverage thanks to **JaCoCo** Maven and Gradle plugin and integration with **CodeCov**
 * some **AOP** to capture performance of API endpoints
 * Spring **Actuator** web endpoints configured
 

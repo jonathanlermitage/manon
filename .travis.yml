@@ -1,6 +1,13 @@
 language: java
 
+sudo: false # faster builds
+
 jdk: oraclejdk9
 
 before_install:
   - chmod +x mvnw
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+script: "./mvnw test -Pcoverage -B"
