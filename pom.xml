@@ -41,7 +41,7 @@
 
         <!-- Annotation -->
         <lombok.version>1.16.20</lombok.version>
-        <jetbrains.annotations.version>15.0</jetbrains.annotations.version>
+        <jetbrains.annotations.version>16.0.1</jetbrains.annotations.version>
 
         <!-- Testing -->
         <assertj-core.version>3.9.1</assertj-core.version>
@@ -49,7 +49,7 @@
         <janino.version>3.0.8</janino.version>
         <testng.version>6.14.2</testng.version>
         <rest-assured.version>3.0.7</rest-assured.version>
-        <mockito-core.version>2.15.0</mockito-core.version>
+        <mockito-core.version>2.16.0</mockito-core.version>
         <hsqldb.version>2.4.0</hsqldb.version>
         <embed.mongo.version>2.0.3</embed.mongo.version>
 
@@ -59,7 +59,7 @@
         <jackson-databind.version>2.9.4</jackson-databind.version>
 
         <!-- SQL -->
-        <mariadb.version>2.2.2</mariadb.version>
+        <mariadb.version>2.2.3</mariadb.version>
 
         <!-- Log -->
         <jboss-logging.version>3.3.2.Final</jboss-logging.version>
@@ -75,7 +75,7 @@
         <spring-security-core.version>5.0.3.RELEASE</spring-security-core.version>
         <spring-security-config.version>5.0.3.RELEASE</spring-security-config.version>
         <spring-security-web.version>5.0.3.RELEASE</spring-security-web.version>
-        <spring-batch-test.version>4.0.0.RELEASE</spring-batch-test.version>
+        <spring-batch-test.version>4.0.1.RELEASE</spring-batch-test.version>
         <spring-boot-devtools.version>2.0.0.RELEASE</spring-boot-devtools.version>
 
         <commons-lang3.version>3.7</commons-lang3.version>
