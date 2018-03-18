@@ -7,3 +7,5 @@ manon:
   security.bcrypt.strength: 4
   batch:
     user-snapshot.chunk: 10
+
+management.health.redis.enabled: false # disable Redis health check since we prefer embedded cache provider

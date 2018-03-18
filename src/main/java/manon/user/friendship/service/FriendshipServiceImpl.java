@@ -20,7 +20,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final UserService userService;
     
     @Override
-    public void keepEvents(String... ids) throws UserNotFoundException {
+    public void keepEvents(String... ids) {
         for (String id : ids) {
             userRepository.keepEvents(id, MAX_EVENTS);
         }
@@ -54,19 +54,19 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
     
     @Override
-    public void rejectFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
+    public void rejectFriendshipRequest(String userIdFrom, String userIdTo) {
         userRepository.rejectFriendshipRequest(userIdFrom, userIdTo);
         keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
-    public void cancelFriendshipRequest(String userIdFrom, String userIdTo) throws UserNotFoundException {
+    public void cancelFriendshipRequest(String userIdFrom, String userIdTo) {
         userRepository.cancelFriendshipRequest(userIdFrom, userIdTo);
         keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
-    public void revokeFriendship(String userIdFrom, String userIdTo) throws UserNotFoundException {
+    public void revokeFriendship(String userIdFrom, String userIdTo) {
         userRepository.revokeFriendship(userIdFrom, userIdTo);
         keepEvents(userIdFrom, userIdTo);
     }
