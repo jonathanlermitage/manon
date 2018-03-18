@@ -2,8 +2,8 @@ package manon;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.app.trace.service.AppTraceService;
 import manon.app.stats.service.PerformanceRecorder;
+import manon.app.trace.service.AppTraceService;
 import manon.user.UserExistsException;
 import manon.user.service.UserAdminService;
 import org.springframework.boot.SpringApplication;

@@ -11,9 +11,9 @@ server:
   servlet.application-display-name: manon
   ssl.enabled: false # encryption is handled by Nginx proxy
   undertow.accesslog.enabled: false
+  servlet.context-path: "/"
 
 info.app.name: manon
-
 management:
   endpoint:
     configprops.enabled: true
