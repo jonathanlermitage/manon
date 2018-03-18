@@ -7,5 +7,11 @@ public interface SpringProfiles {
     String METRICS = "metrics";
     
     /** {@value}. */
-    String NO_METRICS = "!metrics";
+    String NOT_METRICS = "!metrics";
+    
+    /** {@value}. */
+    String REDIS_CACHE = "!embeddedcache";
+    
+    /** {@value}. */
+    String EMBEDDED_CACHE = "embeddedcache";
 }

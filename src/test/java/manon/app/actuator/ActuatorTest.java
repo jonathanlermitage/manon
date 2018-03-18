@@ -15,6 +15,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
@@ -67,7 +68,8 @@ public class ActuatorTest extends InitBeforeClass {
                 containsString("\"status\""),
                 containsString("\"diskSpace\""),
                 containsString("\"mongo\""),
-                containsString("\"db\"")
+                containsString("\"db\""),
+                not(containsString("\"redis\"")) // tests use embedded cache, not Redis
         );
     }
     

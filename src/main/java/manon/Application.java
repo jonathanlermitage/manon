@@ -11,6 +11,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -20,12 +22,14 @@ import javax.annotation.PreDestroy;
 import java.util.List;
 
 import static manon.app.config.SpringProfiles.METRICS;
+import static manon.app.info.service.InfoServiceImpl.CACHE_GET_APPVERSION;
 import static manon.app.trace.document.AppTrace.Event.APP_START;
 import static manon.app.trace.document.AppTrace.Level.INFO;
 
 @SpringBootApplication
 @EnableMongoAuditing
 @EnableScheduling
+@EnableCaching
 @Slf4j
 @RequiredArgsConstructor
 public class Application extends SpringBootServletInitializer {
@@ -45,6 +49,7 @@ public class Application extends SpringBootServletInitializer {
     }
     
     @PostConstruct
+    @CacheEvict(value = CACHE_GET_APPVERSION, allEntries = true)
     public void initApp() throws UserExistsException {
         String initAppEvent = "Admin username is " + userAdminService.ensureAdmin().getUsername();
         appTraceService.log(INFO, APP_START, initAppEvent);

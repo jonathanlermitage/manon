@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <surefireArgLine>
-            -ea -Xms128m -Xmx512m -Dspring.profiles.active=test,metrics -Dfile.encoding=UTF-8
+            -ea -Xms128m -Xmx512m -Dspring.profiles.active=test,metrics,embeddedcache -Dfile.encoding=UTF-8
             -Djava.awt.headless=true -XX:CompileThreshold=1500
         </surefireArgLine>
 
@@ -69,6 +69,9 @@
         <!-- Aspect -->
         <aspectjrt.version>1.8.13</aspectjrt.version>
 
+        <!-- Caching -->
+        <jedis.version>2.9.0</jedis.version>
+
         <!-- Spring -->
         <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
         <spring-framework.version>5.0.4.RELEASE</spring-framework.version>
@@ -77,6 +80,7 @@
         <spring-security-web.version>5.0.3.RELEASE</spring-security-web.version>
         <spring-batch-test.version>4.0.1.RELEASE</spring-batch-test.version>
         <spring-boot-devtools.version>2.0.0.RELEASE</spring-boot-devtools.version>
+        <spring-data-redis.version>2.0.5.RELEASE</spring-data-redis.version>
 
         <commons-lang3.version>3.7</commons-lang3.version>
         <springfox-swagger.version>2.7.0</springfox-swagger.version>
@@ -198,6 +202,20 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectjrt.version}</version>
+        </dependency>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- Spring Cache. -->
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-data-redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
