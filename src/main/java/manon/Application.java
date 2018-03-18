@@ -2,6 +2,7 @@ package manon;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import manon.app.info.service.InfoService;
 import manon.app.stats.service.PerformanceRecorder;
 import manon.app.trace.service.AppTraceService;
 import manon.user.UserExistsException;
@@ -11,7 +12,6 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
@@ -22,7 +22,6 @@ import javax.annotation.PreDestroy;
 import java.util.List;
 
 import static manon.app.config.SpringProfiles.METRICS;
-import static manon.app.info.service.InfoServiceImpl.CACHE_GET_APPVERSION;
 import static manon.app.trace.document.AppTrace.Event.APP_START;
 import static manon.app.trace.document.AppTrace.Level.INFO;
 
@@ -38,6 +37,7 @@ public class Application extends SpringBootServletInitializer {
     private final AppTraceService appTraceService;
     private final Environment env;
     private final PerformanceRecorder performanceRecorder;
+    private final InfoService infoService;
     
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -49,8 +49,8 @@ public class Application extends SpringBootServletInitializer {
     }
     
     @PostConstruct
-    @CacheEvict(value = CACHE_GET_APPVERSION, allEntries = true)
     public void initApp() throws UserExistsException {
+        infoService.evictCaches();
         String initAppEvent = "Admin username is " + userAdminService.ensureAdmin().getUsername();
         appTraceService.log(INFO, APP_START, initAppEvent);
     }

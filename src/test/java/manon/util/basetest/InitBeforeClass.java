@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
+import manon.app.info.service.InfoService;
 import manon.user.UserExistsException;
 import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
@@ -55,6 +56,8 @@ public abstract class InitBeforeClass extends BaseTests {
     protected UserAdminService userAdminService;
     @Autowired
     protected RegistrationService registrationService;
+    @Autowired
+    protected InfoService infoService;
     
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -81,6 +84,7 @@ public abstract class InitBeforeClass extends BaseTests {
             initDb();
             initialized = true;
         }
+        infoService.evictCaches();
     }
     
     public void clearDb() {
