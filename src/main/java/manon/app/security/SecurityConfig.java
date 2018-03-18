@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ADMIN = UserAuthority.ROLE_ADMIN.name();
     private static final String PLAYER = UserAuthority.ROLE_PLAYER.name();
     private static final String ACTUATOR = UserAuthority.ROLE_ACTUATOR.name();
+    private static final String DEV = UserAuthority.ROLE_DEV.name();
     
     private final PasswordEncoderService passwordEncoderService;
     private final UserLoaderService userLoaderService;
@@ -46,6 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 .antMatchers("/actuator").hasAuthority(ACTUATOR)
                 .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
+                
+                .antMatchers("/swagger-resources",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-resources/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/v2/api-docs").hasAuthority(DEV)
                 
                 .anyRequest().denyAll()
                 .and().httpBasic()

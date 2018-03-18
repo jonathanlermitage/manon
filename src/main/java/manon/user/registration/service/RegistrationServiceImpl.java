@@ -13,6 +13,7 @@ import java.util.List;
 
 import static manon.user.UserAuthority.ROLE_ACTUATOR;
 import static manon.user.UserAuthority.ROLE_ADMIN;
+import static manon.user.UserAuthority.ROLE_DEV;
 import static manon.user.UserAuthority.ROLE_PLAYER;
 import static manon.user.registration.RegistrationState.ACTIVE;
 import static manon.user.registration.RegistrationState.BANNED;
@@ -55,7 +56,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     @Override
     public User registerRoot(String username, String password) throws UserExistsException {
-        return register(List.of(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR), username, password, ACTIVE);
+        return register(List.of(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR, ROLE_DEV), username, password, ACTIVE);
     }
     
     /**
