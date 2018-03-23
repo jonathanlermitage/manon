@@ -1,12 +1,12 @@
 package manon.matchmaking;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class TeamInvitationNotFoundException extends Exception {
     
-    private String userId;
-    private String teamId;
+    private final String userId;
+    private final String teamId;
 }

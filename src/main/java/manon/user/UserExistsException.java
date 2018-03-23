@@ -1,11 +1,11 @@
 package manon.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class UserExistsException extends Exception {
     
-    private String username;
+    private final String username;
 }

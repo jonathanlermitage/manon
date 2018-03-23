@@ -2,10 +2,15 @@ package manon.app.batch.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import manon.app.batch.TaskNotFoundException;
 import manon.app.batch.model.TaskStatus;
 import manon.app.batch.service.TaskRunnerService;
 import manon.app.security.UserSimpleDetails;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +30,8 @@ public class TaskRunnerWS {
     
     @PostMapping(value = "/batch/start/{task}")
     public TaskStatus startTask(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("task") String task)
-            throws Exception {
+            throws TaskNotFoundException, JobParametersInvalidException, JobExecutionAlreadyRunningException,
+            JobRestartException, JobInstanceAlreadyCompleteException {
         log.warn("admin {} starts task {}", sys.getUsername(), task);
         ExitStatus exitStatus = taskRunnerService.run(task);
         return TaskStatus.builder()

@@ -94,4 +94,8 @@ public final class Tools {
     public static String objId() {
         return new ObjectId().toString();
     }
+    
+    private Tools() {
+        // utility class
+    }
 }

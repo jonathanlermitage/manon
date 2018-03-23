@@ -44,7 +44,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
         long execTime = currentTimeMillis() - start;
         String signature = point.getThis().getClass().getName();
         if (signature.contains("$")) {
-            signature = signature.substring(0, signature.indexOf("$"));
+            signature = signature.substring(0, signature.indexOf('$'));
         }
         Method method = MethodSignature.class.cast(point.getSignature()).getMethod();
         signature += ":" + method.getName() + Arrays.toString(stream(method.getParameterTypes()).map(Class::getSimpleName).toArray());

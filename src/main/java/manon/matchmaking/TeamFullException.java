@@ -1,11 +1,11 @@
 package manon.matchmaking;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class TeamFullException extends Exception {
     
-    private String teamId;
+    private final String teamId;
 }

@@ -16,6 +16,7 @@ public class EmbeddedCacheConfig extends CachingConfigurerSupport {
     
     @NotNull
     @Bean
+    @Override
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager();
     }

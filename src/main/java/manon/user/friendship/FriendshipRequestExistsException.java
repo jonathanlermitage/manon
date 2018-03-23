@@ -1,15 +1,15 @@
 package manon.user.friendship;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * A friendship request already exists.
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class FriendshipRequestExistsException extends Exception {
     
-    private String userIdFrom;
-    private String userIdTo;
+    private final String userIdFrom;
+    private final String userIdTo;
 }

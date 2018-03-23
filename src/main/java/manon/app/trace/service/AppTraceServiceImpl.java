@@ -29,7 +29,7 @@ public class AppTraceServiceImpl implements AppTraceService {
     
     private final AppTraceRepository appTraceRepository;
     
-    private final DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private Date startupDate = new Date();
     
     @Getter

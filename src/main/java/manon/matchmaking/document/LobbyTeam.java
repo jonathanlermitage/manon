@@ -65,6 +65,11 @@ public final class LobbyTeam {
      * {@link LobbyTeam} fields default or initial values.
      */
     public static class Default {
+        
         public static final short MAX_TEAM_SIZE = 6;
+        
+        private Default() {
+            // utility class
+        }
     }
 }

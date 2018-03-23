@@ -132,5 +132,9 @@ public final class User implements Serializable, UserVersion {
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
         
         public static final int MAX_EVENTS = 30;
+        
+        private Validation() {
+            // utility class
+        }
     }
 }

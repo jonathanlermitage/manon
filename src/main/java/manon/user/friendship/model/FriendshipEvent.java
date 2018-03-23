@@ -25,7 +25,7 @@ public class FriendshipEvent implements Serializable {
     @Builder.Default
     private Date date = now();
     private Code event;
-    private List<Object> params;
+    private List<? extends Serializable> params;
     
     public enum Code {
         YOU_SENT_FRIEND_REQUEST,

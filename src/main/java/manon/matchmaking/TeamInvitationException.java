@@ -1,13 +1,13 @@
 package manon.matchmaking;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class TeamInvitationException extends Exception {
     
-    private Cause errorCause;
+    private final Cause errorCause;
     
     public enum Cause {
         INVITE_ITSELF

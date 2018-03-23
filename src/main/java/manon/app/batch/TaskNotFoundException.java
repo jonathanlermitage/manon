@@ -1,11 +1,11 @@
 package manon.app.batch;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class TaskNotFoundException extends Exception {
     
-    private String name;
+    private final String name;
 }
