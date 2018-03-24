@@ -3,11 +3,10 @@ package manon.matchmaking.repository;
 import lombok.RequiredArgsConstructor;
 import manon.matchmaking.document.LobbyTeam;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,9 +17,9 @@ public class LobbyTeamRepositoryImpl implements LobbyTeamRepositoryCustom {
     @Override
     public LobbyTeam removeUserId(String id, String userId) {
         mongoTemplate.updateMulti(
-                query(where("userIds").in(userId)),
+                Query.query(Criteria.where(LobbyTeam.Field.USER_IDS).in(userId)),
                 new Update()
-                        .pull("userIds", userId),
+                        .pull(LobbyTeam.Field.USER_IDS, userId),
                 LobbyTeam.class);
         return mongoTemplate.findById(id, LobbyTeam.class);
     }
@@ -28,9 +27,9 @@ public class LobbyTeamRepositoryImpl implements LobbyTeamRepositoryCustom {
     @Override
     public LobbyTeam addUserId(String id, String userId) {
         mongoTemplate.updateMulti(
-                query(where("id").is(id)),
+                Query.query(Criteria.where(LobbyTeam.Field.ID).is(id)),
                 new Update()
-                        .addToSet("userIds", userId),
+                        .addToSet(LobbyTeam.Field.USER_IDS, userId),
                 LobbyTeam.class);
         return mongoTemplate.findById(id, LobbyTeam.class);
     }
@@ -38,18 +37,18 @@ public class LobbyTeamRepositoryImpl implements LobbyTeamRepositoryCustom {
     @Override
     public void setLeader(String id, String userId) {
         mongoTemplate.updateMulti(
-                query(where("id").is(id)),
+                Query.query(Criteria.where(LobbyTeam.Field.ID).is(id)),
                 new Update()
-                        .set("leader", userId),
+                        .set(LobbyTeam.Field.LEADER, userId),
                 LobbyTeam.class);
     }
     
     @Override
     public void setReady(String id, boolean ready) {
         mongoTemplate.updateMulti(
-                query(where("id").is(id)),
+                Query.query(Criteria.where(LobbyTeam.Field.ID).is(id)),
                 new Update()
-                        .set("ready", ready),
+                        .set(LobbyTeam.Field.READY, ready),
                 LobbyTeam.class);
     }
 }

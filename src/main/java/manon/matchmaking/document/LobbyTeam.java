@@ -61,14 +61,23 @@ public final class LobbyTeam {
     @LastModifiedDate
     private Date updateDate;
     
-    /**
-     * {@link LobbyTeam} fields default or initial values.
-     */
+    /** {@link LobbyTeam} fields default or initial values. */
     public static class Default {
         
         public static final short MAX_TEAM_SIZE = 6;
         
         private Default() {
+            // utility class
+        }
+    }
+    
+    public static class Field {
+        public static final String ID = "id";
+        public static final String LEADER = "leader";
+        public static final String READY = "ready";
+        public static final String USER_IDS = "userIds";
+        
+        public Field() {
             // utility class
         }
     }

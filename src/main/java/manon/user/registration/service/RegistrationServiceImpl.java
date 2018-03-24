@@ -7,9 +7,11 @@ import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.registration.RegistrationState;
 import manon.user.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static manon.user.UserAuthority.ROLE_ACTUATOR;
 import static manon.user.UserAuthority.ROLE_ADMIN;
@@ -25,6 +27,12 @@ import static manon.user.registration.RegistrationState.SUSPENDED;
 public class RegistrationServiceImpl implements RegistrationService {
     
     private final UserService userService;
+    
+    @Value("${manon.admin.default-admin.username}")
+    private String adminUsername;
+    
+    @Value("${manon.admin.default-admin.password}")
+    private String adminPassword;
     
     @Override
     public User activate(String userId) throws UserNotFoundException {
@@ -89,5 +97,14 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .registrationState(registrationState)
                 .build();
         return userService.create(user);
+    }
+    
+    @Override
+    public User ensureAdmin() throws UserExistsException {
+        Optional<User> opAdmin = userService.findByUsername(adminUsername);
+        if (opAdmin.isPresent()) {
+            return opAdmin.get();
+        }
+        return registerRoot(adminUsername, adminPassword);
     }
 }

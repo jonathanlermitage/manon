@@ -1,4 +1,4 @@
-package manon.user.service;
+package manon.user.registration.service;
 
 import manon.user.document.User;
 import manon.util.basetest.InitBeforeTest;
@@ -8,20 +8,20 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-public class UserAdminServiceTest extends InitBeforeTest {
-    
-    @Value("${manon.admin.default-admin.username}")
-    private String adminUsername;
+public class RegistrationServiceTest extends InitBeforeTest {
     
     @Override
     public int getNumberOfUsers() {
         return 0;
     }
     
+    @Value("${manon.admin.default-admin.username}")
+    private String adminUsername;
+    
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {
         User existingAdmin = userService.findByUsername(adminUsername).orElseThrow(Exception::new);
-        User ensuredAdmin = userAdminService.ensureAdmin();
+        User ensuredAdmin = registrationService.ensureAdmin();
         assertEquals(ensuredAdmin, existingAdmin);
     }
     
@@ -29,7 +29,7 @@ public class UserAdminServiceTest extends InitBeforeTest {
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
         clearDb();
         assertFalse(userService.findByUsername(adminUsername).isPresent());
-        User ensuredAdmin = userAdminService.ensureAdmin();
+        User ensuredAdmin = registrationService.ensureAdmin();
         assertEquals(ensuredAdmin, userService.findByUsername(adminUsername).orElseThrow(Exception::new));
     }
 }

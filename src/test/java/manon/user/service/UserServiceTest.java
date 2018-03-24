@@ -34,7 +34,7 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(expectedExceptions = UserNotFoundException.class)
     public void shouldFailExistOrFail() throws UserNotFoundException {
-        userService.existOrFail(userId(1), UNKNOWN_USER_ID);
+        userService.existOrFail(userId(1), UNKNOWN_ID);
     }
     
     @Test
@@ -44,7 +44,7 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(expectedExceptions = UserNotFoundException.class)
     public void shouldFailReadOne() throws UserNotFoundException {
-        userService.readOne(UNKNOWN_USER_ID);
+        userService.readOne(UNKNOWN_ID);
     }
     
     @Test
@@ -113,6 +113,6 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(dataProvider = "dataProviderRegistrationStates")
     public void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
-        userService.setRegistrationState(UNKNOWN_USER_ID, registrationState);
+        userService.setRegistrationState(UNKNOWN_ID, registrationState);
     }
 }

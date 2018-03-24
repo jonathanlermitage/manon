@@ -11,16 +11,18 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests {
     
     private static final String API_V1 = "/api/v1";
     public static final String API_USER = API_V1 + "/user";
-    public static final String API_USER_ADMIN = API_V1 + "/user/admin";
+    public static final String API_USER_ADMIN = API_V1 + "/admin/user";
+    public static final String API_WORLD = API_V1 + "/world";
+    public static final String API_WORLD_ADMIN = API_V1 + "/admin/world";
     public static final String API_LOBBY = API_V1 + "/lobby";
     public static final String API_SYS = API_V1 + "/sys";
     
     public static final String ERRORS_MSG = "errors.defaultMessage";
     
     /** Simply a new unique objectId. */
-    public static final String UNKNOWN_USER_ID = objId();
+    public static final String UNKNOWN_ID = objId();
     
-    public static final String UNKNOWN_USER_NAME = "u" + UNKNOWN_USER_ID;
+    public static final String UNKNOWN_USER_NAME = "u" + UNKNOWN_ID;
     
     /** Number of times to start a batch to ensure its repeatability. */
     public static final int NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY = 3;

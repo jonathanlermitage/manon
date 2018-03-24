@@ -127,33 +127,33 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldNotActivateUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/activate")
+                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/activate")
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
+                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
     }
     
     @Test
     public void shouldNotBanUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/ban")
+                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/ban")
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
+                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
     }
     
     @Test
     public void shouldNotSuspendUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/suspend")
+                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/suspend")
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
+                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
     }
 }

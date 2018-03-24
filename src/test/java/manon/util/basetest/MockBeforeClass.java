@@ -1,7 +1,7 @@
 package manon.util.basetest;
 
-import manon.app.info.api.InfoWS;
 import manon.app.batch.api.TaskRunnerWS;
+import manon.app.info.api.InfoWS;
 import manon.matchmaking.api.LobbyWS;
 import manon.user.api.UserAdminWS;
 import manon.user.api.UserWS;

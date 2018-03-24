@@ -8,10 +8,10 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.info.service.InfoService;
+import manon.app.stats.service.PerformanceRecorder;
 import manon.user.UserExistsException;
 import manon.user.document.User;
 import manon.user.registration.service.RegistrationService;
-import manon.user.service.UserAdminService;
 import manon.user.service.UserService;
 import manon.util.Tools;
 import org.slf4j.MDC;
@@ -51,9 +51,10 @@ public abstract class InitBeforeClass extends BaseTests {
     private int port;
     
     @Autowired
-    protected UserService userService;
+    protected PerformanceRecorder performanceRecorder;
+    
     @Autowired
-    protected UserAdminService userAdminService;
+    protected UserService userService;
     @Autowired
     protected RegistrationService registrationService;
     @Autowired
@@ -97,7 +98,7 @@ public abstract class InitBeforeClass extends BaseTests {
     public void initDb() throws UserExistsException {
         long t1 = currentTimeMillis();
         clearDb();
-        userAdminService.ensureAdmin();
+        registrationService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
@@ -117,6 +118,9 @@ public abstract class InitBeforeClass extends BaseTests {
     
     @AfterClass
     public void afterClass() {
+        if (!performanceRecorder.isEmpty()) {
+            log.info(performanceRecorder.showStats());
+        }
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }

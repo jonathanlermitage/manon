@@ -11,9 +11,9 @@
 
 Some experimentation with Spring Boot 2, JDK9, NoSQL, etc. It demonstrates usage of:
 
-* **Maven** or **Gradle** build tools (still not chosen my favorite, that's why you'll see two active branches)
+* **Maven** and **Gradle** build tools (still not chosen my favorite, that's why you'll see two active branches)
 * **Spring Boot 2** + Spring Framework 5 and migration from Spring Boot 1 + Spring Framework 4
-* **Java 9** and migration from Java 8
+* **Java 9** and migration from Java 8 (and migration to Java 10 once Lombok is supported)
 * Spring Web, **REST** API
 * Spring **Security**, to authenticate users via auth_basic, and fetch authentication data from MongoDB instead of default SQL database 
 * Spring Data to serve data from a **MongoDB** database
@@ -22,7 +22,7 @@ Some experimentation with Spring Boot 2, JDK9, NoSQL, etc. It demonstrates usage
 * **integration tests** and (some) unit-test via **TestNG**, because TestNG is so much superior to JUnit4/5... (better keywords, dataproviders, old/mature and very stable API, easily configurable, test suites)
 * tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project, simply run `mvnw test` 
 * integration with some free (for open-source) third-party **CI** like **AppVeyor** (Windows) and **Travis** (Linux)
-* Maven and Gradle wrappers, and a `do.cmd` script that helps you to start some usefull commands
+* Maven and Gradle wrappers, and a `do.cmd` script that helps you to launch some usefull commands
 * code coverage thanks to **JaCoCo** Maven and Gradle plugin and integration with **CodeCov**
 * some **AOP** to capture performance of API endpoints
 * Spring **Actuator** web endpoints configured
@@ -52,13 +52,17 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Compilation and test
 
-To build and test, simply run `mvnw test`. To enable JaCoCo code coverage, activate the `coverage` profile: `mvnw test -Pcoverage`. Tested on Travis (Linux) and AppVeyor (Windows) CI.
+To build and test, simply run `mvnw test`. To enable JaCoCo code coverage, activate the `coverage` profile: `mvnw test -Pcoverage`.  
+Tested on **Travis** (Linux) and **AppVeyor** (Windows) CI, code quality checked on **SonarCloud**.
   
 On Windows, you can use the `do.cmd` script:  
 ```
 do help      show this help message
 do t         test without code coverage
 do tc        test with code coverage
+do sc        compute and upload Sonar analysis to SonarCloud, needs two env vars:
+             - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
+             - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
 do b         build without testing
 do c         clean
 do p         package application to manon.jar

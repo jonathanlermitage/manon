@@ -40,8 +40,7 @@ public interface RegistrationService {
      * @param password password.
      * @return user.
      */
-    User registerPlayer(String username, String password)
-            throws UserExistsException;
+    User registerPlayer(String username, String password) throws UserExistsException;
     
     /**
      * Register an admin (root).
@@ -50,6 +49,11 @@ public interface RegistrationService {
      * @param password password.
      * @return admin user.
      */
-    User registerRoot(String username, String password)
-            throws UserExistsException;
+    User registerRoot(String username, String password) throws UserExistsException;
+    
+    /**
+     * Register an admin (root) is absent.
+     * @return existing admin user, otherwise newly registered admin user.
+     */
+    User ensureAdmin() throws UserExistsException;
 }
