@@ -13,7 +13,6 @@ import java.util.List;
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.http.ContentType.TEXT;
 import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
-import static manon.app.config.ControllerAdviceBase.FIELD_MESSAGE;
 import static manon.user.model.RegistrationState.ACTIVE;
 import static manon.user.model.RegistrationState.BANNED;
 import static manon.user.model.RegistrationState.SUSPENDED;
@@ -132,8 +131,7 @@ public class UserAdminWSTest extends InitBeforeClass {
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
-                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
+                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
     }
     
     @Test
@@ -143,8 +141,7 @@ public class UserAdminWSTest extends InitBeforeClass {
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
-                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
+                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
     }
     
     @Test
@@ -154,7 +151,6 @@ public class UserAdminWSTest extends InitBeforeClass {
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
-                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
+                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
     }
 }

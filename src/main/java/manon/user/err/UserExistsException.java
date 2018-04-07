@@ -7,6 +7,4 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class UserExistsException extends Exception {
-    
-    private final String username;
 }

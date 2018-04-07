@@ -11,6 +11,7 @@ import manon.app.info.service.InfoService;
 import manon.app.stats.service.PerformanceRecorder;
 import manon.game.world.service.WorldService;
 import manon.user.err.UserExistsException;
+import manon.user.err.UserNotFoundException;
 import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
@@ -111,11 +112,11 @@ public abstract class InitBeforeClass extends BaseTests {
         MDC.clear();
     }
     
-    public String makeName(int idx) {
+    private String makeName(int idx) {
         return "USERNAME" + idx;
     }
     
-    public String makePwd(int idx) {
+    private String makePwd(int idx) {
         return "p4ssw0rd" + idx;
     }
     
@@ -180,14 +181,14 @@ public abstract class InitBeforeClass extends BaseTests {
     
     /** Get user id of player n°humanId, where humanId is an index starting at 1. */
     @SuppressWarnings("SameParameterValue")
+    @SneakyThrows(UserNotFoundException.class)
     public String userId(int humanId) {
-        return findAndCacheUserIdByhumanId(humanId);
+        return findAndCacheUserIdByIdx(humanId - 1);
     }
     
-    private String findAndCacheUserIdByhumanId(int humanId) {
-        int idx = humanId - 1;
+    private String findAndCacheUserIdByIdx(int idx) throws UserNotFoundException {
         if (!userIdCache.containsKey(idx)) {
-            userIdCache.put(idx, userService.readByUsername(makeName(idx)).getId());
+            userIdCache.put(idx, userService.readIdByUsername(makeName(idx)).getId());
         }
         return userIdCache.get(idx);
     }
@@ -195,13 +196,6 @@ public abstract class InitBeforeClass extends BaseTests {
     //
     // DataProviders
     //
-    
-    public final String DP_TRUEFALSE = "dataProviderTrueFalse";
-    
-    @DataProvider
-    public Object[] dataProviderTrueFalse() {
-        return new Object[]{true, false};
-    }
     
     public final String DP_AUTHENTICATED = "dataProviderAuthenticated";
     

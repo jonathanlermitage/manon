@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import manon.user.document.User;
 import manon.user.err.UserExistsException;
+import manon.user.err.UserNotFoundException;
 import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
@@ -17,7 +18,6 @@ import org.testng.annotations.Test;
 
 import static io.restassured.http.ContentType.JSON;
 import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
-import static manon.app.config.ControllerAdviceBase.FIELD_MESSAGE;
 import static manon.user.model.RegistrationState.ACTIVE;
 import static manon.user.model.RegistrationState.DELETED;
 import static manon.user.model.UserAuthority.ROLE_PLAYER;
@@ -44,7 +44,7 @@ public class UserWSTest extends InitBeforeTest {
     }
     
     @Test(dataProvider = "dataProviderShouldRegister")
-    public void shouldRegister(String name, String pwd) {
+    public void shouldRegister(String name, String pwd) throws UserNotFoundException {
         whenAnonymous().getRequestSpecification()
                 .body(RegistrationForm.builder().username(name).password(pwd).build())
                 .contentType(JSON)
@@ -73,8 +73,7 @@ public class UserWSTest extends InitBeforeTest {
                 .post(API_USER)
                 .then()
                 .statusCode(SC_CONFLICT).contentType(JSON)
-                .body(FIELD_ERRORS, Matchers.equalTo(UserExistsException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.equalTo("DUPLICATE"));
+                .body(FIELD_ERRORS, Matchers.equalTo(UserExistsException.class.getSimpleName()));
     }
     
     @Test

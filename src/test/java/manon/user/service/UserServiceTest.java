@@ -7,7 +7,6 @@ import manon.user.err.UserNotFoundException;
 import manon.user.model.RegistrationState;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -58,12 +57,12 @@ public class UserServiceTest extends InitBeforeClass {
     }
     
     @Test
-    public void shouldReadByUsername() throws UsernameNotFoundException {
+    public void shouldReadByUsername() throws UserNotFoundException {
         assertEquals(userService.readByUsername(name(1)).getId(), userId(1));
     }
     
-    @Test(expectedExceptions = UsernameNotFoundException.class)
-    public void shouldFailReadByUsername() throws UsernameNotFoundException {
+    @Test(expectedExceptions = UserNotFoundException.class)
+    public void shouldFailReadByUsername() throws UserNotFoundException {
         userService.readByUsername(UNKNOWN_USER_NAME);
     }
     
@@ -74,7 +73,17 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(expectedExceptions = UserNotFoundException.class)
     public void shouldFailReadVersionById() throws UserNotFoundException {
-        userService.readVersionById(UNKNOWN_USER_NAME);
+        userService.readVersionById(UNKNOWN_ID);
+    }
+    
+    @Test
+    public void shouldReadIdByUsername() throws UserNotFoundException {
+        assertEquals(userService.readIdByUsername(name(1)).getId(), userId(1));
+    }
+    
+    @Test(expectedExceptions = UserNotFoundException.class)
+    public void shouldFailReadIdByUsername() throws UserNotFoundException {
+        userService.readIdByUsername(UNKNOWN_USER_NAME);
     }
     
     @Test

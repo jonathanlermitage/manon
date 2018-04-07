@@ -1,14 +1,14 @@
 package manon.user.service;
 
 import manon.user.document.User;
-import manon.user.document.UserVersion;
+import manon.user.document.UserIdProjection;
+import manon.user.document.UserVersionProjection;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.RegistrationState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -22,11 +22,13 @@ public interface UserService {
     
     User readOne(String id) throws UserNotFoundException;
     
-    User readByUsername(String username) throws UsernameNotFoundException;
+    User readByUsername(String username) throws UserNotFoundException;
     
     Optional<User> findByUsername(String username);
     
-    UserVersion readVersionById(String id) throws UserNotFoundException;
+    UserVersionProjection readVersionById(String id) throws UserNotFoundException;
+    
+    UserIdProjection readIdByUsername(String username) throws UserNotFoundException;
     
     /**
      * Update a user's data.

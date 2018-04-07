@@ -20,7 +20,6 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     public Map<String, Object> handle(UserNotFoundException error) {
         Map<String, Object> map = error();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, error.getId());
         return map;
     }
     
@@ -30,7 +29,6 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     public Map<String, Object> handle(UserExistsException error) {
         Map<String, Object> map = error();
         map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, error.getUsername());
         return map;
     }
     

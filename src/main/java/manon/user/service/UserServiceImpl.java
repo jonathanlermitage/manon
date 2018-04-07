@@ -3,7 +3,8 @@ package manon.user.service;
 import lombok.RequiredArgsConstructor;
 import manon.app.security.PasswordEncoderService;
 import manon.user.document.User;
-import manon.user.document.UserVersion;
+import manon.user.document.UserIdProjection;
+import manon.user.document.UserVersionProjection;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
@@ -11,7 +12,6 @@ import manon.user.model.RegistrationState;
 import manon.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User readOne(String id) throws UserNotFoundException {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
@@ -61,19 +61,24 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public User readByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    public User readByUsername(String username) throws UserNotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public UserVersion readVersionById(String id) throws UserNotFoundException {
-        return userRepository.findVersionById(id).orElseThrow(() -> new UserNotFoundException(id));
+    public UserVersionProjection readVersionById(String id) throws UserNotFoundException {
+        return userRepository.findVersionById(id).orElseThrow(UserNotFoundException::new);
+    }
+    
+    @Override
+    public UserIdProjection readIdByUsername(String username) throws UserNotFoundException {
+        return userRepository.findVersionByUsername(username).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
     public User create(User user) throws UserExistsException {
         if (userRepository.usernameExists(user.getUsername())) {
-            throw new UserExistsException(user.getUsername());
+            throw new UserExistsException();
         }
         return userRepository.save(user.toBuilder()
                 .password(passwordEncoderService.encode(user.getPassword()))
