@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import manon.app.trace.model.AppTraceEvent;
+import manon.app.trace.model.AppTraceLevel;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
@@ -36,25 +38,13 @@ public final class AppTrace {
     private String msg;
     
     @Indexed(background = true)
-    private Level level;
+    private AppTraceLevel level;
     
     @Indexed(background = true)
-    private Event event;
+    private AppTraceEvent event;
     
     @Indexed(background = true)
     @JsonFormat(pattern = DATE_FORMAT)
     @CreatedDate
     private Date creationDate;
-    
-    public enum Level {
-        DEBUG,
-        INFO,
-        WARN,
-        ERROR
-    }
-    
-    public enum Event {
-        APP_START,
-        UPTIME
-    }
 }

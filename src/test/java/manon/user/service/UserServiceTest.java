@@ -1,10 +1,10 @@
 package manon.user.service;
 
 import manon.app.security.PasswordEncoderService;
-import manon.user.UserExistsException;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
-import manon.user.registration.RegistrationState;
+import manon.user.err.UserExistsException;
+import manon.user.err.UserNotFoundException;
+import manon.user.model.RegistrationState;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,7 +34,7 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(expectedExceptions = UserNotFoundException.class)
     public void shouldFailExistOrFail() throws UserNotFoundException {
-        userService.existOrFail(userId(1), UNKNOWN_USER_ID);
+        userService.existOrFail(userId(1), UNKNOWN_ID);
     }
     
     @Test
@@ -44,7 +44,7 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(expectedExceptions = UserNotFoundException.class)
     public void shouldFailReadOne() throws UserNotFoundException {
-        userService.readOne(UNKNOWN_USER_ID);
+        userService.readOne(UNKNOWN_ID);
     }
     
     @Test
@@ -113,6 +113,6 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(dataProvider = "dataProviderRegistrationStates")
     public void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
-        userService.setRegistrationState(UNKNOWN_USER_ID, registrationState);
+        userService.setRegistrationState(UNKNOWN_ID, registrationState);
     }
 }

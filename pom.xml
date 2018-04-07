@@ -10,28 +10,11 @@
 
     <name>${project.artifactId}</name>
     <description>manon</description>
-    <organization>
-        <name>Tikione</name>
-    </organization>
-    <developers>
-        <developer>
-            <name>Jonathan Lermitage</name>
-        </developer>
-    </developers>
-    <contributors>
-    </contributors>
-    <licenses>
-        <license>
-            <name>MIT</name>
-            <url>https://opensource.org/licenses/MIT</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <properties>
         <start-class>manon.Application</start-class>
 
-        <java.version>1.9</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <surefireArgLine>
@@ -49,14 +32,14 @@
         <janino.version>3.0.8</janino.version>
         <testng.version>6.14.2</testng.version>
         <rest-assured.version>3.0.7</rest-assured.version>
-        <mockito-core.version>2.16.0</mockito-core.version>
+        <mockito-core.version>2.18.0</mockito-core.version>
         <hsqldb.version>2.4.0</hsqldb.version>
         <embed.mongo.version>2.0.3</embed.mongo.version>
 
         <!-- JSON -->
-        <jackson.version>2.9.4</jackson.version>
-        <jackson-annotations.version>2.9.4</jackson-annotations.version>
-        <jackson-databind.version>2.9.4</jackson-databind.version>
+        <jackson.version>2.9.5</jackson.version>
+        <jackson-annotations.version>2.9.5</jackson-annotations.version>
+        <jackson-databind.version>2.9.5</jackson-databind.version>
 
         <!-- SQL -->
         <mariadb.version>2.2.3</mariadb.version>
@@ -67,20 +50,20 @@
         <slf4j-api.version>1.7.25</slf4j-api.version>
 
         <!-- Aspect -->
-        <aspectjrt.version>1.8.13</aspectjrt.version>
+        <aspectjrt.version>1.9.0</aspectjrt.version>
 
         <!-- Caching -->
         <jedis.version>2.9.0</jedis.version>
 
         <!-- Spring -->
-        <spring-boot.version>2.0.0.RELEASE</spring-boot.version>
-        <spring-framework.version>5.0.4.RELEASE</spring-framework.version>
-        <spring-security-core.version>5.0.3.RELEASE</spring-security-core.version>
-        <spring-security-config.version>5.0.3.RELEASE</spring-security-config.version>
-        <spring-security-web.version>5.0.3.RELEASE</spring-security-web.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+        <spring-framework.version>5.0.5.RELEASE</spring-framework.version>
+        <spring-security-core.version>5.0.4.RELEASE</spring-security-core.version>
+        <spring-security-config.version>5.0.4.RELEASE</spring-security-config.version>
+        <spring-security-web.version>5.0.4.RELEASE</spring-security-web.version>
         <spring-batch-test.version>4.0.1.RELEASE</spring-batch-test.version>
-        <spring-boot-devtools.version>2.0.0.RELEASE</spring-boot-devtools.version>
-        <spring-data-redis.version>2.0.5.RELEASE</spring-data-redis.version>
+        <spring-boot-devtools.version>2.0.1.RELEASE</spring-boot-devtools.version>
+        <spring-data-redis.version>2.0.6.RELEASE</spring-data-redis.version>
 
         <commons-lang3.version>3.7</commons-lang3.version>
         <springfox-swagger.version>2.7.0</springfox-swagger.version>
@@ -473,7 +456,7 @@
                                     <goal>prepare-agent</goal>
                                 </goals>
                                 <configuration>
-                                    <destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
+                                    <destFile>${project.build.directory}/jacoco.exec</destFile>
                                     <propertyName>coverageSurefireArgLine</propertyName>
                                 </configuration>
                             </execution>
@@ -484,15 +467,15 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
-                                    <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
+                                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
-                                    <excludes>
-                                        <!-- model and DTO coverage is not relevant, so exclude it -->
+                                    <!--excludes>
                                         <exclude>**/document/*</exclude>
                                         <exclude>**/model/*</exclude>
                                         <exclude>**/**Form.*</exclude>
+                                        <exclude>**/**FormBuilder.*</exclude>
                                         <exclude>**/Application.*</exclude>
-                                    </excludes>
+                                    </excludes-->
                                 </configuration>
                             </execution>
                             <execution>

@@ -1,6 +1,6 @@
 package manon.util;
 
-import manon.matchmaking.LobbyLeague;
+import manon.matchmaking.model.LobbyLeague;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

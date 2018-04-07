@@ -2,7 +2,9 @@ language: java
 
 sudo: false # faster builds
 
-jdk: oraclejdk9
+jdk:
+  - oraclejdk8
+  - oraclejdk9
 
 before_install:
   - chmod +x mvnw
@@ -10,4 +12,8 @@ before_install:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
-script: "./mvnw test -Pcoverage -B"
+script: "./mvnw clean test -Pcoverage -B"
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'

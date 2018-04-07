@@ -1,6 +1,8 @@
 package manon.app.trace.service;
 
 import manon.app.trace.document.AppTrace;
+import manon.app.trace.model.AppTraceEvent;
+import manon.app.trace.model.AppTraceLevel;
 import manon.util.VisibleForTesting;
 
 import java.util.List;
@@ -9,7 +11,7 @@ public interface AppTraceService {
     
     String getAppId();
     
-    void deleteByCurrentAppIdAndEvent(AppTrace.Event event);
+    void deleteByCurrentAppIdAndEvent(AppTraceEvent event);
     
     /**
      * Log a message to database.
@@ -17,9 +19,9 @@ public interface AppTraceService {
      * @param event category.
      * @param msg log message.
      */
-    void log(AppTrace.Level level, AppTrace.Event event, String msg);
+    void log(AppTraceLevel level, AppTraceEvent event, String msg);
     
-    void log(AppTrace.Level level, AppTrace.Event event);
+    void log(AppTraceLevel level, AppTraceEvent event);
     
     void logUptime();
     
@@ -30,7 +32,7 @@ public interface AppTraceService {
     long countByCurrentAppId();
     
     @VisibleForTesting(why = "AppTraceServiceTest")
-    long countByCurrentAppIdAndEvent(AppTrace.Event event);
+    long countByCurrentAppIdAndEvent(AppTraceEvent event);
     
     @VisibleForTesting(why = "AppTraceServiceTest")
     List<AppTrace> findAll();

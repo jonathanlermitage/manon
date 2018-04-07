@@ -54,10 +54,12 @@ public class FilterConfig {
         
         @Override
         public void init(javax.servlet.FilterConfig arg) {
+            // nothing to do
         }
         
         @Override
         public void destroy() {
+            // nothing to do
         }
     }
 }

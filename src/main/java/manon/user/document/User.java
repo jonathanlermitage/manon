@@ -8,9 +8,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import manon.user.UserAuthority;
-import manon.user.friendship.model.FriendshipEvent;
-import manon.user.registration.RegistrationState;
+import manon.user.model.FriendshipEvent;
+import manon.user.model.RegistrationState;
+import manon.user.model.UserAuthority;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -56,6 +56,8 @@ import static manon.util.Tools.DATE_FORMAT;
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public final class User implements Serializable, UserVersion {
+    
+    private static final long serialVersionUID = 443313310250932570L;
     
     @Id
     private String id;
@@ -107,9 +109,7 @@ public final class User implements Serializable, UserVersion {
     @LastModifiedDate
     private Date updateDate;
     
-    /**
-     * {@link User} fields validation rules.
-     */
+    /** {@link User} fields validation rules. */
     public static class Validation {
         public static final String USERNAME_PATTERN = "^[A-Z0-9_\\-\\u0020]*$";
         public static final String USERNAME_PATTERN_ERRMSG = "USERNAME_PATTERN";
@@ -132,5 +132,26 @@ public final class User implements Serializable, UserVersion {
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
         
         public static final int MAX_EVENTS = 30;
+        
+        private Validation() {
+            // utility class
+        }
+    }
+    
+    /** {@link User} fields name, to be used by MongoDB custom repositories. */
+    public static class Field {
+        public static final String ID = "id";
+        public static final String EMAIL = "email";
+        public static final String FRIENDS = "friends";
+        public static final String FRIENDSHIP_EVENTS = "friendshipEvents";
+        public static final String FRIENDSHIP_REQUESTS_FROM = "friendshipRequestsFrom";
+        public static final String FRIENDSHIP_REQUESTS_TO = "friendshipRequestsTo";
+        public static final String NICKNAME = "nickname";
+        public static final String REGISTRATION_STATE = "registrationState";
+        public static final String PASSWORD = "password";
+        
+        private Field() {
+            // utility class
+        }
     }
 }

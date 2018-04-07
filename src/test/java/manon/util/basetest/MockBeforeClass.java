@@ -1,11 +1,13 @@
 package manon.util.basetest;
 
-import manon.app.info.api.InfoWS;
 import manon.app.batch.api.TaskRunnerWS;
+import manon.app.info.api.InfoWS;
+import manon.game.world.api.WorldAdminWS;
+import manon.game.world.api.WorldWS;
 import manon.matchmaking.api.LobbyWS;
+import manon.user.api.FriendshipWS;
 import manon.user.api.UserAdminWS;
 import manon.user.api.UserWS;
-import manon.user.friendship.api.FriendshipWS;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
@@ -42,6 +44,10 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     protected UserAdminWS userAdminWS;
     @MockBean
     protected UserWS userWs;
+    @MockBean
+    protected WorldAdminWS worldAdminWS;
+    @MockBean
+    protected WorldWS worldWS;
     
     @BeforeMethod
     public void setUpMocks() {
@@ -52,6 +58,8 @@ public abstract class MockBeforeClass extends InitBeforeClass {
         Mockito.clearInvocations(taskRunnerWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
+        Mockito.clearInvocations(worldAdminWS);
+        Mockito.clearInvocations(worldWS);
     }
     
     public <T> T verify(T mock, int status) {
@@ -71,6 +79,17 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     public Object[][] dataProviderAllowAdmin() {
         return new Object[][]{
                 {whenAdmin(), SC_OK},
+                {whenP1(), SC_FORBIDDEN},
+                {whenAnonymous(), SC_UNAUTHORIZED}
+        };
+    }
+    
+    public final String DP_ALLOW_ADMIN_201 = "dataProviderAllowAdmin201";
+    
+    @DataProvider
+    public Object[][] dataProviderAllowAdmin201() {
+        return new Object[][]{
+                {whenAdmin(), SC_CREATED},
                 {whenP1(), SC_FORBIDDEN},
                 {whenAnonymous(), SC_UNAUTHORIZED}
         };

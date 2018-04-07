@@ -1,11 +1,11 @@
 package manon.user.service;
 
-import manon.user.UserExistsException;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.document.UserVersion;
+import manon.user.err.UserExistsException;
+import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.RegistrationState;
+import manon.user.model.RegistrationState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

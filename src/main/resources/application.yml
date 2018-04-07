@@ -3,6 +3,7 @@
 
 spring:
   batch.job.enabled: false
+  data.redis.repositories.enabled: false
   jpa.hibernate.ddl-auto: update
   http.converters.preferred-json-mapper: jackson
 
@@ -39,5 +40,5 @@ manon:
     user-snapshot:
       chunk: 1000
       snapshot.max-age: 30
-  mongodb.version: "3.4.13"
+  mongodb.version: "3.4.14"
   security.bcrypt.strength: 6

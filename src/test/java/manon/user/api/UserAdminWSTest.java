@@ -1,21 +1,22 @@
 package manon.user.api;
 
 import io.restassured.response.Response;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
+import manon.user.err.UserNotFoundException;
 import manon.util.basetest.InitBeforeClass;
 import manon.util.web.UserPage;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.http.ContentType.TEXT;
 import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
 import static manon.app.config.ControllerAdviceBase.FIELD_MESSAGE;
-import static manon.user.registration.RegistrationState.ACTIVE;
-import static manon.user.registration.RegistrationState.BANNED;
-import static manon.user.registration.RegistrationState.SUSPENDED;
+import static manon.user.model.RegistrationState.ACTIVE;
+import static manon.user.model.RegistrationState.BANNED;
+import static manon.user.model.RegistrationState.SUSPENDED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.equalTo;
@@ -101,7 +102,7 @@ public class UserAdminWSTest extends InitBeforeClass {
     
     @Test
     public void shouldCycleRegistrationState() {
-        List<String> uids = List.of(userId(1), userId(2));
+        List<String> uids = Arrays.asList(userId(1), userId(2));
         for (String uid : uids) {
             whenAdmin().getRequestSpecification()
                     .post(API_USER_ADMIN + "/" + uid + "/suspend")
@@ -127,33 +128,33 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldNotActivateUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/activate")
+                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/activate")
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
+                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
     }
     
     @Test
     public void shouldNotBanUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/ban")
+                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/ban")
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
+                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
     }
     
     @Test
     public void shouldNotSuspendUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_USER_ID + "/suspend")
+                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/suspend")
                 .then()
                 .statusCode(SC_NOT_FOUND)
                 .contentType(JSON)
                 .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()))
-                .body(FIELD_MESSAGE, equalTo(UNKNOWN_USER_ID));
+                .body(FIELD_MESSAGE, equalTo(UNKNOWN_ID));
     }
 }

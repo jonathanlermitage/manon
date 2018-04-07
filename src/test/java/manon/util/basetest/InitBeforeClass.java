@@ -8,10 +8,10 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.info.service.InfoService;
-import manon.user.UserExistsException;
-import manon.user.document.User;
-import manon.user.registration.service.RegistrationService;
-import manon.user.service.UserAdminService;
+import manon.app.stats.service.PerformanceRecorder;
+import manon.game.world.service.WorldService;
+import manon.user.err.UserExistsException;
+import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
 import org.slf4j.MDC;
@@ -51,18 +51,21 @@ public abstract class InitBeforeClass extends BaseTests {
     private int port;
     
     @Autowired
-    protected UserService userService;
+    protected PerformanceRecorder performanceRecorder;
+    
     @Autowired
-    protected UserAdminService userAdminService;
+    protected UserService userService;
     @Autowired
     protected RegistrationService registrationService;
     @Autowired
     protected InfoService infoService;
+    @Autowired
+    protected WorldService worldService;
     
     @Autowired
     private MongoTemplate mongoTemplate;
     
-    private final Map<Integer, User> userCache = new HashMap<>();
+    private final Map<Integer, String> userIdCache = new HashMap<>();
     
     public long userCount;
     
@@ -80,24 +83,25 @@ public abstract class InitBeforeClass extends BaseTests {
     
     @BeforeMethod
     public void beforeMethod() throws Exception {
+        userIdCache.clear();
+        infoService.evictCaches();
+        worldService.evictCaches();
         if (!initialized) {
             initDb();
             initialized = true;
         }
-        infoService.evictCaches();
     }
     
     public void clearDb() {
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }
-        userCache.clear();
     }
     
     public void initDb() throws UserExistsException {
         long t1 = currentTimeMillis();
         clearDb();
-        userAdminService.ensureAdmin();
+        registrationService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
@@ -117,6 +121,9 @@ public abstract class InitBeforeClass extends BaseTests {
     
     @AfterClass
     public void afterClass() {
+        if (!performanceRecorder.isEmpty()) {
+            log.info(performanceRecorder.showStats());
+        }
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }
@@ -174,15 +181,15 @@ public abstract class InitBeforeClass extends BaseTests {
     /** Get user id of player n°humanId, where humanId is an index starting at 1. */
     @SuppressWarnings("SameParameterValue")
     public String userId(int humanId) {
-        return findAndCacheUserByhumanId(humanId).getId();
+        return findAndCacheUserIdByhumanId(humanId);
     }
     
-    private User findAndCacheUserByhumanId(int humanId) {
+    private String findAndCacheUserIdByhumanId(int humanId) {
         int idx = humanId - 1;
-        if (!userCache.containsKey(idx)) {
-            userCache.put(idx, userService.readByUsername(makeName(idx)));
+        if (!userIdCache.containsKey(idx)) {
+            userIdCache.put(idx, userService.readByUsername(makeName(idx)).getId());
         }
-        return userCache.get(idx);
+        return userIdCache.get(idx);
     }
     
     //
@@ -194,6 +201,25 @@ public abstract class InitBeforeClass extends BaseTests {
     @DataProvider
     public Object[] dataProviderTrueFalse() {
         return new Object[]{true, false};
+    }
+    
+    public final String DP_AUTHENTICATED = "dataProviderAuthenticated";
+    
+    @DataProvider
+    public Object[][] dataProviderAuthenticated() {
+        return new Object[][]{
+                {whenAdmin()},
+                {whenP1()}
+        };
+    }
+    
+    public final String DP_ADMIN = "dataProviderAdmin";
+    
+    @DataProvider
+    public Object[][] dataProviderAdmin() {
+        return new Object[][]{
+                {whenAdmin()}
+        };
     }
     
     //

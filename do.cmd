@@ -3,6 +3,7 @@
 if [%1] == [help] (
   echo  t: test
   echo  tc: test and generate coverage data
+  echo  sc: compute and upload Sonar analysis to SonarCloud
   echo  b: compile
   echo  c: clean
   echo  p: package
@@ -12,7 +13,7 @@ if [%1] == [help] (
   echo  dt: show dependencies tree
 )
 
-if [%1] == [t] ( 
+if [%1] == [t] (
   echo mvnw clean test
   mvnw clean test
 )
@@ -26,13 +27,13 @@ if [%1] == [b] (
 )
 if [%1] == [c] (
   echo mvnw clean
-  mvnw clean 
+  mvnw clean
 )
-if [%1] == [p] ( 
+if [%1] == [p] (
   echo mvnw clean package -DskipTests -T1
-  mvnw clean package -DskipTests -T1 
+  mvnw clean package -DskipTests -T1
 )
-if [%1] == [w] ( 
+if [%1] == [w] (
   echo mvn -N io.takari:maven:wrapper -Dmaven=%2
   mvn -N io.takari:maven:wrapper -Dmaven=%2
 )
@@ -47,4 +48,8 @@ if [%1] == [uv] (
 if [%1] == [dt] (
   echo mvnw dependency:tree
   mvnw dependency:tree
+)
+if [%1] == [sc] (
+  echo mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )

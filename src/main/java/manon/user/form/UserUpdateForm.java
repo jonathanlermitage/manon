@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -24,7 +23,6 @@ import static manon.util.Tools.shortenLog;
 @NoArgsConstructor(access = PRIVATE)
 public class UserUpdateForm {
     
-    @Indexed(background = true)
     @Size(max = NICKNAME_MAX_LENGTH, message = NICKNAME_SIZE_ERRMSG)
     @Pattern(regexp = NICKNAME_PATTERN, message = NICKNAME_PATTERN_ERRMSG)
     private String nickname;

@@ -1,17 +1,21 @@
 package manon.app.config;
 
 /** Spring profiles. */
-public interface SpringProfiles {
+public final class SpringProfiles {
     
     /** {@value}, an <b>additional profile</b> to enable performance metrics collection. */
-    String METRICS = "metrics";
+    public static final String METRICS = "metrics";
     
     /** {@value}. */
-    String NOT_METRICS = "!metrics";
+    public static final String NOT_METRICS = "!metrics";
     
     /** {@value}. */
-    String REDIS_CACHE = "!embeddedcache";
+    public static final String REDIS_CACHE = "!embeddedcache";
     
     /** {@value}. */
-    String EMBEDDED_CACHE = "embeddedcache";
+    public static final String EMBEDDED_CACHE = "embeddedcache";
+    
+    private SpringProfiles() {
+        // utility class
+    }
 }

@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.matchmaking.document.LobbySolo;
-import manon.matchmaking.document.LobbyTeam;
+
+import java.io.Serializable;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -17,10 +18,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class LobbyStatus {
+public class LobbyStatus implements Serializable {
+    
+    private static final long serialVersionUID = 8582871560075272967L;
     
     public static final LobbyStatus EMPTY = new LobbyStatus();
     
     private LobbySolo lobbySolo;
-    private LobbyTeam lobbyTeam;
 }

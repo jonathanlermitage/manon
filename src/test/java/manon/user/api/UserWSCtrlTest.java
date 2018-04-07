@@ -1,8 +1,8 @@
 package manon.user.api;
 
+import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.form.RegistrationForm;
 import manon.util.basetest.MockBeforeClass;
 import manon.util.basetest.Rs;
 import org.testng.annotations.DataProvider;

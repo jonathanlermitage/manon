@@ -1,13 +1,13 @@
 package manon.app.trace.service;
 
-import manon.app.trace.document.AppTrace;
+import manon.app.trace.model.AppTraceLevel;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static manon.app.trace.document.AppTrace.Event.APP_START;
-import static manon.app.trace.document.AppTrace.Event.UPTIME;
+import static manon.app.trace.model.AppTraceEvent.APP_START;
+import static manon.app.trace.model.AppTraceEvent.UPTIME;
 import static org.testng.Assert.assertEquals;
 
 public class AppTraceServiceTest extends InitBeforeClass {
@@ -37,11 +37,11 @@ public class AppTraceServiceTest extends InitBeforeClass {
     
     @DataProvider
     public static Object[] dataProviderShouldLog() {
-        return AppTrace.Level.values();
+        return AppTraceLevel.values();
     }
     
     @Test(dataProvider = "dataProviderShouldLog")
-    public void shouldLog(AppTrace.Level level) {
+    public void shouldLog(AppTraceLevel level) {
         appTraceService.deleteByCurrentAppIdAndEvent(APP_START);
         long nbTraces = appTraceService.count();
         for (int i = 0; i < 3; i++) {

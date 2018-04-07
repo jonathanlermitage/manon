@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.trace.document.AppTrace;
+import manon.app.trace.model.AppTraceEvent;
+import manon.app.trace.model.AppTraceLevel;
 import manon.app.trace.repository.AppTraceRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,8 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
-import static manon.app.trace.document.AppTrace.Event.UPTIME;
-import static manon.app.trace.document.AppTrace.Level.DEBUG;
+import static manon.app.trace.model.AppTraceEvent.UPTIME;
+import static manon.app.trace.model.AppTraceLevel.DEBUG;
 import static manon.util.Tools.objId;
 
 /**
@@ -29,19 +31,19 @@ public class AppTraceServiceImpl implements AppTraceService {
     
     private final AppTraceRepository appTraceRepository;
     
-    private final DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private Date startupDate = new Date();
     
     @Getter
     private final String appId = objId();
     
     @Override
-    public void deleteByCurrentAppIdAndEvent(AppTrace.Event event) {
+    public void deleteByCurrentAppIdAndEvent(AppTraceEvent event) {
         appTraceRepository.deleteByAppIdAndEvent(appId, event);
     }
     
     @Override
-    public void log(AppTrace.Level level, AppTrace.Event event, String msg) {
+    public void log(AppTraceLevel level, AppTraceEvent event, String msg) {
         String logmsg = "[" + event.name() + "]" + (msg == null ? "" : " " + msg);
         switch (level) {
             case INFO:
@@ -63,7 +65,7 @@ public class AppTraceServiceImpl implements AppTraceService {
     }
     
     @Override
-    public void log(AppTrace.Level level, AppTrace.Event event) {
+    public void log(AppTraceLevel level, AppTraceEvent event) {
         log(level, event, null);
     }
     
@@ -91,7 +93,7 @@ public class AppTraceServiceImpl implements AppTraceService {
     }
     
     @Override
-    public long countByCurrentAppIdAndEvent(AppTrace.Event event) {
+    public long countByCurrentAppIdAndEvent(AppTraceEvent event) {
         return appTraceRepository.countByAppIdAndEvent(appId, event);
     }
     

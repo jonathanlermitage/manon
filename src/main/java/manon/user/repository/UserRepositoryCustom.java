@@ -1,7 +1,7 @@
 package manon.user.repository;
 
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.RegistrationState;
+import manon.user.model.RegistrationState;
 
 public interface UserRepositoryCustom {
     

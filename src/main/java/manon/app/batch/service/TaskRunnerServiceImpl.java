@@ -1,8 +1,8 @@
 package manon.app.batch.service;
 
 import lombok.RequiredArgsConstructor;
-import manon.app.batch.TaskNotFoundException;
-import manon.user.snapshot.batch.UserSnapshotTask;
+import manon.app.batch.err.TaskNotFoundException;
+import manon.user.batch.UserSnapshotTask;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerServic
     
     @Override
     public void afterPropertiesSet() {
-        this.jobs = Map.of(UserSnapshotTask.JOB_NAME, userSnapshotJob);
+        this.jobs = Collections.singletonMap(UserSnapshotTask.JOB_NAME, userSnapshotJob);
     }
     
     @Override

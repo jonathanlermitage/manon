@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.stream.Collectors;
 
-import static manon.user.registration.RegistrationState.ACTIVE;
+import static manon.user.model.RegistrationState.ACTIVE;
 
 @Configuration
 @RequiredArgsConstructor

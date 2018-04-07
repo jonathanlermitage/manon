@@ -2,12 +2,12 @@ package manon.user.service;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.security.PasswordEncoderService;
-import manon.user.UserExistsException;
-import manon.user.UserNotFoundException;
 import manon.user.document.User;
 import manon.user.document.UserVersion;
+import manon.user.err.UserExistsException;
+import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
-import manon.user.registration.RegistrationState;
+import manon.user.model.RegistrationState;
 import manon.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

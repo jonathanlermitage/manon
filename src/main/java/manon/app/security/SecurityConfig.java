@@ -1,7 +1,7 @@
 package manon.app.security;
 
 import lombok.RequiredArgsConstructor;
-import manon.user.UserAuthority;
+import manon.user.model.UserAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +14,8 @@ import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_SYS;
 import static manon.app.config.API.API_USER;
 import static manon.app.config.API.API_USER_ADMIN;
+import static manon.app.config.API.API_WORLD;
+import static manon.app.config.API.API_WORLD_ADMIN;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.http.HttpMethod.POST;
@@ -40,20 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
                 .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
+                .antMatchers(API_WORLD_ADMIN + "/**").hasAuthority(ADMIN)
                 
                 .antMatchers(POST, API_USER).permitAll() // user registration
                 .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
                 .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
+                .antMatchers(API_WORLD + "/**").hasAuthority(PLAYER)
                 
                 .antMatchers("/actuator").hasAuthority(ACTUATOR)
                 .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
                 
-                .antMatchers("/swagger-resources",
-                        "/swagger-resources/configuration/ui",
-                        "/swagger-resources/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**",
-                        "/v2/api-docs").hasAuthority(DEV)
+                .antMatchers("/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/v2/api-docs").hasAuthority(DEV)
                 
                 .anyRequest().denyAll()
                 .and().httpBasic()
