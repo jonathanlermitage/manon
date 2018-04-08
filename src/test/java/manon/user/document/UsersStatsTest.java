@@ -20,7 +20,9 @@ public class UsersStatsTest {
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         return new Object[][]{
                 {UsersStats.builder().build(), UsersStats.builder().build(), true},
-                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().build(), false},
+                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().build(), true},
+                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().creationDate(Tools.yesterday()).build(), true},
+                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().creationDate(Tools.now()).build(), true},
                 {UsersStats.builder().id("1").build(), UsersStats.builder().build(), false}
         };
     }

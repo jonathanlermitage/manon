@@ -20,7 +20,9 @@ public class UserSnapshotTest {
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         return new Object[][]{
                 {UserSnapshot.builder().build(), UserSnapshot.builder().build(), true},
-                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().build(), false},
+                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().build(), true},
+                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().creationDate(Tools.yesterday()).build(), true},
+                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().creationDate(Tools.now()).build(), true},
                 {UserSnapshot.builder().id("1").build(), UserSnapshot.builder().build(), false}
         };
     }

@@ -23,7 +23,7 @@ import static manon.util.Tools.DATE_FORMAT;
 @TypeAlias("UsersStats")
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)

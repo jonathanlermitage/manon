@@ -3,12 +3,12 @@ package manon.user.service;
 import lombok.RequiredArgsConstructor;
 import manon.user.document.UserSnapshot;
 import manon.user.repository.UserSnapshotRepository;
+import manon.util.Tools;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Optional;
 
-import static manon.util.Tools.calendar;
 import static manon.util.Tools.endOfDay;
 import static manon.util.Tools.startOfDay;
 
@@ -40,7 +40,7 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     
     @Override
     public void keepRecent(int maxAgeInDays) {
-        Calendar maxOldDate = calendar(0, 0, 0, 0);
+        Calendar maxOldDate = Tools.today(0, 0, 0, 0);
         maxOldDate.add(Calendar.DAY_OF_MONTH, maxAgeInDays * -1);
         userSnapshotRepository.deleteAllByCreationDateOutsideRange(maxOldDate.getTime(), endOfDay());
     }

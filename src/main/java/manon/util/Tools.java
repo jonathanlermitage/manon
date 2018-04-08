@@ -38,13 +38,49 @@ public final class Tools {
     }
     
     /**
+     * Get date with given year, month, day, hours, minutes, seconds and milliseconds.
+     * @param year year.
+     * @param month month (0-11).
+     * @param dayOfMonth day of month (1-*).
+     * @param hourOfDay hours (0-23).
+     * @param minute minutes (0-59).
+     * @param second seconds (0-59).
+     * @param millisecond milliseconds (0-999).
+     */
+    public static Date date(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second, int millisecond) {
+        return calendar(year, month, dayOfMonth, hourOfDay, minute, second, millisecond).getTime();
+    }
+    
+    /**
+     * Get date with given year, month, day, hours, minutes, seconds and milliseconds.
+     * @param year year.
+     * @param month month (0-11).
+     * @param dayOfMonth day of month (1-*).
+     * @param hourOfDay hours (0-23).
+     * @param minute minutes (0-59).
+     * @param second seconds (0-59).
+     * @param millisecond milliseconds (0-999).
+     */
+    public static Calendar calendar(int year, int month, int dayOfMonth, int hourOfDay, int minute, int second, int millisecond) {
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, second);
+        cal.set(Calendar.MILLISECOND, millisecond);
+        return cal;
+    }
+    
+    /**
      * Get today's date with given hours, minutes, seconds and milliseconds.
      * @param hourOfDay hours (0-23).
      * @param minute minutes (0-59).
      * @param second seconds (0-59).
      * @param millisecond milliseconds (0-999).
      */
-    public static Calendar calendar(int hourOfDay, int minute, int second, int millisecond) {
+    public static Calendar today(int hourOfDay, int minute, int second, int millisecond) {
         Calendar cal = new GregorianCalendar();
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
         cal.set(Calendar.MINUTE, minute);
@@ -55,12 +91,18 @@ public final class Tools {
     
     /** Get current date at 0:00'0 000. */
     public static Date startOfDay() {
-        return calendar(0, 0, 0, 0).getTime();
+        return today(0, 0, 0, 0).getTime();
     }
     
     /** Get current date at 23:59'59 999. */
     public static Date endOfDay() {
-        return calendar(23, 59, 59, 999).getTime();
+        return today(23, 59, 59, 999).getTime();
+    }
+    
+    public static Date yesterday() {
+        Calendar yesterday = new GregorianCalendar();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+        return yesterday.getTime();
     }
     
     /** Return {@code true} if the provided string is null or empty once trimmed, otherwise {@code false}. */

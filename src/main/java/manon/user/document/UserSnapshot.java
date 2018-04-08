@@ -22,11 +22,13 @@ import static manon.util.Tools.DATE_FORMAT;
 @TypeAlias("UserSnapshot")
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public class UserSnapshot implements Serializable {
+    
+    private static final long serialVersionUID = -4321502988403908385L;
     
     @Id
     private String id;
