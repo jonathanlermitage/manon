@@ -62,6 +62,7 @@ do tc        test with code coverage
 do sc        compute and upload Sonar analysis to SonarCloud, needs two env vars:
              - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
              - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
+do tsc       similar to "do tc" then "do sc"
 do b         build without testing
 do c         clean
 do p         package application to manon.jar

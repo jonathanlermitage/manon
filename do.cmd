@@ -4,6 +4,7 @@ if [%1] == [help] (
   echo  t: test
   echo  tc: test and generate coverage data
   echo  sc: compute and upload Sonar analysis to SonarCloud
+  echo  tsc: similar to "do tc" then "do sc"
   echo  b: compile
   echo  c: clean
   echo  p: package
@@ -52,4 +53,8 @@ if [%1] == [dt] (
 if [%1] == [sc] (
   echo mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
   mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+)
+if [%1] == [tsc] (
+  echo mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
