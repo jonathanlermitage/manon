@@ -17,12 +17,19 @@ public class CoverageTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        Coverage filled = Coverage.builder()
+                .topRightX(1)
+                .topRightY(2)
+                .bottomLeftX(3)
+                .bottomLeftY(4)
+                .build();
         return new Object[][]{
                 {Coverage.builder().build(), Coverage.builder().build(), true},
-                {Coverage.builder().topRightX(1).build(), Coverage.builder().build(), false},
-                {Coverage.builder().topRightY(1).build(), Coverage.builder().build(), false},
-                {Coverage.builder().bottomLeftX(1).build(), Coverage.builder().build(), false},
-                {Coverage.builder().bottomLeftY(1).build(), Coverage.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().topRightX(99).build(), filled, false},
+                {filled.toBuilder().topRightY(99).build(), filled, false},
+                {filled.toBuilder().bottomLeftX(99).build(), filled, false},
+                {filled.toBuilder().bottomLeftY(99).build(), filled, false}
         };
     }
     

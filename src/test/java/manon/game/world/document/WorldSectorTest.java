@@ -1,5 +1,6 @@
 package manon.game.world.document;
 
+import manon.game.world.model.Coverage;
 import manon.util.Tools;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -19,13 +20,27 @@ public class WorldSectorTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        WorldSector filled = WorldSector.builder()
+                .id("1")
+                .name("n")
+                .metadata(WorldSectorMetadata.builder().id("2").build())
+                .coverage(Coverage.builder().topRightX(3).build())
+                .worldId("4")
+                .version(5)
+                .creationDate(Tools.now())
+                .updateDate(Tools.now())
+                .build();
         return new Object[][]{
                 {WorldSector.builder().build(), WorldSector.builder().build(), true},
-                {WorldSector.builder().version(1).creationDate(Tools.now()).updateDate(Tools.now()).build(), WorldSector.builder().build(), true},
-                {WorldSector.builder().version(1).build(), WorldSector.builder().build(), true},
-                {WorldSector.builder().creationDate(Tools.now()).build(), WorldSector.builder().build(), true},
-                {WorldSector.builder().updateDate(Tools.now()).build(), WorldSector.builder().build(), true},
-                {WorldSector.builder().id("1").build(), WorldSector.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().name("updated").build(), filled, false},
+                {filled.toBuilder().metadata(WorldSectorMetadata.builder().id("99").build()).build(), filled, false},
+                {filled.toBuilder().coverage(Coverage.builder().topRightX(99).build()).build(), filled, false},
+                {filled.toBuilder().worldId("99").build(), filled, false},
+                {filled.toBuilder().version(99).build(), filled, true},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
+                {filled.toBuilder().updateDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

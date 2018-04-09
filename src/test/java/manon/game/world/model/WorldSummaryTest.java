@@ -17,12 +17,19 @@ public class WorldSummaryTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        WorldSummary filled = WorldSummary.builder()
+                .id("1")
+                .name("n")
+                .nbSectors(2)
+                .nbPoints(3)
+                .build();
         return new Object[][]{
                 {WorldSummary.builder().build(), WorldSummary.builder().build(), true},
-                {WorldSummary.builder().id("1").build(), WorldSummary.builder().build(), false},
-                {WorldSummary.builder().name("foo").build(), WorldSummary.builder().build(), false},
-                {WorldSummary.builder().nbSectors(1).build(), WorldSummary.builder().build(), false},
-                {WorldSummary.builder().nbPoints(1).build(), WorldSummary.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().name("updated").build(), filled, false},
+                {filled.toBuilder().nbPoints(99).build(), filled, false},
+                {filled.toBuilder().nbPoints(99).build(), filled, false}
         };
     }
     

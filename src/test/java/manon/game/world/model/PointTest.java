@@ -16,10 +16,15 @@ public class PointTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        Point filled = Point.builder()
+                .x(1)
+                .y(2)
+                .build();
         return new Object[][]{
                 {Point.builder().build(), Point.builder().build(), true},
-                {Point.builder().x(1).build(), Point.builder().build(), false},
-                {Point.builder().y(1).build(), Point.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().x(99).build(), filled, false},
+                {filled.toBuilder().y(99).build(), filled, false}
         };
     }
     

@@ -18,12 +18,17 @@ public class UserSnapshotTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        UserSnapshot filled = UserSnapshot.builder()
+                .id("1")
+                .user(User.builder().id("2").build())
+                .creationDate(Tools.now())
+                .build();
         return new Object[][]{
                 {UserSnapshot.builder().build(), UserSnapshot.builder().build(), true},
-                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().build(), true},
-                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().creationDate(Tools.yesterday()).build(), true},
-                {UserSnapshot.builder().creationDate(Tools.now()).build(), UserSnapshot.builder().creationDate(Tools.now()).build(), true},
-                {UserSnapshot.builder().id("1").build(), UserSnapshot.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().user(User.builder().id("99").build()).build(), filled, false},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

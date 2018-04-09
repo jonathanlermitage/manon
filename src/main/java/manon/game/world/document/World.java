@@ -26,7 +26,7 @@ import static manon.util.Tools.DATE_FORMAT;
 @TypeAlias("SpaceStoryWorld")
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = {"version", "creationDate", "updateDate", "sectors"})
+@EqualsAndHashCode(exclude = {"version", "creationDate", "updateDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)

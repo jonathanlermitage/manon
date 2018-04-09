@@ -18,13 +18,19 @@ public class WorldPointMetadataTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        WorldPointMetadata filled = WorldPointMetadata.builder()
+                .id("1")
+                .version(2)
+                .creationDate(Tools.now())
+                .updateDate(Tools.now())
+                .build();
         return new Object[][]{
                 {WorldPointMetadata.builder().build(), WorldPointMetadata.builder().build(), true},
-                {WorldPointMetadata.builder().version(1).creationDate(Tools.now()).updateDate(Tools.now()).build(), WorldPointMetadata.builder().build(), true},
-                {WorldPointMetadata.builder().version(1).build(), WorldPointMetadata.builder().build(), true},
-                {WorldPointMetadata.builder().creationDate(Tools.now()).build(), WorldPointMetadata.builder().build(), true},
-                {WorldPointMetadata.builder().updateDate(Tools.now()).build(), WorldPointMetadata.builder().build(), true},
-                {WorldPointMetadata.builder().id("1").build(), WorldPointMetadata.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().version(99).build(), filled, true},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
+                {filled.toBuilder().updateDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

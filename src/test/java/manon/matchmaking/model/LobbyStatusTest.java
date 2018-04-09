@@ -17,11 +17,13 @@ public class LobbyStatusTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        LobbyStatus filled = LobbyStatus.builder()
+                .lobbySolo(LobbySolo.builder().id("1").build())
+                .build();
         return new Object[][]{
                 {LobbyStatus.builder().build(), LobbyStatus.builder().build(), true},
-                {LobbyStatus.builder().lobbySolo(LobbySolo.builder().build()).build(), LobbyStatus.builder().build(), false},
-                {LobbyStatus.EMPTY, LobbyStatus.builder().build(), true},
-                {LobbyStatus.EMPTY, LobbyStatus.EMPTY, true}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().lobbySolo(LobbySolo.builder().id("99").build()).build(), filled, false}
         };
     }
     

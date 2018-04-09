@@ -4,6 +4,7 @@ import manon.util.Tools;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
@@ -20,13 +21,29 @@ public class WorldTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        World filled = World.builder()
+                .id("1")
+                .name("n")
+                .nbSectors(2)
+                .sectors(singletonList(WorldSector.builder().id("3").build()))
+                .nbPoints(4)
+                .points(singletonList(WorldPoint.builder().id("5").build()))
+                .version(6)
+                .creationDate(Tools.now())
+                .updateDate(Tools.now())
+                .build();
         return new Object[][]{
                 {World.builder().build(), World.builder().build(), true},
-                {World.builder().version(1).creationDate(Tools.now()).updateDate(Tools.now()).build(), World.builder().build(), true},
-                {World.builder().version(1).build(), World.builder().build(), true},
-                {World.builder().creationDate(Tools.now()).build(), World.builder().build(), true},
-                {World.builder().updateDate(Tools.now()).build(), World.builder().build(), true},
-                {World.builder().id("1").build(), World.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().name("updated").build(), filled, false},
+                {filled.toBuilder().nbSectors(99).build(), filled, false},
+                {filled.toBuilder().sectors(singletonList(WorldSector.builder().id("99").build())).build(), filled, false},
+                {filled.toBuilder().nbPoints(99).build(), filled, false},
+                {filled.toBuilder().points(singletonList(WorldPoint.builder().id("99").build())).build(), filled, false},
+                {filled.toBuilder().version(99).build(), filled, true},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
+                {filled.toBuilder().updateDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

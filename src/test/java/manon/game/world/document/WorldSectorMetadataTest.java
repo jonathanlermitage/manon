@@ -18,13 +18,19 @@ public class WorldSectorMetadataTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        WorldSectorMetadata filled = WorldSectorMetadata.builder()
+                .id("1")
+                .version(2)
+                .creationDate(Tools.now())
+                .updateDate(Tools.now())
+                .build();
         return new Object[][]{
                 {WorldSectorMetadata.builder().build(), WorldSectorMetadata.builder().build(), true},
-                {WorldSectorMetadata.builder().version(1).creationDate(Tools.now()).updateDate(Tools.now()).build(), WorldSectorMetadata.builder().build(), true},
-                {WorldSectorMetadata.builder().version(1).build(), WorldSectorMetadata.builder().build(), true},
-                {WorldSectorMetadata.builder().creationDate(Tools.now()).build(), WorldSectorMetadata.builder().build(), true},
-                {WorldSectorMetadata.builder().updateDate(Tools.now()).build(), WorldSectorMetadata.builder().build(), true},
-                {WorldSectorMetadata.builder().id("1").build(), WorldSectorMetadata.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().version(99).build(), filled, true},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
+                {filled.toBuilder().updateDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

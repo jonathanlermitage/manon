@@ -18,12 +18,17 @@ public class UsersStatsTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        UsersStats filled = UsersStats.builder()
+                .id("1")
+                .nbUsers(2)
+                .creationDate(Tools.now())
+                .build();
         return new Object[][]{
                 {UsersStats.builder().build(), UsersStats.builder().build(), true},
-                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().build(), true},
-                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().creationDate(Tools.yesterday()).build(), true},
-                {UsersStats.builder().creationDate(Tools.now()).build(), UsersStats.builder().creationDate(Tools.now()).build(), true},
-                {UsersStats.builder().id("1").build(), UsersStats.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().nbUsers(99).build(), filled, false},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

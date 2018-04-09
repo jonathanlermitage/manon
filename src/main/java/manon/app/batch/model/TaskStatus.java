@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @Getter
+@ToString
 @Builder(toBuilder = true)
 public class TaskStatus {
     

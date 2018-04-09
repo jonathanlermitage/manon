@@ -1,5 +1,6 @@
 package manon.matchmaking.document;
 
+import manon.matchmaking.model.LobbyLeague;
 import manon.util.Tools;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,13 +19,24 @@ public class LobbySoloTest {
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+        LobbySolo filled = LobbySolo.builder()
+                .id("1")
+                .userId("2")
+                .skill(3)
+                .league(LobbyLeague.REGULAR)
+                .version(4)
+                .creationDate(Tools.now())
+                .updateDate(Tools.now())
+                .build();
         return new Object[][]{
                 {LobbySolo.builder().build(), LobbySolo.builder().build(), true},
-                {LobbySolo.builder().creationDate(Tools.now()).updateDate(Tools.now()).build(), LobbySolo.builder().build(), true},
-                {LobbySolo.builder().version(1).build(), LobbySolo.builder().build(), true},
-                {LobbySolo.builder().creationDate(Tools.now()).build(), LobbySolo.builder().build(), true},
-                {LobbySolo.builder().updateDate(Tools.now()).build(), LobbySolo.builder().build(), true},
-                {LobbySolo.builder().id("1").build(), LobbySolo.builder().build(), false}
+                {filled.toBuilder().build(), filled, true},
+                {filled.toBuilder().id("99").build(), filled, false},
+                {filled.toBuilder().userId("99").build(), filled, false},
+                {filled.toBuilder().league(LobbyLeague.COMPETITIVE).build(), filled, false},
+                {filled.toBuilder().version(99).build(), filled, true},
+                {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
+                {filled.toBuilder().updateDate(Tools.yesterday()).build(), filled, true}
         };
     }
     

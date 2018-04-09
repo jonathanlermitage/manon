@@ -22,7 +22,7 @@ import static manon.util.Tools.shortenAndAnonymizeLog;
 import static manon.util.Tools.shortenLog;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public class RegistrationForm {

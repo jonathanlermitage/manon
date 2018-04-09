@@ -18,7 +18,7 @@ import static manon.user.document.User.Validation.NICKNAME_SIZE_ERRMSG;
 import static manon.util.Tools.shortenLog;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public class UserUpdateForm {
