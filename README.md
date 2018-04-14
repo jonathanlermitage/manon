@@ -66,6 +66,7 @@ do tsc       similar to "do tc" then "do sc"
 do b         build without testing
 do c         clean
 do p         package application to manon.jar
+do rd        package and run application with dev profile 
 do w 3.5.2   set or upgrade Maven wrapper to 3.5.2
 do cv        check plugins and dependencies versions
 do uv        update plugins and dependencies versions

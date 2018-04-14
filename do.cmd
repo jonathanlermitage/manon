@@ -1,17 +1,18 @@
 @echo off
 
 if [%1] == [help] (
-  echo  t: test
-  echo  tc: test and generate coverage data
-  echo  sc: compute and upload Sonar analysis to SonarCloud
-  echo  tsc: similar to "do tc" then "do sc"
-  echo  b: compile
-  echo  c: clean
-  echo  p: package
-  echo  w $V: set or upgrade Maven wrapper to version $V
-  echo  cv: check plugins and dependencies versions
-  echo  uv: update plugins and dependencies versions
-  echo  dt: show dependencies tree
+  echo  t:     test
+  echo  tc:    test and generate coverage data
+  echo  sc:    compute and upload Sonar analysis to SonarCloud
+  echo  tsc:   similar to "do tc" then "do sc"
+  echo  b:     compile
+  echo  c:     clean
+  echo  p:     package
+  echo  rd:    package and run application with dev profile
+  echo  w $V:  set or upgrade Maven wrapper to version $V
+  echo  cv:    check plugins and dependencies versions
+  echo  uv:    update plugins and dependencies versions
+  echo  dt:    show dependencies tree
 )
 
 if [%1] == [t] (
@@ -33,6 +34,17 @@ if [%1] == [c] (
 if [%1] == [p] (
   echo mvnw clean package -DskipTests -T1
   mvnw clean package -DskipTests -T1
+)
+if [%1] == [rd] (
+  echo build project: mvnw clean package -DskipTests -T1
+  mvnw clean package -DskipTests -T1
+  echo move to app: cd target
+  cd target
+  echo run app in dev mode: java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+  java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+  echo application exit
+  echo return to root: cd ..
+  cd ..
 )
 if [%1] == [w] (
   echo mvn -N io.takari:maven:wrapper -Dmaven=%2
