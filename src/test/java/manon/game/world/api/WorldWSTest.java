@@ -85,4 +85,14 @@ public class WorldWSTest extends InitBeforeTest {
         WorldSummaryList webWorldSummaries = readValue(res, WorldSummaryList.class);
         assertThat(webWorldSummaries).containsExactlyInAnyOrderElementsOf(expectedWorldSummaries);
     }
+    
+    @Test(dataProvider = DP_AUTHENTICATED)
+    public void shouldFindZeroWorldViews(Rs rs) {
+        Response res = rs.getRequestSpecification()
+                .get(API_WORLD + "/summary/all");
+        res.then()
+                .statusCode(SC_OK);
+        WorldSummaryList webWorldSummaries = readValue(res, WorldSummaryList.class);
+        assertThat(webWorldSummaries).isEmpty();
+    }
 }

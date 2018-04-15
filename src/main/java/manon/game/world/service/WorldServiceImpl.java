@@ -22,6 +22,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.lang.System.currentTimeMillis;
+import static java.util.Collections.unmodifiableCollection;
 import static manon.game.world.model.WorldKey.POINT_NAME;
 import static manon.game.world.model.WorldKey.SECTOR_NAME;
 import static manon.game.world.model.WorldKey.key;
@@ -43,9 +46,10 @@ public class WorldServiceImpl implements WorldService {
     private final WorldSectorService worldSectorService;
     private final WorldPointService worldPointService;
     
-    public static final String CACHE_GET_WORLD = "CACHE_GET_SINGLE_WORLD";
-    public static final String CACHE_GET_WORLD_SUMMARY = "CACHE_GET_WORLD_SUMMARY";
-    public static final String CACHE_GET_WORLD_SUMMARIES = "CACHE_GET_WORLD_SUMMARIES";
+    private static final String CACHE_GET_WORLD = "CACHE_GET_SINGLE_WORLD";
+    private static final String CACHE_GET_WORLD_SUMMARY = "CACHE_GET_WORLD_SUMMARY";
+    private static final String CACHE_GET_WORLD_SUMMARIES = "CACHE_GET_WORLD_SUMMARIES";
+    public static final Collection<String> CACHES = unmodifiableCollection(Arrays.asList(CACHE_GET_WORLD, CACHE_GET_WORLD_SUMMARY, CACHE_GET_WORLD_SUMMARIES));
     
     private static WorldPointType[] worldPointTypes = WorldPointType.values();
     private static int nbWorldPointTypes = worldPointTypes.length;

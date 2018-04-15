@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.info.service.InfoService;
 import manon.app.trace.service.AppTraceService;
+import manon.game.world.service.WorldService;
 import manon.user.err.UserExistsException;
 import manon.user.service.RegistrationService;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +31,7 @@ public class Application extends SpringBootServletInitializer {
     
     private final AppTraceService appTraceService;
     private final InfoService infoService;
+    private final WorldService worldService;
     private final RegistrationService registrationService;
     
     public static void main(String[] args) {
@@ -44,6 +46,7 @@ public class Application extends SpringBootServletInitializer {
     @PostConstruct
     public void initApp() throws UserExistsException {
         infoService.evictCaches();
+        worldService.evictCaches();
         String initAppEvent = "Admin username is " + registrationService.ensureAdmin().getUsername();
         appTraceService.log(INFO, APP_START, initAppEvent);
     }
