@@ -30,7 +30,7 @@ public class LobbyWS {
      */
     @GetMapping(value = "/status")
     public LobbyStatus getStatus(@AuthenticationPrincipal UserSimpleDetails user) {
-        log.info("user {} gets his lobby status", user.getIdentity());
+        log.debug("user {} gets his lobby status", user.getIdentity());
         return lobbyService.getStatus(user.getUserId());
     }
     
@@ -40,7 +40,7 @@ public class LobbyWS {
      */
     @PutMapping(value = "/quit")
     public void quit(@AuthenticationPrincipal UserSimpleDetails user) {
-        log.info("user {} quits lobby", user.getIdentity());
+        log.debug("user {} quits lobby", user.getIdentity());
         lobbyService.quit(user.getUserId());
     }
     
@@ -51,7 +51,7 @@ public class LobbyWS {
     @PutMapping(value = "/enter/{league}")
     public void enter(@AuthenticationPrincipal UserSimpleDetails user,
                       @PathVariable("league") LobbyLeague league) {
-        log.info("user {} enters in lobby", user.getIdentity());
+        log.debug("user {} enters in lobby", user.getIdentity());
         lobbyService.enter(user.getUserId(), league);
     }
 }

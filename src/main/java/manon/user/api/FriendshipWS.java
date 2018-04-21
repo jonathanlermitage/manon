@@ -29,7 +29,7 @@ public class FriendshipWS {
     public void askFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                               @PathVariable("id") String id)
             throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
-        log.info("user {} asks friendship request to user {}", user.getIdentity(), id);
+        log.debug("user {} asks friendship request to user {}", user.getIdentity(), id);
         friendshipService.askFriendship(user.getUser().getId(), id);
     }
     
@@ -38,7 +38,7 @@ public class FriendshipWS {
     public void acceptFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
             throws UserNotFoundException, FriendshipRequestNotFoundException {
-        log.info("user {} accepts friendship request from user {}", user.getIdentity(), id);
+        log.debug("user {} accepts friendship request from user {}", user.getIdentity(), id);
         friendshipService.acceptFriendshipRequest(id, user.getUser().getId());
     }
     
@@ -47,7 +47,7 @@ public class FriendshipWS {
     public void rejectFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
             throws UserNotFoundException {
-        log.info("user {} rejects friendship request from user {}", user.getIdentity(), id);
+        log.debug("user {} rejects friendship request from user {}", user.getIdentity(), id);
         friendshipService.rejectFriendshipRequest(id, user.getUser().getId());
     }
     
@@ -56,7 +56,7 @@ public class FriendshipWS {
     public void cancelFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
             throws UserNotFoundException {
-        log.info("user {} cancels friendship request to user {}", user.getIdentity(), id);
+        log.debug("user {} cancels friendship request to user {}", user.getIdentity(), id);
         friendshipService.cancelFriendshipRequest(user.getUser().getId(), id);
     }
     
@@ -65,7 +65,7 @@ public class FriendshipWS {
     public void revokeFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                                  @PathVariable("id") String id)
             throws UserNotFoundException {
-        log.info("user {} deletes friendship with user {}", user.getIdentity(), id);
+        log.debug("user {} deletes friendship with user {}", user.getIdentity(), id);
         friendshipService.revokeFriendship(user.getUser().getId(), id);
     }
 }

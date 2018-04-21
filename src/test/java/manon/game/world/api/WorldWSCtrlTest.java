@@ -16,7 +16,7 @@ public class WorldWSCtrlTest extends MockBeforeClass {
                 .get(API_WORLD + "/summary/{id}")
                 .then()
                 .statusCode(status);
-        verify(worldWS, status).readWorldView(any());
+        verify(worldWS, status).readWorldView(any(), any());
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
@@ -25,6 +25,6 @@ public class WorldWSCtrlTest extends MockBeforeClass {
                 .get(API_WORLD + "/summary/all")
                 .then()
                 .statusCode(status);
-        verify(worldWS, status).findAllWorldViews();
+        verify(worldWS, status).findAllWorldViews(any());
     }
 }

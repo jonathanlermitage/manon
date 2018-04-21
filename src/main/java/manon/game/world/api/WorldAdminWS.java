@@ -35,7 +35,7 @@ public class WorldAdminWS {
     public World register(@AuthenticationPrincipal UserSimpleDetails admin,
                           @RequestBody @Validated WorldRegistrationForm registrationForm)
             throws WorldExistsException {
-        log.info("admin {} registers new world {}", admin.getUsername(), registrationForm);
+        log.warn("admin {} registers new world {}", admin.getUsername(), registrationForm);
         return worldService.register(registrationForm);
     }
     
@@ -43,7 +43,7 @@ public class WorldAdminWS {
     public void delete(@AuthenticationPrincipal UserSimpleDetails admin,
                        @PathVariable("id") String id)
             throws WorldNotFoundException {
-        log.info("admin {} deletes world {}", admin.getUsername(), id);
+        log.warn("admin {} deletes world {}", admin.getUsername(), id);
         worldService.delete(id);
     }
 }

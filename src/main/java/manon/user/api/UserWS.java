@@ -41,7 +41,7 @@ public class UserWS {
     @ResponseStatus(CREATED)
     public User register(@RequestBody @Validated RegistrationForm registrationForm)
             throws UserExistsException {
-        log.info("user registration with {}", registrationForm);
+        log.debug("user registration with {}", registrationForm);
         return registrationService.registerPlayer(registrationForm.getUsername(), registrationForm.getPassword());
     }
     
@@ -49,7 +49,7 @@ public class UserWS {
     @DeleteMapping
     public void delete(@AuthenticationPrincipal UserSimpleDetails user)
             throws UserNotFoundException {
-        log.info("user {} deletes himself", user.getIdentity());
+        log.debug("user {} deletes himself", user.getIdentity());
         registrationService.delete(user.getUserId());
     }
     
@@ -57,7 +57,7 @@ public class UserWS {
     @GetMapping
     public User read(@AuthenticationPrincipal UserSimpleDetails user)
             throws UserNotFoundException {
-        log.info("user {} reads his user", user.getIdentity());
+        log.debug("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
     }
     
@@ -65,7 +65,7 @@ public class UserWS {
     @GetMapping("/version")
     public long readVersion(@AuthenticationPrincipal UserSimpleDetails user)
             throws UserNotFoundException {
-        log.info("user {} reads his version", user.getIdentity());
+        log.debug("user {} reads his version", user.getIdentity());
         return userService.readVersionById(user.getUserId()).getVersion();
     }
     
@@ -73,7 +73,7 @@ public class UserWS {
     @PutMapping(value = "/field", consumes = MEDIA_JSON)
     public void update(@AuthenticationPrincipal UserSimpleDetails user,
                        @RequestBody @Validated UserUpdateForm userUpdateForm) {
-        log.info("user {} updates his user with {}", user.getIdentity(), userUpdateForm);
+        log.debug("user {} updates his user with {}", user.getIdentity(), userUpdateForm);
         userService.update(user.getUserId(), userUpdateForm);
     }
     
@@ -81,7 +81,7 @@ public class UserWS {
     @PutMapping(value = "/password", consumes = MEDIA_JSON)
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
                                @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
-        log.info("user {} updates his password", user.getIdentity());
+        log.debug("user {} updates his password", user.getIdentity());
         // TODO verify old password in service, before setting new one
         userService.encodeAndSetPassword(user.getUserId(), userPasswordUpdateForm.getNewPassword());
     }

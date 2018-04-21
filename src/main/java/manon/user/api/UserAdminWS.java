@@ -32,7 +32,7 @@ public class UserAdminWS {
     @GetMapping(value = "/all")
     public Page<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                               Pageable pageable) {
-        log.info("admin {} finds all users pageable {}", admin.getUsername(), pageable);
+        log.debug("admin {} finds all users pageable {}", admin.getUsername(), pageable);
         return userService.findAll(pageable);
     }
     
