@@ -19,7 +19,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <surefireArgLine>
             -ea -Xms128m -Xmx512m -Dspring.profiles.active=test,metrics,embeddedcache -Dfile.encoding=UTF-8
-            -Djava.awt.headless=true -XX:CompileThreshold=1500
+            -Djava.awt.headless=true -XX:CompileThreshold=1500 -XX:TieredStopAtLevel=1 -noverify
         </surefireArgLine>
 
         <!-- Annotation -->

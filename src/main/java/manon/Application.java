@@ -1,7 +1,6 @@
 package manon;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import manon.app.info.service.InfoService;
 import manon.app.trace.service.AppTraceService;
 import manon.game.world.service.WorldService;
@@ -25,7 +24,6 @@ import static manon.app.trace.model.AppTraceLevel.INFO;
 @EnableMongoAuditing
 @EnableScheduling
 @EnableCaching
-@Slf4j
 @RequiredArgsConstructor
 public class Application extends SpringBootServletInitializer {
     
