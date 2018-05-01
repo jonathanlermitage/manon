@@ -54,7 +54,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 To build and test, simply run `mvnw test`. To enable JaCoCo code coverage, activate the `coverage` profile: `mvnw test -Pcoverage`.  
   
-On Windows, you can use the `do.cmd` script:  
+You can also use the `do.cmd` (Windows) or `do.sh` (Unix shell) script:  
 ```
 do help      show this help message
 do t         test without code coverage
