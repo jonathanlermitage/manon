@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.info.service.InfoService;
 import manon.app.stats.service.PerformanceRecorder;
-import manon.game.world.service.WorldService;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.service.RegistrationService;
@@ -60,8 +59,6 @@ public abstract class InitBeforeClass extends BaseTests {
     protected RegistrationService registrationService;
     @Autowired
     protected InfoService infoService;
-    @Autowired
-    protected WorldService worldService;
     
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -85,8 +82,6 @@ public abstract class InitBeforeClass extends BaseTests {
     @BeforeMethod
     public void beforeMethod() throws Exception {
         userIdCache.clear();
-        infoService.evictCaches();
-        worldService.evictCaches();
         if (!initialized) {
             initDb();
             initialized = true;

@@ -2,9 +2,6 @@
 # see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 
 spring:
-  batch.job.enabled: false
-  data.redis.repositories.enabled: false
-  jpa.hibernate.ddl-auto: update
   http.converters.preferred-json-mapper: jackson
 
 server:

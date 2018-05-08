@@ -1,10 +1,6 @@
 package manon.util.basetest;
 
-import manon.app.batch.api.TaskRunnerWS;
 import manon.app.info.api.InfoWS;
-import manon.game.world.api.WorldAdminWS;
-import manon.game.world.api.WorldWS;
-import manon.matchmaking.api.LobbyWS;
 import manon.user.api.FriendshipWS;
 import manon.user.api.UserAdminWS;
 import manon.user.api.UserWS;
@@ -37,29 +33,17 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     @MockBean
     protected InfoWS infoWS;
     @MockBean
-    protected LobbyWS lobbyWS;
-    @MockBean
-    protected TaskRunnerWS taskRunnerWS;
-    @MockBean
     protected UserAdminWS userAdminWS;
     @MockBean
     protected UserWS userWs;
-    @MockBean
-    protected WorldAdminWS worldAdminWS;
-    @MockBean
-    protected WorldWS worldWS;
     
     @BeforeMethod
     public void setUpMocks() {
         initMocks(this);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(infoWS);
-        Mockito.clearInvocations(lobbyWS);
-        Mockito.clearInvocations(taskRunnerWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
-        Mockito.clearInvocations(worldAdminWS);
-        Mockito.clearInvocations(worldWS);
     }
     
     public <T> T verify(T mock, int status) {

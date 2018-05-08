@@ -9,10 +9,6 @@ spring:
       username: ${MANON_PROD_MONGODB_USERNAME}
       password: ${MANON_PROD_MONGODB_PASSWORD}
       authentication-database: ${MANON_PROD_MONGODB_AUTH_DB_NAME}
-  redis:
-    database: ${MANON_PROD_REDIS_DB_NUMBER}
-    host: ${MANON_PROD_REDIS_HOST}
-    port: ${MANON_PROD_REDIS_PORT}
 
 manon:
   admin:

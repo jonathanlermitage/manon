@@ -1,6 +1,5 @@
 package manon.util;
 
-import manon.matchmaking.model.LobbyLeague;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -34,9 +33,7 @@ public class ToolsTest {
                 {null, "null"},
                 {1, "1"},
                 {1000, "1000"},
-                {1000.1, "1000.1"},
-                {LobbyLeague.COMPETITIVE, "COMPETITIVE"},
-                {LobbyLeague.REGULAR, "REGULAR"}
+                {1000.1, "1000.1"}
         };
     }
     
@@ -55,9 +52,7 @@ public class ToolsTest {
                 {null, "null"},
                 {1, "*"},
                 {1000, "****"},
-                {1000.1, "******"},
-                {LobbyLeague.COMPETITIVE, "***********"},
-                {LobbyLeague.REGULAR, "*******"}
+                {1000.1, "******"}
         };
     }
     

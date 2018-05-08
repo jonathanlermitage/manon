@@ -9,12 +9,6 @@ public final class SpringProfiles {
     /** {@value}. */
     public static final String NOT_METRICS = "!metrics";
     
-    /** {@value}. */
-    public static final String REDIS_CACHE = "!embeddedcache";
-    
-    /** {@value}. */
-    public static final String EMBEDDED_CACHE = "embeddedcache";
-    
     private SpringProfiles() {
         // utility class
     }
