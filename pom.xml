@@ -43,8 +43,8 @@
         <rest-assured.version>3.1.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-batch-test.version>4.0.1.RELEASE</spring-batch-test.version>
-        <spring-boot-devtools.version>2.0.1.RELEASE</spring-boot-devtools.version>
-        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+        <spring-boot-devtools.version>2.0.2.RELEASE</spring-boot-devtools.version>
+        <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
         <spring-data-redis.version>2.0.7.RELEASE</spring-data-redis.version>
         <spring-framework.version>5.0.6.RELEASE</spring-framework.version>
         <spring-security-config.version>5.0.5.RELEASE</spring-security-config.version>
