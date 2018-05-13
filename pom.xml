@@ -22,7 +22,7 @@
         </surefireArgLine>
 
         <aspectjrt.version>1.9.1</aspectjrt.version>
-        <assertj-core.version>3.9.1</assertj-core.version>
+        <assertj-core.version>3.10.0</assertj-core.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <embed.mongo.version>2.0.3</embed.mongo.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
