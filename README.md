@@ -39,8 +39,8 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 ## Branches
 
 * active
-  * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): main branch, based on Spring Framework 5, **Spring Boot 2** and **JDK8/9**
-  * [spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light): like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), without Spring Batch, Redis Cache, Swagger
+  * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and **JDK8/9**, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
+  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), without Spring Batch, Redis Cache, Swagger UI
 * archived
   * [spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo): use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7)
   * [spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger): enable **Swagger UI**. Run application and check `http://localhost:8080/swagger-ui.html`, authenticate with `ROOT` / `woot`. See commit [429ae53](https://github.com/jonathanlermitage/manon/commit/429ae53bc5211d8d97e8ccca20a4b183f207c6ee)
@@ -76,3 +76,5 @@ do dt        show dependencies tree
 ## License
 
 MIT License. In other words, you can do what you want: this project is entirely OpenSource, Free and Gratis.
+
+![banner](./misc/banner.png)
