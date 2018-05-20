@@ -37,5 +37,4 @@ manon:
     user-snapshot:
       chunk: 1000
       snapshot.max-age: 30
-  mongodb.version: "3.4.14"
   security.bcrypt.strength: 6
