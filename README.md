@@ -9,7 +9,7 @@
 
 ## Project
 
-Some experimentation with Spring Boot 2, JDK9, NoSQL, etc. It demonstrates usage of:
+Some experimentation with Spring Boot 2, JDK8..11, NoSQL, etc. It demonstrates usage of:
 
 * **Maven** and **Gradle** build tools
 * **Spring Boot 2** + Spring Framework 5 and migration from Spring Boot 1 + Spring Framework 4

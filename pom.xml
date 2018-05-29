@@ -31,7 +31,7 @@
         <jboss-logging.version>3.3.2.Final</jboss-logging.version>
         <jetbrains.annotations.version>16.0.2</jetbrains.annotations.version>
         <logback-classic.version>1.2.3</logback-classic.version>
-        <lombok.version>1.16.20</lombok.version>
+        <lombok.version>1.16.22</lombok.version>
         <mockito-core.version>2.18.3</mockito-core.version>
         <rest-assured.version>3.1.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
