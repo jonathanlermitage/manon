@@ -19,6 +19,7 @@
         <surefireArgLine>
             -ea -Xms128m -Xmx256m -Dspring.profiles.active=test,metrics -Dfile.encoding=UTF-8
             -Djava.awt.headless=true -XX:CompileThreshold=1500 -XX:TieredStopAtLevel=1 -noverify
+            -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+UseCompressedOops
         </surefireArgLine>
 
         <aspectjrt.version>1.9.1</aspectjrt.version>
