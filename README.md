@@ -13,7 +13,7 @@ Some experimentation with Spring Boot 2, JDK8..11, NoSQL, etc. It demonstrates u
 
 * **Maven** and **Gradle** build tools
 * **Spring Boot 2** + Spring Framework 5 and migration from Spring Boot 1 + Spring Framework 4
-* built with JDK8 and **JDK9** on Travis CI (JDK10 and 11 asap)
+* built with JDK8, JDK9 and **JDK10** on Travis CI (JDK11 asap)
 * Spring Web, **REST** API
 * Spring **Security**, to authenticate users via auth_basic, and fetch authentication data from MongoDB instead of default SQL database 
 * Spring Data to serve data from a **MongoDB** database
@@ -39,8 +39,8 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 ## Branches
 
 * active
-  * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and **JDK8/9**, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
-  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), without Spring Batch, Redis Cache, Swagger UI
+  * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and JDK8/9, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
+  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), JDK8/9/10, without Spring Batch, Redis Cache, Swagger UI
 * archived
   * [spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo): use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7)
   * [spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger): enable **Swagger UI**. Run application and check `http://localhost:8080/swagger-ui.html`, authenticate with `ROOT` / `woot`. See commit [429ae53](https://github.com/jonathanlermitage/manon/commit/429ae53bc5211d8d97e8ccca20a4b183f207c6ee)
