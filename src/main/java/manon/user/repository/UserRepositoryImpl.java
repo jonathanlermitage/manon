@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 new Update()
                         .set(User.Field.NICKNAME, userUpdateForm.getNickname())
                         .set(User.Field.EMAIL, userUpdateForm.getEmail()),
-                User.class).getMatchedCount();
+                User.class);
     }
     
     @Override
