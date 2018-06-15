@@ -33,15 +33,15 @@
         <jetbrains.annotations.version>16.0.2</jetbrains.annotations.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.0</lombok.version>
-        <mockito-core.version>2.18.3</mockito-core.version>
+        <mockito-core.version>2.19.0</mockito-core.version>
         <rest-assured.version>3.1.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
-        <spring-boot-devtools.version>2.0.2.RELEASE</spring-boot-devtools.version>
-        <spring-boot.version>2.0.2.RELEASE</spring-boot.version>
-        <spring-framework.version>5.0.6.RELEASE</spring-framework.version>
-        <spring-security-config.version>5.0.5.RELEASE</spring-security-config.version>
-        <spring-security-core.version>5.0.5.RELEASE</spring-security-core.version>
-        <spring-security-web.version>5.0.5.RELEASE</spring-security-web.version>
+        <spring-boot-devtools.version>2.0.3.RELEASE</spring-boot-devtools.version>
+        <spring-boot.version>2.0.3.RELEASE</spring-boot.version>
+        <spring-framework.version>5.0.7.RELEASE</spring-framework.version>
+        <spring-security-config.version>5.0.6.RELEASE</spring-security-config.version>
+        <spring-security-core.version>5.0.6.RELEASE</spring-security-core.version>
+        <spring-security-web.version>5.0.6.RELEASE</spring-security-web.version>
         <testng.version>6.14.3</testng.version>
     </properties>
 
@@ -66,6 +66,22 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Spring. -->
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <!--dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-reactive</artifactId>
+            <version>RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -105,22 +121,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
-            <exclusions>
+            <!--exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
-            </exclusions>
+            </exclusions-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-            <!--scope>provided</scope-->
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
@@ -174,7 +184,7 @@
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
 

@@ -48,12 +48,12 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test
     public void shouldFindByUsername() throws Exception {
-        assertEquals(userService.findByUsername(name(1)).orElseThrow(Exception::new).getId(), userId(1));
+        assertEquals(userService.findByUsername(name(1)).blockOptional().orElseThrow(Exception::new).getId(), userId(1));
     }
     
     @Test
     public void shouldNotFindByUsername() {
-        assertFalse(userService.findByUsername(UNKNOWN_USER_NAME).isPresent());
+        assertFalse(userService.findByUsername(UNKNOWN_USER_NAME).blockOptional().isPresent());
     }
     
     @Test
@@ -92,20 +92,20 @@ public class UserServiceTest extends InitBeforeClass {
         User user = userService.create(User.builder()
                 .username(name(100))
                 .password(rawPassword)
-                .build());
+                .build()).block();
         assertNotEquals(user.getPassword(), rawPassword);
         assertTrue(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword()));
     }
     
     @Test(expectedExceptions = UserExistsException.class)
     public void shouldFailCreate() throws UserExistsException, UserNotFoundException {
-        userService.create(userService.readOne(userId(1)));
+        userService.create(userService.readOne(userId(1))).block();
     }
     
     @Test
     public void shouldSetAndCheckEncodedPassword() throws UserNotFoundException {
         String rawPassword = "pwd" + currentTimeMillis();
-        userService.encodeAndSetPassword(userId(3), rawPassword);
+        userService.encodeAndSetPassword(userId(3), rawPassword).block();
         assertTrue(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword()));
     }
     
@@ -116,12 +116,7 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test(dataProvider = "dataProviderRegistrationStates")
     public void shouldSetRegistrationState(RegistrationState registrationState) throws UserNotFoundException {
-        userService.setRegistrationState(userId(4), registrationState);
+        userService.setRegistrationState(userId(4), registrationState).block();
         assertEquals(userService.readOne(userId(4)).getRegistrationState(), registrationState);
-    }
-    
-    @Test(dataProvider = "dataProviderRegistrationStates")
-    public void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
-        userService.setRegistrationState(UNKNOWN_ID, registrationState);
     }
 }

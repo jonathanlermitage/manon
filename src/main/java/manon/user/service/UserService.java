@@ -7,16 +7,15 @@ import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.RegistrationState;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface UserService {
     
-    long count();
+    Mono<Long> count();
     
-    void save(User user);
+    Mono<User> save(User user);
     
     void existOrFail(String... ids) throws UserNotFoundException;
     
@@ -24,7 +23,7 @@ public interface UserService {
     
     User readByUsername(String username) throws UserNotFoundException;
     
-    Optional<User> findByUsername(String username);
+    Mono<User> findByUsername(String username);
     
     UserVersionProjection readVersionById(String id) throws UserNotFoundException;
     
@@ -35,18 +34,18 @@ public interface UserService {
      * @param userId user id.
      * @param userUpdateForm user data.
      */
-    void update(String userId, UserUpdateForm userUpdateForm);
+    Mono<Void> update(String userId, UserUpdateForm userUpdateForm);
     
-    Page<User> findAll(Pageable pageable);
+    Flux<User> findAll(Pageable pageable);
     
     /**
      * Create a new user and its user.
      * @param user user data.
      * @return new user.
      */
-    User create(User user) throws UserExistsException;
+    Mono<User> create(User user) throws UserExistsException;
     
-    void encodeAndSetPassword(String id, String password);
+    Mono<Void> encodeAndSetPassword(String id, String password);
     
-    void setRegistrationState(String id, RegistrationState registrationState);
+    Mono<Void> setRegistrationState(String id, RegistrationState registrationState);
 }

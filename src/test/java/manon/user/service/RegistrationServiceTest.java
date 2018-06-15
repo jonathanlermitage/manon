@@ -20,7 +20,7 @@ public class RegistrationServiceTest extends InitBeforeTest {
     
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {
-        User existingAdmin = userService.findByUsername(adminUsername).orElseThrow(Exception::new);
+        User existingAdmin = userService.findByUsername(adminUsername).blockOptional().orElseThrow(Exception::new);
         User ensuredAdmin = registrationService.ensureAdmin();
         assertEquals(ensuredAdmin, existingAdmin);
     }
@@ -28,8 +28,8 @@ public class RegistrationServiceTest extends InitBeforeTest {
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
         clearDb();
-        assertFalse(userService.findByUsername(adminUsername).isPresent());
+        assertFalse(userService.findByUsername(adminUsername).blockOptional().isPresent());
         User ensuredAdmin = registrationService.ensureAdmin();
-        assertEquals(ensuredAdmin, userService.findByUsername(adminUsername).orElseThrow(Exception::new));
+        assertEquals(ensuredAdmin, userService.findByUsername(adminUsername).blockOptional().orElseThrow(Exception::new));
     }
 }

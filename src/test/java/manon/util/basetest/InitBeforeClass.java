@@ -101,7 +101,7 @@ public abstract class InitBeforeClass extends BaseTests {
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
-        userCount = userService.count();
+        userCount = userService.count().block();
         MDC.put(MDC_KEY_ENV, "testng");
         log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
         MDC.clear();

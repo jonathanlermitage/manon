@@ -34,7 +34,7 @@ public class FriendshipWSTest extends InitBeforeClass {
             user.getFriendshipRequestsTo().clear();
             user.getFriendshipRequestsFrom().clear();
             user.getFriendshipEvents().clear();
-            userService.save(user);
+            userService.save(user).block();
         }
     }
     

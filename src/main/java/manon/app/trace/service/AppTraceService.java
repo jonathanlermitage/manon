@@ -4,6 +4,7 @@ import manon.app.trace.document.AppTrace;
 import manon.app.trace.model.AppTraceEvent;
 import manon.app.trace.model.AppTraceLevel;
 import manon.util.VisibleForTesting;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface AppTraceService {
     
     String getAppId();
     
-    void deleteByCurrentAppIdAndEvent(AppTraceEvent event);
+    Mono<Void> deleteByCurrentAppIdAndEvent(AppTraceEvent event);
     
     /**
      * Log a message to database.
@@ -19,9 +20,9 @@ public interface AppTraceService {
      * @param event category.
      * @param msg log message.
      */
-    void log(AppTraceLevel level, AppTraceEvent event, String msg);
+    Mono<Void> log(AppTraceLevel level, AppTraceEvent event, String msg);
     
-    void log(AppTraceLevel level, AppTraceEvent event);
+    Mono<Void> log(AppTraceLevel level, AppTraceEvent event);
     
     void logUptime();
     

@@ -8,6 +8,11 @@ import manon.user.err.FriendshipRequestNotFoundException;
 import manon.user.err.UserNotFoundException;
 import manon.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static manon.user.document.User.Validation.MAX_EVENTS;
 
@@ -20,9 +25,11 @@ public class FriendshipServiceImpl implements FriendshipService {
     
     @Override
     public void keepEvents(String... ids) {
+        Set<Mono<Void>> monos = new HashSet<>();
         for (String id : ids) {
-            userRepository.keepEvents(id, MAX_EVENTS);
+            monos.add(userRepository.keepEvents(id, MAX_EVENTS));
         }
+        Flux.concat(monos).all(aVoid -> true).block();
     }
     
     @Override
@@ -38,7 +45,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         if (from.getFriendshipRequestsTo().contains(userIdTo)) {
             throw new FriendshipRequestExistsException(userIdFrom, userIdTo);
         }
-        userRepository.askFriendship(userIdFrom, userIdTo);
+        userRepository.askFriendship(userIdFrom, userIdTo).block();
         keepEvents(userIdFrom, userIdTo);
     }
     
@@ -48,25 +55,25 @@ public class FriendshipServiceImpl implements FriendshipService {
         if (!userService.readOne(userIdTo).getFriendshipRequestsFrom().contains(userIdFrom)) {
             throw new FriendshipRequestNotFoundException(userIdFrom, userIdTo);
         }
-        userRepository.acceptFriendshipRequest(userIdFrom, userIdTo);
+        userRepository.acceptFriendshipRequest(userIdFrom, userIdTo).block();
         keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
     public void rejectFriendshipRequest(String userIdFrom, String userIdTo) {
-        userRepository.rejectFriendshipRequest(userIdFrom, userIdTo);
+        userRepository.rejectFriendshipRequest(userIdFrom, userIdTo).block();
         keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
     public void cancelFriendshipRequest(String userIdFrom, String userIdTo) {
-        userRepository.cancelFriendshipRequest(userIdFrom, userIdTo);
+        userRepository.cancelFriendshipRequest(userIdFrom, userIdTo).block();
         keepEvents(userIdFrom, userIdTo);
     }
     
     @Override
     public void revokeFriendship(String userIdFrom, String userIdTo) {
-        userRepository.revokeFriendship(userIdFrom, userIdTo);
+        userRepository.revokeFriendship(userIdFrom, userIdTo).block();
         keepEvents(userIdFrom, userIdTo);
     }
 }

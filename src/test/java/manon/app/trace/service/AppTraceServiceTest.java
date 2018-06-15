@@ -22,7 +22,7 @@ public class AppTraceServiceTest extends InitBeforeClass {
     
     @Test
     public void shouldLogUptime() {
-        appTraceService.deleteByCurrentAppIdAndEvent(UPTIME);
+        appTraceService.deleteByCurrentAppIdAndEvent(UPTIME).block();
         long nbTraces = appTraceService.count();
         for (int i = 0; i < 3; i++) {
             appTraceService.logUptime();
@@ -42,11 +42,11 @@ public class AppTraceServiceTest extends InitBeforeClass {
     
     @Test(dataProvider = "dataProviderShouldLog")
     public void shouldLog(AppTraceLevel level) {
-        appTraceService.deleteByCurrentAppIdAndEvent(APP_START);
+        appTraceService.deleteByCurrentAppIdAndEvent(APP_START).block();
         long nbTraces = appTraceService.count();
         for (int i = 0; i < 3; i++) {
-            appTraceService.log(level, APP_START, "foo");
-            appTraceService.log(level, APP_START);
+            appTraceService.log(level, APP_START, "foo")
+                    .then(appTraceService.log(level, APP_START)).block();
         }
         assertEquals(appTraceService.count(), nbTraces + 6);
         assertEquals(appTraceService.countByCurrentAppId(), appTraceService.count());

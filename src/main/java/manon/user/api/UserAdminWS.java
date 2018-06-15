@@ -7,7 +7,6 @@ import manon.user.document.User;
 import manon.user.err.UserNotFoundException;
 import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import static manon.app.config.API.API_USER_ADMIN;
 
@@ -30,7 +30,7 @@ public class UserAdminWS {
     
     /** Get all users. */
     @GetMapping(value = "/all")
-    public Page<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
+    public Flux<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                               Pageable pageable) {
         log.debug("admin {} finds all users pageable {}", admin.getUsername(), pageable);
         return userService.findAll(pageable);

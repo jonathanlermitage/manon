@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import static manon.app.config.API.API_USER;
 import static manon.util.Tools.MEDIA_JSON;
@@ -71,18 +72,18 @@ public class UserWS {
     
     /** Update one user's user field. */
     @PutMapping(value = "/field", consumes = MEDIA_JSON)
-    public void update(@AuthenticationPrincipal UserSimpleDetails user,
-                       @RequestBody @Validated UserUpdateForm userUpdateForm) {
+    public Mono<Void> update(@AuthenticationPrincipal UserSimpleDetails user,
+                             @RequestBody @Validated UserUpdateForm userUpdateForm) {
         log.debug("user {} updates his user with {}", user.getIdentity(), userUpdateForm);
-        userService.update(user.getUserId(), userUpdateForm);
+        return userService.update(user.getUserId(), userUpdateForm);
     }
     
     /** Update current user's password. */
     @PutMapping(value = "/password", consumes = MEDIA_JSON)
-    public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
-                               @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
+    public Mono<Void> updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
+                                     @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
         log.debug("user {} updates his password", user.getIdentity());
         // TODO verify old password in service, before setting new one
-        userService.encodeAndSetPassword(user.getUserId(), userPasswordUpdateForm.getNewPassword());
+        return userService.encodeAndSetPassword(user.getUserId(), userPasswordUpdateForm.getNewPassword());
     }
 }

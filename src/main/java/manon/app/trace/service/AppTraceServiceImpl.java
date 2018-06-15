@@ -9,6 +9,7 @@ import manon.app.trace.model.AppTraceLevel;
 import manon.app.trace.repository.AppTraceRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,12 +39,12 @@ public class AppTraceServiceImpl implements AppTraceService {
     private final String appId = objId();
     
     @Override
-    public void deleteByCurrentAppIdAndEvent(AppTraceEvent event) {
-        appTraceRepository.deleteByAppIdAndEvent(appId, event);
+    public Mono<Void> deleteByCurrentAppIdAndEvent(AppTraceEvent event) {
+        return appTraceRepository.deleteByAppIdAndEvent(appId, event).then();
     }
     
     @Override
-    public void log(AppTraceLevel level, AppTraceEvent event, String msg) {
+    public Mono<Void> log(AppTraceLevel level, AppTraceEvent event, String msg) {
         String logmsg = "[" + event.name() + "]" + (msg == null ? "" : " " + msg);
         switch (level) {
             case INFO:
@@ -56,50 +57,50 @@ public class AppTraceServiceImpl implements AppTraceService {
                 log.error(logmsg);
                 break;
         }
-        appTraceRepository.save(AppTrace.builder()
+        return appTraceRepository.save(AppTrace.builder()
                 .appId(appId)
                 .msg(msg)
                 .event(event)
                 .level(level)
-                .build());
+                .build()).then();
     }
     
     @Override
-    public void log(AppTraceLevel level, AppTraceEvent event) {
-        log(level, event, null);
+    public Mono<Void> log(AppTraceLevel level, AppTraceEvent event) {
+        return log(level, event, null);
     }
     
     @Override
     @Scheduled(fixedRate = 30_000, initialDelay = 30_000)
     public void logUptime() {
-        deleteByCurrentAppIdAndEvent(UPTIME);
-        log(DEBUG, UPTIME, format("Application [%s] is alive since %ss (%s)",
-                appId,
-                (currentTimeMillis() - startupDate.getTime()) / 1_000,
-                dateFormat.format(startupDate))
-        );
+        deleteByCurrentAppIdAndEvent(UPTIME)
+                .then(log(DEBUG, UPTIME, format("Application [%s] is alive since %ss (%s)",
+                        appId,
+                        (currentTimeMillis() - startupDate.getTime()) / 1_000,
+                        dateFormat.format(startupDate))
+                )).block();
     }
     
     // VisibleForTesting
     
     @Override
     public long count() {
-        return appTraceRepository.count();
+        return appTraceRepository.count().block();
     }
     
     @Override
     public long countByCurrentAppId() {
-        return appTraceRepository.countByAppId(appId);
+        return appTraceRepository.countByAppId(appId).block();
     }
     
     @Override
     public long countByCurrentAppIdAndEvent(AppTraceEvent event) {
-        return appTraceRepository.countByAppIdAndEvent(appId, event);
+        return appTraceRepository.countByAppIdAndEvent(appId, event).block();
     }
     
     @Override
     public List<AppTrace> findAll() {
-        return appTraceRepository.findAll();
+        return appTraceRepository.findAll().collectList().block();
     }
     
     // end of VisibleForTesting

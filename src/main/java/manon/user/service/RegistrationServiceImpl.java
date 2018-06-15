@@ -37,25 +37,25 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     @Override
     public User activate(String userId) throws UserNotFoundException {
-        userService.setRegistrationState(userId, ACTIVE);
+        userService.setRegistrationState(userId, ACTIVE).block();
         return userService.readOne(userId);
     }
     
     @Override
     public User ban(String userId) throws UserNotFoundException {
-        userService.setRegistrationState(userId, BANNED);
+        userService.setRegistrationState(userId, BANNED).block();
         return userService.readOne(userId);
     }
     
     @Override
     public User suspend(String userId) throws UserNotFoundException {
-        userService.setRegistrationState(userId, SUSPENDED);
+        userService.setRegistrationState(userId, SUSPENDED).block();
         return userService.readOne(userId);
     }
     
     @Override
     public void delete(String userId) {
-        userService.setRegistrationState(userId, DELETED);
+        userService.setRegistrationState(userId, DELETED).block();
     }
     
     @Override
@@ -76,6 +76,7 @@ public class RegistrationServiceImpl implements RegistrationService {
      * @param registrationState registration state.
      * @return user.
      */
+    @SuppressWarnings("SameParameterValue")
     private User register(UserAuthority role, String username, String password, RegistrationState registrationState)
             throws UserExistsException {
         return register(Collections.singletonList(role), username, password, registrationState);
@@ -97,12 +98,12 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .password(password)
                 .registrationState(registrationState)
                 .build();
-        return userService.create(user);
+        return userService.create(user).block();
     }
     
     @Override
     public User ensureAdmin() throws UserExistsException {
-        Optional<User> opAdmin = userService.findByUsername(adminUsername);
+        Optional<User> opAdmin = userService.findByUsername(adminUsername).blockOptional();
         if (opAdmin.isPresent()) {
             return opAdmin.get();
         }

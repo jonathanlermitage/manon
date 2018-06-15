@@ -10,11 +10,10 @@ import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.RegistrationState;
 import manon.user.repository.UserRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +23,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoderService passwordEncoderService;
     
     @Override
-    public long count() {
+    public Mono<Long> count() {
         return userRepository.count();
     }
     
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public Mono<User> save(User user) {
+        return userRepository.save(user);
     }
     
     @Override
@@ -42,42 +41,42 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User readOne(String id) throws UserNotFoundException {
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return userRepository.findById(id).blockOptional().orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public void update(String userId, UserUpdateForm userUpdateForm) {
-        userRepository.update(userId, userUpdateForm);
+    public Mono<Void> update(String userId, UserUpdateForm userUpdateForm) {
+        return userRepository.update(userId, userUpdateForm);
     }
     
     @Override
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Flux<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable.getSort());
     }
     
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Mono<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
     
     @Override
     public User readByUsername(String username) throws UserNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        return userRepository.findByUsername(username).blockOptional().orElseThrow(UserNotFoundException::new);
     }
     
     @Override
     public UserVersionProjection readVersionById(String id) throws UserNotFoundException {
-        return userRepository.findVersionById(id).orElseThrow(UserNotFoundException::new);
+        return userRepository.findVersionById(id).blockOptional().orElseThrow(UserNotFoundException::new);
     }
     
     @Override
     public UserIdProjection readIdByUsername(String username) throws UserNotFoundException {
-        return userRepository.findVersionByUsername(username).orElseThrow(UserNotFoundException::new);
+        return userRepository.findVersionByUsername(username).blockOptional().orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public User create(User user) throws UserExistsException {
-        if (userRepository.usernameExists(user.getUsername())) {
+    public Mono<User> create(User user) throws UserExistsException {
+        if (userRepository.countByUsername(user.getUsername()).block() > 0) {
             throw new UserExistsException();
         }
         return userRepository.save(user.toBuilder()
@@ -86,12 +85,12 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void encodeAndSetPassword(String id, String password) {
-        userRepository.setPassword(id, passwordEncoderService.encode(password));
+    public Mono<Void> encodeAndSetPassword(String id, String password) {
+        return userRepository.setPassword(id, passwordEncoderService.encode(password));
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationState registrationState) {
-        userRepository.setRegistrationState(id, registrationState);
+    public Mono<Void> setRegistrationState(String id, RegistrationState registrationState) {
+        return userRepository.setRegistrationState(id, registrationState);
     }
 }

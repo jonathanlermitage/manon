@@ -1,16 +1,18 @@
 package manon.user.repository;
 
+import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import manon.user.document.User;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.FriendshipEvent;
 import manon.user.model.FriendshipEventCode;
 import manon.user.model.RegistrationState;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,22 +20,23 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
+    // FIXME updateFirst fails if id not found, no problem with updateMulti
     
-    private final MongoTemplate mongoTemplate;
+    private final ReactiveMongoTemplate mongoTemplate;
     
     @Override
-    public void update(String id, UserUpdateForm userUpdateForm) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> update(String id, UserUpdateForm userUpdateForm) {
+        return mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(id)),
                 new Update()
                         .set(User.Field.NICKNAME, userUpdateForm.getNickname())
                         .set(User.Field.EMAIL, userUpdateForm.getEmail()),
-                User.class);
+                User.class).then();
     }
     
     @Override
-    public void askFriendship(String userIdFrom, String userIdTo) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> askFriendship(String userIdFrom, String userIdTo) {
+        Mono<UpdateResult> res1 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
                 new Update()
                         .addToSet(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
@@ -42,7 +45,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
-        mongoTemplate.updateFirst(
+        Mono<UpdateResult> res2 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
                 new Update()
                         .addToSet(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
@@ -51,11 +54,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
+        return res1.and(res2);
     }
     
     @Override
-    public void acceptFriendshipRequest(String userIdFrom, String userIdTo) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> acceptFriendshipRequest(String userIdFrom, String userIdTo) {
+        Mono<UpdateResult> res1 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
                 new Update()
                         .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
@@ -65,7 +69,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
-        mongoTemplate.updateFirst(
+        Mono<UpdateResult> res2 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
                 new Update()
                         .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
@@ -75,11 +79,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
+        return res1.and(res2);
     }
     
     @Override
-    public void rejectFriendshipRequest(String userIdFrom, String userIdTo) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> rejectFriendshipRequest(String userIdFrom, String userIdTo) {
+        Mono<UpdateResult> res1 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
                 new Update()
                         .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
@@ -88,7 +93,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
-        mongoTemplate.updateFirst(
+        Mono<UpdateResult> res2 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
                 new Update()
                         .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
@@ -97,11 +102,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
+        return res1.and(res2);
     }
     
     @Override
-    public void cancelFriendshipRequest(String userIdFrom, String userIdTo) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> cancelFriendshipRequest(String userIdFrom, String userIdTo) {
+        Mono<UpdateResult> res1 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
                 new Update()
                         .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
@@ -110,7 +116,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
-        mongoTemplate.updateFirst(
+        Mono<UpdateResult> res2 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
                 new Update()
                         .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
@@ -119,11 +125,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
+        return res1.and(res2);
     }
     
     @Override
-    public void revokeFriendship(String userIdFrom, String userIdTo) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> revokeFriendship(String userIdFrom, String userIdTo) {
+        Mono<UpdateResult> res1 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
                 new Update()
                         .pull(User.Field.FRIENDS, userIdFrom)
@@ -132,7 +139,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
-        mongoTemplate.updateFirst(
+        Mono<UpdateResult> res2 = mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
                 new Update()
                         .pull(User.Field.FRIENDS, userIdTo)
@@ -141,34 +148,36 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 .params(Collections.singletonList(userIdFrom))
                                 .build()),
                 User.class);
+        return res1.and(res2);
     }
     
     @Override
-    public void keepEvents(String id, int numberOfEventsToKeep) {
-        User user = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), User.class);
+    public Mono<Void> keepEvents(String id, int numberOfEventsToKeep) {
+        User user = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), User.class).block();
         List<FriendshipEvent> friendshipEvents = user.getFriendshipEvents();
         int nbToRemove = friendshipEvents.size() - numberOfEventsToKeep;
         if (nbToRemove > 0) {
-            mongoTemplate.updateFirst(
+            return mongoTemplate.updateMulti(
                     Query.query(Criteria.where(User.Field.ID).is(id)),
                     new Update().set(User.Field.FRIENDSHIP_EVENTS, friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
-                    User.class);
+                    User.class).then();
         }
+        return Mono.empty();
     }
     
     @Override
-    public void setPassword(String id, String password) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> setPassword(String id, String password) {
+        return mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(id)),
                 new Update().set(User.Field.PASSWORD, password),
-                User.class).getMatchedCount();
+                User.class).then();
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationState registrationState) {
-        mongoTemplate.updateFirst(
+    public Mono<Void> setRegistrationState(String id, RegistrationState registrationState) {
+        return mongoTemplate.updateMulti(
                 Query.query(Criteria.where(User.Field.ID).is(id)),
                 new Update().set(User.Field.REGISTRATION_STATE, registrationState),
-                User.class).getMatchedCount();
+                User.class).then();
     }
 }
