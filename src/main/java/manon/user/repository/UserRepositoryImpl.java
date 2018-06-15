@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 new Update()
                         .set(User.Field.NICKNAME, userUpdateForm.getNickname())
                         .set(User.Field.EMAIL, userUpdateForm.getEmail()),
-                User.class).getMatchedCount();
+                User.class);
     }
     
     @Override
@@ -161,7 +161,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where(User.Field.ID).is(id)),
                 new Update().set(User.Field.PASSWORD, password),
-                User.class).getMatchedCount();
+                User.class);
     }
     
     @Override
@@ -169,6 +169,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where(User.Field.ID).is(id)),
                 new Update().set(User.Field.REGISTRATION_STATE, registrationState),
-                User.class).getMatchedCount();
+                User.class);
     }
 }
