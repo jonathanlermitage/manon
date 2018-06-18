@@ -11,7 +11,13 @@ matrix:
     - os: osx
       osx_image: xcode8.3 # see osx+jdk versions at https://docs.travis-ci.com/user/reference/osx#OS-X-Version
   allow_failures:
+    # who use osx?
     - os: osx
+    # non-LTS jdk can fail, I won't use it in production but it's useful to prepare migration to next LTS jdk
+    - os: linux
+      jdk: oraclejdk9
+    - os: linux
+      jdk: oraclejdk10
 
 language: java
 
