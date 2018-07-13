@@ -1,5 +1,5 @@
    ### DEV CONFIGURATION for local unit testing ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
-  mongodb.version: "3.4.15"
+  mongodb.version: "3.4.16"
   security.bcrypt.strength: 4
