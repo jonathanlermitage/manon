@@ -16,21 +16,6 @@
       "description": "Password bcrypt strength."
     },
     {
-      "name": "manon.matchmaking.job.start",
-      "type": "java.lang.Boolean",
-      "description": "Start matchmaking job on this server."
-    },
-    {
-      "name": "manon.batch.user-snapshot.chunk",
-      "type": "java.lang.Integer",
-      "description": "user chunk size."
-    },
-    {
-      "name": "manon.batch.user-snapshot.snapshot.max-age",
-      "type": "java.lang.Integer",
-      "description": "user snapshot max age in days."
-    },
-    {
       "name": "manon.mongodb.version",
       "type": "java.lang.String",
       "description": "MongoDB version, used to configure test embedded database."
