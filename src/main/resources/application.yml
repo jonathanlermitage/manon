@@ -33,8 +33,4 @@ manon:
     default-admin:
       username: ROOT
       password: woot
-  batch:
-    user-snapshot:
-      chunk: 1000
-      snapshot.max-age: 30
   security.bcrypt.strength: 6
