@@ -14,6 +14,8 @@ import java.util.Collection;
 @AllArgsConstructor
 public class UserSimpleDetails implements UserDetails, Serializable {
     
+    private static final long serialVersionUID = -7532767239139493489L;
+    
     private String username;
     private String password;
     private boolean accountNonExpired;

@@ -18,9 +18,9 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final UserRepository userRepository;
     private final UserService userService;
     
-    @Override
-    public void keepEvents(String... ids) {
-        for (String id : ids) {
+    /** Keep only {@link User.Validation#MAX_EVENTS} recent friendshipEvents on users. */
+    private void keepEvents(String... userIds) {
+        for (String id : userIds) {
             userRepository.keepEvents(id, MAX_EVENTS);
         }
     }

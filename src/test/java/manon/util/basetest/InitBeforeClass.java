@@ -24,7 +24,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -186,29 +185,6 @@ public abstract class InitBeforeClass extends BaseTests {
             userIdCache.put(idx, userService.readIdByUsername(makeName(idx)).getId());
         }
         return userIdCache.get(idx);
-    }
-    
-    //
-    // DataProviders
-    //
-    
-    public final String DP_AUTHENTICATED = "dataProviderAuthenticated";
-    
-    @DataProvider
-    public Object[][] dataProviderAuthenticated() {
-        return new Object[][]{
-                {whenAdmin()},
-                {whenP1()}
-        };
-    }
-    
-    public final String DP_ADMIN = "dataProviderAdmin";
-    
-    @DataProvider
-    public Object[][] dataProviderAdmin() {
-        return new Object[][]{
-                {whenAdmin()}
-        };
     }
     
     //

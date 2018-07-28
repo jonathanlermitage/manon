@@ -1,5 +1,5 @@
-   ### PRODUCTION CONFIGURATION for production application ###  (warning: avoid tabs, indent with two spaces)
-  
+### PRODUCTION CONFIGURATION for production application ###  (warning: avoid tabs, indent with two spaces)
+
 spring:
   data:
     mongodb:

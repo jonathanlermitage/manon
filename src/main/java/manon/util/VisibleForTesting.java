@@ -8,6 +8,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /** Indicates that the visibility of a method has been relaxed to make the code testable. */
+@SuppressWarnings("unused")
 @Documented
 @Target(METHOD)
 @Retention(SOURCE)

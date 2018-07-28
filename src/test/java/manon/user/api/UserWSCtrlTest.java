@@ -35,7 +35,7 @@ public class UserWSCtrlTest extends MockBeforeClass {
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyDelete(Rs rs, Integer status) throws Exception {
+    public void shouldVerifyDelete(Rs rs, Integer status) {
         rs.getRequestSpecification()
                 .contentType(JSON)
                 .delete(API_USER)

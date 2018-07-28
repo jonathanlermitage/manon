@@ -44,9 +44,7 @@ import static manon.user.document.User.Validation.USERNAME_PATTERN_ERRMSG;
 import static manon.user.document.User.Validation.USERNAME_SIZE_ERRMSG;
 import static manon.util.Tools.DATE_FORMAT;
 
-/**
- * User user.
- */
+@SuppressWarnings("NullableProblems")
 @Document(collection = "User")
 @TypeAlias("User")
 @Getter

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import manon.user.document.User;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
-import manon.user.model.RegistrationState;
 import manon.user.model.UserAuthority;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -60,44 +59,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     @Override
     public User registerPlayer(String username, String password) throws UserExistsException {
-        return register(ROLE_PLAYER, username, password, ACTIVE);
-    }
-    
-    @Override
-    public User registerRoot(String username, String password) throws UserExistsException {
-        return register(Arrays.asList(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR, ROLE_DEV), username, password, ACTIVE);
-    }
-    
-    /**
-     * Register a user.
-     * @param role single role.
-     * @param username username.
-     * @param password password.
-     * @param registrationState registration state.
-     * @return user.
-     */
-    private User register(UserAuthority role, String username, String password, RegistrationState registrationState)
-            throws UserExistsException {
-        return register(Collections.singletonList(role), username, password, registrationState);
-    }
-    
-    /**
-     * Register a user.
-     * @param roles roles.
-     * @param username username.
-     * @param password password.
-     * @param registrationState registration state.
-     * @return user.
-     */
-    private User register(List<UserAuthority> roles, String username, String password, RegistrationState registrationState)
-            throws UserExistsException {
-        User user = User.builder()
-                .username(username.trim())
-                .roles(roles)
-                .password(password)
-                .registrationState(registrationState)
-                .build();
-        return userService.create(user);
+        return register(Collections.singletonList(ROLE_PLAYER), username, password);
     }
     
     @Override
@@ -106,6 +68,24 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (opAdmin.isPresent()) {
             return opAdmin.get();
         }
-        return registerRoot(adminUsername, adminPassword);
+        return register(Arrays.asList(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR, ROLE_DEV), adminUsername, adminPassword);
+    }
+    
+    /**
+     * Register a user.
+     * @param roles roles.
+     * @param username username.
+     * @param password password.
+     * @return user.
+     */
+    private User register(List<UserAuthority> roles, String username, String password)
+            throws UserExistsException {
+        User user = User.builder()
+                .username(username.trim())
+                .roles(roles)
+                .password(password)
+                .registrationState(ACTIVE)
+                .build();
+        return userService.create(user);
     }
 }

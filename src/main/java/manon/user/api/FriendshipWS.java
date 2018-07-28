@@ -45,8 +45,7 @@ public class FriendshipWS {
     /** Reject a friendship request from another user. */
     @PostMapping(value = "/rejectfriendship/user/{id}")
     public void rejectFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
-                                        @PathVariable("id") String id)
-            throws UserNotFoundException {
+                                        @PathVariable("id") String id) {
         log.debug("user {} rejects friendship request from user {}", user.getIdentity(), id);
         friendshipService.rejectFriendshipRequest(id, user.getUser().getId());
     }
@@ -54,8 +53,7 @@ public class FriendshipWS {
     /** Cancel a friendship request to another user. */
     @PostMapping(value = "/cancelfriendship/user/{id}")
     public void cancelFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
-                                        @PathVariable("id") String id)
-            throws UserNotFoundException {
+                                        @PathVariable("id") String id) {
         log.debug("user {} cancels friendship request to user {}", user.getIdentity(), id);
         friendshipService.cancelFriendshipRequest(user.getUser().getId(), id);
     }
@@ -63,8 +61,7 @@ public class FriendshipWS {
     /** Delete an existing friendship relation with another user. */
     @PostMapping(value = "/revokefriendship/user/{id}")
     public void revokeFriendship(@AuthenticationPrincipal UserSimpleDetails user,
-                                 @PathVariable("id") String id)
-            throws UserNotFoundException {
+                                 @PathVariable("id") String id) {
         log.debug("user {} deletes friendship with user {}", user.getIdentity(), id);
         friendshipService.revokeFriendship(user.getUser().getId(), id);
     }

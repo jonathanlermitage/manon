@@ -146,13 +146,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     public void keepEvents(String id, int numberOfEventsToKeep) {
         User user = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), User.class);
-        List<FriendshipEvent> friendshipEvents = user.getFriendshipEvents();
-        int nbToRemove = friendshipEvents.size() - numberOfEventsToKeep;
-        if (nbToRemove > 0) {
-            mongoTemplate.updateFirst(
-                    Query.query(Criteria.where(User.Field.ID).is(id)),
-                    new Update().set(User.Field.FRIENDSHIP_EVENTS, friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
-                    User.class);
+        if (user != null) {
+            List<FriendshipEvent> friendshipEvents = user.getFriendshipEvents();
+            int nbToRemove = friendshipEvents.size() - numberOfEventsToKeep;
+            if (nbToRemove > 0) {
+                mongoTemplate.updateFirst(
+                        Query.query(Criteria.where(User.Field.ID).is(id)),
+                        new Update().set(User.Field.FRIENDSHIP_EVENTS, friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
+                        User.class);
+            }
         }
     }
     

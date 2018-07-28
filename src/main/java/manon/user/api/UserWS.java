@@ -47,8 +47,7 @@ public class UserWS {
     
     /** Unregister a user. */
     @DeleteMapping
-    public void delete(@AuthenticationPrincipal UserSimpleDetails user)
-            throws UserNotFoundException {
+    public void delete(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} deletes himself", user.getIdentity());
         registrationService.delete(user.getUserId());
     }

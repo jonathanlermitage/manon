@@ -101,6 +101,7 @@ public class UserWSTest extends InitBeforeTest {
                 .statusCode(SC_UNAUTHORIZED);
     }
     
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldRead() throws Exception {
         Response res = whenP1().getRequestSpecification()

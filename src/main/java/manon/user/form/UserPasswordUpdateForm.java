@@ -14,6 +14,7 @@ import static manon.user.document.User.Validation.PASSWORD_MIN_LENGTH;
 import static manon.user.document.User.Validation.PASSWORD_SIZE_ERRMSG;
 import static manon.util.Tools.shortenAndAnonymizeLog;
 
+@SuppressWarnings("NullableProblems")
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)

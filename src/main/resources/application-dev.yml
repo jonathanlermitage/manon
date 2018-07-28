@@ -1,4 +1,4 @@
-   ### DEV CONFIGURATION for local application ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local application ###  (warning: avoid tabs, indent with two spaces)
 
 spring:
   data:

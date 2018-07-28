@@ -11,7 +11,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
@@ -55,7 +54,6 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     }
     
     public final String FAKE_ID = Integer.toString(Integer.MAX_VALUE);
-    public final boolean FAKE_BOOL = true;
     
     public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";
     
@@ -68,17 +66,6 @@ public abstract class MockBeforeClass extends InitBeforeClass {
         };
     }
     
-    public final String DP_ALLOW_ADMIN_201 = "dataProviderAllowAdmin201";
-    
-    @DataProvider
-    public Object[][] dataProviderAllowAdmin201() {
-        return new Object[][]{
-                {whenAdmin(), SC_CREATED},
-                {whenP1(), SC_FORBIDDEN},
-                {whenAnonymous(), SC_UNAUTHORIZED}
-        };
-    }
-    
     public final String DP_ALLOW_AUTHENTICATED = "dataProviderAllowAuthenticated";
     
     @DataProvider
@@ -86,17 +73,6 @@ public abstract class MockBeforeClass extends InitBeforeClass {
         return new Object[][]{
                 {whenAdmin(), SC_OK},
                 {whenP1(), SC_OK},
-                {whenAnonymous(), SC_UNAUTHORIZED}
-        };
-    }
-    
-    public final String DP_ALLOW_AUTHENTICATED_201 = "dataProviderAllowAuthenticated201";
-    
-    @DataProvider
-    public Object[][] dataProviderAllowAuthenticated201() {
-        return new Object[][]{
-                {whenAdmin(), SC_CREATED},
-                {whenP1(), SC_CREATED},
                 {whenAnonymous(), SC_UNAUTHORIZED}
         };
     }

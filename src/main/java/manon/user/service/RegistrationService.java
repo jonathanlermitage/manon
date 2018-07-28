@@ -31,7 +31,7 @@ public interface RegistrationService {
      * Delete a user.
      * @param userId user id.
      */
-    void delete(String userId) throws UserNotFoundException;
+    void delete(String userId);
     
     /**
      * Register a user.
@@ -41,15 +41,6 @@ public interface RegistrationService {
      * @return user.
      */
     User registerPlayer(String username, String password) throws UserExistsException;
-    
-    /**
-     * Register an admin (root).
-     * Activation is already done.
-     * @param username username.
-     * @param password password.
-     * @return admin user.
-     */
-    User registerRoot(String username, String password) throws UserExistsException;
     
     /**
      * Register an admin (root) is absent.
