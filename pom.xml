@@ -29,14 +29,14 @@
         <janino.version>3.0.8</janino.version>
         <jetbrains.annotations.version>16.0.2</jetbrains.annotations.version>
         <logback-classic.version>1.2.3</logback-classic.version>
-        <lombok.version>1.18.0</lombok.version>
-        <mockito-core.version>2.19.1</mockito-core.version>
+        <lombok.version>1.18.2</lombok.version>
+        <mockito-core.version>2.20.1</mockito-core.version>
         <rest-assured.version>3.1.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-boot.version>2.0.3.RELEASE</spring-boot.version>
-        <spring-security-config.version>5.0.6.RELEASE</spring-security-config.version>
-        <spring-security-core.version>5.0.6.RELEASE</spring-security-core.version>
-        <spring-security-web.version>5.0.6.RELEASE</spring-security-web.version>
+        <spring-security-config.version>5.0.7.RELEASE</spring-security-config.version>
+        <spring-security-core.version>5.0.7.RELEASE</spring-security-core.version>
+        <spring-security-web.version>5.0.7.RELEASE</spring-security-web.version>
         <testng.version>6.14.3</testng.version>
     </properties>
 
