@@ -9,11 +9,11 @@
 
 ## Project
 
-Some experimentation with Spring Boot 2, JDK8..11, NoSQL, etc. It demonstrates usage of:
+Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usage of:
 
 * **Maven** and **Gradle** build tools
 * **Spring Boot 2** + Spring Framework 5 and migration from Spring Boot 1 + Spring Framework 4
-* built with JDK8, JDK9 and **JDK10** on Travis CI (JDK11 asap)
+* built with JDK8 and newer JDKs on Travis CI
 * Spring Web, **REST** API
 * Spring **Security**, to authenticate users via auth_basic, and fetch authentication data from MongoDB instead of default SQL database 
 * Spring Data to serve data from a **MongoDB** database
