@@ -310,5 +310,15 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>java11</id>
+            <properties>
+                <!-- jacoco version 0.8.1 does not work with java 11, see https://github.com/jacoco/jacoco/issues/663 -->
+                <jacoco.skip>true</jacoco.skip>
+            </properties>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+        </profile>
     </profiles>
 </project>
