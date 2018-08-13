@@ -25,8 +25,7 @@
         <janino.version>3.0.8</janino.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.2</lombok.version>
-        <mockito-core.version>2.21.0
-        </mockito-core.version> <!-- TODO forced to 2.21.0 to support jdk11. Remove it once spring-boot 2.1 is released. -->
+        <mockito-core.version>2.21.0</mockito-core.version> <!-- TODO forced to 2.21.0 to support jdk11. Remove it once spring-boot 2.1 is released. -->
         <rest-assured.version>3.1.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
@@ -139,8 +138,8 @@
                 more relevant to better reflect production.
                 -->
                 <exclusion>
-                    <artifactId>jaxb-api</artifactId>
                     <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
