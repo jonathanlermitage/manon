@@ -3,7 +3,7 @@ package manon.util;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static org.apache.commons.lang3.StringUtils.repeat;
+import static manon.util.Tools.repeat;
 import static org.testng.Assert.assertEquals;
 
 public class ToolsTest {
@@ -59,5 +59,36 @@ public class ToolsTest {
     @Test(dataProvider = "dataProviderShouldVerifyShortenAndAnonymizeLog")
     public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
         assertEquals(Tools.shortenAndAnonymizeLog(input), expected);
+    }
+    
+    @DataProvider
+    public Object[][] dataProviderShouldVerifyRepeat() {
+        return new Object[][]{
+                {null, -1, null},
+                {null, 0, null},
+                {null, 1, null},
+                {null, 2, null},
+                {"", -1, ""},
+                {"", 0, ""},
+                {"", 1, ""},
+                {"", 2, ""},
+                {"a", -1, ""},
+                {"a", 0, ""},
+                {"a", 1, "a"},
+                {"a", 2, "aa"},
+                {"abc", 0, ""},
+                {"abc", -1, ""},
+                {"abc", 1, "abc"},
+                {"abc", 2, "abcabc"},
+                {" a b c ", -1, ""},
+                {" a b c ", 0, ""},
+                {" a b c ", 1, " a b c "},
+                {" a b c ", 2, " a b c  a b c "}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderShouldVerifyRepeat")
+    public void shouldVerifyRepeat(String str, Integer repeat, String expected) {
+        assertEquals(Tools.repeat(str, repeat), expected);
     }
 }
