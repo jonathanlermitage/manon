@@ -245,7 +245,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.1</version>
+                        <version>0.8.2</version>
                         <executions>
                             <execution>
                                 <id>pre-unit-test</id>
@@ -297,15 +297,14 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
+        <!--profile>
             <id>java11</id>
             <properties>
-                <!-- jacoco version 0.8.1 does not work with java 11, see https://github.com/jacoco/jacoco/issues/663 -->
                 <jacoco.skip>true</jacoco.skip>
             </properties>
             <activation>
                 <jdk>[11,)</jdk>
             </activation>
-        </profile>
+        </profile-->
     </profiles>
 </project>
