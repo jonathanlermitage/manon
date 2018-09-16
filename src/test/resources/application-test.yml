@@ -4,4 +4,4 @@ manon:
   security.bcrypt.strength: 4
 
 spring:
-  mongodb.embedded.version: 3.4.16
+  mongodb.embedded.version: 3.4.17
