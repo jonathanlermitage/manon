@@ -297,6 +297,44 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>jib</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin -->
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>0.9.10</version>
+                        <configuration>
+                            <from>
+                                <!-- https://console.cloud.google.com/gcr/images/distroless/GLOBAL/java?gcrImageListsize=10 -->
+                                <!-- latest Distroless version on August 8, 2018 at 5:26:31 PM UTC+2 -->
+                                <image>gcr.io/distroless/java@sha256:b430543bea1d8326e767058bdab3a2482ea45f59d7af5c5c61334cd29ede88a1</image>
+                            </from>
+                            <to>
+                                <image>lermitage-manon:${project.version}</image>
+                            </to>
+                            <container>
+                                <jvmFlags>
+                                    <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
+                                    <jvmFlag>-Djava.awt.headless=true</jvmFlag>
+                                    <jvmFlag>-Dserver.port=8080</jvmFlag>
+                                    <jvmFlag>-Dspring.profiles.active=docker,metrics</jvmFlag>
+                                </jvmFlags>
+                                <mainClass>${start-class}</mainClass>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                            </container>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!--profile>
             <id>java11</id>
             <properties>

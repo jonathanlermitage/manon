@@ -1,18 +1,20 @@
 @echo off
 
 if [%1] == [help] (
-  echo  t:     test
-  echo  tc:    test and generate coverage data
-  echo  sc:    compute and upload Sonar analysis to SonarCloud
-  echo  tsc:   similar to "do tc" then "do sc"
-  echo  b:     compile
-  echo  c:     clean
-  echo  p:     package
-  echo  rd:    package and run application with dev profile
-  echo  w $V:  set or upgrade Maven wrapper to version $V
-  echo  cv:    check plugins and dependencies versions
-  echo  uv:    update plugins and dependencies versions
-  echo  dt:    show dependencies tree
+  echo  t:      test
+  echo  tc:     test and generate coverage data
+  echo  sc:     compute and upload Sonar analysis to SonarCloud
+  echo  tsc:    similar to "do tc" then "do sc"
+  echo  b:      compile
+  echo  c:      clean
+  echo  p:      package
+  echo  rd:     package and run application with dev profile
+  echo  w $V:   set or upgrade Maven wrapper to version $V
+  echo  cv:     check plugins and dependencies versions
+  echo  uv:     update plugins and dependencies versions
+  echo  dt:     show dependencies tree
+  echo  jib:    build Docker image to a Docker daemon
+  echo  jibtar: build and save Docker image to a tarball
 )
 
 if [%1] == [t] (
@@ -69,4 +71,12 @@ if [%1] == [sc] (
 if [%1] == [tsc] (
   echo mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
   mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+)
+if [%1] == [jib] (
+  echo mvnw clean compile jib:dockerBuild -DskipTests -P jib
+  mvnw clean compile jib:dockerBuild -DskipTests -P jib
+)
+if [%1] == [jibtar] (
+  echo mvnw clean compile jib:buildTar -DskipTests -P jib
+  mvnw clean compile jib:buildTar -DskipTests -P jib
 )
