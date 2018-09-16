@@ -27,13 +27,13 @@ Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usag
 * some **AOP** to capture performance of API endpoints
 * Spring **Actuator** web endpoints configured
 * **Swagger UI** to provide documentation about REST API endpoints
+* Reproducible **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. Linux base image is [Distroless](https://github.com/GoogleContainerTools/distroless)
 
 For fun and to show some skills :cat:
 
 ## Author
 
 Jonathan Lermitage (<jonathan.lermitage@gmail.com>)  
-**Your're Canadian or American and wanna hire an experienced French devops? Contact me! I'm okay to move.**  
 Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jonathan-lermitage-092711142/)
 
 ## Branches
@@ -42,6 +42,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
   * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and JDK8/9, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
   * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), JDK8+, without Spring Batch, Redis Cache, Swagger UI
 * archived
+  * [spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib): Docker build thanks to Jib. See [DEPLOY.md](./DEPLOY.md) to package and run application
   * [spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo): use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7)
   * [spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger): enable **Swagger UI**. Run application and check `http://localhost:8080/swagger-ui.html`, authenticate with `ROOT` / `woot`. See commit [429ae53](https://github.com/jonathanlermitage/manon/commit/429ae53bc5211d8d97e8ccca20a4b183f207c6ee)
   * [spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis): enable **Redis cache**, and prefer embedded cache during tests. See commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) 
@@ -71,6 +72,8 @@ do w 3.5.2   set or upgrade Maven wrapper to 3.5.2
 do cv        check plugins and dependencies versions
 do uv        update plugins and dependencies versions
 do dt        show dependencies tree
+do jib       build Docker image to a Docker daemon
+do jibtar    build and save Docker image to a tarball 
 ```
 
 ## License
