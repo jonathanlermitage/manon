@@ -26,7 +26,7 @@ This document will help you to run application.
   # MongoDB 3.4.17
   # find tags at https://github.com/docker-library/docs/blob/master/mongo/README.md
   mkdir ~/data
-  docker run -d --net=host -p 27017:27017 -v ~/data:/data/mongodb mongo:3.4.17-jessie
+  docker run -d --name mongo --net=host -p 27017:27017 -v ~/data:/data/mongodb mongo:3.4.17-jessie
   # optional: install MongoDB command-line client and check connectivity
   sudo apt-get install mongodb-clients
   mongo localhost/manon
@@ -35,7 +35,7 @@ This document will help you to run application.
 * Then run **application image**: 
   ```bash
   mkdir ~/logs
-  docker run -d --name lermitage-manon --net=host -p 8080:8080 -v ~/logs:/logs lermitage-manon:1.0.0-SNAPSHOT
+  docker run -d --name manon --net=host -p 8080:8080 -v ~/logs:/logs lermitage-manon:1.0.0-SNAPSHOT
   ```
   * To change Spring profiles, e.g. with `dev` profile, add `-e "SPRING_PROFILES_ACTIVE=dev"` to the `docker run` command.
 * check connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
