@@ -4,7 +4,7 @@ This document will help you to run application.
 
 ### Manual run
 
-* Install **JDK8** and **MongoDB 3.4.x**. MongoDB should listen on port 27017, accept username `root` and password `woot` on the `manondev` database (authentication and data). See `src/main/resources/application-dev.yml` for details.  
+* Install **JDK8** and **MongoDB 3.4**+. MongoDB should listen on port 27017, accept username `root` and password `woot` on the `manondev` database (authentication and data). See `src/main/resources/application-dev.yml` for details.  
 * Package and run application via `do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true manon.jar`.
 
@@ -21,12 +21,13 @@ This document will help you to run application.
   sudo groupadd docker && sudo usermod -aG docker jon  # replace 'jon' by your user name (see whoami)
   sudo systemctl enable docker
   ```
-* Run a **MongoDB 3.4.x** docker image:
+* Run a **MongoDB 3.4**+ docker image:
   ```bash
-  # MongoDB 3.4.17
+  # MongoDB 3.4
   # find tags at https://github.com/docker-library/docs/blob/master/mongo/README.md
+  # tested with 3.4-jessie, 3.6-stretch, 4.1-xenial
   mkdir ~/data
-  docker run -d --name mongo --net=host -p 27017:27017 -v ~/data:/data/mongodb mongo:3.4.17-jessie
+  docker run -d --name mongo --net=host -p 27017:27017 -v ~/data:/data/mongodb mongo:3.4-jessie
   # optional: install MongoDB command-line client and check connectivity
   sudo apt-get install mongodb-clients
   mongo localhost/manon
