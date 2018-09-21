@@ -62,13 +62,13 @@ case "$1" in
   ;;
 
 "cv")
-  echo "sh ./mvnw versions:display-plugin-updates versions:display-dependency-updates -U"
-  sh ./mvnw versions:display-plugin-updates versions:display-dependency-updates -U
+  echo "sh ./mvnw versions:display-property-updates -U -P coverage,jib"
+  sh ./mvnw versions:display-property-updates -U -P coverage,jib
   ;;
 
 "uv")
-  echo "sh ./mvnw versions:update-properties -U"
-  sh ./mvnw versions:update-properties -U
+  echo "sh ./mvnw versions:update-properties -U -P coverage,jib"
+  sh ./mvnw versions:update-properties -U -P coverage,jib
   ;;
 
 "dt")

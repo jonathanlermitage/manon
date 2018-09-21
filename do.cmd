@@ -53,12 +53,12 @@ if [%1] == [w] (
   mvn -N io.takari:maven:wrapper -Dmaven=%2
 )
 if [%1] == [cv] (
-  echo mvnw versions:display-plugin-updates versions:display-dependency-updates -U
-  mvnw versions:display-plugin-updates versions:display-dependency-updates -U
+  echo mvnw versions:display-property-updates -U -P coverage,jib
+  mvnw versions:display-property-updates -U -P coverage,jib
 )
 if [%1] == [uv] (
-  echo mvnw versions:update-properties -U
-  mvnw versions:update-properties -U
+  echo mvnw versions:update-properties -U -P coverage,jib
+  mvnw versions:update-properties -U -P coverage,jib
 )
 if [%1] == [dt] (
   echo mvnw dependency:tree

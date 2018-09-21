@@ -30,6 +30,13 @@
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
         <testng.version>6.14.3</testng.version>
+
+        <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+        <jib-maven-plugin.version>0.9.10</jib-maven-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -197,7 +204,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-clean-plugin.version}</version>
                 <configuration>
                     <failOnError>true</failOnError>
                 </configuration>
@@ -205,7 +212,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
                     <source>${java.version}</source>
@@ -215,7 +222,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <argLine>${surefireArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
@@ -224,7 +231,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.5</version>
+                <version>${versions-maven-plugin.version}</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
                     <rulesUri>file:///${basedir}/rule-set.xml</rulesUri>
@@ -245,7 +252,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.2</version>
+                        <version>${jacoco-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>pre-unit-test</id>
@@ -287,7 +294,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.0</version>
+                        <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <!--suppress MavenModelInspection -->
                             <argLine>${surefireArgLine} ${coverageSurefireArgLine}</argLine>
@@ -308,7 +315,7 @@
                         <!-- https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin -->
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
-                        <version>0.9.10</version>
+                        <version>${jib-maven-plugin.version}</version>
                         <configuration>
                             <from>
                                 <!-- https://console.cloud.google.com/gcr/images/distroless/GLOBAL/java?gcrImageListsize=10 -->
