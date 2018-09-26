@@ -190,7 +190,12 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <finalName>manon</finalName>
-                    <excludeArtifactIds>lombok,annotations</excludeArtifactIds>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
                     <excludeDevtools>true</excludeDevtools>
                 </configuration>
                 <executions>
