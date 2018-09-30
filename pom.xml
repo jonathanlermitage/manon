@@ -239,7 +239,7 @@
                 <version>${versions-maven-plugin.version}</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
-                    <rulesUri>file:///${basedir}/rule-set.xml</rulesUri>
+                    <rulesUri>file:///${basedir}/config/versions-maven-plugin-rules.xml</rulesUri>
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
@@ -328,7 +328,7 @@
                                 <image>gcr.io/distroless/java@sha256:b430543bea1d8326e767058bdab3a2482ea45f59d7af5c5c61334cd29ede88a1</image>
                             </from>
                             <to>
-                                <image>lermitage-manon:${project.version}</image>
+                                <image>lermitage/manon:${project.version}</image>
                             </to>
                             <container>
                                 <jvmFlags>
