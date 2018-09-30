@@ -34,8 +34,8 @@ public class UserUpdateForm {
     @Override
     public String toString() {
         return "UserUpdateForm{" +
-                "nickname=" + shortenLog(nickname) +
-                ", email=" + shortenLog(email) +
-                '}';
+            "nickname=" + shortenLog(nickname) +
+            ", email=" + shortenLog(email) +
+            '}';
     }
 }

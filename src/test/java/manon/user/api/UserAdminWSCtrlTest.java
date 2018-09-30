@@ -12,39 +12,39 @@ public class UserAdminWSCtrlTest extends MockBeforeClass {
     @Test(dataProvider = DP_ALLOW_ADMIN)
     public void shouldVerifyFindAll(Rs rs, Integer status) {
         rs.getRequestSpecification()
-                .get(API_USER_ADMIN + "/all")
-                .then()
-                .statusCode(status);
+            .get(API_USER_ADMIN + "/all")
+            .then()
+            .statusCode(status);
         verify(userAdminWS, status).findAll(any(), any());
     }
     
     @Test(dataProvider = DP_ALLOW_ADMIN)
     public void shouldVerifyActivate(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-                .pathParam("userId", FAKE_ID)
-                .post(API_USER_ADMIN + "/{userId}/activate")
-                .then()
-                .statusCode(status);
+            .pathParam("userId", FAKE_ID)
+            .post(API_USER_ADMIN + "/{userId}/activate")
+            .then()
+            .statusCode(status);
         verify(userAdminWS, status).activate(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_ADMIN)
     public void shouldVerifyBan(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-                .pathParam("userId", FAKE_ID)
-                .post(API_USER_ADMIN + "/{userId}/ban")
-                .then()
-                .statusCode(status);
+            .pathParam("userId", FAKE_ID)
+            .post(API_USER_ADMIN + "/{userId}/ban")
+            .then()
+            .statusCode(status);
         verify(userAdminWS, status).ban(any(), eq(FAKE_ID));
     }
     
     @Test(dataProvider = DP_ALLOW_ADMIN)
     public void shouldVerifySuspend(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-                .pathParam("userId", FAKE_ID)
-                .post(API_USER_ADMIN + "/{userId}/suspend")
-                .then()
-                .statusCode(status);
+            .pathParam("userId", FAKE_ID)
+            .post(API_USER_ADMIN + "/{userId}/suspend")
+            .then()
+            .statusCode(status);
         verify(userAdminWS, status).suspend(any(), eq(FAKE_ID));
     }
 }

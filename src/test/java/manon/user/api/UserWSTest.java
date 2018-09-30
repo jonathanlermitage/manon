@@ -37,20 +37,20 @@ public class UserWSTest extends InitBeforeTest {
     @DataProvider
     public static Object[][] dataProviderShouldRegister() {
         return new Object[][]{
-                {"JOHN", "12300"},
-                {"BOB DYLAN AND FRIENDS", "PASSWORD"},
-                {"A B CX_Y-Z", "secret  p4ssword!"}
+            {"JOHN", "12300"},
+            {"BOB DYLAN AND FRIENDS", "PASSWORD"},
+            {"A B CX_Y-Z", "secret  p4ssword!"}
         };
     }
     
     @Test(dataProvider = "dataProviderShouldRegister")
     public void shouldRegister(String name, String pwd) throws UserNotFoundException {
         whenAnonymous().getRequestSpecification()
-                .body(RegistrationForm.builder().username(name).password(pwd).build())
-                .contentType(JSON)
-                .post(API_USER)
-                .then()
-                .statusCode(SC_CREATED);
+            .body(RegistrationForm.builder().username(name).password(pwd).build())
+            .contentType(JSON)
+            .post(API_USER)
+            .then()
+            .statusCode(SC_CREATED);
         User user = userService.readByUsername(name);
         assertEquals(user.getUsername(), name);
         assertThat(user.getRoles()).containsExactly(ROLE_PLAYER);
@@ -62,52 +62,52 @@ public class UserWSTest extends InitBeforeTest {
     @Test
     public void shouldNotregisterTwice() {
         whenAnonymous().getRequestSpecification()
-                .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
-                .contentType(JSON)
-                .post(API_USER)
-                .then()
-                .statusCode(SC_CREATED);
+            .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
+            .contentType(JSON)
+            .post(API_USER)
+            .then()
+            .statusCode(SC_CREATED);
         whenAnonymous().getRequestSpecification()
-                .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
-                .contentType(JSON)
-                .post(API_USER)
-                .then()
-                .statusCode(SC_CONFLICT).contentType(JSON)
-                .body(FIELD_ERRORS, Matchers.equalTo(UserExistsException.class.getSimpleName()));
+            .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
+            .contentType(JSON)
+            .post(API_USER)
+            .then()
+            .statusCode(SC_CONFLICT).contentType(JSON)
+            .body(FIELD_ERRORS, Matchers.equalTo(UserExistsException.class.getSimpleName()));
     }
     
     @Test
     public void shouldDeleteAndLooseAuthorisations() throws Exception {
         whenP1().getRequestSpecification()
-                .get(API_USER).then()
-                .statusCode(SC_OK);
+            .get(API_USER).then()
+            .statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .delete(API_USER).then()
-                .statusCode(SC_OK);
+            .delete(API_USER).then()
+            .statusCode(SC_OK);
         assertEquals(userService.readOne(userId(1)).getRegistrationState(), DELETED);
         whenP1().getRequestSpecification()
-                .get(API_USER).then()
-                .statusCode(SC_UNAUTHORIZED);
+            .get(API_USER).then()
+            .statusCode(SC_UNAUTHORIZED);
     }
     
     @Test
     public void shouldNotDeleteTwice() throws Exception {
         whenP1().getRequestSpecification()
-                .delete(API_USER).then()
-                .statusCode(SC_OK);
+            .delete(API_USER).then()
+            .statusCode(SC_OK);
         assertEquals(userService.readOne(userId(1)).getRegistrationState(), DELETED);
         whenP1().getRequestSpecification()
-                .delete(API_USER).then()
-                .statusCode(SC_UNAUTHORIZED);
+            .delete(API_USER).then()
+            .statusCode(SC_UNAUTHORIZED);
     }
     
     @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldRead() throws Exception {
         Response res = whenP1().getRequestSpecification()
-                .get(API_USER);
+            .get(API_USER);
         res.then()
-                .statusCode(SC_OK);
+            .statusCode(SC_OK);
         User webUser = readValue(res, User.class);
         User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
         assertEquals(webUser, dbUser);
@@ -116,9 +116,9 @@ public class UserWSTest extends InitBeforeTest {
     @Test
     public void shouldReadVersion() throws Exception {
         Response res = whenP1().getRequestSpecification()
-                .get(API_USER + "/version");
+            .get(API_USER + "/version");
         res.then()
-                .statusCode(SC_OK);
+            .statusCode(SC_OK);
         Long webUserVersion = readValue(res, Long.class);
         Long dbUserVersion = userService.readOne(userId(1)).getVersion();
         assertEquals(webUserVersion, dbUserVersion);
@@ -127,8 +127,8 @@ public class UserWSTest extends InitBeforeTest {
     @DataProvider
     public Object[][] dataProviderShouldUpdate() {
         return new Object[][]{
-                {"", ""},
-                {"nickname", "test.foo@bar.com"}
+            {"", ""},
+            {"nickname", "test.foo@bar.com"}
         };
     }
     
@@ -136,17 +136,17 @@ public class UserWSTest extends InitBeforeTest {
     public void shouldUpdate(String nickname, String email) throws Exception {
         User userBefore = userService.readOne(userId(1));
         whenP1().getRequestSpecification()
-                .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
-                .contentType(ContentType.JSON)
-                .put(API_USER + "/field")
-                .then()
-                .statusCode(SC_OK);
+            .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
+            .contentType(ContentType.JSON)
+            .put(API_USER + "/field")
+            .then()
+            .statusCode(SC_OK);
         User userAfter = userService.readOne(userId(1));
         User userExpected = userBefore.toBuilder()
-                .email(email)
-                .nickname(nickname)
-                .version(userBefore.getVersion() + 1)
-                .build();
+            .email(email)
+            .nickname(nickname)
+            .version(userBefore.getVersion() + 1)
+            .build();
         assertEquals(userAfter, userExpected);
     }
     
@@ -154,14 +154,14 @@ public class UserWSTest extends InitBeforeTest {
     @Test
     public void shouldUpdatePassword() {
         whenP1().getRequestSpecification()
-                .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword("a new password").build())
-                .contentType(ContentType.JSON)
-                .put(API_USER + "/password")
-                .then()
-                .statusCode(SC_OK);
+            .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword("a new password").build())
+            .contentType(ContentType.JSON)
+            .put(API_USER + "/password")
+            .then()
+            .statusCode(SC_OK);
         RestAssured.given().auth().basic(name(1), "a new password")
-                .get(API_USER)
-                .then().statusCode(SC_OK);
+            .get(API_USER)
+            .then().statusCode(SC_OK);
     }
     
     /** Only {@link User.Validation#MAX_EVENTS} most recent user's friendshipEvents should be kept. */
@@ -172,13 +172,13 @@ public class UserWSTest extends InitBeforeTest {
         assertEquals(0, userService.readOne(p1UserId).getFriendshipEvents().size());
         for (int i = 0; i < (User.Validation.MAX_EVENTS / 2) + 5; i++) {
             whenP1().getRequestSpecification()
-                    .post(API_USER + "/askfriendship/user/" + p2UserId)
-                    .then()
-                    .statusCode(SC_OK);
+                .post(API_USER + "/askfriendship/user/" + p2UserId)
+                .then()
+                .statusCode(SC_OK);
             whenP1().getRequestSpecification()
-                    .post(API_USER + "/cancelfriendship/user/" + p2UserId)
-                    .then()
-                    .statusCode(SC_OK);
+                .post(API_USER + "/cancelfriendship/user/" + p2UserId)
+                .then()
+                .statusCode(SC_OK);
             
         }
         assertEquals(userService.readOne(p1UserId).getFriendshipEvents().size(), User.Validation.MAX_EVENTS);

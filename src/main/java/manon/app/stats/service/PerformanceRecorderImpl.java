@@ -68,13 +68,13 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
         StringBuilder buff = new StringBuilder(2048);
         buff.append("\n calls     min     max     total     avg  median  name");
         view.stream().map(s -> format("\n%6s %7s %7s   %7s %7s %7s  %s",
-                s.getCalls(),
-                s.getMinTime(),
-                s.getMaxTime(),
-                s.getTotalTime(),
-                s.getTotalTime() / s.getCalls(),
-                ((long) median(s.getTimes())),
-                "m." + s.getService().replaceAll("\\[", "(").replaceAll("]", ")").substring("manon.".length()))).forEach(buff::append);
+            s.getCalls(),
+            s.getMinTime(),
+            s.getMaxTime(),
+            s.getTotalTime(),
+            s.getTotalTime() / s.getCalls(),
+            ((long) median(s.getTimes())),
+            "m." + s.getService().replaceAll("\\[", "(").replaceAll("]", ")").substring("manon.".length()))).forEach(buff::append);
         return "Services performance (ms):" + buff.toString();
     }
     

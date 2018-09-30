@@ -28,7 +28,7 @@ public class FriendshipWS {
     @PostMapping(value = "/askfriendship/user/{id}")
     public void askFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                               @PathVariable("id") String id)
-            throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
+        throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
         log.debug("user {} asks friendship request to user {}", user.getIdentity(), id);
         friendshipService.askFriendship(user.getUser().getId(), id);
     }
@@ -37,7 +37,7 @@ public class FriendshipWS {
     @PostMapping(value = "/acceptfriendship/user/{id}")
     public void acceptFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") String id)
-            throws UserNotFoundException, FriendshipRequestNotFoundException {
+        throws UserNotFoundException, FriendshipRequestNotFoundException {
         log.debug("user {} accepts friendship request from user {}", user.getIdentity(), id);
         friendshipService.acceptFriendshipRequest(id, user.getUser().getId());
     }

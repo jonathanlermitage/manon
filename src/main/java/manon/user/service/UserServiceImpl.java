@@ -81,8 +81,8 @@ public class UserServiceImpl implements UserService {
             throw new UserExistsException();
         }
         return userRepository.save(user.toBuilder()
-                .password(passwordEncoderService.encode(user.getPassword()))
-                .build());
+            .password(passwordEncoderService.encode(user.getPassword()))
+            .build());
     }
     
     @Override

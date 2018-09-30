@@ -24,123 +24,123 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     public void update(String id, UserUpdateForm userUpdateForm) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(id)),
-                new Update()
-                        .set(User.Field.NICKNAME, userUpdateForm.getNickname())
-                        .set(User.Field.EMAIL, userUpdateForm.getEmail()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(id)),
+            new Update()
+                .set(User.Field.NICKNAME, userUpdateForm.getNickname())
+                .set(User.Field.EMAIL, userUpdateForm.getEmail()),
+            User.class);
     }
     
     @Override
     public void askFriendship(String userIdFrom, String userIdTo) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
-                new Update()
-                        .addToSet(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
+            new Update()
+                .addToSet(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
-                new Update()
-                        .addToSet(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.YOU_SENT_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
+            new Update()
+                .addToSet(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.YOU_SENT_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
     }
     
     @Override
     public void acceptFriendshipRequest(String userIdFrom, String userIdTo) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
-                new Update()
-                        .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
-                        .addToSet(User.Field.FRIENDS, userIdFrom)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
+            new Update()
+                .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
+                .addToSet(User.Field.FRIENDS, userIdFrom)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
-                new Update()
-                        .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
-                        .addToSet(User.Field.FRIENDS, userIdTo)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
+            new Update()
+                .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
+                .addToSet(User.Field.FRIENDS, userIdTo)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
     }
     
     @Override
     public void rejectFriendshipRequest(String userIdFrom, String userIdTo) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
-                new Update()
-                        .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.YOU_REJECTED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
+            new Update()
+                .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.YOU_REJECTED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
-                new Update()
-                        .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
+            new Update()
+                .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
     }
     
     @Override
     public void cancelFriendshipRequest(String userIdFrom, String userIdTo) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
-                new Update()
-                        .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
+            new Update()
+                .pull(User.Field.FRIENDSHIP_REQUESTS_FROM, userIdFrom)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
-                new Update()
-                        .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
+            new Update()
+                .pull(User.Field.FRIENDSHIP_REQUESTS_TO, userIdTo)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
     }
     
     @Override
     public void revokeFriendship(String userIdFrom, String userIdTo) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
-                new Update()
-                        .pull(User.Field.FRIENDS, userIdFrom)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdTo)),
+            new Update()
+                .pull(User.Field.FRIENDS, userIdFrom)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
-                new Update()
-                        .pull(User.Field.FRIENDS, userIdTo)
-                        .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
-                                .code(FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST)
-                                .params(Collections.singletonList(userIdFrom))
-                                .build()),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(userIdFrom)),
+            new Update()
+                .pull(User.Field.FRIENDS, userIdTo)
+                .addToSet(User.Field.FRIENDSHIP_EVENTS, FriendshipEvent.builder()
+                    .code(FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST)
+                    .params(Collections.singletonList(userIdFrom))
+                    .build()),
+            User.class);
     }
     
     @Override
@@ -151,9 +151,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             int nbToRemove = friendshipEvents.size() - numberOfEventsToKeep;
             if (nbToRemove > 0) {
                 mongoTemplate.updateFirst(
-                        Query.query(Criteria.where(User.Field.ID).is(id)),
-                        new Update().set(User.Field.FRIENDSHIP_EVENTS, friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
-                        User.class);
+                    Query.query(Criteria.where(User.Field.ID).is(id)),
+                    new Update().set(User.Field.FRIENDSHIP_EVENTS, friendshipEvents.subList(nbToRemove, friendshipEvents.size())),
+                    User.class);
             }
         }
     }
@@ -161,16 +161,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     public void setPassword(String id, String password) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(id)),
-                new Update().set(User.Field.PASSWORD, password),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(id)),
+            new Update().set(User.Field.PASSWORD, password),
+            User.class);
     }
     
     @Override
     public void setRegistrationState(String id, RegistrationState registrationState) {
         mongoTemplate.updateFirst(
-                Query.query(Criteria.where(User.Field.ID).is(id)),
-                new Update().set(User.Field.REGISTRATION_STATE, registrationState),
-                User.class);
+            Query.query(Criteria.where(User.Field.ID).is(id)),
+            new Update().set(User.Field.REGISTRATION_STATE, registrationState),
+            User.class);
     }
 }

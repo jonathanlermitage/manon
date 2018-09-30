@@ -131,8 +131,8 @@ public abstract class InitBeforeClass extends BaseTests {
     
     public Rs whenAnonymous() {
         return new Rs(RestAssured.given()
-                .header("X-Request-Id", "0x-1")
-                .auth().none(), "", "");
+            .header("X-Request-Id", "0x-1")
+            .auth().none(), "", "");
     }
     
     public Rs whenAdmin() {
@@ -143,8 +143,8 @@ public abstract class InitBeforeClass extends BaseTests {
     public Rs whenPX(int humanId) {
         int idx = humanId - 1;
         RequestSpecification rs = RestAssured.given()
-                .header("X-Request-Id", "0x" + idx)
-                .auth().basic(makeName(idx), makePwd(idx));
+            .header("X-Request-Id", "0x" + idx)
+            .auth().basic(makeName(idx), makePwd(idx));
         return new Rs(rs, makeName(idx), makePwd(idx));
     }
     

@@ -40,23 +40,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
-                .sessionManagement().sessionCreationPolicy(STATELESS)
-                .and().authorizeRequests()
-                
-                .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
-                .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
-                .antMatchers(API_WORLD_ADMIN + "/**").hasAuthority(ADMIN)
-                
-                .antMatchers(POST, API_USER).permitAll() // user registration
-                .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
-                .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
-                .antMatchers(API_WORLD + "/**").hasAuthority(PLAYER)
-                
-                .antMatchers("/actuator").hasAuthority(ACTUATOR)
-                .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
-                
-                .and().httpBasic()
-                .and().csrf().disable();
+            .sessionManagement().sessionCreationPolicy(STATELESS)
+            .and().authorizeRequests()
+            
+            .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
+            .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
+            .antMatchers(API_WORLD_ADMIN + "/**").hasAuthority(ADMIN)
+            
+            .antMatchers(POST, API_USER).permitAll() // user registration
+            .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
+            .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
+            .antMatchers(API_WORLD + "/**").hasAuthority(PLAYER)
+            
+            .antMatchers("/actuator").hasAuthority(ACTUATOR)
+            .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
+            
+            .and().httpBasic()
+            .and().csrf().disable();
     }
     
     @Bean
@@ -66,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList(
-                "Accept", "Origin", "Content-Type", "Depth", "User-Agent", "If-Modified-Since,",
-                "Cache-Control", "Authorization", "X-Req", "X-File-Size", "X-Requested-With", "X-File-Name"));
+            "Accept", "Origin", "Content-Type", "Depth", "User-Agent", "If-Modified-Since,",
+            "Cache-Control", "Authorization", "X-Req", "X-File-Size", "X-Requested-With", "X-File-Name"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

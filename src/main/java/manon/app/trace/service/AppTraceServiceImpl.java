@@ -57,11 +57,11 @@ public class AppTraceServiceImpl implements AppTraceService {
                 break;
         }
         appTraceRepository.save(AppTrace.builder()
-                .appId(appId)
-                .msg(msg)
-                .event(event)
-                .level(level)
-                .build());
+            .appId(appId)
+            .msg(msg)
+            .event(event)
+            .level(level)
+            .build());
     }
     
     @Override
@@ -74,9 +74,9 @@ public class AppTraceServiceImpl implements AppTraceService {
     public void logUptime() {
         deleteByCurrentAppIdAndEvent(UPTIME);
         log(DEBUG, UPTIME, format("Application [%s] is alive since %ss (%s)",
-                appId,
-                (currentTimeMillis() - startupDate.getTime()) / 1_000,
-                dateFormat.format(startupDate))
+            appId,
+            (currentTimeMillis() - startupDate.getTime()) / 1_000,
+            dateFormat.format(startupDate))
         );
     }
     

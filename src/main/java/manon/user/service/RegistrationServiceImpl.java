@@ -79,13 +79,13 @@ public class RegistrationServiceImpl implements RegistrationService {
      * @return user.
      */
     private User register(List<UserAuthority> roles, String username, String password)
-            throws UserExistsException {
+        throws UserExistsException {
         User user = User.builder()
-                .username(username.trim())
-                .roles(roles)
-                .password(password)
-                .registrationState(ACTIVE)
-                .build();
+            .username(username.trim())
+            .roles(roles)
+            .password(password)
+            .registrationState(ACTIVE)
+            .build();
         return userService.create(user);
     }
 }

@@ -35,22 +35,22 @@ public class ActuatorTest extends InitBeforeClass {
     @DataProvider
     public Object[][] dataProviderShouldGetSpringBoot2Actuator() {
         return new Object[][]{
-                {GET, "/actuator", false, true},
-                {GET, "/actuator/auditevents", false, false},
-                {GET, "/actuator/beans", false, false},
-                {GET, "/actuator/conditions", false, false},
-                {GET, "/actuator/configprops", false, true},
-                {GET, "/actuator/env", false, true},
-                {GET, "/actuator/health", false, true},
-                {GET, "/actuator/heapdump", false, false},
-                {GET, "/actuator/httptrace", false, false},
-                {GET, "/actuator/info", false, true},
-                {GET, "/actuator/loggers", false, false},
-                {GET, "/actuator/mappings", false, false},
-                {GET, "/actuator/metrics", false, true},
-                {GET, "/actuator/scheduledtasks", false, true},
-                {POST, "/actuator/shutdown", false, false},
-                {GET, "/actuator/threaddump", false, false}
+            {GET, "/actuator", false, true},
+            {GET, "/actuator/auditevents", false, false},
+            {GET, "/actuator/beans", false, false},
+            {GET, "/actuator/conditions", false, false},
+            {GET, "/actuator/configprops", false, true},
+            {GET, "/actuator/env", false, true},
+            {GET, "/actuator/health", false, true},
+            {GET, "/actuator/heapdump", false, false},
+            {GET, "/actuator/httptrace", false, false},
+            {GET, "/actuator/info", false, true},
+            {GET, "/actuator/loggers", false, false},
+            {GET, "/actuator/mappings", false, false},
+            {GET, "/actuator/metrics", false, true},
+            {GET, "/actuator/scheduledtasks", false, true},
+            {POST, "/actuator/shutdown", false, false},
+            {GET, "/actuator/threaddump", false, false}
         };
     }
     
@@ -64,16 +64,16 @@ public class ActuatorTest extends InitBeforeClass {
     @Test
     public void shouldGetFullHealthActuatorWhenAdmin() {
         whenAdmin().getRequestSpecification().get("/actuator/health").then().assertThat().body(
-                containsString("\"status\""),
-                containsString("\"diskSpace\""),
-                containsString("\"mongo\"")
+            containsString("\"status\""),
+            containsString("\"diskSpace\""),
+            containsString("\"mongo\"")
         );
     }
     
     @Test
     public void shouldGetInfoActuatorWhenAdmin() {
         whenAdmin().getRequestSpecification().get("/actuator/info").then().assertThat().body(
-                equalToIgnoringWhiteSpace("{\"app\":{\"name\":\"manon\"}}")
+            equalToIgnoringWhiteSpace("{\"app\":{\"name\":\"manon\"}}")
         );
     }
     

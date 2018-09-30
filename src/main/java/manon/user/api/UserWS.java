@@ -40,7 +40,7 @@ public class UserWS {
     @PostMapping(consumes = MEDIA_JSON)
     @ResponseStatus(CREATED)
     public User register(@RequestBody @Validated RegistrationForm registrationForm)
-            throws UserExistsException {
+        throws UserExistsException {
         log.debug("user registration with {}", registrationForm);
         return registrationService.registerPlayer(registrationForm.getUsername(), registrationForm.getPassword());
     }
@@ -55,7 +55,7 @@ public class UserWS {
     /** Get user. */
     @GetMapping
     public User read(@AuthenticationPrincipal UserSimpleDetails user)
-            throws UserNotFoundException {
+        throws UserNotFoundException {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
     }
@@ -63,7 +63,7 @@ public class UserWS {
     /** Get user's version. */
     @GetMapping("/version")
     public long readVersion(@AuthenticationPrincipal UserSimpleDetails user)
-            throws UserNotFoundException {
+        throws UserNotFoundException {
         log.debug("user {} reads his version", user.getIdentity());
         return userService.readVersionById(user.getUserId()).getVersion();
     }

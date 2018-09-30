@@ -42,14 +42,14 @@ public class Application extends SpringBootServletInitializer {
     @PostConstruct
     public void initApp() throws UserExistsException {
         String initAppEvent = String.format("App version %s, Java %s, %s %s by %s, on %s with %s file encoding, admin username is %s",
-                version,
-                System.getProperty("java.version"),
-                System.getProperty("java.vm.name"),
-                System.getProperty("java.vm.version"),
-                System.getProperty("java.vm.vendor"),
-                System.getProperty("os.name"),
-                System.getProperty("file.encoding"),
-                registrationService.ensureAdmin().getUsername());
+            version,
+            System.getProperty("java.version"),
+            System.getProperty("java.vm.name"),
+            System.getProperty("java.vm.version"),
+            System.getProperty("java.vm.vendor"),
+            System.getProperty("os.name"),
+            System.getProperty("file.encoding"),
+            registrationService.ensureAdmin().getUsername());
         appTraceService.log(INFO, APP_START, initAppEvent);
     }
 }

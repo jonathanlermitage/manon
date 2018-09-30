@@ -43,13 +43,13 @@ public class FriendshipWSTest extends InitBeforeClass {
     public void shouldAcceptFriendship() throws Exception {
         //WHEN P1 sends friendship requests to P2 and P3
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(3))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(3))
+            .then()
+            .statusCode(SC_OK);
         User p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().contains(userId(2), userId(3));
@@ -65,9 +65,9 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P2 accepts
         whenP2().getRequestSpecification()
-                .post(API_USER + "/acceptfriendship/user/" + userId(1))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/acceptfriendship/user/" + userId(1))
+            .then()
+            .statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().containsExactly(userId(2));
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().containsExactly(userId(3));
@@ -84,55 +84,55 @@ public class FriendshipWSTest extends InitBeforeClass {
         //WHEN P1 sends friendship request again
         //THEN it should fail since friendship relation exists already
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(HttpStatus.SC_CONFLICT)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipExistsException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(1), userId(2)));
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(HttpStatus.SC_CONFLICT)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipExistsException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(1), userId(2)));
         //WHEN P2 sends friendship to P1
         //THEN it should fail since friendship relation exists already
         whenP2().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(1))
-                .then()
-                .statusCode(HttpStatus.SC_CONFLICT)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipExistsException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(2), userId(1)));
+            .post(API_USER + "/askfriendship/user/" + userId(1))
+            .then()
+            .statusCode(HttpStatus.SC_CONFLICT)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipExistsException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(2), userId(1)));
         
         // check friendshipEvents history
         checkFriendshipEvents(p1,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST);
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST);
         checkFriendshipEvents(p2,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST);
         checkFriendshipEvents(p3,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST);
     }
     
     /** Ensure we don't store the same friendship request twice. */
     @Test
     public void shouldNotAskFriendshipTwice() throws Exception {
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(HttpStatus.SC_CONFLICT)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(1), userId(2)));
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(HttpStatus.SC_CONFLICT)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(1), userId(2)));
         whenP2().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(1))
-                .then()
-                .statusCode(HttpStatus.SC_CONFLICT)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(1), userId(2)));
+            .post(API_USER + "/askfriendship/user/" + userId(1))
+            .then()
+            .statusCode(HttpStatus.SC_CONFLICT)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(1), userId(2)));
         User p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().containsExactly(userId(2));
@@ -144,9 +144,9 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         // check friendshipEvents history
         checkFriendshipEvents(p1,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST);
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST);
         checkFriendshipEvents(p2,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST);
     }
     
     /** Ask many friendship requests and targets reject them. */
@@ -154,13 +154,13 @@ public class FriendshipWSTest extends InitBeforeClass {
     public void shouldRejectFriendship() throws Exception {
         //WHEN P1 sends friendship requests to P2 and P3
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(3))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(3))
+            .then()
+            .statusCode(SC_OK);
         User p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().contains(userId(2), userId(3));
@@ -176,9 +176,9 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P2 rejects request
         whenP2().getRequestSpecification()
-                .post(API_USER + "/rejectfriendship/user/" + userId(1))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/rejectfriendship/user/" + userId(1))
+            .then()
+            .statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().containsExactly(userId(3));
@@ -194,9 +194,9 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P3 rejects request
         whenP3().getRequestSpecification()
-                .post(API_USER + "/rejectfriendship/user/" + userId(1))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/rejectfriendship/user/" + userId(1))
+            .then()
+            .statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().isEmpty();
@@ -212,16 +212,16 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         // check friendshipEvents history
         checkFriendshipEvents(p1,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST);
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST);
         checkFriendshipEvents(p2,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_REJECTED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_REJECTED_FRIEND_REQUEST);
         checkFriendshipEvents(p3,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_REJECTED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_REJECTED_FRIEND_REQUEST);
     }
     
     /** Create friendship requests, accept them, then revoke them. */
@@ -229,17 +229,17 @@ public class FriendshipWSTest extends InitBeforeClass {
     public void shouldRevokeFriendship() throws Exception {
         //WHEN P1 sends friendship requests to P2 and P3 and they accept
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2)).then().statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2)).then().statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(3)).then().statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(3)).then().statusCode(SC_OK);
         whenP2().getRequestSpecification()
-                .post(API_USER + "/acceptfriendship/user/" + userId(1)).then().statusCode(SC_OK);
+            .post(API_USER + "/acceptfriendship/user/" + userId(1)).then().statusCode(SC_OK);
         whenP3().getRequestSpecification()
-                .post(API_USER + "/acceptfriendship/user/" + userId(1)).then().statusCode(SC_OK);
+            .post(API_USER + "/acceptfriendship/user/" + userId(1)).then().statusCode(SC_OK);
         
         //THEN P1 revokes friendship with P2
         whenP1().getRequestSpecification()
-                .post(API_USER + "/revokefriendship/user/" + userId(2)).then().statusCode(SC_OK);
+            .post(API_USER + "/revokefriendship/user/" + userId(2)).then().statusCode(SC_OK);
         User p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().containsExactly(userId(3));
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().isEmpty();
@@ -255,7 +255,7 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P3 revokes non-existent friendship with P2, it should do nothing but registering event
         whenP3().getRequestSpecification()
-                .post(API_USER + "/revokefriendship/user/" + userId(2)).then().statusCode(SC_OK);
+            .post(API_USER + "/revokefriendship/user/" + userId(2)).then().statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().containsExactly(userId(3));
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().isEmpty();
@@ -271,7 +271,7 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P3 revokes friendship with P1
         whenP3().getRequestSpecification()
-                .post(API_USER + "/revokefriendship/user/" + userId(1)).then().statusCode(SC_OK);
+            .post(API_USER + "/revokefriendship/user/" + userId(1)).then().statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().isEmpty();
@@ -287,22 +287,22 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         // check friendshipEvents history
         checkFriendshipEvents(p1,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST);
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST);
         checkFriendshipEvents(p2,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_REVOKED_FRIEND_REQUEST);
         checkFriendshipEvents(p3,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_REVOKED_FRIEND_REQUEST);
     }
     
     /** Create friendship requests, then cancel them. */
@@ -310,13 +310,13 @@ public class FriendshipWSTest extends InitBeforeClass {
     public void shouldCancelFriendship() throws Exception {
         //WHEN P1 sends friendship requests to P2 and P3
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2)).then().statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2)).then().statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(3)).then().statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(3)).then().statusCode(SC_OK);
         
         //THEN P1 cancels friendship request to P2
         whenP1().getRequestSpecification()
-                .post(API_USER + "/cancelfriendship/user/" + userId(2)).then().statusCode(SC_OK);
+            .post(API_USER + "/cancelfriendship/user/" + userId(2)).then().statusCode(SC_OK);
         User p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().containsExactly(userId(3));
@@ -332,7 +332,7 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P3 cancels non-existent friendship request to P1, it should do nothing but registering event
         whenP3().getRequestSpecification()
-                .post(API_USER + "/cancelfriendship/user/" + userId(1)).then().statusCode(SC_OK);
+            .post(API_USER + "/cancelfriendship/user/" + userId(1)).then().statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().containsExactly(userId(3));
@@ -348,7 +348,7 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         //THEN P1 cancels friendship request to P3
         whenP1().getRequestSpecification()
-                .post(API_USER + "/cancelfriendship/user/" + userId(3)).then().statusCode(SC_OK);
+            .post(API_USER + "/cancelfriendship/user/" + userId(3)).then().statusCode(SC_OK);
         p1 = userService.readOne(userId(1));
         assertThat(p1.getFriends()).isNotNull().isEmpty();
         assertThat(p1.getFriendshipRequestsTo()).isNotNull().isEmpty();
@@ -364,55 +364,55 @@ public class FriendshipWSTest extends InitBeforeClass {
         
         // check friendshipEvents history
         checkFriendshipEvents(p1,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST);
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST);
         checkFriendshipEvents(p2,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST);
         checkFriendshipEvents(p3,
-                FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
-                FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST,
-                FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST);
+            FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST,
+            FriendshipEventCode.YOU_CANCELED_FRIEND_REQUEST,
+            FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST);
     }
     
     @Test
     public void shouldNotAcceptSelfFriendshipRequest() {
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(SC_OK);
         whenP1().getRequestSpecification()
-                .post(API_USER + "/acceptfriendship/user/" + userId(1))
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(1), userId(1)));
+            .post(API_USER + "/acceptfriendship/user/" + userId(1))
+            .then()
+            .statusCode(SC_NOT_FOUND)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(1), userId(1)));
         whenP2().getRequestSpecification()
-                .post(API_USER + "/acceptfriendship/user/" + userId(2))
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(2), userId(2)));
+            .post(API_USER + "/acceptfriendship/user/" + userId(2))
+            .then()
+            .statusCode(SC_NOT_FOUND)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(2), userId(2)));
     }
     
     @Test
     public void shouldNotAcceptUnknownFriendshipRequest() {
         whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + userId(2))
-                .then()
-                .statusCode(SC_OK);
+            .post(API_USER + "/askfriendship/user/" + userId(2))
+            .then()
+            .statusCode(SC_OK);
         whenP2().getRequestSpecification()
-                .post(API_USER + "/acceptfriendship/user/" + userId(3))
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()),
-                        FIELD_MESSAGE, Matchers.hasSize(2),
-                        FIELD_MESSAGE, Matchers.contains(userId(3), userId(2)));
+            .post(API_USER + "/acceptfriendship/user/" + userId(3))
+            .then()
+            .statusCode(SC_NOT_FOUND)
+            .body(FIELD_ERRORS, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()),
+                FIELD_MESSAGE, Matchers.hasSize(2),
+                FIELD_MESSAGE, Matchers.contains(userId(3), userId(2)));
     }
     
     private void checkFriendshipEvents(User p, FriendshipEventCode... codes) {

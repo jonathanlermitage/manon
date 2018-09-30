@@ -27,7 +27,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     
     @Override
     public void askFriendship(String userIdFrom, String userIdTo)
-            throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
+        throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
         User from = userService.readOne(userIdFrom);
         if (from.getFriends().contains(userIdTo)) {
             throw new FriendshipExistsException(userIdFrom, userIdTo);
@@ -44,7 +44,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     
     @Override
     public void acceptFriendshipRequest(String userIdFrom, String userIdTo)
-            throws UserNotFoundException, FriendshipRequestNotFoundException {
+        throws UserNotFoundException, FriendshipRequestNotFoundException {
         if (!userService.readOne(userIdTo).getFriendshipRequestsFrom().contains(userIdFrom)) {
             throw new FriendshipRequestNotFoundException(userIdFrom, userIdTo);
         }

@@ -28,11 +28,11 @@ public class UserLoaderService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new UserSimpleDetails(
-                user.getUsername(),
-                user.getPassword(),
-                true, true, true,
-                ACTIVE == user.getRegistrationState(),
-                user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toSet()),
-                user);
+            user.getUsername(),
+            user.getPassword(),
+            true, true, true,
+            ACTIVE == user.getRegistrationState(),
+            user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toSet()),
+            user);
     }
 }

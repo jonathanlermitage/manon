@@ -90,9 +90,9 @@ public class UserServiceTest extends InitBeforeClass {
     public void shouldCreateAndCheckEncodedPassword() throws UserExistsException {
         String rawPassword = "pwd" + currentTimeMillis();
         User user = userService.create(User.builder()
-                .username(name(100))
-                .password(rawPassword)
-                .build());
+            .username(name(100))
+            .password(rawPassword)
+            .build());
         assertNotEquals(user.getPassword(), rawPassword);
         assertTrue(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword()));
     }

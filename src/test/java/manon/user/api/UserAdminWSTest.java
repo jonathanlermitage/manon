@@ -27,10 +27,10 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldFindAllDesc() {
         Response res = whenAdmin().getRequestSpecification()
-                .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,DESC");
+            .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,DESC");
         res.then()
-                .contentType(JSON)
-                .statusCode(SC_OK);
+            .contentType(JSON)
+            .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), userCount);
@@ -45,10 +45,10 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldFindAllAsc() {
         Response res = whenAdmin().getRequestSpecification()
-                .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,ASC");
+            .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,ASC");
         res.then()
-                .contentType(JSON)
-                .statusCode(SC_OK);
+            .contentType(JSON)
+            .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), userCount);
@@ -63,10 +63,10 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldFindAllSmallPageStartPart() {
         Response res = whenAdmin().getRequestSpecification()
-                .get(API_USER_ADMIN + "/all?size=3");
+            .get(API_USER_ADMIN + "/all?size=3");
         res.then()
-                .contentType(JSON)
-                .statusCode(SC_OK);
+            .contentType(JSON)
+            .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), 3);
@@ -76,10 +76,10 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldFindAllSmallPageEndPart() {
         Response res = whenAdmin().getRequestSpecification()
-                .get(API_USER_ADMIN + "/all?page=1&size=3");
+            .get(API_USER_ADMIN + "/all?page=1&size=3");
         res.then()
-                .contentType(JSON)
-                .statusCode(SC_OK);
+            .contentType(JSON)
+            .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), userCount - 3);
@@ -89,10 +89,10 @@ public class UserAdminWSTest extends InitBeforeClass {
     @Test
     public void shouldFindAllSmallPageMiddlePart() {
         Response res = whenAdmin().getRequestSpecification()
-                .get(API_USER_ADMIN + "/all?size=1");
+            .get(API_USER_ADMIN + "/all?size=1");
         res.then()
-                .contentType(JSON)
-                .statusCode(SC_OK);
+            .contentType(JSON)
+            .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
         assertEquals(users.size(), 1);
@@ -104,53 +104,53 @@ public class UserAdminWSTest extends InitBeforeClass {
         List<String> uids = Arrays.asList(userId(1), userId(2));
         for (String uid : uids) {
             whenAdmin().getRequestSpecification()
-                    .post(API_USER_ADMIN + "/" + uid + "/suspend")
-                    .then()
-                    .statusCode(SC_OK)
-                    .contentType(TEXT)
-                    .body(equalTo(SUSPENDED.name()));
+                .post(API_USER_ADMIN + "/" + uid + "/suspend")
+                .then()
+                .statusCode(SC_OK)
+                .contentType(TEXT)
+                .body(equalTo(SUSPENDED.name()));
             whenAdmin().getRequestSpecification()
-                    .post(API_USER_ADMIN + "/" + uid + "/ban")
-                    .then()
-                    .statusCode(SC_OK)
-                    .contentType(TEXT)
-                    .body(equalTo(BANNED.name()));
+                .post(API_USER_ADMIN + "/" + uid + "/ban")
+                .then()
+                .statusCode(SC_OK)
+                .contentType(TEXT)
+                .body(equalTo(BANNED.name()));
             whenAdmin().getRequestSpecification()
-                    .post(API_USER_ADMIN + "/" + uid + "/activate")
-                    .then()
-                    .statusCode(SC_OK)
-                    .contentType(TEXT)
-                    .body(equalTo(ACTIVE.name()));
+                .post(API_USER_ADMIN + "/" + uid + "/activate")
+                .then()
+                .statusCode(SC_OK)
+                .contentType(TEXT)
+                .body(equalTo(ACTIVE.name()));
         }
     }
     
     @Test
     public void shouldNotActivateUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/activate")
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .contentType(JSON)
-                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
+            .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/activate")
+            .then()
+            .statusCode(SC_NOT_FOUND)
+            .contentType(JSON)
+            .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
     }
     
     @Test
     public void shouldNotBanUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/ban")
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .contentType(JSON)
-                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
+            .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/ban")
+            .then()
+            .statusCode(SC_NOT_FOUND)
+            .contentType(JSON)
+            .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
     }
     
     @Test
     public void shouldNotSuspendUnknown() {
         whenAdmin().getRequestSpecification()
-                .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/suspend")
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .contentType(JSON)
-                .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
+            .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/suspend")
+            .then()
+            .statusCode(SC_NOT_FOUND)
+            .contentType(JSON)
+            .body(FIELD_ERRORS, equalTo(UserNotFoundException.class.getSimpleName()));
     }
 }

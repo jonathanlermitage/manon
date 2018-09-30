@@ -12,7 +12,7 @@ public class MethodExecutionStatsTest {
     @Test
     public void shouldVerifyToString() {
         assertThat(sample().toString()).contains(
-                "service", "calls", "minTime", "maxTime", "totalTime", "times");
+            "service", "calls", "minTime", "maxTime", "totalTime", "times");
     }
     
     @DataProvider
@@ -31,13 +31,13 @@ public class MethodExecutionStatsTest {
         MethodExecutionStats newTimes = sample();
         newTimes.setTimes(singletonList(99L));
         return new Object[][]{
-                {sample(), sample(), true},
-                {newService, sample, false},
-                {newCalls, sample, false},
-                {newMinTime, sample, false},
-                {newMaxTime, sample, false},
-                {newTotalTime, sample, false},
-                {newTimes, sample, false}
+            {sample(), sample(), true},
+            {newService, sample, false},
+            {newCalls, sample, false},
+            {newMinTime, sample, false},
+            {newMaxTime, sample, false},
+            {newTotalTime, sample, false},
+            {newTimes, sample, false}
         };
     }
     

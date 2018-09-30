@@ -40,8 +40,8 @@ public class RegistrationForm {
     @Override
     public String toString() {
         return "RegistrationForm{" +
-                "username='" + shortenLog(username) + '\'' +
-                ", password='" + shortenAndAnonymizeLog(password) + '\'' +
-                '}';
+            "username='" + shortenLog(username) + '\'' +
+            ", password='" + shortenAndAnonymizeLog(password) + '\'' +
+            '}';
     }
 }

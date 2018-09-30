@@ -60,9 +60,9 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     @DataProvider
     public Object[][] dataProviderAllowAdmin() {
         return new Object[][]{
-                {whenAdmin(), SC_OK},
-                {whenP1(), SC_FORBIDDEN},
-                {whenAnonymous(), SC_UNAUTHORIZED}
+            {whenAdmin(), SC_OK},
+            {whenP1(), SC_FORBIDDEN},
+            {whenAnonymous(), SC_UNAUTHORIZED}
         };
     }
     
@@ -71,9 +71,9 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     @DataProvider
     public Object[][] dataProviderAllowAuthenticated() {
         return new Object[][]{
-                {whenAdmin(), SC_OK},
-                {whenP1(), SC_OK},
-                {whenAnonymous(), SC_UNAUTHORIZED}
+            {whenAdmin(), SC_OK},
+            {whenP1(), SC_OK},
+            {whenAnonymous(), SC_UNAUTHORIZED}
         };
     }
 }

@@ -30,8 +30,8 @@ public class UserPasswordUpdateForm {
     @Override
     public String toString() {
         return "UserPasswordUpdateForm{" +
-                "oldPassword='" + shortenAndAnonymizeLog(oldPassword) + '\'' +
-                ", newPassword='" + shortenAndAnonymizeLog(newPassword) + '\'' +
-                '}';
+            "oldPassword='" + shortenAndAnonymizeLog(oldPassword) + '\'' +
+            ", newPassword='" + shortenAndAnonymizeLog(newPassword) + '\'' +
+            '}';
     }
 }

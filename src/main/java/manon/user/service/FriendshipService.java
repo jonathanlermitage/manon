@@ -15,7 +15,7 @@ public interface FriendshipService {
      * @param userIdTo id of user that is targeted.
      */
     void askFriendship(String userIdFrom, String userIdTo)
-            throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException;
+        throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException;
     
     /**
      * Create a friendship request between two users.
@@ -24,7 +24,7 @@ public interface FriendshipService {
      * @param userIdTo id of user that accepts friendship.
      */
     void acceptFriendshipRequest(String userIdFrom, String userIdTo)
-            throws UserNotFoundException, FriendshipRequestNotFoundException;
+        throws UserNotFoundException, FriendshipRequestNotFoundException;
     
     /**
      * Reject a friendship request between two users.

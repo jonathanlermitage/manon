@@ -11,20 +11,20 @@ public class RegistrationFormTest {
     @Test
     public void shouldVerifyToString() {
         assertThat(RegistrationForm.builder().build().toString()).contains(
-                "username", "password");
+            "username", "password");
     }
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         RegistrationForm filled = RegistrationForm.builder()
-                .username("u")
-                .password("p")
-                .build();
+            .username("u")
+            .password("p")
+            .build();
         return new Object[][]{
-                {RegistrationForm.builder().build(), RegistrationForm.builder().build(), true},
-                {filled.toBuilder().build(), filled, true},
-                {filled.toBuilder().username("updated").build(), filled, false},
-                {filled.toBuilder().password("updated").build(), filled, false}
+            {RegistrationForm.builder().build(), RegistrationForm.builder().build(), true},
+            {filled.toBuilder().build(), filled, true},
+            {filled.toBuilder().username("updated").build(), filled, false},
+            {filled.toBuilder().password("updated").build(), filled, false}
         };
     }
     

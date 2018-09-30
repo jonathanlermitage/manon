@@ -11,20 +11,20 @@ public class UserPasswordUpdateFormTest {
     @Test
     public void shouldVerifyToString() {
         assertThat(UserPasswordUpdateForm.builder().build().toString()).contains(
-                "oldPassword", "newPassword");
+            "oldPassword", "newPassword");
     }
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserPasswordUpdateForm filled = UserPasswordUpdateForm.builder()
-                .oldPassword("o")
-                .newPassword("n")
-                .build();
+            .oldPassword("o")
+            .newPassword("n")
+            .build();
         return new Object[][]{
-                {UserPasswordUpdateForm.builder().build(), UserPasswordUpdateForm.builder().build(), true},
-                {filled.toBuilder().build(), filled, true},
-                {filled.toBuilder().oldPassword("updated").build(), filled, false},
-                {filled.toBuilder().newPassword("updated").build(), filled, false}
+            {UserPasswordUpdateForm.builder().build(), UserPasswordUpdateForm.builder().build(), true},
+            {filled.toBuilder().build(), filled, true},
+            {filled.toBuilder().oldPassword("updated").build(), filled, false},
+            {filled.toBuilder().newPassword("updated").build(), filled, false}
         };
     }
     
