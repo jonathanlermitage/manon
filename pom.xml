@@ -331,7 +331,7 @@
                                 <image>lermitage-manon:${project.version}</image>
                             </to>
                             <container>
-                                <jvmFlags><!-- deprecated! some things to do, see https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
+                                <jvmFlags>
                                     <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
                                     <jvmFlag>-Djava.awt.headless=true</jvmFlag>
                                     <jvmFlag>-Dserver.port=8080</jvmFlag>
