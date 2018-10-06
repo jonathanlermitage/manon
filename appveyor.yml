@@ -3,7 +3,6 @@ clone_depth: 3
 
 branches:
   only:
-    - spring5
     - spring5-light
 
 platform: x64
