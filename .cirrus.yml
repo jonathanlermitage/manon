@@ -1,0 +1,7 @@
+container:
+  image: openjdk:8-jdk
+  cpu: 3
+  memory: 4
+
+test_task:
+  script: sh ./mvnw clean test
