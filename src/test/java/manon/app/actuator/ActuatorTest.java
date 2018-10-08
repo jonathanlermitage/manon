@@ -55,7 +55,7 @@ public class ActuatorTest extends InitBeforeClass {
     }
     
     @Test(dataProvider = "dataProviderShouldGetSpringBoot2Actuator")
-    public void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) throws Exception {
+    public void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) throws IllegalArgumentException {
         call(whenAdmin(), verb, endpoint).statusCode(isEnabled ? SC_OK : SC_NOT_FOUND);
         call(whenP1(), verb, endpoint).statusCode(isPublic ? isEnabled ? SC_OK : SC_NOT_FOUND : SC_FORBIDDEN);
         call(whenAnonymous(), verb, endpoint).statusCode(isPublic ? isEnabled ? SC_OK : SC_NOT_FOUND : SC_UNAUTHORIZED);
@@ -77,14 +77,15 @@ public class ActuatorTest extends InitBeforeClass {
         );
     }
     
-    private ValidatableResponse call(Rs rs, HttpMethod verb, String endpoint) throws Exception {
+    private ValidatableResponse call(Rs rs, HttpMethod verb, String endpoint) throws IllegalArgumentException {
         RequestSpecification spec = rs.getRequestSpecification();
         switch (verb) {
             case GET:
                 return spec.get(endpoint).then();
             case POST:
                 return spec.post(endpoint).then();
+            default:
+                throw new IllegalArgumentException("invalid verb:" + verb);
         }
-        throw new Exception("invalid verb:" + verb);
     }
 }

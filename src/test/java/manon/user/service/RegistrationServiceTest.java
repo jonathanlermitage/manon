@@ -10,13 +10,13 @@ import static org.testng.Assert.assertFalse;
 
 public class RegistrationServiceTest extends InitBeforeTest {
     
+    @Value("${manon.admin.default-admin.username}")
+    private String adminUsername;
+    
     @Override
     public int getNumberOfUsers() {
         return 0;
     }
-    
-    @Value("${manon.admin.default-admin.username}")
-    private String adminUsername;
     
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {

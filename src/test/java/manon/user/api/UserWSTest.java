@@ -1,7 +1,6 @@
 package manon.user.api;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import manon.user.document.User;
 import manon.user.err.UserExistsException;
@@ -137,7 +136,7 @@ public class UserWSTest extends InitBeforeTest {
         User userBefore = userService.readOne(userId(1));
         whenP1().getRequestSpecification()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
-            .contentType(ContentType.JSON)
+            .contentType(JSON)
             .put(API_USER + "/field")
             .then()
             .statusCode(SC_OK);
@@ -155,7 +154,7 @@ public class UserWSTest extends InitBeforeTest {
     public void shouldUpdatePassword() {
         whenP1().getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword("a new password").build())
-            .contentType(ContentType.JSON)
+            .contentType(JSON)
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);

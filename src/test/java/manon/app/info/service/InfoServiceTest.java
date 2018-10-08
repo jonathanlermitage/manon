@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 
 public class InfoServiceTest extends InitBeforeClass {
     
+    @Autowired
+    private InfoService infoService;
+    
     @Override
     public int getNumberOfUsers() {
         return 0;
     }
-    
-    @Autowired
-    private InfoService infoService;
     
     @Test
     public void shouldGetAppVersion() {

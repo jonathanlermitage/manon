@@ -89,6 +89,6 @@ public class ToolsTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyRepeat")
     public void shouldVerifyRepeat(String str, Integer repeat, String expected) {
-        assertEquals(Tools.repeat(str, repeat), expected);
+        assertEquals(repeat(str, repeat), expected);
     }
 }

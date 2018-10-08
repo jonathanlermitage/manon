@@ -22,11 +22,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
 public abstract class MockBeforeClass extends InitBeforeClass {
     
-    @Override
-    public int getNumberOfUsers() {
-        return 1;
-    }
-    
     @MockBean
     protected FriendshipWS friendshipWS;
     @MockBean
@@ -35,6 +30,11 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     protected UserAdminWS userAdminWS;
     @MockBean
     protected UserWS userWs;
+    
+    @Override
+    public int getNumberOfUsers() {
+        return 1;
+    }
     
     @BeforeMethod
     public void setUpMocks() {
