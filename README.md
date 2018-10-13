@@ -27,7 +27,7 @@ Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usag
 * some **AOP** to capture performance of API endpoints
 * Spring **Actuator** web endpoints configured
 * **Swagger UI** to provide documentation about REST API endpoints
-* Reproducible **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. Linux base image is [Distroless](https://github.com/GoogleContainerTools/distroless)
+* **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support. Linux base image is [Distroless](https://github.com/GoogleContainerTools/distroless).
 
 For fun and to show some skills :cat:
 
@@ -39,7 +39,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 ## Branches
 
 * active
-  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), JDK8+, Docker, without Spring Batch, Redis Cache, Swagger UI
+  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), JDK8+ (JDK11 supported), Docker Compose, without Spring Batch, Redis Cache, Swagger UI
 * archived
   * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and JDK8/9, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
   * [spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib): Docker build thanks to Jib. See [DEPLOY.md](./DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594)
