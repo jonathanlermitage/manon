@@ -1,5 +1,15 @@
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jonathanlermitage/manon/alerts/) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jonathanlermitage/manon/context:java) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true)](https://ci.appveyor.com/project/jonathanlermitage/manon) [![Travis Build status](https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5-light)](https://travis-ci.org/jonathanlermitage/manon) [![Build Status](https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light)](http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light) 
-[![codecov](https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light/graph/badge.svg)](https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light) [![Sonarcloud status](https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanon%3Amanon-light) [![license](https://img.shields.io/github/license/jonathanlermitage/manon.svg)](https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt) <a href="https://twitter.com/intent/follow?screen_name=JLermitage"><img src="https://img.shields.io/twitter/follow/JLermitage.svg?style=social" alt="follow on Twitter"></a>
+<p align="center">
+    <a href="https://ci.appveyor.com/project/jonathanlermitage/manon"><img src="https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true"/></a>
+    <a href="https://travis-ci.org/jonathanlermitage/manon"><img src="https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5-light"/></a>
+    <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light"/></a>
+    <a href="https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg"/></a>
+    <a href="https://twitter.com/intent/follow?screen_name=JLermitage"><img src="https://img.shields.io/twitter/follow/JLermitage.svg?style=social" alt="follow on Twitter"></a>
+    <br/>
+    <a href="https://sonarcloud.io/dashboard?id=nanon%3Amanon-light"><img src="https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status"/></a>
+    <a href="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light"><img src="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light/graph/badge.svg"/></a>
+    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18"/></a>
+    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18"/></a>
+</p>
 
 1. [Project](https://github.com/jonathanlermitage/manon#project)  
 2. [Author](https://github.com/jonathanlermitage/manon#author)
