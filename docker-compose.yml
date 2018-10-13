@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo:3.4-jessie
+    command: --smallfiles
+    ports:
+    - "27017:27017"
+    volumes:
+    - ~/manon-db/:/data/db/
+
+  app:
+    container_name: manon
+    image: lermitage-manon:1.0.0-SNAPSHOT
+    ports:
+    - "8080:8080"
+    volumes:
+    - ~/manon-logs/:/logs/
+    depends_on:
+    - mongo

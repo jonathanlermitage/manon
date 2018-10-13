@@ -1,18 +1,19 @@
 ## How do deploy and run application
 
-This document will help you to run application.
+This document will help you to run application manually or via Docker Compose.  
+First, go to project's root and make the `do.sh` utility script executable: `chmod +x do.sh`.
 
-### Manual run
+### Manually
 
 * Install **JDK8** and **MongoDB 3.4**+. MongoDB should listen on port 27017, accept username `root` and password `woot` on the `manondev` database (authentication and data). See `src/main/resources/application-dev.yml` for details.  
 * Package and run application via `do rd`. Application will start on port 8080 with `dev` Spring profile.
-  * To run with another Spring profile (e.g. `prod`), package application via `do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true manon.jar`.
+  * To run with another Spring profile (e.g. `prod`), package application via `do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod,metrics manon.jar`.
 
-### Docker
+### Docker Compose
 
-* Install **Docker** Community Edition:
+* Install **Docker**:
   ```bash
-  # tested on Lubuntu 18.04 LTS
+  # install Docker Community Edition, tested on Lubuntu 18.04 LTS
   sudo apt-get remove docker docker-engine docker.io
   sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -21,23 +22,23 @@ This document will help you to run application.
   sudo groupadd docker && sudo usermod -aG docker jon  # replace 'jon' by your user name (see whoami)
   sudo systemctl enable docker
   ```
-* Run a **MongoDB 3.4**+ docker image:
+* Install **Docker Compose**:
   ```bash
-  # MongoDB 3.4
-  # find tags at https://github.com/docker-library/docs/blob/master/mongo/README.md
-  # tested with 3.4-jessie, 3.6-stretch, 4.1-xenial
-  mkdir ~/data
-  docker run -d --name mongo --net=host -p 27017:27017 -v ~/data:/data/mongodb mongo:3.4-jessie
-  # optional: install MongoDB command-line client and check connectivity
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+  ```
+* Build and install application image via `do jib`.  
+* Edit `docker-compose.yml` if needed (e.g. to customize ports).
+* Then run application image and dependencies via Docker Compose: 
+  ```bash
+  docker-compose up -d
+  ```
+* MongoDB data is persisted in `~/manon-db/`. Application listen on port 8080 and its logs are stored in `~/manon-logs/`.
+* Optional: install MongoDB command-line client and check database connectivity:
+  ```bash
   sudo apt-get install mongodb-clients
   mongo localhost/manon
   ```
-* Build and install application image via `do jib`.  
-* Then run **application image**: 
-  ```bash
-  mkdir ~/logs
-  docker run -d --name manon --net=host -p 8080:8080 -v ~/logs:/logs lermitage-manon:1.0.0-SNAPSHOT
-  ```
-  * To change Spring profiles, e.g. with `dev` profile, add `-e "SPRING_PROFILES_ACTIVE=dev"` to the `docker run` command.
-* check connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
-* MongoDB data is persisted in `~/data` and applications logs are in `~/logs`.
+* Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
+
+  
