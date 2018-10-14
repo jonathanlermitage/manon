@@ -21,7 +21,7 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
   sudo apt-get update
   sudo apt-get install docker-ce
   sudo groupadd docker 
-  sudo usermod -aG docker jon  # replace 'jon' by your login
+  sudo usermod -aG docker $(whoami)
   sudo systemctl enable docker
   ```
 * Install **Docker Compose**:
