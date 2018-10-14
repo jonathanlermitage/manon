@@ -6,3 +6,6 @@ spring:
       host: mongo
       port: 27017
       database: manon
+      username: ROOT
+      password: woot
+      authentication-database: admin

@@ -10,6 +10,10 @@ services:
     - "27017:27017"
     volumes:
     - ~/manon-db/:/data/db/
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ROOT
+      MONGO_INITDB_ROOT_PASSWORD: woot
+      MONGO_INITDB_DATABASE: admin
 
   app:
     container_name: manon

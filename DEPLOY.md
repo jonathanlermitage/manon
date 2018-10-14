@@ -42,6 +42,6 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
 * Optional: install MongoDB command-line client and check database connectivity:
   ```bash
   sudo apt-get install mongodb-clients
-  mongo localhost/manon
+  mongo -u ROOT -p woot --authenticationDatabase admin localhost/manon
   ```
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
