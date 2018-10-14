@@ -11,7 +11,7 @@ case "$1" in
   echo  "c:      clean"
   echo  "p:      package"
   echo  "rd:     package and run application with dev profile"
-  echo  "w \$V:  set or upgrade Maven wrapper to version \$V"
+  echo  "w \$V:   set or upgrade Maven wrapper to version \$V"
   echo  "cv:     check plugins and dependencies versions"
   echo  "uv:     update plugins and dependencies versions"
   echo  "dt:     show dependencies tree"
