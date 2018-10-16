@@ -15,6 +15,7 @@ case "$1" in
   echo  "cv:     check plugins and dependencies versions"
   echo  "uv:     update plugins and dependencies versions"
   echo  "dt:     show dependencies tree"
+  echo  "rmi:    stop Docker application, then remove its containers and images"
   echo  "cdi:    clean up dangling Docker images"
   echo  "jib:    build Docker image to a Docker daemon"
   echo  "jibtar: build and save Docker image to a tarball"
@@ -85,6 +86,15 @@ case "$1" in
 "tsc")
   echo "sh ./mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=\$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=\$TK1_MANON_SONAR_LOGIN"
   sh ./mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+  ;;
+
+"rmi")
+  echo "docker-compose stop"
+  docker-compose stop
+  echo "rm \$(docker ps -a | grep \"lermitage-manon\" | awk '{print \$1}')"
+  docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
+  echo "docker rmi \$(docker images | grep \"^lermitage-manon\" | awk '{print \$3}')"
+  docker rmi $(docker images | grep "^lermitage-manon" | awk '{print $3}')
   ;;
 
 "cdi")

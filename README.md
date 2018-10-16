@@ -82,6 +82,7 @@ do w 3.5.2   set or upgrade Maven wrapper to 3.5.2
 do cv        check plugins and dependencies versions
 do uv        update plugins and dependencies versions
 do dt        show dependencies tree
+do rmi       stop Docker application, then remove its containers and images
 do cdi       clean up dangling Docker images
 do jib       build Docker image to a Docker daemon
 do jibtar    build and save Docker image to a tarball 
