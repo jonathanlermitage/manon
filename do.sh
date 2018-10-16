@@ -15,6 +15,7 @@ case "$1" in
   echo  "cv:     check plugins and dependencies versions"
   echo  "uv:     update plugins and dependencies versions"
   echo  "dt:     show dependencies tree"
+  echo  "cdi:    clean up dangling Docker images"
   echo  "jib:    build Docker image to a Docker daemon"
   echo  "jibtar: build and save Docker image to a tarball"
   ;;
@@ -84,6 +85,11 @@ case "$1" in
 "tsc")
   echo "sh ./mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=\$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=\$TK1_MANON_SONAR_LOGIN"
   sh ./mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+  ;;
+
+"cdi")
+  echo "rmi \$(docker images -f \"dangling=true\" -q)"
+  docker rmi $(docker images -f "dangling=true" -q)
   ;;
 
 "jib")
