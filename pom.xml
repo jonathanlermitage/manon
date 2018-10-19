@@ -340,7 +340,6 @@
                         <configuration>
                             <from>
                                 <!-- https://console.cloud.google.com/gcr/images/distroless/GLOBAL/java?gcrImageListsize=10 -->
-                                <!-- latest Distroless version on August 8, 2018 at 5:26:31 PM UTC+2 -->
                                 <image>gcr.io/distroless/java@sha256:84740ded6cbeebaa89c9b19aed3754d464586592b561e5494be4192ac0b3a8f5</image>
                             </from>
                             <to>
