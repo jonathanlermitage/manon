@@ -26,7 +26,7 @@
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.2</lombok.version>
         <mockito-core.version>2.23.0</mockito-core.version> <!-- TODO forced to 2.21+ to support jdk11. Remove it once spring-boot 2.1 is released. -->
-        <rest-assured.version>3.1.1</rest-assured.version>
+        <rest-assured.version>3.2.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
