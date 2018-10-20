@@ -9,18 +9,32 @@ services:
     ports:
     - "27017:27017"
     volumes:
-    - ~/manon-db/:/data/db/
+    - ~/manon-mongo-db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ROOT
       MONGO_INITDB_ROOT_PASSWORD: woot
       MONGO_INITDB_DATABASE: admin
 
-  app:
+  nginx:
+    container_name: nginx
+    image: nginx:1.15.5
+    ports:
+    - "9090:80"
+    volumes:
+    - ~/manon-nginx-logs:/var/log/nginx
+    - ./config/docker/nginx.conf:/etc/nginx/nginx.conf
+    environment:
+    - NGINX_HOST=localhost
+    - NGINX_PORT=80
+    depends_on:
+    - manon
+
+  manon:
     container_name: manon
     image: lermitage-manon:1.0.0-SNAPSHOT
     ports:
     - "8080:8080"
     volumes:
-    - ~/manon-logs/:/logs/
+    - ~/manon-app-logs:/logs
     depends_on:
     - mongo

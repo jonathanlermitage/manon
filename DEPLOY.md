@@ -38,10 +38,12 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
   ```bash
   docker-compose up -d
   ```
-* MongoDB data is persisted in `~/manon-db/`. Application listen on port 8080 and its logs are stored in `~/manon-logs/`.
+* MongoDB data is persisted in `~/manon-mongo-db/`. Application listen on port 8080 and its logs are stored in `~/manon-app-logs/`.
 * Optional: install MongoDB command-line client and check database connectivity:
   ```bash
   sudo apt-get install mongodb-clients
   mongo -u ROOT -p woot --authenticationDatabase admin localhost/manon
   ```
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
+* Replace `8080` by `9090` to access application via Nginx proxy.
+* You can check Nginx error and access logs in `~/manon-nginx-logs`.
