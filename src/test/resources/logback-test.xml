@@ -4,7 +4,7 @@
     <appender name="FILE_ALL_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/manon-test.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>logs/manon-all_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/manon-test_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
             <totalSizeCap>4GB</totalSizeCap>
             <maxFileSize>100MB</maxFileSize>
