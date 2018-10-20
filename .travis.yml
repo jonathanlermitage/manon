@@ -23,7 +23,8 @@ script: "./mvnw clean test -Pcoverage -B"
 
 cache:
   directories:
-    - '$HOME/.m2/repository'
+    - '$HOME/.m2'
+    - '$HOME/.embedmongo'
 
 git:
   depth: 3
