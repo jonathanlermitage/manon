@@ -36,8 +36,5 @@ services:
     volumes:
     - ~/manon-nginx-logs:/var/log/nginx
     - ./config/docker/nginx.conf:/etc/nginx/nginx.conf
-    environment:
-    - NGINX_HOST=localhost
-    - NGINX_PORT=80
     depends_on:
     - manon
