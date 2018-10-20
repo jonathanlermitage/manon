@@ -2,6 +2,18 @@ version: '3'
 
 services:
 
+  # main application
+  manon:
+    container_name: manon
+    image: lermitage-manon:1.0.0-SNAPSHOT
+    ports:
+    - "8080:8080"
+    volumes:
+    - ~/manon-app-logs:/logs
+    depends_on:
+    - mongo
+
+  # database
   mongo:
     container_name: mongo
     image: mongo:3.4-jessie
@@ -15,6 +27,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: woot
       MONGO_INITDB_DATABASE: admin
 
+  # http proxy
   nginx:
     container_name: nginx
     image: nginx:1.15.5
@@ -28,13 +41,3 @@ services:
     - NGINX_PORT=80
     depends_on:
     - manon
-
-  manon:
-    container_name: manon
-    image: lermitage-manon:1.0.0-SNAPSHOT
-    ports:
-    - "8080:8080"
-    volumes:
-    - ~/manon-app-logs:/logs
-    depends_on:
-    - mongo
