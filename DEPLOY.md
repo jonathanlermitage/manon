@@ -45,5 +45,5 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
   mongo -u ROOT -p woot --authenticationDatabase admin localhost/manon
   ```
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
-* Replace `8080` by `9090` to access application via Nginx proxy.
+* Replace `8080` by `8000` to access application via Nginx proxy.
 * You can check Nginx error and access logs in `~/manon-nginx-logs`.

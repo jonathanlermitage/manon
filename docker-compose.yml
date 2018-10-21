@@ -32,7 +32,7 @@ services:
     container_name: nginx
     image: nginx:1.15.5
     ports:
-    - "9090:80"
+    - "8000:80"
     volumes:
     - ~/manon-nginx-logs:/var/log/nginx
     - ./config/docker/nginx.conf:/etc/nginx/nginx.conf
