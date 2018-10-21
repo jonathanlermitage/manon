@@ -11,6 +11,8 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
 
 ### Docker Compose
 
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and [Distroless](https://github.com/GoogleContainerTools/distroless) + [MongoDB Community](https://www.mongodb.com/download-center/community) database + [Nginx](http://nginx.org/en/download.html) as HTTP proxy. To proceed, follow these steps:
+
 * Install **Docker**:
   ```bash
   # install Docker Community Edition, tested on Lubuntu 18.04 LTS
