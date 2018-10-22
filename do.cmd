@@ -19,11 +19,11 @@ if [%1] == [help] (
 
 if [%1] == [t] (
   echo mvnw clean test
-  mvnw clean test
+  mvnw clean test -Pembed-win
 )
 if [%1] == [tc] (
   echo mvnw clean test -Pcoverage
-  mvnw clean test -Pcoverage
+  mvnw clean test -PPembed-win,coverage
 )
 if [%1] == [b] (
   echo mvnw clean compile -DskipTests -T1
@@ -54,11 +54,11 @@ if [%1] == [w] (
 )
 if [%1] == [cv] (
   echo mvnw versions:display-property-updates -U -P coverage,jib
-  mvnw versions:display-property-updates -U -P coverage,jib
+  mvnw versions:display-property-updates -U -P coverage,jib,embed-win
 )
 if [%1] == [uv] (
   echo mvnw versions:update-properties -U -P coverage,jib
-  mvnw versions:update-properties -U -P coverage,jib
+  mvnw versions:update-properties -U -P coverage,jib,embed-win
 )
 if [%1] == [dt] (
   echo mvnw dependency:tree

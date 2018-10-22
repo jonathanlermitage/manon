@@ -16,10 +16,8 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <surefireArgLine>
-            -ea -Xms128m -Xmx256m -Dspring.profiles.active=test,metrics -Dfile.encoding=UTF-8
-            -Djava.awt.headless=true -XX:TieredStopAtLevel=1 -noverify
-        </surefireArgLine>
+        <surefireArgLine>-ea -Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:TieredStopAtLevel=1 -noverify</surefireArgLine>
+        <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
 
         <embed.mongo.version>2.1.1</embed.mongo.version>
         <janino.version>3.0.10</janino.version>
@@ -38,7 +36,6 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
-
     </properties>
 
     <dependencies>
@@ -172,12 +169,6 @@
             <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>${embed.mongo.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Annotations. -->
@@ -245,7 +236,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <argLine>${surefireArgLine}</argLine>
+                    <argLine>${surefireArgLine} ${profileArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
                 </configuration>
             </plugin>
@@ -263,6 +254,37 @@
     </build>
 
     <profiles>
+
+        <!-- Tests with embedded MongoDB: since 3.6, Linux and Windows versions need different startup params. -->
+        <profile>
+            <id>embed-linux</id>
+            <properties>
+                <profileArgLine>-Dspring.profiles.active=test-embed-linux,metrics</profileArgLine>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>de.flapdoodle.embed</groupId>
+                    <artifactId>de.flapdoodle.embed.mongo</artifactId>
+                    <version>${embed.mongo.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>embed-win</id>
+            <properties>
+                <profileArgLine>-Dspring.profiles.active=test-embed-win,metrics</profileArgLine>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>de.flapdoodle.embed</groupId>
+                    <artifactId>de.flapdoodle.embed.mongo</artifactId>
+                    <version>${embed.mongo.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
         <profile>
             <id>coverage</id>
             <activation>
@@ -318,13 +340,14 @@
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <!--suppress MavenModelInspection -->
-                            <argLine>${surefireArgLine} ${coverageSurefireArgLine}</argLine>
+                            <argLine>${surefireArgLine} ${profileArgLine} ${coverageSurefireArgLine}</argLine>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>jib</id>
             <activation>
@@ -362,6 +385,7 @@
                 </plugins>
             </build>
         </profile>
+
         <!--profile>
             <id>java11</id>
             <properties>

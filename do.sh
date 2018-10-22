@@ -23,12 +23,12 @@ case "$1" in
 
 "t")
   echo "sh ./mvnw clean test"
-  sh ./mvnw clean test
+  sh ./mvnw clean test -Pembed-linux
   ;;
 
 "tc")
   echo "sh ./mvnw clean test -Pcoverage"
-  sh ./mvnw clean test -Pcoverage
+  sh ./mvnw clean test -Pembed-linux,coverage
   ;;
 
 "b")
@@ -65,12 +65,12 @@ case "$1" in
 
 "cv")
   echo "sh ./mvnw versions:display-property-updates -U -P coverage,jib"
-  sh ./mvnw versions:display-property-updates -U -P coverage,jib
+  sh ./mvnw versions:display-property-updates -U -P coverage,jib,embed-linux
   ;;
 
 "uv")
   echo "sh ./mvnw versions:update-properties -U -P coverage,jib"
-  sh ./mvnw versions:update-properties -U -P coverage,jib
+  sh ./mvnw versions:update-properties -U -P coverage,jib,embed-linux
   ;;
 
 "dt")

@@ -4,4 +4,4 @@ container:
   memory: 4
 
 test_task:
-  script: sh ./mvnw clean test
+  script: sh ./mvnw clean test -Pembed-linux,metrics
