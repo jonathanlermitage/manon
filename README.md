@@ -30,7 +30,7 @@ Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usag
 * Spring **Batch** to schedule and manage some tasks
 * Spring **Cache** via Redis for application, and prefer an embedded cache provider during tests
 * **integration tests** and (some) unit-test via **TestNG**, because TestNG is so much superior to JUnit4/5... (better keywords, dataproviders, old/mature and very stable API, easily configurable, test suites)
-* tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project, simply run `mvnw test` 
+* tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project
 * integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Travis](https://travis-ci.org/jonathanlermitage/manon)** (Linux and MacOS CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[CodeCov](https://codecov.io/gh/jonathanlermitage/manon)** (code coverage), **[SonarCloud](https://sonarcloud.io/dashboard?id=nanon:manon)** (code quality), **[LGTM](https://lgtm.com/)** (code quality) 
 * Maven and Gradle wrappers, and a `do.cmd` script that helps you to launch some usefull commands
 * code coverage thanks to **JaCoCo** Maven and Gradle plugin
@@ -63,10 +63,8 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 * other branches may appear and disappear quickly, depending on experimentation results and motivation ;-)
 
 ## Compilation and test
-
-To build and test, simply run `mvnw test`. To enable JaCoCo code coverage, activate the `coverage` profile: `mvnw test -Pcoverage`.  
   
-You can also use the `do.cmd` (Windows) or `do.sh` (Unix shell) script:  
+You can use the `do.cmd` (Windows) or `do.sh` (Unix shell) script:  
 ```
 do help      show this help message
 do t         test without code coverage
