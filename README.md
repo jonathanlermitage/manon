@@ -54,10 +54,10 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
   * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and JDK8/9, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
   * [spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib): Docker build thanks to Jib. See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594)
   * [spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo): use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7)
+    * [spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x): make embedded MongoDB work with version from 3.6 to 4.0. See commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2)
   * [spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger): enable **Swagger UI**. Run application and check `http://localhost:8080/swagger-ui.html`, authenticate with `ROOT` / `woot`. See commit [~~429ae53~~](https://github.com/jonathanlermitage/manon/commit/429ae53bc5211d8d97e8ccca20a4b183f207c6ee) [834852c](https://github.com/jonathanlermitage/manon/commit/834852cd5ce8bbb869a189aecdd90097c9168152)
   * [spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis): enable **Redis cache**, and prefer embedded cache during tests. See commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) 
   * [spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle): migration from **Maven to Gradle**. Stable and functional, but still needs some improvements
-  * [spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x): make embedded MongoDB work with version from 3.6 to 4.0. See commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2)
   * [spring4](https://github.com/jonathanlermitage/manon/tree/spring4): previous active branch, based on Spring Framework 4, Spring Boot and JDK8
   * [spring4-redis-cache](https://github.com/jonathanlermitage/manon/tree/spring4-redis-cache): enable caching based on **Redis** server. See commit [0f1eff7](https://github.com/jonathanlermitage/manon/commit/0f1eff768e73a69e07016e153b825a131146a63a)
 * other branches may appear and disappear quickly, depending on experimentation results and motivation ;-)
@@ -67,8 +67,8 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 You can use the `do.cmd` (Windows) or `do.sh` (Unix shell) script:  
 ```
 do help      show this help message
-do t         test without code coverage
-do tc        test with code coverage
+do t         test without code coverage (with embedded MongoDB)
+do tc        test with code coverage (with embedded MongoDB)
 do sc        compute and upload Sonar analysis to SonarCloud, needs two env vars:
              - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
              - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
