@@ -15,7 +15,7 @@ build_script:
   - mvnw clean package -DskipTests
 
 test_script:
-  - mvnw test
+  - mvnw test -Pembed-win,metrics
 
 cache:
   - C:\Users\appveyor\.m2

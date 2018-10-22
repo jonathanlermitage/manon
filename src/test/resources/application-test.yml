@@ -1,7 +1,11 @@
-### DEV CONFIGURATION for local unit testing ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local unit testing with existing MongoDB ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
   security.bcrypt.strength: 4
 
 spring:
-  mongodb.embedded.version: 3.4.17
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: manontest

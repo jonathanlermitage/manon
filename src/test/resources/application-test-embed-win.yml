@@ -1,0 +1,10 @@
+### DEV CONFIGURATION for local unit testing with embedded MongoDB on Windows x64 ###  (warning: avoid tabs, indent with two spaces)
+
+manon:
+  security.bcrypt.strength: 4
+
+spring:
+  mongodb:
+    embedded:
+      version: 4.0.3
+      features: ["sync_delay", "ONLY_WITH_SSL", "ONLY_WINDOWS_2008_SERVER", "NO_HTTP_INTERFACE_ARG"]

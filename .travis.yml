@@ -19,7 +19,7 @@ before_install:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
-script: "./mvnw clean test -Pcoverage -B"
+script: "./mvnw clean test -Pembed-linux,metrics,coverage -B"
 
 cache:
   directories:

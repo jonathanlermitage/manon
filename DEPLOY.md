@@ -5,7 +5,7 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
 
 ### Manually
 
-* Install **JDK8** and **MongoDB 3.4**+. MongoDB should listen on port 27017, accept username `root` and password `woot` on the `manondev` database (authentication and data). See `src/main/resources/application-dev.yml` for details.  
+* Install **JDK8** and **MongoDB 4.0.x** (it should work with any version from 3.4.x to 4.1.x). MongoDB should listen on port 27017, with no authentication. See `src/main/resources/application-dev.yml` for details.  
 * Package and run application via `do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod,metrics manon.jar`.
 

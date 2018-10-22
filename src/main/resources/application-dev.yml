@@ -1,4 +1,4 @@
-### DEV CONFIGURATION for local application ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local application with existing MongoDB ###  (warning: avoid tabs, indent with two spaces)
 
 spring:
   data:
@@ -6,6 +6,3 @@ spring:
       host: localhost
       port: 27017
       database: manondev
-      username: root
-      password: woot
-      authentication-database: manondev
