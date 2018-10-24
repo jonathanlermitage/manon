@@ -85,7 +85,7 @@ case "$1" in
 
 "tsc")
   echo "sh ./mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=\$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=\$TK1_MANON_SONAR_LOGIN"
-  sh ./mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+  sh ./mvnw clean test sonar:sonar -Pembed-linux,coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
   ;;
 
 "rmi")

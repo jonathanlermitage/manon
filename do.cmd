@@ -23,7 +23,7 @@ if [%1] == [t] (
 )
 if [%1] == [tc] (
   echo mvnw clean test -Pcoverage
-  mvnw clean test -PPembed-win,coverage
+  mvnw clean test -Pembed-win,coverage
 )
 if [%1] == [b] (
   echo mvnw clean compile -DskipTests -T1
@@ -70,7 +70,7 @@ if [%1] == [sc] (
 )
 if [%1] == [tsc] (
   echo mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
-  mvnw clean test sonar:sonar -Pcoverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  mvnw clean test sonar:sonar -Pembed-win,coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [jib] (
   echo mvnw clean compile jib:dockerBuild -DskipTests -P jib
