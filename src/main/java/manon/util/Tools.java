@@ -41,6 +41,32 @@ public final class Tools {
         return yesterday.getTime();
     }
     
+    /**
+     * Get today's date with given hours, minutes, seconds and milliseconds.
+     * @param hourOfDay hours (0-23).
+     * @param minute minutes (0-59).
+     * @param second seconds (0-59).
+     * @param millisecond milliseconds (0-999).
+     */
+    public static Calendar today(int hourOfDay, int minute, int second, int millisecond) {
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, second);
+        cal.set(Calendar.MILLISECOND, millisecond);
+        return cal;
+    }
+    
+    /** Get current date at 0:00'0 000. */
+    public static Date startOfDay() {
+        return today(0, 0, 0, 0).getTime();
+    }
+    
+    /** Get current date at 23:59'59 999. */
+    public static Date endOfDay() {
+        return today(23, 59, 59, 999).getTime();
+    }
+    
     /** Return {@code true} if the provided string is null or empty once trimmed, otherwise {@code false}. */
     public static boolean isBlank(String str) {
         return str == null || str.trim().isEmpty();

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import manon.app.trace.service.AppTraceService;
 import manon.user.err.UserExistsException;
 import manon.user.service.RegistrationService;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -20,6 +21,7 @@ import static manon.app.trace.model.AppTraceLevel.INFO;
 
 @SpringBootApplication
 @EnableMongoAuditing
+@EnableBatchProcessing
 @EnableScheduling
 @RequiredArgsConstructor
 public class Application extends SpringBootServletInitializer {

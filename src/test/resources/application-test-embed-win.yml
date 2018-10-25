@@ -1,6 +1,7 @@
 ### DEV CONFIGURATION for local unit testing with embedded MongoDB on Windows x64 ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
+  batch.user-snapshot.chunk: 10
   security.bcrypt.strength: 4
 
 spring:

@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-  # main application
+  # Main application
   manon:
     container_name: manon
     image: lermitage-manon:1.0.0-SNAPSHOT
@@ -12,8 +12,9 @@ services:
     - ~/manon-app-logs:/logs
     depends_on:
     - mongo
+    - maria
 
-  # database
+  # MongoDB database
   mongo:
     container_name: mongo
     image: mongo:4.0.3-xenial
@@ -27,7 +28,19 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: woot
       MONGO_INITDB_DATABASE: admin
 
-  # http proxy
+  # MariaDB database
+  maria:
+    container_name: maria
+    image: mariadb:10.3.10-bionic
+    ports:
+    - "3306:3306"
+    volumes:
+    - ~/manon-maria-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: woot
+      MYSQL_DATABASE: manon
+
+  # HTTP proxy
   nginx:
     container_name: nginx
     image: nginx:1.15.5

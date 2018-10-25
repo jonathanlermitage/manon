@@ -3,6 +3,9 @@
 
 spring:
   http.converters.preferred-json-mapper: jackson
+  batch:
+    initialize-schema: always
+    job.enabled: false
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy
@@ -33,4 +36,8 @@ manon:
     default-admin:
       username: ROOT
       password: woot
+  batch:
+    user-snapshot:
+      chunk: 1000
+      snapshot.max-age: 30
   security.bcrypt.strength: 6

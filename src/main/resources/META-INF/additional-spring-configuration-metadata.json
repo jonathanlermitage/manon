@@ -19,6 +19,16 @@
       "name": "manon.mongodb.version",
       "type": "java.lang.String",
       "description": "MongoDB version, used to configure test embedded database."
+    },
+    {
+      "name": "manon.batch.user-snapshot.chunk",
+      "type": "java.lang.Integer",
+      "description": "User snapshot batch: user chunk size."
+    },
+    {
+      "name": "manon.batch.user-snapshot.snapshot.max-age",
+      "type": "java.lang.Integer",
+      "description": "User snapshot batch: user snapshot max age in days."
     }
   ]
 }

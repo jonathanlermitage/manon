@@ -1,5 +1,10 @@
 package manon.app.config;
 
+import lombok.NoArgsConstructor;
+
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public final class API {
     
     public static final String API_V1 = "/api/v1";
@@ -21,8 +26,4 @@ public final class API {
     
     /** System trace. */
     public static final String API_SYS = API_V1 + "/sys";
-    
-    private API() {
-        // utility class
-    }
 }

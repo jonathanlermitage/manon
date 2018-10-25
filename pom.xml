@@ -20,9 +20,11 @@
         <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
 
         <embed.mongo.version>2.1.1</embed.mongo.version>
+        <hsqldb.version>2.4.1</hsqldb.version>
         <janino.version>3.0.10</janino.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.2</lombok.version>
+        <mariadb.version>2.3.0</mariadb.version>
         <mockito-core.version>2.23.0</mockito-core.version> <!-- TODO forced to 2.21+ to support jdk11. Remove it once spring-boot 2.1 is released. -->
         <rest-assured.version>3.2.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
@@ -84,7 +86,27 @@
             <artifactId>spring-boot-starter-aop</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
 
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- SQL. -->
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Logging. -->
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

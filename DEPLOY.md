@@ -5,7 +5,9 @@ First, go to project's root and make the `do.sh` utility script executable: `chm
 
 ### Manually
 
-* Install **JDK8** and **MongoDB 4.0.x** (it should work with any version from 3.4.x to 4.1.x). MongoDB should listen on port 27017, with no authentication. See `src/main/resources/application-dev.yml` for details.  
+* Install latest **JDK8**.
+* Install **MongoDB** (any version from 3.4.x to 4.1.x should work). Make it listen on port 27017, with no authentication. See `src/main/resources/application-dev.yml` for details.
+* Install **MariaDB** or MySQL (any reasonably recent version should work).
 * Package and run application via `do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod,metrics manon.jar`.
 
@@ -48,4 +50,5 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   ```
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
 * Replace `8080` by `8000` to access application via Nginx proxy.
-* You can check Nginx error and access logs in `~/manon-nginx-logs`.
+* Check Nginx error and access logs in `~/manon-nginx-logs`.
+* Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `UsersStats` and `UserSnapshot` MongoDB collections.
