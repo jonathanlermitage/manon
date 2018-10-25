@@ -1,5 +1,6 @@
 package manon.util.basetest;
 
+import manon.app.batch.api.TaskRunnerWS;
 import manon.app.info.api.InfoWS;
 import manon.user.api.FriendshipWS;
 import manon.user.api.UserAdminWS;
@@ -27,6 +28,8 @@ public abstract class MockBeforeClass extends InitBeforeClass {
     @MockBean
     protected InfoWS infoWS;
     @MockBean
+    protected TaskRunnerWS taskRunnerWS;
+    @MockBean
     protected UserAdminWS userAdminWS;
     @MockBean
     protected UserWS userWs;
@@ -41,6 +44,7 @@ public abstract class MockBeforeClass extends InitBeforeClass {
         initMocks(this);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(infoWS);
+        Mockito.clearInvocations(taskRunnerWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
     }

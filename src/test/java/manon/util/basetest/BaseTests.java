@@ -20,4 +20,10 @@ public abstract class BaseTests extends AbstractTestNGSpringContextTests {
     public static final String UNKNOWN_ID = objId();
     
     public static final String UNKNOWN_USER_NAME = "u" + UNKNOWN_ID;
+    
+    /** Number of times to start a batch to ensure its repeatability. */
+    public static final int NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY = 3;
+    
+    /** Number of batch chunks to process to ensure its reliability. */
+    public static final int NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY = 3;
 }

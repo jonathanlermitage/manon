@@ -9,3 +9,9 @@ spring:
       username: ROOT
       password: woot
       authentication-database: admin
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: woot
+    url: jdbc:mysql://maria:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+  jpa.hibernate.ddl-auto: update
