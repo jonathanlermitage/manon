@@ -1,6 +1,7 @@
 package manon.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 
 import java.text.SimpleDateFormat;
@@ -8,9 +9,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static lombok.AccessLevel.PRIVATE;
+
 /**
  * Utility methods related to now and time.
  */
+@NoArgsConstructor(access = PRIVATE)
 public final class Tools {
     
     public static final String MDC_KEY_ENV = "env";
@@ -113,9 +117,5 @@ public final class Tools {
             }
             return sb.toString();
         }
-    }
-    
-    private Tools() {
-        // utility class
     }
 }

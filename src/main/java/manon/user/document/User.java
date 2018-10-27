@@ -108,6 +108,7 @@ public final class User implements Serializable, UserVersionProjection {
     private Date updateDate;
     
     /** {@link User} fields validation rules. */
+    @NoArgsConstructor(access = PRIVATE)
     public static class Validation {
         public static final String USERNAME_PATTERN = "^[A-Z0-9_\\-\\u0020]*$";
         public static final String USERNAME_PATTERN_ERRMSG = "USERNAME_PATTERN";
@@ -130,13 +131,10 @@ public final class User implements Serializable, UserVersionProjection {
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
         
         public static final int MAX_EVENTS = 30;
-        
-        private Validation() {
-            // utility class
-        }
     }
     
     /** {@link User} fields name, to be used by MongoDB custom repositories. */
+    @NoArgsConstructor(access = PRIVATE)
     public static class Field {
         public static final String ID = "id";
         public static final String EMAIL = "email";
@@ -147,9 +145,5 @@ public final class User implements Serializable, UserVersionProjection {
         public static final String NICKNAME = "nickname";
         public static final String REGISTRATION_STATE = "registrationState";
         public static final String PASSWORD = "password";
-        
-        private Field() {
-            // utility class
-        }
     }
 }
