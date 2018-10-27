@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
  */
 public abstract class InitBeforeTest extends InitBeforeClass {
     
+    /** Clear data before test methods. Do NOT override it in non-abstract test classes. */
     @Override
     @BeforeMethod
     public void beforeMethod() throws Exception {

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.info.service.InfoService;
 import manon.app.stats.service.PerformanceRecorder;
+import manon.user.document.User;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.service.RegistrationService;
@@ -71,13 +72,14 @@ public abstract class InitBeforeClass extends BaseTests {
     }
     
     @BeforeClass
-    public void beforeClass() {
+    public final void beforeClass() {
         initialized = false;
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset("UTF-8"));
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
     }
     
+    /** Clear data before test class. Do NOT override it in non-abstract test classes. */
     @BeforeMethod
     public void beforeMethod() throws Exception {
         userIdCache.clear();
@@ -85,15 +87,21 @@ public abstract class InitBeforeClass extends BaseTests {
             initDb();
             initialized = true;
         }
+        additionalBeforeMethod();
     }
     
-    public void clearDb() {
+    /** Override do add logic that occurs after the <code>@BeforeMethod</code> {@link #beforeMethod()}. */
+    public void additionalBeforeMethod() {
+        // override if needed
+    }
+    
+    public final void clearDb() {
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }
     }
     
-    public void initDb() throws UserExistsException {
+    public final void initDb() throws UserExistsException {
         long t1 = currentTimeMillis();
         clearDb();
         registrationService.ensureAdmin();
@@ -115,13 +123,11 @@ public abstract class InitBeforeClass extends BaseTests {
     }
     
     @AfterClass
-    public void afterClass() {
+    public final void afterClass() {
         if (!performanceRecorder.isEmpty()) {
             log.info(performanceRecorder.showStats());
         }
-        for (String cn : mongoTemplate.getDb().listCollectionNames()) {
-            mongoTemplate.dropCollection(cn);
-        }
+        clearDb();
         setInitialized(false);
     }
     
@@ -129,18 +135,18 @@ public abstract class InitBeforeClass extends BaseTests {
     // Helpers: get generated test users and authenticate with their credentials
     //
     
-    public Rs whenAnonymous() {
+    public final Rs whenAnonymous() {
         return new Rs(RestAssured.given()
             .header("X-Request-Id", "0x-1")
             .auth().none(), "", "");
     }
     
-    public Rs whenAdmin() {
+    public final Rs whenAdmin() {
         return new Rs(RestAssured.given().auth().basic(ADMIN_NAME, ADMIN_PWD), ADMIN_NAME, ADMIN_PWD);
     }
     
     /** When player n°humanId, where humanId is an index starting at 1. */
-    public Rs whenPX(int humanId) {
+    public final Rs whenPX(int humanId) {
         int idx = humanId - 1;
         RequestSpecification rs = RestAssured.given()
             .header("X-Request-Id", "0x" + idx)
@@ -149,34 +155,39 @@ public abstract class InitBeforeClass extends BaseTests {
     }
     
     /** When player 1. */
-    public Rs whenP1() {
+    public final Rs whenP1() {
         return whenPX(1);
     }
     
     /** When player 2. */
-    public Rs whenP2() {
+    public final Rs whenP2() {
         return whenPX(2);
     }
     
     /** When player 3. */
-    public Rs whenP3() {
+    public final Rs whenP3() {
         return whenPX(3);
     }
     
     @SuppressWarnings("SameParameterValue")
-    public String pwd(int humanId) {
+    public final String pwd(int humanId) {
         return makePwd(humanId - 1);
     }
     
     @SuppressWarnings("SameParameterValue")
-    public String name(int humanId) {
+    public final String name(int humanId) {
         return makeName(humanId - 1);
+    }
+    
+    @SneakyThrows(UserNotFoundException.class)
+    public final User user(int humanId) {
+        return userService.readByUsername(name(humanId));
     }
     
     /** Get user id of player n°humanId, where humanId is an index starting at 1. */
     @SuppressWarnings("SameParameterValue")
     @SneakyThrows(UserNotFoundException.class)
-    public String userId(int humanId) {
+    public final String userId(int humanId) {
         return findAndCacheUserIdByIdx(humanId - 1);
     }
     
@@ -193,12 +204,12 @@ public abstract class InitBeforeClass extends BaseTests {
     
     /** Convert object to JSON. */
     @SneakyThrows(IOException.class)
-    public <T> T readValue(Response content, Class<T> valueType) {
+    public final <T> T readValue(Response content, Class<T> valueType) {
         return Tools.JSON.readValue(content.asString(), valueType);
     }
     
     /** Compute a long string. */
-    public String verylongString(String base) {
+    public final String verylongString(String base) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 500; i++) {
             sb.append(base);
