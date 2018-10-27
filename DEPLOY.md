@@ -51,4 +51,4 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
 * Replace `8080` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
-* Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `UsersStats` and `UserSnapshot` MongoDB collections.
+* Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `UserStats` and `UserSnapshot` MongoDB collections.

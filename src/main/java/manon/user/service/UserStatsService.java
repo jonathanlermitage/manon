@@ -1,12 +1,12 @@
 package manon.user.service;
 
-import manon.user.document.UsersStats;
+import manon.user.document.UserStats;
 
 import java.util.List;
 
 public interface UserStatsService {
     
-    List<UsersStats> findAll();
+    List<UserStats> findAll();
     
-    void save(UsersStats entity);
+    void save(UserStats entity);
 }

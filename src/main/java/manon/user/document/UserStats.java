@@ -19,15 +19,15 @@ import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
 /** Statistics on all users. */
-@Document(collection = "UsersStats")
-@TypeAlias("UsersStats")
+@Document(collection = "UserStats")
+@TypeAlias("UserStats")
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class UsersStats implements Serializable {
+public class UserStats implements Serializable {
     
     private static final long serialVersionUID = -6351299219725037369L;
     

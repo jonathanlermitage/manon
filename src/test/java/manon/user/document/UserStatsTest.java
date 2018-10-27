@@ -11,19 +11,19 @@ public class UserStatsTest {
     
     @Test
     public void shouldVerifyToString() {
-        assertThat(UsersStats.builder().build().toString()).contains(
+        assertThat(UserStats.builder().build().toString()).contains(
             "id", "nbUsers", "creationDate");
     }
     
     @DataProvider
     public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        UsersStats filled = UsersStats.builder()
+        UserStats filled = UserStats.builder()
             .id("1")
             .nbUsers(2)
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
-            {UsersStats.builder().build(), UsersStats.builder().build(), true},
+            {UserStats.builder().build(), UserStats.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id("99").build(), filled, false},
             {filled.toBuilder().nbUsers(99).build(), filled, false},

@@ -2,7 +2,7 @@ package manon.user.batch;
 
 import manon.app.batch.service.TaskRunnerService;
 import manon.user.document.UserSnapshot;
-import manon.user.document.UsersStats;
+import manon.user.document.UserStats;
 import manon.user.service.UserService;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
@@ -90,9 +90,9 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
         }
         
         //THEN statistics are written
-        List<UsersStats> usersStats = userStatsService.findAll();
-        assertThat(usersStats).isNotNull().hasSize(nbStats);
-        usersStats.forEach(ps -> assertEquals(ps.getNbUsers(), expectedTodayUserSnapshots));
+        List<UserStats> userStats = userStatsService.findAll();
+        assertThat(userStats).isNotNull().hasSize(nbStats);
+        userStats.forEach(ps -> assertEquals(ps.getNbUsers(), expectedTodayUserSnapshots));
     }
     
     

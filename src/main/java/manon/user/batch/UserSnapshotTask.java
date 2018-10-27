@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import manon.app.batch.listener.TaskListener;
 import manon.user.document.User;
 import manon.user.document.UserSnapshot;
-import manon.user.document.UsersStats;
+import manon.user.document.UserStats;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
 import org.springframework.batch.core.Job;
@@ -123,7 +123,7 @@ public class UserSnapshotTask {
     private class StatsTasklet implements Tasklet {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
-            userStatsService.save(UsersStats.builder().nbUsers(userSnapshotService.countToday()).build());
+            userStatsService.save(UserStats.builder().nbUsers(userSnapshotService.countToday()).build());
             return RepeatStatus.FINISHED;
         }
     }

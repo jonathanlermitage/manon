@@ -1,6 +1,6 @@
 package manon.user.service;
 
-import manon.user.document.UsersStats;
+import manon.user.document.UserStats;
 import manon.user.repository.UserStatsRepository;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class UserStatsServiceTest extends InitBeforeClass {
     @Test
     public void shouldFindAll() {
         userStatsRepository.saveAll(Arrays.asList(
-            UsersStats.builder().build(),
-            UsersStats.builder().build()
+            UserStats.builder().build(),
+            UserStats.builder().build()
         ));
         
         assertThat(userStatsService.findAll()).hasSize(2);
@@ -41,10 +41,10 @@ public class UserStatsServiceTest extends InitBeforeClass {
     @Test
     public void shouldSave() {
         Date before = new Date();
-        userStatsService.save(UsersStats.builder().nbUsers(100).build());
+        userStatsService.save(UserStats.builder().nbUsers(100).build());
         Date after = new Date();
         
-        List<UsersStats> us = userStatsRepository.findAll();
+        List<UserStats> us = userStatsRepository.findAll();
         assertEquals(us.size(), 1);
         assertThat(us.get(0).getCreationDate()).isBetween(before, after, true, true);
         assertEquals(us.get(0).getNbUsers(), 100);
