@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,6 +34,7 @@ public class UserSnapshot implements Serializable {
     @Id
     private String id;
     
+    @NotNull
     private User user;
     
     @JsonFormat(pattern = DATE_FORMAT)

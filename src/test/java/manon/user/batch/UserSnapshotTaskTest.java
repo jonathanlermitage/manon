@@ -66,7 +66,7 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
         
         // workaround: can't save custom creationDate at creation, do it at update
         for (int i = 0; i < delays.size(); i++) {
-            userSnapshots.add(UserSnapshot.builder().build());
+            userSnapshots.add(UserSnapshot.builder().user(user(1)).build());
         }
         userSnapshotService.save(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {

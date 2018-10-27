@@ -44,6 +44,17 @@ public final class Tools {
         yesterday.add(Calendar.DAY_OF_MONTH, -1);
         return yesterday.getTime();
     }
+    public static Date daysBefore(int nbDays) {
+        Calendar yesterday = new GregorianCalendar();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1 * nbDays);
+        return yesterday.getTime();
+    }
+    
+    public static Date tomorrow() {
+        Calendar yesterday = new GregorianCalendar();
+        yesterday.add(Calendar.DAY_OF_MONTH, 1);
+        return yesterday.getTime();
+    }
     
     /**
      * Get today's date with given hours, minutes, seconds and milliseconds.
