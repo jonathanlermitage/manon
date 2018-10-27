@@ -2,6 +2,8 @@ package manon.app.stats.service;
 
 import org.testng.annotations.Test;
 
+import java.time.Clock;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -13,14 +15,14 @@ public class PerformanceRecorderTest {
     
     @Test
     public void shouldEmptyShowStats() {
-        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl();
+        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
         assertTrue(performanceRecorder.isEmpty());
         assertEquals(performanceRecorder.showStats(), "");
     }
     
     @Test
     public void shouldShowStats() {
-        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl();
+        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
         
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);
         performanceRecorder.saveTime("manon.user.UserService:do1()", 2);
@@ -39,7 +41,7 @@ public class PerformanceRecorderTest {
     
     @Test
     public void shouldShowStatsManyTimesWithDifferentOrders() {
-        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl();
+        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
         
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);
         performanceRecorder.saveTime("manon.user.UserService:do2()", 100);

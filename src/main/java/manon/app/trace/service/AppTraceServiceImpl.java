@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
 import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
 import static manon.app.trace.model.AppTraceEvent.UPTIME;
 import static manon.app.trace.model.AppTraceLevel.DEBUG;
 import static manon.util.Tools.objId;
@@ -30,7 +30,7 @@ import static manon.util.Tools.objId;
 public class AppTraceServiceImpl implements AppTraceService {
     
     private final AppTraceRepository appTraceRepository;
-    
+    private final Clock clock;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private final Date startupDate = new Date();
     
@@ -75,7 +75,7 @@ public class AppTraceServiceImpl implements AppTraceService {
         deleteByCurrentAppIdAndEvent(UPTIME);
         log(DEBUG, UPTIME, format("Application [%s] is alive since %ss (%s)",
             appId,
-            (currentTimeMillis() - startupDate.getTime()) / 1_000,
+            (clock.millis() - startupDate.getTime()) / 1_000,
             dateFormat.format(startupDate))
         );
     }

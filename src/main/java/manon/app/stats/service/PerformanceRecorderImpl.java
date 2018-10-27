@@ -1,5 +1,6 @@
 package manon.app.stats.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.stats.model.MethodExecutionStats;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,27 +23,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.stream;
 import static java.util.Collections.sort;
 import static manon.app.config.SpringProfiles.METRICS;
 
 @Aspect
 @Service
+@RequiredArgsConstructor
 @Slf4j
 @Profile(METRICS)
 public class PerformanceRecorderImpl implements PerformanceRecorder {
     
-    private final Map<String, MethodExecutionStats> stats = new HashMap<>();
+    private final Clock clock;
+    
+    private Map<String, MethodExecutionStats> stats = new HashMap<>();
     
     /**
      * Collect execution time on every WS class methods.
      */
     @Around("execution(* manon..*WS.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        long start = currentTimeMillis();
+        long start = clock.millis();
         Object result = point.proceed();
-        long execTime = currentTimeMillis() - start;
+        long execTime = clock.millis() - start;
         String signature = point.getThis().getClass().getName();
         if (signature.contains("$")) {
             signature = signature.substring(0, signature.indexOf('$'));
