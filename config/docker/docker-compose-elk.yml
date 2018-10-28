@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  # ----------------------------------------
+  # --- ELK stack
+  # ----------------------------------------
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.2 # see https://hub.docker.com/_/elasticsearch/
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ~/manon-elastic-db:/usr/share/elasticsearch/data
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    environment:
+      ES_JAVA_OPTS: "-Xms32m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash-oss:6.5.2 # see https://hub.docker.com/_/logstash/
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    volumes:
+      - ~/manon-app-logs/:/manon-app/
+      - ~/manon-nginx-logs/:/manon-nginx/
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    environment:
+      LS_JAVA_OPTS: "-Xms32m -Xmx256m"
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana-oss:6.5.2 # see https://hub.docker.com/_/kibana/
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./kibana:/usr/share/kibana/config:ro
+    depends_on:
+      - elasticsearch
