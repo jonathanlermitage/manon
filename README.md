@@ -68,29 +68,35 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
   
 You can use the `do.cmd` (Windows) or `./do` (Linux Bash) script:  
 ```
-do help      show this help message
-do t         test without code coverage (with embedded MongoDB)
-do tc        test with code coverage (with embedded MongoDB)
-do sc        compute and upload Sonar analysis to SonarCloud, needs two env vars:
-             - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
-             - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
-do tsc       similar to "do tc" then "do sc"
-do b         build without testing
-do c         clean
-do p         package application to manon.jar
-do rd        package and run application with dev profile 
-do w 3.5.2   set or upgrade Maven wrapper to 3.5.2
-do cv        check plugins and dependencies versions
-do uv        update plugins and dependencies versions
-do dt        show dependencies tree
-do rmi       stop Docker application, then remove its containers and images
-do cdi       clean up dangling Docker images
-do docker    build Docker image with Dockerfile to a Docker daemon
-do jib       build Docker image with Jib to a Docker daemon
-do jibtar    build and save Docker image with Jib to a tarball
+do help         show this help message
+do t            test without code coverage (with embedded MongoDB)
+do tc           test with code coverage (with embedded MongoDB)
+do sc           compute and upload Sonar analysis to SonarCloud, needs two env vars:
+                  - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
+                  - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
+do tsc          similar to "do tc" then "do sc"
+do b            build without testing
+do c            clean
+do p            package application to manon.jar
+do rd           package and run application with dev profile 
+do w 3.5.2      set or upgrade Maven wrapper to 3.5.2
+do cv           check plugins and dependencies versions
+do uv           update plugins and dependencies versions
+do dt           show dependencies tree
+do rmi          stop Docker application, then remove its containers and images
+do cdi          clean up dangling Docker images
+do docker       build Docker image with Dockerfile to a Docker daemon
+do jib          build Docker image with Jib to a Docker daemon
+do jibtar       build and save Docker image with Jib to a tarball
+do up           create and start containers via docker-compose
+do stop         stop containers via docker-compose
+do upelk        create and start ELK containers via docker-compose
+do stopelk      stop ELK containers via docker-compose
+do upcerebro    create and start Cerebro container via docker-compose
+do stopcerebro  stop Cerebro container via docker-compose
 ```
 
-Nota: Linux Bash script can chain parameters, e.g.: `./do.sh cdi rmi w 3.6.0 c tc docker`.
+Nota: Linux Bash script can chain parameters, e.g.: `./do.sh cdi rmi w 3.6.0 c tc docker up`.
 
 ## License
 

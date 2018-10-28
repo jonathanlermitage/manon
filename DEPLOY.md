@@ -11,10 +11,21 @@ First, go to project's root and make the `./do` utility script executable if nee
 * Package and run application via `./do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `./do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod manon.jar`.
 
-### Docker Compose
+### Docker Compose (application + nginx + log analysis via ELK + Cerebro)
 
-Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and [Distroless](https://github.com/GoogleContainerTools/distroless) + [MongoDB Community](https://www.mongodb.com/download-center/community) database + [Nginx](http://nginx.org/en/download.html) as HTTP proxy. To proceed, follow these steps:
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and [Distroless](https://github.com/GoogleContainerTools/distroless) + [MongoDB Community](https://www.mongodb.com/download-center/community) and [MariaDB](https://downloads.mariadb.org/) databases + [Nginx](http://nginx.org/en/download.html) as HTTP proxy, and an ELK stack to parse logs. To proceed, follow these steps:
 
+#### Preparation: create directories and install software
+
+* Elasticsearch may need `sudo sysctl -w vm.max_map_count=262144`.
+* Create data and log directories with read/write permissions:
+    ```bash
+    mkdir ~/manon-app-logs
+    mkdir ~/manon-mongo-db
+    mkdir ~/manon-maria-db
+    mkdir ~/manon-nginx-logs
+    mkdir ~/manon-elastic-db
+    ```
 * Install **Docker**:
   ```bash
   # install Docker Community Edition, tested on Lubuntu 18.04 LTS
@@ -34,20 +45,14 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   sudo chmod +x /usr/local/bin/docker-compose
   ```
+ 
+#### Build and deploy application
+  
 * Build and install application image:
-  * via Jib:
-    ```
-    ./do jib
-    ```
-  * or via traditional `Dockerfile`:
-    ```
-    ./do docker
-    ```
+  * via Jib: `./do jib`.
+  * or via traditional `Dockerfile`: `./do docker`.
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
-* Then run application image and dependencies via Docker Compose: 
-  ```bash
-  docker-compose up -d
-  ```
+* Then run application image and dependencies via Docker Compose: `./do up` (it actually does: `docker-compose -f ./config/docker/docker-compose.yml up -d`).
 * MongoDB data is persisted in `~/manon-mongo-db/`. Application listen on port 8080 and its logs are stored in `~/manon-app-logs/`.
 * Optional: install MongoDB command-line client and check database connectivity:
   ```bash
@@ -58,3 +63,16 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Replace `8080` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `UserStats` and `UserSnapshot` MongoDB collections (connect to database, then do `db.UserStats.find()` and `db.UserSnapshot.find()`).
+
+#### Deploy ELK stack and Cerebro
+
+* Run ELK stack images via Docker Compose: `./do upelk`.
+* Visit `http://localhost:5601` and go to `Dev Tools`. You can now send queries to Elasticsearch to find some logs:
+  * Get application logs via: `GET /manon-app-*/_search`.
+  * Get Nginx access logs via: `GET /manon-nginx-access-*/_search`.
+  * You can delete these logs via: `DELETE /manon*`. Play with application and show logs again.
+
+* Optional: run Cerebro via Docker Compose: `./do upcerebro -d`.
+  * Visit `http://localhost:9000` and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `config/docker/cerebro/cerebro.conf` file for details).
+
+You can now stop images via `./do stopcerebro` (Cerebro), `./do stopelk` (ELK stack), `./do stop` (application and dependencies).

@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  # ----------------------------------------
+  # --- Enrich ELK stack with Cerebro
+  # ----------------------------------------
+
+  cerebro:
+    container_name: cerebro
+    image: yannart/cerebro:0.8.1 # see https://hub.docker.com/r/yannart/cerebro/
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./cerebro/cerebro.conf:/opt/cerebro/conf/application.conf:ro
