@@ -1,7 +1,7 @@
 container:
-  image: openjdk:8-jdk
+  image: openjdk:11-jdk
   cpu: 3
   memory: 4
 
 test_task:
-  script: sh ./mvnw help:system clean test -Pembed-linux -B -X
+  script: sh ./mvnw help:system clean test -Pembed-linux -B
