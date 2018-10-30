@@ -23,7 +23,7 @@
         <hsqldb.version>2.4.1</hsqldb.version>
         <janino.version>3.0.10</janino.version>
         <logback-classic.version>1.2.3</logback-classic.version>
-        <lombok.version>1.18.2</lombok.version>
+        <lombok.version>1.18.4</lombok.version>
         <mariadb.version>2.3.0</mariadb.version>
         <mockito-core.version>2.23.0</mockito-core.version> <!-- TODO forced to 2.21+ to support jdk11. Remove it once spring-boot 2.1 is released. -->
         <rest-assured.version>3.2.0</rest-assured.version>
