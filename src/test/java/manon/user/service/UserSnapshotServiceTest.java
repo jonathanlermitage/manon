@@ -93,7 +93,7 @@ public class UserSnapshotServiceTest extends InitBeforeClass {
         assertEquals(userSnapshotService.countToday(), 0);
         assertEquals(userSnapshotService.count(), 6);
         userSnapshotRepository.findAll().forEach(userSnapshot ->
-            assertThat(userSnapshot.getCreationDate()).isIn(yesterday, tomorrow));
+            assertThat(userSnapshot.getCreationDate()).isIn(yesterday, tomorrow, true, true));
     }
     
     @Test
@@ -127,7 +127,7 @@ public class UserSnapshotServiceTest extends InitBeforeClass {
         
         userSnapshotRepository.findAll().forEach(userSnapshot -> {
             assertEquals(userSnapshot.getUser(), user(1));
-            assertThat(userSnapshot.getCreationDate()).isBetween(before, after);
+            assertThat(userSnapshot.getCreationDate()).isBetween(before, after, true, true);
         });
     }
     
