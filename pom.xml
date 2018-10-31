@@ -16,7 +16,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <surefireArgLine>-ea -Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:TieredStopAtLevel=1 -noverify</surefireArgLine>
+        <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:TieredStopAtLevel=1 -noverify</surefireArgLine>
         <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
 
         <embed.mongo.version>2.1.1</embed.mongo.version>
