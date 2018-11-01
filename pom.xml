@@ -394,6 +394,8 @@
                                 <jvmFlags>
                                     <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
                                     <jvmFlag>-Djava.awt.headless=true</jvmFlag>
+                                    <jvmFlag>-XX:+UnlockExperimentalVMOptions</jvmFlag>
+                                    <jvmFlag>-XX:+UseCGroupMemoryLimitForHeap</jvmFlag>
                                     <jvmFlag>-Dserver.port=8080</jvmFlag>
                                     <jvmFlag>-Dspring.profiles.active=docker,metrics</jvmFlag>
                                 </jvmFlags>
