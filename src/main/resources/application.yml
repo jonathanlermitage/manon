@@ -6,6 +6,7 @@ spring:
   batch:
     initialize-schema: always
     job.enabled: false
+  main.banner-mode: log
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy

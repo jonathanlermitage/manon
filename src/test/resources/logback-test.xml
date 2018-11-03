@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60000">
+<configuration scan="false" packagingData="true">
 
-    <appender name="FILE_ALL_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/manon-test.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/manon-test_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
-            <totalSizeCap>4GB</totalSizeCap>
-            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>10MB</totalSizeCap>
+            <maxFileSize>2MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
         </encoder>
     </appender>
 
-    <appender name="CONSOLE_ALL_TRACE" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!-- See http://logback.qos.ch/manual/layouts.html -->
             <pattern>%d{HH:mm:ss} %-5p %c{30}:%L [%mdc] %m%n</pattern>
         </encoder>
     </appender>
 
+    <logger name="root" level="WARN">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
     <logger name="manon" level="TRACE" additivity="false">
-        <appender-ref ref="FILE_ALL_TRACE"/>
-        <appender-ref ref="CONSOLE_ALL_TRACE"/>
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <logger name="org.springframework.web" level="ERROR" additivity="false">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <logger name="org.springframework.scheduling" level="WARN" additivity="false">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
     </logger>
 
 </configuration>
