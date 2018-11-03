@@ -61,7 +61,7 @@ public final class User implements Serializable, UserVersionProjection {
     private String id;
     
     /** Unique, uppercase and not modifiable login name. */
-    @Indexed(background = true, unique = true)
+    @Indexed(background = true)
     @NotNull(message = USERNAME_SIZE_ERRMSG)
     @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = USERNAME_SIZE_ERRMSG)
     @Pattern(regexp = USERNAME_PATTERN, message = USERNAME_PATTERN_ERRMSG)
