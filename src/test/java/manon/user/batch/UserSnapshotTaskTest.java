@@ -1,6 +1,7 @@
 package manon.user.batch;
 
 import manon.app.batch.service.TaskRunnerService;
+import manon.user.document.User;
 import manon.user.document.UserSnapshot;
 import manon.user.document.UserStats;
 import manon.user.service.UserService;
@@ -59,6 +60,7 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
     public void shouldCompleteMultipleTimes(int snapshotsKept, int nbStats) throws Exception {
         assertEquals(chunk, 10);
         assertEquals(maxAge, 30);
+        User userToSnapshot = userService.readOne(userId(1));
         
         //GIVEN existing old, present, recent and future User snapshots
         List<Integer> delays = Arrays.asList(-1 - maxAge, 0 - maxAge, 1 - maxAge, 0, 1);
@@ -66,7 +68,7 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
         
         // workaround: can't save custom creationDate at creation, do it at update
         for (int i = 0; i < delays.size(); i++) {
-            userSnapshots.add(UserSnapshot.builder().user(user(1)).build());
+            userSnapshots.add(UserSnapshot.builder().user(userToSnapshot).build());
         }
         userSnapshotService.save(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {
