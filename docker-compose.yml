@@ -43,7 +43,7 @@ services:
   # HTTP proxy
   nginx:
     container_name: nginx
-    image: nginx:1.15.5
+    image: nginx:1.15.6
     ports:
     - "8000:80"
     volumes:
