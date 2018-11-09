@@ -34,9 +34,14 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   sudo chmod +x /usr/local/bin/docker-compose
   ```
 * Build and install application image:
-  ```
-  do jib
-  ```  
+  * via Jib:
+    ```
+    do jib
+    ```
+  * or via traditional `Dockerfile`:
+    ```
+    do docker
+    ```
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
 * Then run application image and dependencies via Docker Compose: 
   ```bash

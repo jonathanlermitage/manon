@@ -17,8 +17,9 @@ case "$1" in
   echo  "dt:     show dependencies tree"
   echo  "rmi:    stop Docker application, then remove its containers and images"
   echo  "cdi:    clean up dangling Docker images"
-  echo  "jib:    build Docker image to a Docker daemon"
-  echo  "jibtar: build and save Docker image to a tarball"
+  echo  "docker  build Docker image with Dockerfile to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
+  echo  "jib:    build Docker image with Jib to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
+  echo  "jibtar: build and save Docker image with Jib to a tarball"
   ;;
 
 "t")
@@ -95,11 +96,20 @@ case "$1" in
   docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
   echo "docker rmi \$(docker images | grep \"^lermitage-manon\" | awk '{print \$3}')"
   docker rmi $(docker images | grep "^lermitage-manon" | awk '{print $3}')
+  echo "docker rmi \$(docker images | grep \"gcr.io/distroless/java\" | awk '{print \$3}')"
+  docker rmi $(docker images | grep "gcr.io/distroless/java" | awk '{print $3}')
   ;;
 
 "cdi")
   echo "rmi \$(docker images -f \"dangling=true\" -q)"
   docker rmi $(docker images -f "dangling=true" -q)
+  ;;
+
+"docker")
+  echo "sh ./mvnw clean package -DskipTests -T1"
+  sh ./mvnw clean package -DskipTests -T1
+  echo "docker build -t lermitage-manon:1.0.0-SNAPSHOT ."
+  docker build -t lermitage-manon:1.0.0-SNAPSHOT .
   ;;
 
 "jib")
