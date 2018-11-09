@@ -7,6 +7,7 @@ spring:
     initialize-schema: always
     job.enabled: false
   main.banner-mode: log
+  datasource.driver-class-name: org.mariadb.jdbc.Driver
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy

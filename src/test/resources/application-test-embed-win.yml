@@ -9,3 +9,4 @@ spring:
     embedded:
       version: 4.0.3
       features: ["sync_delay", "ONLY_WITH_SSL", "ONLY_WINDOWS_2008_SERVER", "NO_HTTP_INTERFACE_ARG"]
+  datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver

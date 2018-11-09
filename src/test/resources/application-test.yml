@@ -10,3 +10,4 @@ spring:
       host: localhost
       port: 27017
       database: manontest
+  datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
