@@ -17,7 +17,7 @@ services:
   # MongoDB database
   mongo:
     container_name: mongo
-    image: mongo:4.0.3-xenial
+    image: mongo:4.0.3-xenial # see https://hub.docker.com/_/mongo/
     command: --smallfiles --logpath=/dev/null
     ports:
     - "27017:27017"
@@ -31,7 +31,7 @@ services:
   # MariaDB database
   maria:
     container_name: maria
-    image: mariadb:10.3.10-bionic
+    image: mariadb:10.3.10-bionic # see https://hub.docker.com/_/mariadb/
     ports:
     - "3306:3306"
     volumes:
@@ -43,7 +43,7 @@ services:
   # HTTP proxy
   nginx:
     container_name: nginx
-    image: nginx:1.15.6
+    image: nginx:1.15.6 # see https://hub.docker.com/_/nginx/
     ports:
     - "8000:80"
     volumes:
