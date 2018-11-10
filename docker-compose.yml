@@ -17,7 +17,7 @@ services:
   # MongoDB database
   mongo:
     container_name: mongo
-    image: mongo:4.0.3-xenial # see https://hub.docker.com/_/mongo/
+    image: mongo:4.0.4-xenial # see https://hub.docker.com/_/mongo/
     command: --smallfiles --logpath=/dev/null
     ports:
     - "27017:27017"
