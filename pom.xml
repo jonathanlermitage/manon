@@ -25,7 +25,6 @@
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.4</lombok.version>
         <mariadb.version>2.3.0</mariadb.version>
-        <mockito-core.version>2.23.0</mockito-core.version> <!-- TODO forced to 2.21+ to support jdk11. Remove it once spring-boot 2.1 is released. -->
         <rest-assured.version>3.2.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
@@ -184,12 +183,6 @@
                     <artifactId>jaxb-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito-core.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
