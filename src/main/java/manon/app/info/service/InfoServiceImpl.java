@@ -1,20 +1,17 @@
 package manon.app.info.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import manon.app.config.Cfg;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource(value = "classpath:info.properties")
 public class InfoServiceImpl implements InfoService {
     
-    @Value("${version}")
-    private String version;
+    private final Cfg cfg;
     
     @Override
     public String getAppVersion() {
-        return version;
+        return cfg.getVersion();
     }
 }

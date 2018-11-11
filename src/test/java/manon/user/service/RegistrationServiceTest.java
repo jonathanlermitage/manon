@@ -2,16 +2,12 @@ package manon.user.service;
 
 import manon.user.document.User;
 import manon.util.basetest.InitBeforeTest;
-import org.springframework.beans.factory.annotation.Value;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 public class RegistrationServiceTest extends InitBeforeTest {
-    
-    @Value("${manon.admin.default-admin.username}")
-    private String adminUsername;
     
     @Override
     public int getNumberOfUsers() {
@@ -20,7 +16,7 @@ public class RegistrationServiceTest extends InitBeforeTest {
     
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {
-        User existingAdmin = userService.findByUsername(adminUsername).orElseThrow(Exception::new);
+        User existingAdmin = userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new);
         User ensuredAdmin = registrationService.ensureAdmin();
         assertEquals(ensuredAdmin, existingAdmin);
     }
@@ -28,8 +24,8 @@ public class RegistrationServiceTest extends InitBeforeTest {
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
         clearDb();
-        assertFalse(userService.findByUsername(adminUsername).isPresent());
+        assertFalse(userService.findByUsername(cfg.getAdminDefaultAdminUsername()).isPresent());
         User ensuredAdmin = registrationService.ensureAdmin();
-        assertEquals(ensuredAdmin, userService.findByUsername(adminUsername).orElseThrow(Exception::new));
+        assertEquals(ensuredAdmin, userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new));
     }
 }

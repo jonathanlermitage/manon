@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
+import manon.app.config.Cfg;
 import manon.app.info.service.InfoService;
 import manon.app.stats.service.PerformanceRecorder;
 import manon.user.document.User;
@@ -52,6 +53,9 @@ public abstract class InitBeforeClass extends BaseTests {
     
     @Autowired
     protected PerformanceRecorder performanceRecorder;
+    
+    @Autowired
+    protected Cfg cfg;
     
     @Autowired
     protected UserService userService;

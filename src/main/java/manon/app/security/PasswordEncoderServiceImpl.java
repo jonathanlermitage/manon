@@ -1,7 +1,8 @@
 package manon.app.security;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import manon.app.config.Cfg;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,17 +10,17 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
+@RequiredArgsConstructor
 public class PasswordEncoderServiceImpl implements PasswordEncoderService {
     
-    @Value("${manon.security.bcrypt.strength}")
-    private Integer bcryptStrength;
+    private final Cfg cfg;
     
     @Getter
     private PasswordEncoder encoder;
     
     @PostConstruct
     private void prepare() {
-        encoder = new BCryptPasswordEncoder(bcryptStrength);
+        encoder = new BCryptPasswordEncoder(cfg.getSecurityBcryptStrength());
     }
     
     @Override

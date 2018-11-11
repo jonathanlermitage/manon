@@ -43,3 +43,4 @@ manon:
       chunk: 1000
       snapshot.max-age: 30
   security.bcrypt.strength: 6
+  version: @project.version@

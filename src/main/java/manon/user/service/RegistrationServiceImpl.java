@@ -1,11 +1,11 @@
 package manon.user.service;
 
 import lombok.RequiredArgsConstructor;
+import manon.app.config.Cfg;
 import manon.user.document.User;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.UserAuthority;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -26,13 +26,8 @@ import static manon.user.model.UserAuthority.ROLE_PLAYER;
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
     
+    private final Cfg cfg;
     private final UserService userService;
-    
-    @Value("${manon.admin.default-admin.username}")
-    private String adminUsername;
-    
-    @Value("${manon.admin.default-admin.password}")
-    private String adminPassword;
     
     @Override
     public User activate(String userId) throws UserNotFoundException {
@@ -64,11 +59,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     @Override
     public User ensureAdmin() throws UserExistsException {
-        Optional<User> opAdmin = userService.findByUsername(adminUsername);
+        Optional<User> opAdmin = userService.findByUsername(cfg.getAdminDefaultAdminUsername());
         if (opAdmin.isPresent()) {
             return opAdmin.get();
         }
-        return register(Arrays.asList(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR, ROLE_DEV), adminUsername, adminPassword);
+        return register(Arrays.asList(ROLE_ADMIN, ROLE_PLAYER, ROLE_ACTUATOR, ROLE_DEV),
+            cfg.getAdminDefaultAdminUsername(), cfg.getAdminDefaultAdminPassword());
     }
     
     /**

@@ -29,6 +29,11 @@
       "name": "manon.batch.user-snapshot.snapshot.max-age",
       "type": "java.lang.Integer",
       "description": "User snapshot batch: user snapshot max age in days."
+    },
+    {
+      "name": "manon.version",
+      "type": "java.lang.String",
+      "description": "Application version, taken from pom.xml."
     }
   ]
 }

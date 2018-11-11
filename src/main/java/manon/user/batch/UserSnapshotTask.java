@@ -2,6 +2,7 @@ package manon.user.batch;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.batch.listener.TaskListener;
+import manon.app.config.Cfg;
 import manon.user.document.User;
 import manon.user.document.UserSnapshot;
 import manon.user.document.UserStats;
@@ -20,7 +21,6 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.MongoItemReader;
 import org.springframework.batch.item.data.MongoItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
@@ -38,17 +38,13 @@ public class UserSnapshotTask {
     public static final String JOB_STEP1_SNAPSHOT_NAME = "userSnapshotJobStepSnapshot";
     public static final String JOB_STEP2_STATS_NAME = "userSnapshotJobStepStats";
     
+    private final Cfg cfg;
     private final MongoTemplate mongoTemplate;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
     private final TaskListener listener;
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
-    
-    @Value("${manon.batch.user-snapshot.chunk}")
-    private int chunk;
-    @Value("${manon.batch.user-snapshot.snapshot.max-age}")
-    private int maxAge;
     
     @Bean
     @StepScope
@@ -86,7 +82,7 @@ public class UserSnapshotTask {
     @Bean(JOB_STEP1_SNAPSHOT_NAME)
     public Step userSnapshotJobStepSnapshot() {
         return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
-            .<User, UserSnapshot>chunk(chunk)
+            .<User, UserSnapshot>chunk(cfg.getBatchUserSnapshotChunk())
             .reader(reader())
             .processor(processor())
             .writer(writer())
@@ -115,7 +111,7 @@ public class UserSnapshotTask {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
             userSnapshotService.deleteToday();
-            userSnapshotService.keepRecent(maxAge);
+            userSnapshotService.keepRecent(cfg.getBatchUserSnapshotSnapshotMaxAge());
             return RepeatStatus.FINISHED;
         }
     }

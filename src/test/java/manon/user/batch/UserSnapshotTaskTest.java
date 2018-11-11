@@ -10,7 +10,6 @@ import manon.user.service.UserStatsService;
 import manon.util.basetest.InitBeforeClass;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -38,14 +37,9 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
     @Autowired
     private UserStatsService userStatsService;
     
-    @Value("${manon.batch.user-snapshot.chunk}")
-    private int chunk;
-    @Value("${manon.batch.user-snapshot.snapshot.max-age}")
-    private int maxAge;
-    
     @Override
     public int getNumberOfUsers() {
-        return chunk * NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY;
+        return cfg.getBatchUserSnapshotChunk() * NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY;
     }
     
     @DataProvider
@@ -58,8 +52,10 @@ public class UserSnapshotTaskTest extends InitBeforeClass {
     
     @Test(dataProvider = "dataProviderShouldCompleteMultipleTimes")
     public void shouldCompleteMultipleTimes(int snapshotsKept, int nbStats) throws Exception {
+        int chunk = cfg.getBatchUserSnapshotChunk();
+        int maxAge = cfg.getBatchUserSnapshotSnapshotMaxAge();
         assertEquals(chunk, 10);
-        assertEquals(maxAge, 30);
+        assertEquals(cfg.getBatchUserSnapshotSnapshotMaxAge().intValue(), 30);
         User userToSnapshot = userService.readOne(userId(1));
         
         //GIVEN existing old, present, recent and future User snapshots
