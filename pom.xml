@@ -253,6 +253,8 @@
                 <configuration>
                     <argLine>${surefireArgLine} ${profileArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
+                    <!-- Prevent "Could not find or load main class org.apache.maven.surefire.booter.ForkedBooter" issue on Ubuntu. -->
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
             <plugin>
