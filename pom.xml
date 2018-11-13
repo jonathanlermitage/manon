@@ -21,7 +21,7 @@
 
         <embed.mongo.version>2.1.1</embed.mongo.version>
         <hsqldb.version>2.4.1</hsqldb.version>
-        <janino.version>3.0.10</janino.version>
+        <janino.version>3.0.11</janino.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.4</lombok.version>
         <mariadb.version>2.3.0</mariadb.version>
