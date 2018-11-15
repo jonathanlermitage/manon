@@ -1,99 +1,110 @@
 #!/bin/bash
 
-case "$1" in
+let "nextParam = 1"
+for ((cmd = 1; cmd <= $#; cmd++)) do
 
-"help")
-  echo  "t:      test"
-  echo  "tc:     test and generate coverage data"
-  echo  "sc:     compute and upload Sonar analysis to SonarCloud"
-  echo  "tsc:    similar to \"do tc\" then \"do sc\""
-  echo  "b:      compile"
-  echo  "c:      clean"
-  echo  "p:      package"
-  echo  "rd:     package and run application with dev profile"
-  echo  "w \$V:   set or upgrade Maven wrapper to version \$V"
-  echo  "cv:     check plugins and dependencies versions"
-  echo  "uv:     update plugins and dependencies versions"
-  echo  "dt:     show dependencies tree"
-  echo  "rmi:    stop Docker application, then remove its containers and images"
-  echo  "cdi:    clean up dangling Docker images"
-  echo  "docker  build Docker image with Dockerfile to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
-  echo  "jib:    build Docker image with Jib to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
-  echo  "jibtar: build and save Docker image with Jib to a tarball"
-  ;;
+    (( nextParam++ ))
 
-"t")
-  sh ./mvnw clean test -Pembed-linux
-  ;;
+    case "${!cmd}" in
 
-"tc")
-  sh ./mvnw clean test -Pembed-linux,coverage
-  ;;
+    "help")
+      echo ""
+      echo  "Helper: (tip: you can cycle parameters, e.g.: \"./do.sh cdi rmi docker\" or \"./do.sh w 3.6.0 c t\")"
+      echo  ""
+      echo  "t       test"
+      echo  "tc      test and generate coverage data"
+      echo  "sc      compute and upload Sonar analysis to SonarCloud"
+      echo  "tsc     similar to \"do tc\" then \"do sc\""
+      echo  "b       compile"
+      echo  "c       clean"
+      echo  "p       package"
+      echo  "rd      package and run application with dev profile"
+      echo  "w \$V    set or upgrade Maven wrapper to version \$V"
+      echo  "cv      check plugins and dependencies versions"
+      echo  "uv      update plugins and dependencies versions"
+      echo  "dt      show dependencies tree"
+      echo  "rmi     stop Docker application, then remove its containers and images"
+      echo  "cdi     clean up dangling Docker images"
+      echo  "docker  build Docker image with Dockerfile to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
+      echo  "jib     build Docker image with Jib to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
+      echo  "jibtar  build and save Docker image with Jib to a tarball"
+      echo  ""
+      ;;
 
-"b")
-  sh ./mvnw clean compile -DskipTests -T1
-  ;;
+    "t")
+      sh ./mvnw test -Pembed-linux
+      ;;
 
-"c")
-  sh ./mvnw clean
-  ;;
+    "tc")
+      sh ./mvnw test -Pembed-linux,coverage
+      ;;
 
-"p")
-  sh ./mvnw clean package -DskipTests -T1
-  ;;
+    "b")
+      sh ./mvnw compile -DskipTests -T1
+      ;;
 
-"rd")
-  sh ./mvnw clean package -DskipTests -T1
-  cd target/
-  java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
-  cd ..
-  ;;
+    "c")
+      sh ./mvnw clean
+      ;;
 
-"w")
-  mvn -N io.takari:maven:wrapper -Dmaven=$2
-  ;;
+    "p")
+      sh ./mvnw package -DskipTests -T1
+      ;;
 
-"cv")
-  sh ./mvnw versions:display-property-updates -U -P coverage,jib,embed-linux
-  ;;
+    "rd")
+      sh ./mvnw package -DskipTests -T1
+      cd target/
+      java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+      cd ..
+      ;;
 
-"uv")
-  sh ./mvnw versions:update-properties -U -P coverage,jib,embed-linux
-  ;;
+    "w")
+      mvn -N io.takari:maven:wrapper -Dmaven=${!nextParam}
+      ;;
 
-"dt")
-  sh ./mvnw dependency:tree
-  ;;
+    "cv")
+      sh ./mvnw versions:display-property-updates -U -P coverage,jib,embed-linux
+      ;;
 
-"sc")
-  sh ./mvnw sonar:sonar -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
-  ;;
+    "uv")
+      sh ./mvnw versions:update-properties -U -P coverage,jib,embed-linux
+      ;;
 
-"tsc")
-  sh ./mvnw clean test sonar:sonar -Pembed-linux,coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
-  ;;
+    "dt")
+      sh ./mvnw dependency:tree
+      ;;
 
-"rmi")
-  docker-compose stop
-  docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
-  docker rmi $(docker images | grep -E "^lermitage-manon|gcr.io/distroless/java|<none>" | awk '{print $3}')
-  ;;
+    "sc")
+      sh ./mvnw sonar:sonar -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+      ;;
 
-"cdi")
-  docker rmi $(docker images -f "dangling=true" -q)
-  ;;
+    "tsc")
+      sh ./mvnw test sonar:sonar -Pembed-linux,coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+      ;;
 
-"docker")
-  sh ./mvnw clean package -DskipTests -T1
-  docker build -t lermitage-manon:1.0.0-SNAPSHOT .
-  ;;
+    "rmi")
+      docker-compose stop
+      docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
+      docker rmi $(docker images | grep -E "^lermitage-manon|gcr.io/distroless/java|<none>" | awk '{print $3}')
+      ;;
 
-"jib")
-  sh ./mvnw clean compile jib:dockerBuild -DskipTests -P jib
-  ;;
+    "cdi")
+      docker rmi $(docker images -f "dangling=true" -q)
+      ;;
 
-"jibtar")
-  sh ./mvnw clean compile jib:buildTar -DskipTests -P jib
-  ;;
+    "docker")
+      sh ./mvnw package -DskipTests -T1
+      docker build -t lermitage-manon:1.0.0-SNAPSHOT .
+      ;;
 
-esac
+    "jib")
+      sh ./mvnw compile jib:dockerBuild -DskipTests -P jib
+      ;;
+
+    "jibtar")
+      sh ./mvnw compile jib:buildTar -DskipTests -P jib
+      ;;
+
+    esac
+
+done
