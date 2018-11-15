@@ -76,8 +76,7 @@ case "$1" in
 "rmi")
   docker-compose stop
   docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
-  docker rmi $(docker images | grep "^lermitage-manon" | awk '{print $3}')
-  docker rmi $(docker images | grep "gcr.io/distroless/java" | awk '{print $3}')
+  docker rmi $(docker images | grep -E "^lermitage-manon|gcr.io/distroless/java|<none>" | awk '{print $3}')
   ;;
 
 "cdi")
