@@ -9,11 +9,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "help")
       echo ""
-      echo  "Helper: (tip: you can cycle parameters, e.g.: \"./do.sh cdi rmi docker\" or \"./do.sh w 3.6.0 c t\")"
+      echo  "Helper: (tip: you can chain parameters, e.g.: \"./do.sh cdi rmi docker\" or \"./do.sh w 3.6.0 c t\")"
       echo  ""
       echo  "t       test"
       echo  "tc      test and generate coverage data"
-      echo  "sc      compute and upload Sonar analysis to SonarCloud"
+      echo  "sc      compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
       echo  "tsc     similar to \"do tc\" then \"do sc\""
       echo  "b       compile"
       echo  "c       clean"

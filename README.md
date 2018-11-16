@@ -65,7 +65,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Compilation and test
   
-You can use the `do.cmd` (Windows) or `do.sh` (Unix shell) script:  
+You can use the `do.cmd` (Windows) or `./do.sh` (Linux Bash) script:  
 ```
 do help      show this help message
 do t         test without code coverage (with embedded MongoDB)
@@ -84,9 +84,12 @@ do uv        update plugins and dependencies versions
 do dt        show dependencies tree
 do rmi       stop Docker application, then remove its containers and images
 do cdi       clean up dangling Docker images
-do jib       build Docker image to a Docker daemon
-do jibtar    build and save Docker image to a tarball 
+do docker    build Docker image with Dockerfile to a Docker daemon
+do jib       build Docker image with Jib to a Docker daemon
+do jibtar    build and save Docker image with Jib to a tarball
 ```
+
+Nota: `./do.sh` can chain parameters, e.g.: `./do.sh cdi rmi w 3.6.0 c tc docker`.
 
 ## License
 

@@ -1,15 +1,15 @@
 ## How do deploy and run application
 
 This document will help you to run application manually or via Docker Compose.  
-First, go to project's root and make the `do.sh` utility script executable: `chmod +x do.sh`.
+First, go to project's root and make the `./do.sh` utility script executable if needed: `chmod +x do.sh`.
 
 ### Manually
 
-* Install latest **JDK8**.
+* Install recent **JDK8** or better (JDK11 works fine).
 * Install **MongoDB** (any version from 3.4.x to 4.1.x should work). Make it listen on port 27017, with no authentication. See `src/main/resources/application-dev.yml` for details.
 * Install **MariaDB** or MySQL (any reasonably recent version should work).
-* Package and run application via `do rd`. Application will start on port 8080 with `dev` Spring profile.
-  * To run with another Spring profile (e.g. `prod`), package application via `do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod,metrics manon.jar`.
+* Package and run application via `./do.sh rd`. Application will start on port 8080 with `dev` Spring profile.
+  * To run with another Spring profile (e.g. `prod`), package application via `./do.sh p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod manon.jar`.
 
 ### Docker Compose
 
@@ -36,11 +36,11 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Build and install application image:
   * via Jib:
     ```
-    do jib
+    ./do.sh jib
     ```
   * or via traditional `Dockerfile`:
     ```
-    do docker
+    ./do.sh docker
     ```
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
 * Then run application image and dependencies via Docker Compose: 
