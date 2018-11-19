@@ -65,7 +65,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Compilation and test
   
-You can use the `do.cmd` (Windows) or `./do.sh` (Linux Bash) script:  
+You can use the `do.cmd` (Windows) or `./do` (Linux Bash) script:  
 ```
 do help      show this help message
 do t         test without code coverage (with embedded MongoDB)
@@ -89,7 +89,7 @@ do jib       build Docker image with Jib to a Docker daemon
 do jibtar    build and save Docker image with Jib to a tarball
 ```
 
-Nota: `./do.sh` can chain parameters, e.g.: `./do.sh cdi rmi w 3.6.0 c tc docker`.
+Nota: Linux Bash script can chain parameters, e.g.: `./do.sh cdi rmi w 3.6.0 c tc docker`.
 
 ## License
 
