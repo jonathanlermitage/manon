@@ -7,12 +7,12 @@ services:
     container_name: manon
     image: lermitage-manon:1.0.0-SNAPSHOT
     ports:
-    - "8080:8080"
+      - "8080:8080"
     volumes:
-    - ~/manon-app-logs:/logs
+      - ~/manon-app-logs:/logs
     depends_on:
-    - mongo
-    - maria
+      - mongo
+      - maria
 
   # MongoDB database
   mongo:
@@ -20,9 +20,9 @@ services:
     image: mongo:4.0.4-xenial # see https://hub.docker.com/_/mongo/
     command: --smallfiles --logpath=/dev/null
     ports:
-    - "27017:27017"
+      - "27017:27017"
     volumes:
-    - ~/manon-mongo-db:/data/db
+      - ~/manon-mongo-db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ROOT
       MONGO_INITDB_ROOT_PASSWORD: woot
@@ -33,9 +33,9 @@ services:
     container_name: maria
     image: mariadb:10.3.10-bionic # see https://hub.docker.com/_/mariadb/
     ports:
-    - "3306:3306"
+      - "3306:3306"
     volumes:
-    - ~/manon-maria-db:/var/lib/mysql
+      - ~/manon-maria-db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: woot
       MYSQL_DATABASE: manon
@@ -45,9 +45,9 @@ services:
     container_name: nginx
     image: nginx:1.15.6 # see https://hub.docker.com/_/nginx/
     ports:
-    - "8000:80"
+      - "8000:80"
     volumes:
-    - ~/manon-nginx-logs:/var/log/nginx
-    - ./config/docker/nginx.conf:/etc/nginx/nginx.conf
+      - ~/manon-nginx-logs:/var/log/nginx
+      - ./config/docker/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-    - manon
+      - manon
