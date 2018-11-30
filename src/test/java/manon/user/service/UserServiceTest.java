@@ -11,6 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static java.lang.System.currentTimeMillis;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
@@ -68,7 +69,7 @@ public class UserServiceTest extends InitBeforeClass {
     
     @Test
     public void shouldReadVersionById() throws UserNotFoundException {
-        assertEquals(userService.readVersionById(userId(2)).getVersion(), 0L);
+        assertThat(userService.readVersionById(userId(2)).getVersion()).isGreaterThanOrEqualTo(0L);
     }
     
     @Test(expectedExceptions = UserNotFoundException.class)

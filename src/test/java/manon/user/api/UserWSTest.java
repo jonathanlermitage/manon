@@ -53,7 +53,7 @@ public class UserWSTest extends InitBeforeTest {
         User user = userService.readByUsername(name);
         assertEquals(user.getUsername(), name);
         assertThat(user.getRoles()).containsExactly(ROLE_PLAYER);
-        assertEquals(user.getVersion(), 0);
+        assertThat(user.getVersion()).isGreaterThanOrEqualTo(0L);
         assertEquals(user.getRegistrationState(), ACTIVE);
         assertNotEquals(pwd, user.getPassword(), "don't store raw passwords!"); // IMPORTANT always hash stored password
     }
@@ -100,7 +100,6 @@ public class UserWSTest extends InitBeforeTest {
             .statusCode(SC_UNAUTHORIZED);
     }
     
-    @SuppressWarnings("ConstantConditions")
     @Test
     public void shouldRead() throws Exception {
         Response res = whenP1().getRequestSpecification()
