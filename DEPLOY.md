@@ -1,7 +1,7 @@
 ## How do deploy and run application
 
 This document will help you to run application manually or via Docker Compose.  
-First, go to project's root and make the `./do` utility script executable if needed: `chmod +x do.sh`.
+First, go to project's root and make the `./do` utility script executable if needed: `chmod +x ./do`.
 
 ### Manually
 
