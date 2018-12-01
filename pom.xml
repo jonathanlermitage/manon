@@ -20,7 +20,7 @@
         <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
 
         <embed.mongo.version>2.1.1</embed.mongo.version>
-        <hsqldb.version>2.4.1</hsqldb.version>
+        <h2.version>1.4.197</h2.version>
         <janino.version>3.0.11</janino.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.4</lombok.version>
@@ -100,12 +100,12 @@
             <version>${mariadb.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${hsqldb.version}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Logging. -->
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
