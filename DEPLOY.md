@@ -72,7 +72,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * Get Nginx access logs via: `GET /manon-nginx-access-*/_search`.
   * You can delete these logs via: `DELETE /manon*`. Play with application and show logs again.
 
-* Optional: run Cerebro via Docker Compose: `./do upcerebro -d`.
+* Optional: run Cerebro via Docker Compose: `./do upcerebro`.
   * Visit `http://localhost:9000` and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `config/docker/cerebro/cerebro.conf` file for details).
 
 You can now stop images via `./do stopcerebro` (Cerebro), `./do stopelk` (ELK stack), `./do stop` (application and dependencies).
