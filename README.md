@@ -38,6 +38,7 @@ Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usag
 * Spring **Actuator** web endpoints configured
 * **Swagger UI** to provide documentation about REST API endpoints
 * **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support. Linux base image is [Distroless](https://github.com/GoogleContainerTools/distroless)
+* **ELK** (ElasticSearch Logstash Kibana) stack via Docker Compose to parse application and Nginx logs, and Cerebro to monitor ElasticSearch node.
 
 For fun and to show some skills :cat:
 
@@ -53,6 +54,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 * archived
   * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and JDK8/9, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
   * [spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib): Docker build thanks to Jib. See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594)
+  * [spring5-light-elk](https://github.com/jonathanlermitage/manon/tree/spring5-light-elk): ELK stack thanks to Docker and Docker Compose, plus Cerebro to monitor ElasticSearch node. See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [6b76e37](https://github.com/jonathanlermitage/manon/commit/6b76e376566fd34b4b3521dc6c60eaf7c30c1c22)
   * [spring5-light-batch](https://github.com/jonathanlermitage/manon/tree/spring5-light-batch): Spring Batch support. See commit [c0e3422](https://github.com/jonathanlermitage/manon/commit/c0e3422fcce5522c3320dd1a2eed65950e321621)
   * [spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo): use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7)
     * [spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x): make embedded MongoDB work with version from 3.6 to 4.0. See commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2)
