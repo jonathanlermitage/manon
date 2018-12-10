@@ -3,7 +3,6 @@
     <a href="https://travis-ci.org/jonathanlermitage/manon"><img src="https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5-light"/></a>
     <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light"/></a>
     <a href="https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg"/></a>
-    <a href="https://twitter.com/intent/follow?screen_name=JLermitage"><img src="https://img.shields.io/twitter/follow/JLermitage.svg?style=social" alt="follow on Twitter"></a>
     <br/>
     <a href="https://sonarcloud.io/dashboard?id=nanon%3Amanon-light"><img src="https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status"/></a>
     <a href="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light"><img src="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light/graph/badge.svg"/></a>
