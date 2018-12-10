@@ -97,7 +97,7 @@ do upcerebro    create and start Cerebro container via docker-compose
 do stopcerebro  stop Cerebro container via docker-compose
 ```
 
-Nota: Linux Bash script can chain parameters, e.g.: `./do.sh cdi rmi w 3.6.0 c tc docker up`.
+Nota: Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.
 
 ## License
 
