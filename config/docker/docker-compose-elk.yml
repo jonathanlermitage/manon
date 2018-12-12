@@ -16,7 +16,7 @@ services:
       - ~/manon-elastic-db:/usr/share/elasticsearch/data
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
-      ES_JAVA_OPTS: "-Xms32m -Xmx256m"
+      ES_JAVA_OPTS: "-Xms128m -Xmx256m"
     ulimits:
       memlock:
         soft: -1
@@ -33,8 +33,9 @@ services:
       - ~/manon-nginx-logs/:/manon-nginx/
       - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logstash/patterns:/opt/logstash/patterns:ro
     environment:
-      LS_JAVA_OPTS: "-Xms32m -Xmx256m"
+      LS_JAVA_OPTS: "-Xms128m -Xmx256m"
     depends_on:
       - elasticsearch
 

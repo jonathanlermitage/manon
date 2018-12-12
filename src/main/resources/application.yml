@@ -6,7 +6,7 @@ spring:
   batch:
     initialize-schema: always
     job.enabled: false
-  main.banner-mode: log
+  main.banner-mode: console
   datasource.driver-class-name: org.mariadb.jdbc.Driver
 
 server:
@@ -32,7 +32,6 @@ management:
     web:
       base-path: /actuator
       exposure.include: ["configprops", "env", "health", "info", "metrics", "scheduledtasks"]
-
 manon:
   admin:
     default-admin:

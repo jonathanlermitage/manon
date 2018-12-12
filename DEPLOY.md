@@ -71,7 +71,6 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * Get application logs via: `GET /manon-app-*/_search`.
   * Get Nginx access logs via: `GET /manon-nginx-access-*/_search`.
   * You can delete these logs via: `DELETE /manon*`. Play with application and show logs again.
-
 * Optional: run Cerebro via Docker Compose: `./do upcerebro`.
   * Visit `http://localhost:9000` and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `config/docker/cerebro/cerebro.conf` file for details).
 
