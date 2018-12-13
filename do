@@ -88,7 +88,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "rmi")
-      docker-compose stop
+      docker-compose -f ./config/docker/docker-compose.yml stop
       docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
       docker rmi $(docker images | grep -E "^lermitage-manon|gcr.io/distroless/java|<none>" | awk '{print $3}')
       ;;
