@@ -11,7 +11,6 @@ import manon.app.trace.model.AppTraceLevel;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -32,18 +31,14 @@ public final class AppTrace {
     private String id;
     
     /** Id associated to current application instance. */
-    @Indexed(background = true)
     private String appId;
     
     private String msg;
     
-    @Indexed(background = true)
     private AppTraceLevel level;
     
-    @Indexed(background = true)
     private AppTraceEvent event;
     
-    @Indexed(background = true)
     @JsonFormat(pattern = DATE_FORMAT)
     @CreatedDate
     private Date creationDate;

@@ -16,7 +16,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -61,7 +60,6 @@ public final class User implements Serializable, UserVersionProjection {
     private String id;
     
     /** Unique, uppercase and not modifiable login name. */
-    @Indexed(background = true)
     @NotNull(message = USERNAME_SIZE_ERRMSG)
     @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = USERNAME_SIZE_ERRMSG)
     @Pattern(regexp = USERNAME_PATTERN, message = USERNAME_PATTERN_ERRMSG)
@@ -77,7 +75,6 @@ public final class User implements Serializable, UserVersionProjection {
     private RegistrationState registrationState;
     
     /** A non-unique name that can change, NOT mandatory. */
-    @Indexed(background = true)
     @Size(max = NICKNAME_MAX_LENGTH, message = NICKNAME_SIZE_ERRMSG)
     @Pattern(regexp = NICKNAME_PATTERN, message = NICKNAME_PATTERN_ERRMSG)
     private String nickname;
