@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import static manon.app.trace.model.AppTraceEvent.APP_START;
 import static manon.app.trace.model.AppTraceLevel.INFO;
 
 @SpringBootApplication
+@EnableMongoRepositories(basePackages = {"manon.user.repository", "manon.app.trace.repository"})
 @EnableMongoAuditing
 @EnableBatchProcessing
 @EnableScheduling
