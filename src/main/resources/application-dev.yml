@@ -7,7 +7,6 @@ spring:
       port: 27017
       database: manon_dev
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: woot
     url: jdbc:mysql://localhost:3307/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true

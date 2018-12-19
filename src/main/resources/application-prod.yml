@@ -10,7 +10,6 @@ spring:
       password: ${MANON_PROD_MONGODB_PASSWORD}
       authentication-database: ${MANON_PROD_MONGODB_AUTH_DB_NAME}
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
     username: ${MANON_PROD_SQL_USERNAME}
     password: ${MANON_PROD_SQL_PASSWORD}
     url: ${MANON_PROD_SQL_JDBC_URL}
