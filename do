@@ -9,7 +9,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "help")
       echo ""
-      echo  "Helper: (tip: you can chain parameters, e.g.: \"./do.sh cdi rmi docker\" or \"./do.sh w 3.6.0 c t\")"
+      echo  "Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")"
       echo  ""
       echo  "t            test"
       echo  "tc           test and generate coverage data"
