@@ -115,7 +115,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "stop")
-      docker-compose -f ./config/docker/docker-compose.yml stop
+      docker-compose -f ./config/docker/docker-compose.yml down
       ;;
 
     "upelk")
@@ -123,7 +123,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "stopelk")
-      docker-compose -f ./config/docker/docker-compose-elk.yml stop
+      docker-compose -f ./config/docker/docker-compose-elk.yml down
       ;;
 
     "upcerebro")
@@ -131,7 +131,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "stopcerebro")
-      docker-compose -f ./config/docker/docker-compose-cerebro.yml stop
+      docker-compose -f ./config/docker/docker-compose-cerebro.yml down
       ;;
 
     esac
