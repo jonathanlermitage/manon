@@ -31,7 +31,7 @@ Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usag
 * **integration tests** and (some) unit-test via **[TestNG](https://testng.org)** and **[REST Assured](http://rest-assured.io)**, because I like TestNG keywords, dataproviders and maturity. REST Assured helped me to test API without Spring's magic
 * tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project
 * integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Travis](https://travis-ci.org/jonathanlermitage/manon)** (Linux and MacOS CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[CodeCov](https://codecov.io/gh/jonathanlermitage/manon)** (code coverage), **[SonarCloud](https://sonarcloud.io/dashboard?id=nanon:manon)** (code quality), **[LGTM](https://lgtm.com/)** (code quality) 
-* Maven and Gradle wrappers, and a `do.cmd` script that helps you to launch some usefull commands
+* Maven and Gradle wrappers, and a `do` Bash script that helps you to launch some usefull commands
 * code coverage thanks to **JaCoCo** Maven and Gradle plugin
 * some **AOP** to capture performance of API endpoints
 * Spring **Actuator** web endpoints configured
@@ -67,7 +67,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Compilation and test
   
-You can use the `do.cmd` (Windows) or `./do` (Linux Bash) script:  
+You can use the `./do` Linux Bash script:  
 ```
 do help         show this help message
 do t            test without code coverage (with embedded MongoDB)
@@ -97,7 +97,8 @@ do upcerebro    create and start Cerebro container via docker-compose
 do stopcerebro  stop Cerebro container via docker-compose
 ```
 
-Nota: Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.
+Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  
+Nota: a Windows `do.cmd` script exists, but it's limited to some basic features (`do t` to `do dt`, no Docker support).
 
 ## License
 
