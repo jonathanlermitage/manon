@@ -5,7 +5,7 @@ import manon.user.document.User;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.RegistrationState;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -17,7 +17,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
-public class UserServiceTest extends InitBeforeClass {
+public class UserServiceTest extends AbstractInitBeforeClass {
     
     @Autowired
     private PasswordEncoderService passwordEncoderService;

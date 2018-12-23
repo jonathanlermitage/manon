@@ -6,7 +6,7 @@ import manon.user.err.FriendshipRequestExistsException;
 import manon.user.err.FriendshipRequestNotFoundException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.FriendshipEventCode;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.testng.annotations.AfterMethod;
@@ -19,7 +19,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
-public class FriendshipWSTest extends InitBeforeClass {
+public class FriendshipWSTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

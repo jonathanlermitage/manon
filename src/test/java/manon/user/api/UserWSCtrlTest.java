@@ -3,7 +3,7 @@ package manon.user.api;
 import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
-import manon.util.basetest.MockBeforeClass;
+import manon.util.basetest.AbstractMockBeforeClass;
 import manon.util.basetest.Rs;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -12,7 +12,7 @@ import static io.restassured.http.ContentType.JSON;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 
-public class UserWSCtrlTest extends MockBeforeClass {
+public class UserWSCtrlTest extends AbstractMockBeforeClass {
     
     @DataProvider
     public Object[] dataProviderShouldVerifyRegister() {

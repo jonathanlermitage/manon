@@ -3,7 +3,7 @@ package manon.app.batch.api;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import manon.app.batch.model.TaskStatus;
-import manon.util.basetest.InitBeforeTest;
+import manon.util.basetest.AbstractInitBeforeTest;
 import org.springframework.batch.core.ExitStatus;
 import org.testng.annotations.Test;
 
@@ -11,7 +11,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertEquals;
 
-public class TaskRunnerWSTest extends InitBeforeTest {
+public class TaskRunnerWSTest extends AbstractInitBeforeTest {
     
     private static final TaskStatus TASK_STATUS_COMPLETED = TaskStatus.builder()
         .running(ExitStatus.COMPLETED.isRunning())

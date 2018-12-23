@@ -9,7 +9,7 @@ import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.user.service.UserService;
-import manon.util.basetest.InitBeforeTest;
+import manon.util.basetest.AbstractInitBeforeTest;
 import org.hamcrest.Matchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
-public class UserWSTest extends InitBeforeTest {
+public class UserWSTest extends AbstractInitBeforeTest {
     
     @Autowired
     protected UserService userService;

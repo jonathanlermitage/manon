@@ -3,7 +3,7 @@ package manon.user.api;
 import io.restassured.response.Response;
 import manon.user.document.User;
 import manon.user.err.UserNotFoundException;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import manon.util.web.UserPage;
 import org.testng.annotations.Test;
 
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class UserAdminWSTest extends InitBeforeClass {
+public class UserAdminWSTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldFindAllDesc() {

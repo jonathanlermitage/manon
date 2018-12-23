@@ -5,7 +5,7 @@ import manon.user.document.User;
 import manon.user.document.UserSnapshot;
 import manon.user.repository.UserSnapshotRepository;
 import manon.util.Tools;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
-public class UserSnapshotServiceTest extends InitBeforeClass {
+public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
     
     @Autowired
     private UserSnapshotRepository userSnapshotRepository;

@@ -21,7 +21,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Used to mock services.
  */
 @TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
-public abstract class MockBeforeClass extends InitBeforeClass {
+public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     
     @MockBean
     protected FriendshipWS friendshipWS;

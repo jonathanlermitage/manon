@@ -1,13 +1,13 @@
 package manon.user.api;
 
-import manon.util.basetest.MockBeforeClass;
+import manon.util.basetest.AbstractMockBeforeClass;
 import manon.util.basetest.Rs;
 import org.testng.annotations.Test;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class UserAdminWSCtrlTest extends MockBeforeClass {
+public class UserAdminWSCtrlTest extends AbstractMockBeforeClass {
     
     @Test(dataProvider = DP_ALLOW_ADMIN)
     public void shouldVerifyFindAll(Rs rs, Integer status) {

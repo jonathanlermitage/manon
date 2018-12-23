@@ -1,13 +1,13 @@
 package manon.user.api;
 
-import manon.util.basetest.MockBeforeClass;
+import manon.util.basetest.AbstractMockBeforeClass;
 import manon.util.basetest.Rs;
 import org.testng.annotations.Test;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class FriendshipWSCtrlTest extends MockBeforeClass {
+public class FriendshipWSCtrlTest extends AbstractMockBeforeClass {
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyAskFriendship(Rs rs, Integer status) throws Exception {

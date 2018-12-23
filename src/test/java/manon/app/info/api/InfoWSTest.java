@@ -1,7 +1,7 @@
 package manon.app.info.api;
 
 import io.restassured.response.Response;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.regex.Pattern;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertTrue;
 
-public class InfoWSTest extends InitBeforeClass {
+public class InfoWSTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

@@ -1,13 +1,13 @@
 package manon.user.service;
 
 import manon.user.document.User;
-import manon.util.basetest.InitBeforeTest;
+import manon.util.basetest.AbstractInitBeforeTest;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-public class RegistrationServiceTest extends InitBeforeTest {
+public class RegistrationServiceTest extends AbstractInitBeforeTest {
     
     @Override
     public int getNumberOfUsers() {

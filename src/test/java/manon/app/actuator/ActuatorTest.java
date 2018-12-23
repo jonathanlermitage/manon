@@ -3,7 +3,7 @@ package manon.app.actuator;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import manon.util.basetest.Rs;
 import org.springframework.http.HttpMethod;
 import org.testng.annotations.DataProvider;
@@ -19,7 +19,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
-public class ActuatorTest extends InitBeforeClass {
+public class ActuatorTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

@@ -4,7 +4,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 import static manon.util.Tools.objId;
 
-public abstract class BaseTests extends AbstractTestNGSpringContextTests {
+public abstract class AbstractBaseTests extends AbstractTestNGSpringContextTests {
     
     public static final String ADMIN_NAME = "ROOT"; // IMPORTANT must reflect application.yml:manon.admin.default-admin.username
     public static final String ADMIN_PWD = "woot"; // IMPORTANT must reflect application.yml:manon.admin.default-admin.password

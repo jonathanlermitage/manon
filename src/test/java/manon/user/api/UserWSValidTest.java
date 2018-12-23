@@ -4,7 +4,7 @@ import io.restassured.response.ValidatableResponse;
 import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
-import manon.util.basetest.MockBeforeClass;
+import manon.util.basetest.AbstractMockBeforeClass;
 import org.hamcrest.Matchers;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,7 +20,7 @@ import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 
-public class UserWSValidTest extends MockBeforeClass {
+public class UserWSValidTest extends AbstractMockBeforeClass {
     
     @DataProvider
     public Object[][] dataProviderShouldValidateRegister() {

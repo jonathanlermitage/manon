@@ -2,7 +2,7 @@ package manon.user.service;
 
 import manon.user.document.UserStats;
 import manon.user.repository.UserStatsRepository;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
-public class UserStatsServiceTest extends InitBeforeClass {
+public class UserStatsServiceTest extends AbstractInitBeforeClass {
     
     @Autowired
     private UserStatsRepository userStatsRepository;

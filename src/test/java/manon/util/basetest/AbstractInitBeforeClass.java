@@ -38,12 +38,12 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 /**
  * Recreate data before test class.
- * To recreate data before every test method, see {@link InitBeforeTest}.
+ * To recreate data before every test method, see {@link AbstractInitBeforeTest}.
  */
 @Slf4j
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(listeners = DependencyInjectionTestExecutionListener.class)
-public abstract class InitBeforeClass extends BaseTests {
+public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     
     @Setter
     private boolean initialized = false;

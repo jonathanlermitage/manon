@@ -7,7 +7,7 @@ import manon.user.document.UserStats;
 import manon.user.service.UserService;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
-import manon.util.basetest.InitBeforeClass;
+import manon.util.basetest.AbstractInitBeforeClass;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.DataProvider;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 import static org.testng.Assert.assertEquals;
 
-public class UserSnapshotTaskTest extends InitBeforeClass {
+public class UserSnapshotTaskTest extends AbstractInitBeforeClass {
     
     @Autowired
     private TaskRunnerService taskRunnerService;
