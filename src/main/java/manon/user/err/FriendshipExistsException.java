@@ -1,16 +1,12 @@
 package manon.user.err;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * A friendship relation already exists.
  */
 @SuppressWarnings("serial")
-@AllArgsConstructor
-@Getter
-public class FriendshipExistsException extends Exception {
+public class FriendshipExistsException extends AbstractFriendshipException {
     
-    private final String userIdFrom;
-    private final String userIdTo;
+    public FriendshipExistsException(String userIdFrom, String userIdTo) {
+        super(userIdFrom, userIdTo);
+    }
 }

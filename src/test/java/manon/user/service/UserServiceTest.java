@@ -2,6 +2,7 @@ package manon.user.service;
 
 import manon.app.security.PasswordEncoderService;
 import manon.user.document.User;
+import manon.user.err.PasswordNotMatchException;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.RegistrationState;
@@ -124,5 +125,32 @@ public class UserServiceTest extends AbstractInitBeforeClass {
     @Test(dataProvider = "dataProviderRegistrationStates")
     public void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
         userService.setRegistrationState(UNKNOWN_ID, registrationState);
+    }
+    
+    @DataProvider
+    public static Object[] dataProviderValidPasswords() {
+        return new String[][]{
+            {"", ""},
+            {"@ p4ssword!", "@ p4ssword!"}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderValidPasswords")
+    public void shoudValidatePassword(String rawPassword, String passwordToEncode) throws PasswordNotMatchException {
+        userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
+    }
+    
+    @DataProvider
+    public static Object[] dataProviderInvalidPasswords() {
+        return new String[][]{
+            {"a password!", "@ p4ssword!"},
+            {"", "a"},
+            {null, "a"}
+        };
+    }
+    
+    @Test(dataProvider = "dataProviderInvalidPasswords", expectedExceptions = PasswordNotMatchException.class)
+    public void shoudNotValidatePassword(String rawPassword, String passwordToEncode) throws PasswordNotMatchException {
+        userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
     }
 }

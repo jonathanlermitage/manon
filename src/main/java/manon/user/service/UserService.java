@@ -3,6 +3,7 @@ package manon.user.service;
 import manon.user.document.User;
 import manon.user.document.UserIdProjection;
 import manon.user.document.UserVersionProjection;
+import manon.user.err.PasswordNotMatchException;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
@@ -49,4 +50,11 @@ public interface UserService {
     void encodeAndSetPassword(String id, String password);
     
     void setRegistrationState(String id, RegistrationState registrationState);
+    
+    /**
+     * Check if a raw password validates a (BCrypt) encoded password.
+     * @param rawPassword raw password.
+     * @param encodedPassword encoded password; must not be null.
+     */
+    void validatePassword(String rawPassword, String encodedPassword) throws PasswordNotMatchException;
 }

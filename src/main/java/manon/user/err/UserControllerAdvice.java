@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Map;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -18,47 +19,41 @@ public class UserControllerAdvice extends ControllerAdviceBase {
     @ResponseStatus(NOT_FOUND)
     @ResponseBody
     public Map<String, Object> handle(UserNotFoundException error) {
-        Map<String, Object> map = error();
-        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        return map;
+        return error(error);
     }
     
     @ExceptionHandler(UserExistsException.class)
     @ResponseStatus(CONFLICT)
     @ResponseBody
     public Map<String, Object> handle(UserExistsException error) {
-        Map<String, Object> map = error();
-        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        return map;
+        return error(error);
     }
     
     @ExceptionHandler(FriendshipRequestNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     @ResponseBody
     public Map<String, Object> handle(FriendshipRequestNotFoundException error) {
-        Map<String, Object> map = error();
-        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, new String[]{error.getUserIdFrom(), error.getUserIdTo()});
-        return map;
+        return error(error);
     }
     
     @ExceptionHandler(FriendshipExistsException.class)
     @ResponseStatus(CONFLICT)
     @ResponseBody
     public Map<String, Object> handle(FriendshipExistsException error) {
-        Map<String, Object> map = error();
-        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, new String[]{error.getUserIdFrom(), error.getUserIdTo()});
-        return map;
+        return error(error);
     }
     
     @ExceptionHandler(FriendshipRequestExistsException.class)
     @ResponseStatus(CONFLICT)
     @ResponseBody
     public Map<String, Object> handle(FriendshipRequestExistsException error) {
-        Map<String, Object> map = error();
-        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, new String[]{error.getUserIdFrom(), error.getUserIdTo()});
-        return map;
+        return error(error);
+    }
+    
+    @ExceptionHandler(PasswordNotMatchException.class)
+    @ResponseStatus(BAD_REQUEST)
+    @ResponseBody
+    public Map<String, Object> handle(PasswordNotMatchException error) {
+        return error(error);
     }
 }

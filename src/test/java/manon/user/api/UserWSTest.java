@@ -20,6 +20,7 @@ import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
 import static manon.user.model.RegistrationState.ACTIVE;
 import static manon.user.model.RegistrationState.DELETED;
 import static manon.user.model.UserAuthority.ROLE_PLAYER;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -59,7 +60,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
     }
     
     @Test
-    public void shouldNotregisterTwice() {
+    public void shouldNotRegisterTwice() {
         whenAnonymous().getRequestSpecification()
             .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
             .contentType(JSON)
@@ -148,7 +149,6 @@ public class UserWSTest extends AbstractInitBeforeTest {
         assertEquals(userAfter, userExpected);
     }
     
-    
     @Test
     public void shouldUpdatePassword() {
         whenP1().getRequestSpecification()
@@ -158,6 +158,22 @@ public class UserWSTest extends AbstractInitBeforeTest {
             .then()
             .statusCode(SC_OK);
         RestAssured.given().auth().basic(name(1), "a new password")
+            .get(API_USER)
+            .then().statusCode(SC_OK);
+    }
+    
+    @Test
+    public void shouldNotUpdateBadPassword() {
+        whenP1().getRequestSpecification()
+            .body(UserPasswordUpdateForm.builder().oldPassword("wrongpassword").newPassword("a new password").build())
+            .contentType(JSON)
+            .put(API_USER + "/password")
+            .then()
+            .statusCode(SC_BAD_REQUEST);
+        RestAssured.given().auth().basic(name(1), "a new password")
+            .get(API_USER)
+            .then().statusCode(SC_UNAUTHORIZED);
+        RestAssured.given().auth().basic(name(1), pwd(1))
             .get(API_USER)
             .then().statusCode(SC_OK);
     }

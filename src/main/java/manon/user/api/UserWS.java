@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.security.UserSimpleDetails;
 import manon.user.document.User;
+import manon.user.err.PasswordNotMatchException;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.form.RegistrationForm;
@@ -79,9 +80,10 @@ public class UserWS {
     /** Update current user's password. */
     @PutMapping(value = "/password", consumes = MEDIA_JSON)
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
-                               @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
+                               @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm)
+        throws PasswordNotMatchException {
         log.debug("user {} updates his password", user.getIdentity());
-        // TODO verify old password in service, before setting new one
+        userService.validatePassword(userPasswordUpdateForm.getOldPassword(), user.getUser().getPassword());
         userService.encodeAndSetPassword(user.getUserId(), userPasswordUpdateForm.getNewPassword());
     }
 }

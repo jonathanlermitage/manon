@@ -27,4 +27,9 @@ public class PasswordEncoderServiceImpl implements PasswordEncoderService {
     public String encode(String password) {
         return encoder.encode(password);
     }
+    
+    @Override
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return rawPassword != null && encoder.matches(rawPassword, encodedPassword);
+    }
 }

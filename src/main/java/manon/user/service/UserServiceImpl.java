@@ -5,6 +5,7 @@ import manon.app.security.PasswordEncoderService;
 import manon.user.document.User;
 import manon.user.document.UserIdProjection;
 import manon.user.document.UserVersionProjection;
+import manon.user.err.PasswordNotMatchException;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.form.UserUpdateForm;
@@ -93,5 +94,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setRegistrationState(String id, RegistrationState registrationState) {
         userRepository.setRegistrationState(id, registrationState);
+    }
+    
+    @Override
+    public void validatePassword(String rawPassword, String encodedPassword) throws PasswordNotMatchException {
+        if (!passwordEncoderService.matches(rawPassword, encodedPassword)) {
+            throw new PasswordNotMatchException();
+        }
     }
 }

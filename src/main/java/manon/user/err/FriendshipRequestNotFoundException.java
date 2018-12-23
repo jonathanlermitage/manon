@@ -1,16 +1,12 @@
 package manon.user.err;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * A friendship request doesn't exist.
  */
 @SuppressWarnings("serial")
-@AllArgsConstructor
-@Getter
-public class FriendshipRequestNotFoundException extends Exception {
+public class FriendshipRequestNotFoundException extends AbstractFriendshipException {
     
-    private final String userIdFrom;
-    private final String userIdTo;
+    public FriendshipRequestNotFoundException(String userIdFrom, String userIdTo) {
+        super(userIdFrom, userIdTo);
+    }
 }

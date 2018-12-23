@@ -17,9 +17,6 @@ public class BatchControllerAdvice extends ControllerAdviceBase {
     @ResponseStatus(NOT_FOUND)
     @ResponseBody
     public Map<String, Object> handle(TaskNotFoundException error) {
-        Map<String, Object> map = error();
-        map.put(FIELD_ERRORS, error.getClass().getSimpleName());
-        map.put(FIELD_MESSAGE, error.getName());
-        return map;
+        return error(error);
     }
 }

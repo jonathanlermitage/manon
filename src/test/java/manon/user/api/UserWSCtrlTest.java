@@ -1,5 +1,6 @@
 package manon.user.api;
 
+import manon.user.err.PasswordNotMatchException;
 import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
@@ -74,7 +75,7 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
     }
     
     @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyUpdatePassword(Rs rs, Integer status) {
+    public void shouldVerifyUpdatePassword(Rs rs, Integer status) throws PasswordNotMatchException {
         rs.getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword("").newPassword("password").build())
             .contentType(JSON)
