@@ -16,7 +16,8 @@
         <java.release>8</java.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</surefireArgLine>
+        <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
+        <performanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</performanceArgLine>
         <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
 
         <embed.mongo.version>2.2.0</embed.mongo.version>
@@ -250,7 +251,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <argLine>${surefireArgLine} ${profileArgLine}</argLine>
+                    <argLine>${surefireArgLine} ${profileArgLine} ${performanceArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
                     <includes>
                         <include>**/*Tests.java</include>
@@ -309,6 +310,16 @@
         </profile>
 
         <profile>
+            <id>ci</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <performanceArgLine>-Dspring.jmx.enabled=false</performanceArgLine>
+            </properties>
+        </profile>
+
+        <profile>
             <id>coverage</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
@@ -363,7 +374,7 @@
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <!--suppress MavenModelInspection -->
-                            <argLine>${surefireArgLine} ${profileArgLine} ${coverageSurefireArgLine}</argLine>
+                            <argLine>${surefireArgLine} ${profileArgLine} ${performanceArgLine} ${coverageSurefireArgLine}</argLine>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                         </configuration>
                     </plugin>
