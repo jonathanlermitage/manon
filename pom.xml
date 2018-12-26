@@ -311,9 +311,6 @@
 
         <profile>
             <id>ci</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
                 <performanceArgLine>-Dspring.jmx.enabled=false</performanceArgLine>
             </properties>
@@ -321,9 +318,6 @@
 
         <profile>
             <id>coverage</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -384,9 +378,6 @@
 
         <profile>
             <id>jib</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
