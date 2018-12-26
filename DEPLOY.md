@@ -5,7 +5,7 @@ First, go to project's root and make the `./do` utility script executable if nee
 
 ### Manually
 
-* Install recent **JDK8** or better (JDK11 works fine).
+* Install recent **JDK11**.
 * Install **MongoDB** (any version from 3.4.x to 4.1.x should work). Make it listen on port 27017, with no authentication. See `src/main/resources/application-dev.yml` for details.
 * Install **MariaDB** or MySQL (any reasonably recent version should work).
 * Package and run application via `./do rd`. Application will start on port 8080 with `dev` Spring profile.

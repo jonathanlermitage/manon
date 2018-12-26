@@ -18,11 +18,11 @@
 
 ## Project
 
-Some experimentation with Spring Boot 2, JDK8+, NoSQL, etc. It demonstrates usage of:
+Some experimentation with Spring Boot 2, JDK8 and JDK11, NoSQL, etc. It demonstrates usage of:
 
 * **Maven** and **Gradle** build tools
 * **Spring Boot 2** + Spring Framework 5 and migration from Spring Boot 1 + Spring Framework 4
-* built with JDK8 and newer JDKs on Travis CI
+* built with JDK11 on Travis CI, targets Java8 bytecode
 * Spring Web, **REST** API
 * Spring **Security**, to authenticate users via auth_basic, and fetch authentication data from MongoDB instead of default SQL database 
 * Spring Data to serve data from a **MongoDB** database
@@ -49,7 +49,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 ## Branches
 
 * active
-  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), JDK8+ (JDK11 supported), Docker Compose, ELK, without Redis Cache
+  * **[spring5-light](https://github.com/jonathanlermitage/manon/tree/spring5-light)**: like [spring5](https://github.com/jonathanlermitage/manon/tree/spring5), JDK11 (targeting JRE8), Docker Compose, ELK, without Redis Cache
 * archived
   * [spring5](https://github.com/jonathanlermitage/manon/tree/spring5): based on Spring Framework 5, **Spring Boot 2** and JDK8/9, use Spring Web (REST API), Security, Data (regular and embedded MongoDB), Batch, Cache (Redis), AOP, Actuator, Swagger UI
   * [spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib): Docker build thanks to Jib. See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594)

@@ -13,7 +13,7 @@
 
     <properties>
         <start-class>manon.Application</start-class>
-        <java.version>1.8</java.version>
+        <java.release>8</java.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</surefireArgLine>
@@ -242,8 +242,7 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.release}</release>
                 </configuration>
             </plugin>
             <plugin>
