@@ -1,5 +1,5 @@
 container:
-  image: openjdk:11-jdk
+  image: openjdk:11-jdk-oracle
 
 test_task:
   script: sh ./mvnw clean test -P embed-linux,ci -B
