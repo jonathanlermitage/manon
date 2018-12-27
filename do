@@ -37,11 +37,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "t")
-      sh ./mvnw test -Pembed-linux
+      sh ./mvnw test -P embed-linux
       ;;
 
     "tc")
-      sh ./mvnw test -Pembed-linux,coverage
+      sh ./mvnw test -P embed-linux,coverage
       ;;
 
     "b")
@@ -84,7 +84,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "tsc")
-      sh ./mvnw test sonar:sonar -Pembed-linux,coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+      sh ./mvnw test sonar:sonar -P embed-linux,coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
       ;;
 
     "rmi")

@@ -2,4 +2,4 @@ container:
   image: openjdk:11-jdk
 
 test_task:
-  script: sh ./mvnw clean test -Pembed-linux,ci -B
+  script: sh ./mvnw clean test -P embed-linux,ci -B
