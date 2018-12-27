@@ -10,7 +10,7 @@ install:
   - SET PATH=%JAVA_HOME%\bin;%PATH%
 
 build_script:
-  - mvnw clean package -DskipTests
+  - mvnw clean package -DskipTests -B
 
 test_script:
   - mvnw test -P embed-win,ci -B
