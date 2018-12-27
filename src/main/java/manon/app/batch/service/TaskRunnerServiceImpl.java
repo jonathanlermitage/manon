@@ -43,7 +43,7 @@ public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerServic
         if (jobs.containsKey(task)) {
             return launcher.run(jobs.get(task), todayDateJobParameters()).getExitStatus();
         }
-        throw new TaskNotFoundException(task);
+        throw new TaskNotFoundException();
     }
     
     private JobParameters todayDateJobParameters() {
