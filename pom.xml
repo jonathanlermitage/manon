@@ -174,16 +174,6 @@
             <scope>test</scope>
             <exclusions>
                 <!--
-                According to https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-with-Java-9-and-above jaxb-api
-                is needed since jdk9, but it seems to work without this library. Because rest-assured declares a dependency
-                to jaxb-api (test scope), it could make tests pass and let production code fail. This exclusion makes tests
-                more relevant to better reflect production.
-                -->
-                <exclusion>
-                    <groupId>javax.xml.bind</groupId>
-                    <artifactId>jaxb-api</artifactId>
-                </exclusion>
-                <!--
                 Arrange issue: "[WARNING] The POM for com.sun.xml.bind:jaxb-osgi:jar:2.2.10 is invalid, transitive
                 dependencies (if any) will not be available, enable debug logging for more details".
                 -->
