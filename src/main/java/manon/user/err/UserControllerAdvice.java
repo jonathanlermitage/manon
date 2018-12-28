@@ -1,6 +1,6 @@
 package manon.user.err;
 
-import manon.app.config.ControllerAdviceBase;
+import manon.app.config.AbstractControllerAdvice;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,7 +13,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
-public class UserControllerAdvice extends ControllerAdviceBase {
+public class UserControllerAdvice extends AbstractControllerAdvice {
     
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(NOT_FOUND)

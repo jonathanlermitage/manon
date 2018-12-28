@@ -12,8 +12,8 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
-import static manon.app.config.ControllerAdviceBase.FIELD_MESSAGE;
+import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
+import static manon.app.config.AbstractControllerAdvice.FIELD_MESSAGE;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;

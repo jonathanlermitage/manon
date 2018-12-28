@@ -1,6 +1,6 @@
 package manon.app.batch.err;
 
-import manon.app.config.ControllerAdviceBase;
+import manon.app.config.AbstractControllerAdvice;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,7 +11,7 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
-public class BatchControllerAdvice extends ControllerAdviceBase {
+public class BatchControllerAdvice extends AbstractControllerAdvice {
     
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(NOT_FOUND)

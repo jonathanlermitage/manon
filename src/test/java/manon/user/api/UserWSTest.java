@@ -16,7 +16,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static io.restassured.http.ContentType.JSON;
-import static manon.app.config.ControllerAdviceBase.FIELD_ERRORS;
+import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
 import static manon.user.model.RegistrationState.ACTIVE;
 import static manon.user.model.RegistrationState.DELETED;
 import static manon.user.model.UserAuthority.ROLE_PLAYER;

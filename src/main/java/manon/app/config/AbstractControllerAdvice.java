@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * {@link org.springframework.web.bind.annotation.ControllerAdvice} helper.
  */
-public abstract class ControllerAdviceBase {
+public abstract class AbstractControllerAdvice {
     
     public static final String FIELD_ERRORS = "errors";
     public static final String FIELD_MESSAGE = "errorMessage";
