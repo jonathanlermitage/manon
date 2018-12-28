@@ -25,7 +25,7 @@ import static manon.util.Tools.shortenLog;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class RegistrationForm {
+public final class RegistrationForm {
     
     @NotNull(message = USERNAME_SIZE_ERRMSG)
     @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = USERNAME_SIZE_ERRMSG)

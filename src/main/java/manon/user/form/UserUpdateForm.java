@@ -21,7 +21,7 @@ import static manon.util.Tools.shortenLog;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class UserUpdateForm {
+public final class UserUpdateForm {
     
     @Size(max = NICKNAME_MAX_LENGTH, message = NICKNAME_SIZE_ERRMSG)
     @Pattern(regexp = NICKNAME_PATTERN, message = NICKNAME_PATTERN_ERRMSG)

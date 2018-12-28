@@ -27,7 +27,7 @@ import static manon.util.Tools.DATE_FORMAT;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class UserStats implements Serializable {
+public final class UserStats implements Serializable {
     
     private static final long serialVersionUID = -6351299219725037369L;
     

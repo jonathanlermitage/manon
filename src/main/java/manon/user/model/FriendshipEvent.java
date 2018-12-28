@@ -20,7 +20,7 @@ import static manon.util.Tools.now;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class FriendshipEvent implements Serializable {
+public final class FriendshipEvent implements Serializable {
     
     private static final long serialVersionUID = -7424248970085002709L;
     

@@ -105,7 +105,7 @@ public final class User implements Serializable, UserVersionProjection {
     
     /** {@link User} fields validation rules. */
     @NoArgsConstructor(access = PRIVATE)
-    public static class Validation {
+    public static final class Validation {
         public static final String USERNAME_PATTERN = "^[A-Z0-9_\\-\\u0020]*$";
         public static final String USERNAME_PATTERN_ERRMSG = "USERNAME_PATTERN";
         
@@ -131,7 +131,7 @@ public final class User implements Serializable, UserVersionProjection {
     
     /** {@link User} fields name, to be used by MongoDB custom repositories. */
     @NoArgsConstructor(access = PRIVATE)
-    public static class Field {
+    public static final class Field {
         public static final String ID = "id";
         public static final String EMAIL = "email";
         public static final String FRIENDS = "friends";

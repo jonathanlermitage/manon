@@ -18,7 +18,7 @@ import static manon.util.Tools.shortenAndAnonymizeLog;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public class UserPasswordUpdateForm {
+public final class UserPasswordUpdateForm {
     
     private String oldPassword;
     
