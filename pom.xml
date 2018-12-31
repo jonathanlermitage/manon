@@ -383,7 +383,7 @@
             <id>findbugs</id>
             <dependencyManagement>
                 <dependencies>
-                    <!-- Problem findsecbugs-plugin is declared in spotbugs-maven-plugin's confguration, so versions-maven-plugin
+                    <!-- Problem: findsecbugs-plugin is declared in spotbugs-maven-plugin's confguration, so versions-maven-plugin
                     can't detect it. Workaround: declare it in dependencyManagement. -->
                     <dependency>
                         <groupId>com.h3xstream.findsecbugs</groupId>
