@@ -4,7 +4,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static manon.util.Tools.repeat;
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ToolsTest {
     
@@ -20,7 +20,7 @@ public class ToolsTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyIsBlank")
     public void shouldVerifyIsBlank(String input, Object expected) {
-        assertEquals(Tools.isBlank(input), expected);
+        assertThat(Tools.isBlank(input)).isEqualTo(expected);
     }
     
     @DataProvider
@@ -39,7 +39,7 @@ public class ToolsTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyShortenLog")
     public void shouldVerifyShortenLog(Object input, Object expected) {
-        assertEquals(Tools.shortenLog(input), expected);
+        assertThat(Tools.shortenLog(input)).isEqualTo(expected);
     }
     
     @DataProvider
@@ -58,7 +58,7 @@ public class ToolsTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyShortenAndAnonymizeLog")
     public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
-        assertEquals(Tools.shortenAndAnonymizeLog(input), expected);
+        assertThat(Tools.shortenAndAnonymizeLog(input)).isEqualTo(expected);
     }
     
     @DataProvider
@@ -89,6 +89,6 @@ public class ToolsTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyRepeat")
     public void shouldVerifyRepeat(String str, Integer repeat, String expected) {
-        assertEquals(repeat(str, repeat), expected);
+        assertThat(repeat(str, repeat)).isEqualTo(expected);
     }
 }

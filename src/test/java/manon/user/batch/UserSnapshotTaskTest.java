@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
-import static org.testng.Assert.assertEquals;
 
 public class UserSnapshotTaskTest extends AbstractInitBeforeClass {
     
@@ -54,8 +53,8 @@ public class UserSnapshotTaskTest extends AbstractInitBeforeClass {
     public void shouldCompleteMultipleTimes(int snapshotsKept, int nbStats) throws Exception {
         int chunk = cfg.getBatchUserSnapshotChunk();
         int maxAge = cfg.getBatchUserSnapshotSnapshotMaxAge();
-        assertEquals(chunk, 10);
-        assertEquals(cfg.getBatchUserSnapshotSnapshotMaxAge().intValue(), 30);
+        assertThat(chunk).isEqualTo(10);
+        assertThat(cfg.getBatchUserSnapshotSnapshotMaxAge()).isEqualTo(30);
         User userToSnapshot = userService.readOne(userId(1));
         
         //GIVEN existing old, present, recent and future User snapshots
@@ -80,9 +79,9 @@ public class UserSnapshotTaskTest extends AbstractInitBeforeClass {
             ExitStatus run = taskRunnerService.run(UserSnapshotTask.JOB_NAME);
             
             //THEN should keep recent User snapshots only and generate today's ones
-            assertEquals(run, COMPLETED);
-            assertEquals(userSnapshotService.countToday(), expectedTodayUserSnapshots);
-            assertEquals(userSnapshotService.count(), expectedUserSnapshots);
+            assertThat(run).isEqualTo(COMPLETED);
+            assertThat(userSnapshotService.countToday()).isEqualTo(expectedTodayUserSnapshots);
+            assertThat(userSnapshotService.count()).isEqualTo(expectedUserSnapshots);
             Stream.of(1, 2).forEach(idx -> assertThat(userSnapshotService.findOne(userSnapshots.get(idx).getId())).isPresent());
             Stream.of(0, 3, 4).forEach(idx -> assertThat(userSnapshotService.findOne(userSnapshots.get(idx).getId())).isNotPresent());
         }
@@ -90,7 +89,7 @@ public class UserSnapshotTaskTest extends AbstractInitBeforeClass {
         //THEN statistics are written
         List<UserStats> userStats = userStatsService.findAll();
         assertThat(userStats).isNotNull().hasSize(nbStats);
-        userStats.forEach(ps -> assertEquals(ps.getNbUsers(), expectedTodayUserSnapshots));
+        userStats.forEach(ps -> assertThat(ps.getNbUsers()).isEqualTo(expectedTodayUserSnapshots));
     }
     
     

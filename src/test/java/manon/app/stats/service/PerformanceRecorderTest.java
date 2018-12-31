@@ -4,9 +4,7 @@ import org.testng.annotations.Test;
 
 import java.time.Clock;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PerformanceRecorderTest {
     
@@ -16,8 +14,8 @@ public class PerformanceRecorderTest {
     @Test
     public void shouldEmptyShowStats() {
         PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
-        assertTrue(performanceRecorder.isEmpty());
-        assertEquals(performanceRecorder.showStats(), "");
+        assertThat(performanceRecorder.isEmpty()).isTrue();
+        assert (performanceRecorder.showStats()).isEmpty();
     }
     
     @Test
@@ -32,8 +30,8 @@ public class PerformanceRecorderTest {
         performanceRecorder.saveTime("manon.user.UserService:do2()", 300);
         performanceRecorder.saveTime("manon.user.UserService:do2()", 200);
         
-        assertFalse(performanceRecorder.isEmpty());
-        assertEquals(performanceRecorder.showStats(), STATS_TITLE + "\n" + STATS_HEADER + "\n" +
+        assertThat(performanceRecorder.isEmpty()).isFalse();
+        assertThat(performanceRecorder.showStats()).isEqualTo(STATS_TITLE + "\n" + STATS_HEADER + "\n" +
             "     3       1       2         5       1       2  m.user.UserService:do1()\n" +
             "     4     100     300       800     200     200  m.user.UserService:do2()\n" +
             STATS_HEADER);
@@ -46,8 +44,8 @@ public class PerformanceRecorderTest {
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);
         performanceRecorder.saveTime("manon.user.UserService:do2()", 100);
         
-        assertFalse(performanceRecorder.isEmpty());
-        assertEquals(performanceRecorder.showStats(), STATS_TITLE + "\n" + STATS_HEADER + "\n" +
+        assertThat(performanceRecorder.isEmpty()).isFalse();
+        assertThat(performanceRecorder.showStats()).isEqualTo(STATS_TITLE + "\n" + STATS_HEADER + "\n" +
             "     1       1       1         1       1       1  m.user.UserService:do1()\n" +
             "     1     100     100       100     100     100  m.user.UserService:do2()\n" +
             STATS_HEADER);
@@ -58,8 +56,8 @@ public class PerformanceRecorderTest {
         performanceRecorder.saveTime("manon.user.UserService:do2()", 300);
         performanceRecorder.saveTime("manon.user.UserService:do2()", 200);
         
-        assertFalse(performanceRecorder.isEmpty());
-        assertEquals(performanceRecorder.showStats(), STATS_TITLE + "\n" + STATS_HEADER + "\n" +
+        assertThat(performanceRecorder.isEmpty()).isFalse();
+        assertThat(performanceRecorder.showStats()).isEqualTo(STATS_TITLE + "\n" + STATS_HEADER + "\n" +
             "     4     100     300       800     200     200  m.user.UserService:do2()\n" +
             "     3       1    2000      2003     667       2  m.user.UserService:do1()\n" +
             STATS_HEADER);

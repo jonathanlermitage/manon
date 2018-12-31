@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import static manon.app.trace.model.AppTraceEvent.APP_START;
 import static manon.app.trace.model.AppTraceEvent.UPTIME;
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppTraceServiceTest extends AbstractInitBeforeClass {
     
@@ -27,12 +27,12 @@ public class AppTraceServiceTest extends AbstractInitBeforeClass {
         for (int i = 0; i < 3; i++) {
             appTraceService.logUptime();
         }
-        assertEquals(appTraceService.count(), nbTraces + 1);
-        assertEquals(appTraceService.countByCurrentAppId(), appTraceService.count());
-        assertEquals(appTraceService.countByCurrentAppIdAndEvent(UPTIME), 1);
+        assertThat(appTraceService.count()).isEqualTo(nbTraces + 1);
+        assertThat(appTraceService.countByCurrentAppId()).isEqualTo(appTraceService.count());
+        assertThat(appTraceService.countByCurrentAppIdAndEvent(UPTIME)).isEqualTo(1);
         
         String appId = appTraceService.getAppId();
-        appTraceService.findAll().forEach(appTrace -> assertEquals(appTrace.getAppId(), appId));
+        appTraceService.findAll().forEach(appTrace -> assertThat(appTrace.getAppId()).isEqualTo(appId));
     }
     
     @DataProvider
@@ -48,11 +48,11 @@ public class AppTraceServiceTest extends AbstractInitBeforeClass {
             appTraceService.log(level, APP_START, "foo");
             appTraceService.log(level, APP_START);
         }
-        assertEquals(appTraceService.count(), nbTraces + 6);
-        assertEquals(appTraceService.countByCurrentAppId(), appTraceService.count());
-        assertEquals(appTraceService.countByCurrentAppIdAndEvent(APP_START), 6);
+        assertThat(appTraceService.count()).isEqualTo(nbTraces + 6);
+        assertThat(appTraceService.countByCurrentAppId()).isEqualTo(appTraceService.count());
+        assertThat(appTraceService.countByCurrentAppIdAndEvent(APP_START)).isEqualTo(6);
         
         String appId = appTraceService.getAppId();
-        appTraceService.findAll().forEach(appTrace -> assertEquals(appTrace.getAppId(), appId));
+        appTraceService.findAll().forEach(appTrace -> assertThat(appTrace.getAppId()).isEqualTo(appId));
     }
 }

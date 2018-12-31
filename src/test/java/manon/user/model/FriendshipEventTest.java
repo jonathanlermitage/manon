@@ -8,7 +8,6 @@ import static java.util.Collections.singletonList;
 import static manon.user.model.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
 import static manon.user.model.FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class FriendshipEventTest {
     
@@ -36,11 +35,11 @@ public class FriendshipEventTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
-        assertEquals(o1.equals(o2), expectedEqual);
+        assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
     @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
-        assertEquals(o1.hashCode() == o2.hashCode(), expectedEqual);
+        assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 }

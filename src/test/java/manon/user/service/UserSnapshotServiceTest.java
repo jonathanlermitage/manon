@@ -12,10 +12,8 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
     
@@ -36,12 +34,12 @@ public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
         UserSnapshot us = saveUserSnapshot();
         saveUserSnapshot();
         
-        assertEquals(userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new), us);
+        assertThat(userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new)).isEqualTo(us);
     }
     
     @Test
     public void shouldFailFindOne() {
-        assertEquals(userSnapshotService.findOne(UNKNOWN_ID), Optional.empty());
+        assertThat(userSnapshotService.findOne(UNKNOWN_ID)).isEmpty();
     }
     
     @DataProvider
@@ -59,7 +57,7 @@ public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
             saveUserSnapshot();
         }
         
-        assertEquals(userSnapshotService.count(), expected);
+        assertThat(userSnapshotService.count()).isEqualTo(expected);
     }
     
     @Test
@@ -73,7 +71,7 @@ public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
             ));
         }
         
-        assertEquals(userSnapshotService.countToday(), 3);
+        assertThat(userSnapshotService.countToday()).isEqualTo(3);
     }
     
     @Test
@@ -90,8 +88,8 @@ public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
         
         userSnapshotService.deleteToday();
         
-        assertEquals(userSnapshotService.countToday(), 0);
-        assertEquals(userSnapshotService.count(), 6);
+        assertThat(userSnapshotService.countToday()).isEqualTo(0);
+        assertThat(userSnapshotService.count()).isEqualTo(6);
         userSnapshotRepository.findAll().forEach(userSnapshot ->
             assertThat(userSnapshot.getCreationDate()).isIn(yesterday, tomorrow, true, true));
     }
@@ -111,7 +109,7 @@ public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
         
         userSnapshotService.keepRecent(2);
         
-        assertEquals(userSnapshotService.count(), 9);
+        assertThat(userSnapshotService.count()).isEqualTo(9);
         userSnapshotRepository.findAll().forEach(userSnapshot ->
             assertThat(userSnapshot.getCreationDate()).isAfterOrEqualsTo(before2));
     }
@@ -126,7 +124,7 @@ public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
         Date after = new Date();
         
         userSnapshotRepository.findAll().forEach(userSnapshot -> {
-            assertEquals(userSnapshot.getUser(), user(1));
+            assertThat(userSnapshot.getUser()).isEqualTo(user(1));
             assertThat(userSnapshot.getCreationDate()).isBetween(before, after, true, true);
         });
     }

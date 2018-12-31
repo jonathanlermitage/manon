@@ -6,8 +6,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 public class PasswordEncoderServiceTest extends AbstractInitBeforeClass {
     
@@ -34,13 +32,13 @@ public class PasswordEncoderServiceTest extends AbstractInitBeforeClass {
     public void shouldMatch() {
         String password = "foo";
         String encodedPassword = passwordEncoderService.encode(password);
-        assertTrue(passwordEncoderService.matches(password, encodedPassword));
+        assertThat(passwordEncoderService.matches(password, encodedPassword)).isTrue();
     }
     
     @Test
     public void shouldNotMatch() {
         String password = "foo";
-        assertFalse(passwordEncoderService.matches(password, password));
+        assertThat(passwordEncoderService.matches(password, password)).isFalse();
     }
     
     @Test

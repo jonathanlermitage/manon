@@ -2,10 +2,11 @@ package manon.app.info.service;
 
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.regex.Pattern;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class InfoServiceTest extends AbstractInitBeforeClass {
     
@@ -19,6 +20,6 @@ public class InfoServiceTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldGetAppVersion() {
-        Assert.assertTrue(Pattern.compile("^[0-9]+\\.[0-9]+\\.[0-9]+[\\-A-Z]*$").matcher(infoService.getAppVersion()).matches());
+        assertThat(infoService.getAppVersion()).matches(Pattern.compile("^[0-9]+\\.[0-9]+\\.[0-9]+[\\-A-Z]*$"));
     }
 }

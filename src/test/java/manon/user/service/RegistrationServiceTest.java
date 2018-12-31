@@ -4,8 +4,7 @@ import manon.user.document.User;
 import manon.util.basetest.AbstractInitBeforeTest;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RegistrationServiceTest extends AbstractInitBeforeTest {
     
@@ -18,14 +17,14 @@ public class RegistrationServiceTest extends AbstractInitBeforeTest {
     public void shouldEnsureExistingAdmin() throws Exception {
         User existingAdmin = userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new);
         User ensuredAdmin = registrationService.ensureAdmin();
-        assertEquals(ensuredAdmin, existingAdmin);
+        assertThat(ensuredAdmin).isEqualTo(existingAdmin);
     }
     
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
         clearDb();
-        assertFalse(userService.findByUsername(cfg.getAdminDefaultAdminUsername()).isPresent());
+        assertThat(userService.findByUsername(cfg.getAdminDefaultAdminUsername())).isNotPresent();
         User ensuredAdmin = registrationService.ensureAdmin();
-        assertEquals(ensuredAdmin, userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new));
+        assertThat(ensuredAdmin).isEqualTo(userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new));
     }
 }

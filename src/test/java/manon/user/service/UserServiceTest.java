@@ -13,10 +13,6 @@ import org.testng.annotations.Test;
 
 import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
 
 public class UserServiceTest extends AbstractInitBeforeClass {
     
@@ -40,7 +36,7 @@ public class UserServiceTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldReadOne() throws UserNotFoundException {
-        assertEquals(userService.readOne(userId(1)).getId(), userId(1));
+        assertThat(userService.readOne(userId(1)).getId()).isEqualTo(userId(1));
     }
     
     @Test(expectedExceptions = UserNotFoundException.class)
@@ -50,17 +46,17 @@ public class UserServiceTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldFindByUsername() throws Exception {
-        assertEquals(userService.findByUsername(name(1)).orElseThrow(Exception::new).getId(), userId(1));
+        assertThat(userService.findByUsername(name(1)).orElseThrow(Exception::new).getId()).isEqualTo(userId(1));
     }
     
     @Test
     public void shouldNotFindByUsername() {
-        assertFalse(userService.findByUsername(UNKNOWN_USER_NAME).isPresent());
+        assertThat(userService.findByUsername(UNKNOWN_USER_NAME)).isNotPresent();
     }
     
     @Test
     public void shouldReadByUsername() throws UserNotFoundException {
-        assertEquals(userService.readByUsername(name(1)).getId(), userId(1));
+        assertThat(userService.readByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
     @Test(expectedExceptions = UserNotFoundException.class)
@@ -80,7 +76,7 @@ public class UserServiceTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldReadIdByUsername() throws UserNotFoundException {
-        assertEquals(userService.readIdByUsername(name(1)).getId(), userId(1));
+        assertThat(userService.readIdByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
     @Test(expectedExceptions = UserNotFoundException.class)
@@ -95,8 +91,8 @@ public class UserServiceTest extends AbstractInitBeforeClass {
             .username(name(100))
             .password(rawPassword)
             .build());
-        assertNotEquals(user.getPassword(), rawPassword);
-        assertTrue(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword()));
+        assertThat(user.getPassword()).isNotEqualTo(rawPassword);
+        assertThat(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword())).isTrue();
     }
     
     @Test(expectedExceptions = UserExistsException.class)
@@ -108,7 +104,7 @@ public class UserServiceTest extends AbstractInitBeforeClass {
     public void shouldSetAndCheckEncodedPassword() throws UserNotFoundException {
         String rawPassword = "pwd" + currentTimeMillis();
         userService.encodeAndSetPassword(userId(3), rawPassword);
-        assertTrue(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword()));
+        assertThat(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
     }
     
     @DataProvider
@@ -119,7 +115,7 @@ public class UserServiceTest extends AbstractInitBeforeClass {
     @Test(dataProvider = "dataProviderRegistrationStates")
     public void shouldSetRegistrationState(RegistrationState registrationState) throws UserNotFoundException {
         userService.setRegistrationState(userId(4), registrationState);
-        assertEquals(userService.readOne(userId(4)).getRegistrationState(), registrationState);
+        assertThat(userService.readOne(userId(4)).getRegistrationState()).isEqualTo(registrationState);
     }
     
     @Test(dataProvider = "dataProviderRegistrationStates")

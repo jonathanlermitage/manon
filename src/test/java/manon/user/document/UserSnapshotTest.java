@@ -5,7 +5,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class UserSnapshotTest {
     
@@ -33,11 +32,11 @@ public class UserSnapshotTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(Object o1, Object o2, boolean expectedEqual) {
-        assertEquals(o1.equals(o2), expectedEqual);
+        assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
     @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(Object o1, Object o2, boolean expectedEqual) {
-        assertEquals(o1.hashCode() == o2.hashCode(), expectedEqual);
+        assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 }

@@ -2,20 +2,19 @@ package manon.app.stats.service;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class NoPerformanceRecorderTest {
     
     @Test
     public void shouldCheckIsEmpty() {
         NoPerformanceRecorder performanceRecorder = new NoPerformanceRecorder();
-        assertTrue(performanceRecorder.isEmpty());
+        assertThat(performanceRecorder.isEmpty()).isTrue();
     }
     
     @Test
     public void shouldCheckShowStats() {
         NoPerformanceRecorder performanceRecorder = new NoPerformanceRecorder();
-        assertEquals(performanceRecorder.showStats(), "");
+        assertThat(performanceRecorder.showStats()).isEmpty();
     }
 }

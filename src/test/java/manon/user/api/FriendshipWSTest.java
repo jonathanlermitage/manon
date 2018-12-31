@@ -17,7 +17,6 @@ import static manon.app.config.AbstractControllerAdvice.FIELD_MESSAGE;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class FriendshipWSTest extends AbstractInitBeforeClass {
     
@@ -418,7 +417,7 @@ public class FriendshipWSTest extends AbstractInitBeforeClass {
     private void checkFriendshipEvents(User p, FriendshipEventCode... codes) {
         assertThat(p.getFriendshipEvents()).isNotNull().hasSize(codes.length);
         for (int i = 0; i < codes.length; i++) {
-            assertEquals(p.getFriendshipEvents().get(i).getCode(), codes[i], "friendshipEvents[" + i + "]");
+            assertThat(p.getFriendshipEvents().get(i).getCode()).as("friendshipEvents[" + i + "]").isEqualTo(codes[i]);
         }
     }
 }

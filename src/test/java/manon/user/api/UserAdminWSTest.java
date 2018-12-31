@@ -18,9 +18,8 @@ import static manon.user.model.RegistrationState.BANNED;
 import static manon.user.model.RegistrationState.SUSPENDED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class UserAdminWSTest extends AbstractInitBeforeClass {
     
@@ -33,12 +32,12 @@ public class UserAdminWSTest extends AbstractInitBeforeClass {
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertEquals(users.size(), userCount);
-        assertEquals(result.getTotalElements(), userCount);
+        assertThat(users).hasSize(userCount);
+        assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
             long top = users.get(i - 1).getCreationDate().getTime();
             long bottom = users.get(i).getCreationDate().getTime();
-            assertTrue(top >= bottom, "order");
+            assertThat(top >= bottom).as("order").isTrue();
         }
     }
     
@@ -51,12 +50,12 @@ public class UserAdminWSTest extends AbstractInitBeforeClass {
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertEquals(users.size(), userCount);
-        assertEquals(result.getTotalElements(), userCount);
+        assertThat(users).hasSize(userCount);
+        assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
             long top = users.get(i - 1).getCreationDate().getTime();
             long bottom = users.get(i).getCreationDate().getTime();
-            assertTrue(top <= bottom, "order");
+            assertThat(top <= bottom).as("order").isTrue();
         }
     }
     
@@ -69,8 +68,8 @@ public class UserAdminWSTest extends AbstractInitBeforeClass {
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertEquals(users.size(), 3);
-        assertEquals(result.getTotalElements(), userCount);
+        assertThat(users).hasSize(3);
+        assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
     
     @Test
@@ -82,8 +81,8 @@ public class UserAdminWSTest extends AbstractInitBeforeClass {
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertEquals(users.size(), userCount - 3);
-        assertEquals(result.getTotalElements(), userCount);
+        assertThat(users).hasSize(userCount - 3);
+        assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
     
     @Test
@@ -95,8 +94,8 @@ public class UserAdminWSTest extends AbstractInitBeforeClass {
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertEquals(users.size(), 1);
-        assertEquals(result.getTotalElements(), userCount);
+        assertThat(users).hasSize(1);
+        assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
     
     @Test

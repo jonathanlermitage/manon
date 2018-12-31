@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class UserStatsServiceTest extends AbstractInitBeforeClass {
     
@@ -45,8 +44,8 @@ public class UserStatsServiceTest extends AbstractInitBeforeClass {
         Date after = new Date();
         
         List<UserStats> us = userStatsRepository.findAll();
-        assertEquals(us.size(), 1);
+        assertThat(us).hasSize(1);
         assertThat(us.get(0).getCreationDate()).isBetween(before, after, true, true);
-        assertEquals(us.get(0).getNbUsers(), 100);
+        assertThat(us.get(0).getNbUsers()).isEqualTo(100);
     }
 }

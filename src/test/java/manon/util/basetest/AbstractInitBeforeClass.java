@@ -69,7 +69,7 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     
     private final Map<Integer, String> userIdCache = new HashMap<>();
     
-    public long userCount;
+    public int userCount;
     
     public int getNumberOfUsers() {
         return 2;
@@ -112,7 +112,7 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
-        userCount = userService.count();
+        userCount = (int) userService.count();
         MDC.put(MDC_KEY_ENV, "testng");
         log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
         MDC.clear();

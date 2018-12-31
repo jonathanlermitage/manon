@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import java.util.regex.Pattern;
 
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.testng.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class InfoWSTest extends AbstractInitBeforeClass {
     
@@ -20,6 +20,6 @@ public class InfoWSTest extends AbstractInitBeforeClass {
     public void shouldGetAppVersion() {
         Response res = whenAdmin().getRequestSpecification().get(API_SYS + "/info/app-version");
         res.then().statusCode(SC_OK);
-        assertTrue(Pattern.compile("^[0-9]+\\.[0-9]+\\.[0-9]+[\\-A-Z]*$").matcher(res.asString()).matches());
+        assertThat(res.asString()).matches(Pattern.compile("^[0-9]+\\.[0-9]+\\.[0-9]+[\\-A-Z]*$"));
     }
 }

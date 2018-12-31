@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TaskRunnerWSTest extends AbstractInitBeforeTest {
     
@@ -26,7 +26,7 @@ public class TaskRunnerWSTest extends AbstractInitBeforeTest {
         res.then()
             .contentType(ContentType.JSON)
             .statusCode(SC_OK);
-        assertEquals(readValue(res, TaskStatus.class), TASK_STATUS_COMPLETED);
+        assertThat(readValue(res, TaskStatus.class)).isEqualTo(TASK_STATUS_COMPLETED);
     }
     
     @Test

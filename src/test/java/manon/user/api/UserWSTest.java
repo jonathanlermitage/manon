@@ -26,8 +26,6 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
 
 public class UserWSTest extends AbstractInitBeforeTest {
     
@@ -52,11 +50,11 @@ public class UserWSTest extends AbstractInitBeforeTest {
             .then()
             .statusCode(SC_CREATED);
         User user = userService.readByUsername(name);
-        assertEquals(user.getUsername(), name);
+        assertThat(user.getUsername()).isEqualTo(name);
         assertThat(user.getRoles()).containsExactly(ROLE_PLAYER);
         assertThat(user.getVersion()).isGreaterThanOrEqualTo(0L);
-        assertEquals(user.getRegistrationState(), ACTIVE);
-        assertNotEquals(pwd, user.getPassword(), "don't store raw passwords!"); // IMPORTANT always hash stored password
+        assertThat(user.getRegistrationState()).isEqualTo(ACTIVE);
+        assertThat(pwd).as("don't store raw passwords!").isNotEqualTo(user.getPassword()); // IMPORTANT always hash stored password
     }
     
     @Test
@@ -84,7 +82,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
         whenP1().getRequestSpecification()
             .delete(API_USER).then()
             .statusCode(SC_OK);
-        assertEquals(userService.readOne(userId(1)).getRegistrationState(), DELETED);
+        assertThat(userService.readOne(userId(1)).getRegistrationState()).isEqualTo(DELETED);
         whenP1().getRequestSpecification()
             .get(API_USER).then()
             .statusCode(SC_UNAUTHORIZED);
@@ -95,7 +93,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
         whenP1().getRequestSpecification()
             .delete(API_USER).then()
             .statusCode(SC_OK);
-        assertEquals(userService.readOne(userId(1)).getRegistrationState(), DELETED);
+        assertThat(userService.readOne(userId(1)).getRegistrationState()).isEqualTo(DELETED);
         whenP1().getRequestSpecification()
             .delete(API_USER).then()
             .statusCode(SC_UNAUTHORIZED);
@@ -109,7 +107,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
             .statusCode(SC_OK);
         User webUser = readValue(res, User.class);
         User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
-        assertEquals(webUser, dbUser);
+        assertThat(webUser).isEqualTo(dbUser);
     }
     
     @Test
@@ -120,7 +118,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
             .statusCode(SC_OK);
         Long webUserVersion = readValue(res, Long.class);
         Long dbUserVersion = userService.readOne(userId(1)).getVersion();
-        assertEquals(webUserVersion, dbUserVersion);
+        assertThat(webUserVersion).isEqualTo(dbUserVersion);
     }
     
     @DataProvider
@@ -146,7 +144,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
             .nickname(nickname)
             .version(userBefore.getVersion() + 1)
             .build();
-        assertEquals(userAfter, userExpected);
+        assertThat(userAfter).isEqualTo(userExpected);
     }
     
     @Test
@@ -183,7 +181,7 @@ public class UserWSTest extends AbstractInitBeforeTest {
     public void shouldCheckEventsMaintenance() throws Exception {
         String p1UserId = userId(1);
         String p2UserId = userId(2);
-        assertEquals(0, userService.readOne(p1UserId).getFriendshipEvents().size());
+        assertThat(userService.readOne(p1UserId).getFriendshipEvents()).isEmpty();
         for (int i = 0; i < (User.Validation.MAX_EVENTS / 2) + 5; i++) {
             whenP1().getRequestSpecification()
                 .post(API_USER + "/askfriendship/user/" + p2UserId)
@@ -195,6 +193,6 @@ public class UserWSTest extends AbstractInitBeforeTest {
                 .statusCode(SC_OK);
             
         }
-        assertEquals(userService.readOne(p1UserId).getFriendshipEvents().size(), User.Validation.MAX_EVENTS);
+        assertThat(userService.readOne(p1UserId).getFriendshipEvents()).hasSize(User.Validation.MAX_EVENTS);
     }
 }

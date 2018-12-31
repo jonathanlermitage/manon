@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class UserTest {
     
@@ -62,11 +61,11 @@ public class UserTest {
     
     @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(User o1, User o2, boolean expectedEqual) {
-        assertEquals(o1.equals(o2), expectedEqual);
+        assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
     @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(User o1, User o2, boolean expectedEqual) {
-        assertEquals(o1.hashCode() == o2.hashCode(), expectedEqual);
+        assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 }
