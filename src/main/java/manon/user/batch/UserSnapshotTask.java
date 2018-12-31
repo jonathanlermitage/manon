@@ -124,7 +124,7 @@ public class UserSnapshotTask {
         }
     }
     
-    private class UserItemProcessor implements ItemProcessor<User, UserSnapshot> {
+    private static class UserItemProcessor implements ItemProcessor<User, UserSnapshot> {
         @Override
         public UserSnapshot process(User item) {
             return UserSnapshot.builder()
