@@ -39,6 +39,7 @@ Some experimentation with Spring Boot 2, JDK8 and JDK11, NoSQL, etc. It demonstr
 * **Swagger UI** to provide documentation about REST API endpoints
 * **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support. Linux base image is [Distroless](https://github.com/GoogleContainerTools/distroless)
 * **ELK** (ElasticSearch Logstash Kibana) stack via Docker Compose to parse application and Nginx logs, and Cerebro to monitor ElasticSearch node.
+* integration with [SpotBugs](https://github.com/find-sec-bugs/find-sec-bugs/wiki/Maven-configuration) ([FindBugs](http://findbugs.sourceforge.net).
 
 For fun and to show some skills :cat:
 
@@ -79,6 +80,8 @@ do sc           compute and upload Sonar analysis to SonarCloud, needs two env v
                   - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
                   - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
 do tsc          similar to "do tc" then "do sc"
+do fb           scan with FindBugs
+do fbgui        start FindBugs GUI
 do b            build without testing
 do c            clean
 do p            package application to manon.jar

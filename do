@@ -15,6 +15,8 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "tc           test and generate coverage data"
       echo  "sc           compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
       echo  "tsc          similar to \"do tc\" then \"do sc\""
+      echo  "fb           scan with FindBugs"
+      echo  "fbgui        start FindBugs GUI"
       echo  "b            compile"
       echo  "c            clean"
       echo  "p            package"
@@ -68,11 +70,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "cv")
-      sh ./mvnw versions:display-property-updates -U -P coverage,jib,embed-linux
+      sh ./mvnw versions:display-property-updates -U -P coverage,jib,embed-linux,findbugs
       ;;
 
     "uv")
-      sh ./mvnw versions:update-properties -U -P coverage,jib,embed-linux
+      sh ./mvnw versions:update-properties -U -P coverage,jib,embed-linux,findbugs
       ;;
 
     "dt")
@@ -85,6 +87,14 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "tsc")
       sh ./mvnw test sonar:sonar -P embed-linux,coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+      ;;
+
+    "fb")
+      sh ./mvnw clean compile findbugs:findbugs -P ci
+      ;;
+
+    "fbgui")
+      sh ./mvnw findbugs:gui -P ci
       ;;
 
     "rmi")

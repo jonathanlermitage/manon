@@ -32,11 +32,13 @@
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <testng.version>6.14.3</testng.version>
 
+        <findsecbugs-plugin.version>1.8.0</findsecbugs-plugin.version>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
         <jib-maven-plugin.version>0.10.1</jib-maven-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+        <spotbugs-maven-plugin.version>3.1.10</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
@@ -307,6 +309,7 @@
             </dependencies>
         </profile>
 
+        <!-- CI: disable aggressive optimizations like "-XX:TieredStopAtLevel=1" or "-noverify". -->
         <profile>
             <id>ci</id>
             <properties>
@@ -314,6 +317,7 @@
             </properties>
         </profile>
 
+        <!-- Code coverage via JaCoCo. -->
         <profile>
             <id>coverage</id>
             <build>
@@ -374,6 +378,45 @@
             </build>
         </profile>
 
+        <!-- Scan with FindBugs. -->
+        <profile>
+            <id>findbugs</id>
+            <dependencyManagement>
+                <dependencies>
+                    <!-- Problem findsecbugs-plugin is declared in spotbugs-maven-plugin's confguration, so versions-maven-plugin
+                    can't detect it. Workaround: declare it in dependencyManagement. -->
+                    <dependency>
+                        <groupId>com.h3xstream.findsecbugs</groupId>
+                        <artifactId>findsecbugs-plugin</artifactId>
+                        <version>${findsecbugs-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs-maven-plugin.version}</version>
+                        <configuration>
+                            <effort>Max</effort>
+                            <threshold>Low</threshold>
+                            <failOnError>true</failOnError>
+                            <includeFilterFile>file:///${basedir}/config/spotbugs-security-include.xml</includeFilterFile>
+                            <excludeFilterFile>file:///${basedir}/config/spotbugs-security-exclude.xml</excludeFilterFile>
+                            <plugins>
+                                <plugin>
+                                    <groupId>com.h3xstream.findsecbugs</groupId>
+                                    <artifactId>findsecbugs-plugin</artifactId>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Build a Docker image based on a lightweight JDK8 layer, without Docker daemon. -->
         <profile>
             <id>jib</id>
             <build>
