@@ -62,7 +62,6 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
     * [spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x): make embedded MongoDB work with version from 3.6 to 4.0. See commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2)
   * [spring5-light-hsqldb-to-h2](https://github.com/jonathanlermitage/manon/tree/spring5-light-hsqldb-to-h2): replace HSQLDB by H2. See commit [ae4701e](https://github.com/jonathanlermitage/manon/commit/ae4701e6b0ed490aed32c5b07c84c5b52711188b)
   * [spring5-light-jre8-with-jdk11](https://github.com/jonathanlermitage/manon/tree/spring5-light-jre8-with-jdk11): build with JDK11 and target JRE8. See commit [f778bf0](https://github.com/jonathanlermitage/manon/commit/f778bf072ebcd951082be934ef4b4af763beb103)
-  * [spring5-light-findbugs](https://github.com/jonathanlermitage/manon/tree/spring5-light-findbugs): enable FindBugs analysis via SpotBugs Maven plugin. See commit [9661a2e](https://github.com/jonathanlermitage/manon/commit/9661a2efa323dabd4f1f5e8667008c38484ba7b0)
   * [spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger): enable **Swagger UI**. Run application and check `http://localhost:8080/swagger-ui.html`, authenticate with `ROOT` / `woot`. See commit [~~429ae53~~](https://github.com/jonathanlermitage/manon/commit/429ae53bc5211d8d97e8ccca20a4b183f207c6ee) [834852c](https://github.com/jonathanlermitage/manon/commit/834852cd5ce8bbb869a189aecdd90097c9168152)
   * [spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis): enable **Redis cache**, and prefer embedded cache during tests. See commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) 
   * [spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle): migration from **Maven to Gradle**. Stable and functional, but still needs some improvements
@@ -81,8 +80,7 @@ do sc           compute and upload Sonar analysis to SonarCloud, needs two env v
                   - TK1_MANON_SONAR_ORGA   SonarCloud organization, e.g. jonathanlermitage-github
                   - TK1_MANON_SONAR_LOGIN  SonarCloud authentication token
 do tsc          similar to "do tc" then "do sc"
-do fb           scan with FindBugs
-do fbgui        start FindBugs GUI
+do sb           scan with SpotBugs then show GUI
 do b            build without testing
 do c            clean
 do p            package application to manon.jar

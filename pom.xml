@@ -378,9 +378,9 @@
             </build>
         </profile>
 
-        <!-- Scan with FindBugs. -->
+        <!-- Scan with SpotBugs. -->
         <profile>
-            <id>findbugs</id>
+            <id>spotbugs</id>
             <dependencyManagement>
                 <dependencies>
                     <!-- Problem: findsecbugs-plugin is declared in spotbugs-maven-plugin's confguration, so versions-maven-plugin
@@ -402,12 +402,11 @@
                             <effort>Max</effort>
                             <threshold>Low</threshold>
                             <failOnError>true</failOnError>
-                            <includeFilterFile>file:///${basedir}/config/spotbugs-security-include.xml</includeFilterFile>
-                            <excludeFilterFile>file:///${basedir}/config/spotbugs-security-exclude.xml</excludeFilterFile>
                             <plugins>
                                 <plugin>
                                     <groupId>com.h3xstream.findsecbugs</groupId>
                                     <artifactId>findsecbugs-plugin</artifactId>
+                                    <version>${findsecbugs-plugin.version}</version>
                                 </plugin>
                             </plugins>
                         </configuration>
