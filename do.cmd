@@ -59,10 +59,10 @@ if [%1] == [tsc] (
   mvnw clean test sonar:sonar -P embed-win,coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [fb] (
-  mvnw clean compile findbugs:findbugs -P ci
+  mvnw clean compile findbugs:findbugs -P findbugs
 )
 if [%1] == [fbgui] (
-  mvnw findbugs:gui -P ci
+  mvnw findbugs:gui -P findbugs
 )
 if [%1] == [jib] (
   mvnw clean compile jib:dockerBuild -DskipTests -P jib

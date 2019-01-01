@@ -90,11 +90,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "fb")
-      sh ./mvnw clean compile findbugs:findbugs -P ci
+      sh ./mvnw clean compile findbugs:findbugs -P findbugs
       ;;
 
     "fbgui")
-      sh ./mvnw findbugs:gui -P ci
+      sh ./mvnw findbugs:gui -P findbugs
       ;;
 
     "rmi")
