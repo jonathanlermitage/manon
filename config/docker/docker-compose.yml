@@ -47,7 +47,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:1.15.7 # see https://hub.docker.com/_/nginx/
+    image: nginx:1.15.8 # see https://hub.docker.com/_/nginx/
     ports:
       - "8000:80"
     volumes:
