@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class UserloaderServiceTest extends AbstractInitBeforeClass {
     
@@ -26,13 +27,15 @@ public class UserloaderServiceTest extends AbstractInitBeforeClass {
         assertThat(userSimpleDetailsFound.getUser().getUsername()).isEqualTo(username);
     }
     
-    @Test(expectedExceptions = UsernameNotFoundException.class)
+    @Test
     public void shouldFailLoadUserByUnknownUsername() {
-        userLoaderService.loadUserByUsername(UNKNOWN_USER_NAME);
+        assertThatThrownBy(() -> userLoaderService.loadUserByUsername(UNKNOWN_USER_NAME))
+            .isInstanceOf(UsernameNotFoundException.class);
     }
     
-    @Test(expectedExceptions = UsernameNotFoundException.class)
+    @Test
     public void shouldFailLoadUserByNullUsername() {
-        userLoaderService.loadUserByUsername(null);
+        assertThatThrownBy(() -> userLoaderService.loadUserByUsername(null))
+            .isInstanceOf(UsernameNotFoundException.class);
     }
 }

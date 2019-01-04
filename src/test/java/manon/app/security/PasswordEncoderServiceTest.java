@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PasswordEncoderServiceTest extends AbstractInitBeforeClass {
     
@@ -23,9 +24,10 @@ public class PasswordEncoderServiceTest extends AbstractInitBeforeClass {
         assertThat(passwordEncoderService.encode(password)).isNotBlank().isNotEqualTo(password);
     }
     
-    @Test(expectedExceptions = NullPointerException.class)
+    @Test
     public void shouldFailToEncodeNull() {
-        passwordEncoderService.encode(null);
+        assertThatThrownBy(() -> passwordEncoderService.encode(null))
+            .isInstanceOf(NullPointerException.class);
     }
     
     @Test

@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class UserServiceTest extends AbstractInitBeforeClass {
     
@@ -29,9 +30,10 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         userService.existOrFail(userId(1));
     }
     
-    @Test(expectedExceptions = UserNotFoundException.class)
-    public void shouldFailExistOrFail() throws UserNotFoundException {
-        userService.existOrFail(userId(1), UNKNOWN_ID);
+    @Test
+    public void shouldFailExistOrFail() {
+        assertThatThrownBy(() -> userService.existOrFail(userId(1), UNKNOWN_ID))
+            .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
@@ -39,9 +41,10 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         assertThat(userService.readOne(userId(1)).getId()).isEqualTo(userId(1));
     }
     
-    @Test(expectedExceptions = UserNotFoundException.class)
-    public void shouldFailReadOne() throws UserNotFoundException {
-        userService.readOne(UNKNOWN_ID);
+    @Test
+    public void shouldFailReadOne() {
+        assertThatThrownBy(() -> userService.readOne(UNKNOWN_ID))
+            .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
@@ -59,9 +62,10 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         assertThat(userService.readByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
-    @Test(expectedExceptions = UserNotFoundException.class)
-    public void shouldFailReadByUsername() throws UserNotFoundException {
-        userService.readByUsername(UNKNOWN_USER_NAME);
+    @Test
+    public void shouldFailReadByUsername() {
+        assertThatThrownBy(() -> userService.readByUsername(UNKNOWN_USER_NAME))
+            .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
@@ -69,9 +73,10 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         assertThat(userService.readVersionById(userId(2)).getVersion()).isGreaterThanOrEqualTo(0L);
     }
     
-    @Test(expectedExceptions = UserNotFoundException.class)
-    public void shouldFailReadVersionById() throws UserNotFoundException {
-        userService.readVersionById(UNKNOWN_ID);
+    @Test
+    public void shouldFailReadVersionById() {
+        assertThatThrownBy(() -> userService.readVersionById(UNKNOWN_ID))
+            .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
@@ -79,9 +84,10 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         assertThat(userService.readIdByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
-    @Test(expectedExceptions = UserNotFoundException.class)
-    public void shouldFailReadIdByUsername() throws UserNotFoundException {
-        userService.readIdByUsername(UNKNOWN_USER_NAME);
+    @Test
+    public void shouldFailReadIdByUsername() {
+        assertThatThrownBy(() -> userService.readIdByUsername(UNKNOWN_USER_NAME))
+            .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
@@ -95,9 +101,10 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         assertThat(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword())).isTrue();
     }
     
-    @Test(expectedExceptions = UserExistsException.class)
-    public void shouldFailCreate() throws UserExistsException, UserNotFoundException {
-        userService.create(userService.readOne(userId(1)));
+    @Test
+    public void shouldFailCreate() {
+        assertThatThrownBy(() -> userService.create(userService.readOne(userId(1))))
+            .isInstanceOf(UserExistsException.class);
     }
     
     @Test
@@ -145,8 +152,9 @@ public class UserServiceTest extends AbstractInitBeforeClass {
         };
     }
     
-    @Test(dataProvider = "dataProviderInvalidPasswords", expectedExceptions = PasswordNotMatchException.class)
-    public void shoudNotValidatePassword(String rawPassword, String passwordToEncode) throws PasswordNotMatchException {
-        userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
+    @Test(dataProvider = "dataProviderInvalidPasswords")
+    public void shoudNotValidatePassword(String rawPassword, String passwordToEncode) {
+        assertThatThrownBy(() -> userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode)))
+            .isInstanceOf(PasswordNotMatchException.class);
     }
 }
