@@ -48,8 +48,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
     
     @Override
-    public void delete(String userId) {
+    public User delete(String userId) throws UserNotFoundException {
         userService.setRegistrationState(userId, DELETED);
+        return userService.readOne(userId);
     }
     
     @Override

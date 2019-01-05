@@ -23,6 +23,11 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class UserAdminWSTest extends AbstractInitBeforeClass {
     
+    @Override
+    public int getNumberOfUsers() {
+        return 4;
+    }
+    
     @Test
     public void shouldFindAllDesc() {
         Response res = whenAdmin().getRequestSpecification()
@@ -62,26 +67,26 @@ public class UserAdminWSTest extends AbstractInitBeforeClass {
     @Test
     public void shouldFindAllSmallPageStartPart() {
         Response res = whenAdmin().getRequestSpecification()
-            .get(API_USER_ADMIN + "/all?size=3");
+            .get(API_USER_ADMIN + "/all?size=" + (userCount - 1));
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertThat(users).hasSize(3);
+        assertThat(users).hasSize(userCount - 1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
     
     @Test
-    public void shouldFindAllSmallPageEndPart() {
+    public void shouldFindAllPageEndPart() {
         Response res = whenAdmin().getRequestSpecification()
-            .get(API_USER_ADMIN + "/all?page=1&size=3");
+            .get(API_USER_ADMIN + "/all?page=1&size=" + (userCount - 1));
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
         UserPage result = readValue(res, UserPage.class);
         List<User> users = result.getContent();
-        assertThat(users).hasSize(userCount - 3);
+        assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
     

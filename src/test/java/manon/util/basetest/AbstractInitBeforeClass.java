@@ -76,7 +76,7 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     }
     
     @BeforeClass
-    public final void beforeClass() {
+    public void beforeClass() {
         initialized = false;
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset("UTF-8"));
         RestAssured.baseURI = "http://localhost";
@@ -99,23 +99,29 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
         // override if needed
     }
     
-    public final void clearDb() {
+    public void clearDb() {
         for (String cn : mongoTemplate.getDb().listCollectionNames()) {
             mongoTemplate.dropCollection(cn);
         }
     }
     
-    public final void initDb() throws UserExistsException {
+    public void initDb() throws UserExistsException, UserNotFoundException {
         long t1 = currentTimeMillis();
+        MDC.put(MDC_KEY_ENV, "testng");
         clearDb();
         registrationService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
         userCount = (int) userService.count();
-        MDC.put(MDC_KEY_ENV, "testng");
+        additionalInitDb();
         log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
         MDC.clear();
+    }
+    
+    /** Override do add logic that occurs at the end of the {@link #initDb()}. */
+    public void additionalInitDb() throws UserExistsException, UserNotFoundException {
+        // override if needed
     }
     
     private String makeName(int idx) {
@@ -127,7 +133,7 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     }
     
     @AfterClass
-    public final void afterClass() {
+    public void afterClass() {
         if (!performanceRecorder.isEmpty()) {
             log.info(performanceRecorder.showStats());
         }
@@ -141,19 +147,21 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     
     public final Rs whenAnonymous() {
         return new Rs(RestAssured.given()
-            .header("X-Request-Id", "0x-1")
+            .header("X-Request-Id", "anonymous-" + currentTimeMillis())
             .auth().none(), "", "");
     }
     
     public final Rs whenAdmin() {
-        return new Rs(RestAssured.given().auth().basic(ADMIN_NAME, ADMIN_PWD), ADMIN_NAME, ADMIN_PWD);
+        return new Rs(RestAssured.given()
+            .header("X-Request-Id", "admin-" + currentTimeMillis())
+            .auth().basic(ADMIN_NAME, ADMIN_PWD), ADMIN_NAME, ADMIN_PWD);
     }
     
     /** When player n°humanId, where humanId is an index starting at 1. */
     public final Rs whenPX(int humanId) {
         int idx = humanId - 1;
         RequestSpecification rs = RestAssured.given()
-            .header("X-Request-Id", "0x" + idx)
+            .header("X-Request-Id", "player-" + currentTimeMillis())
             .auth().basic(makeName(idx), makePwd(idx));
         return new Rs(rs, makeName(idx), makePwd(idx));
     }

@@ -31,7 +31,7 @@ public interface RegistrationService {
      * Delete a user.
      * @param userId user id.
      */
-    void delete(String userId);
+    User delete(String userId) throws UserNotFoundException;
     
     /**
      * Register a user.
