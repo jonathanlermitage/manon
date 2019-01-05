@@ -5,7 +5,7 @@ import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.util.basetest.AbstractMockBeforeClass;
-import manon.util.basetest.Rs;
+import manon.util.web.Rs;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

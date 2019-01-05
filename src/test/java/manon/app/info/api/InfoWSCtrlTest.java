@@ -1,7 +1,7 @@
 package manon.app.info.api;
 
 import manon.util.basetest.AbstractMockBeforeClass;
-import manon.util.basetest.Rs;
+import manon.util.web.Rs;
 import org.testng.annotations.Test;
 
 public class InfoWSCtrlTest extends AbstractMockBeforeClass {

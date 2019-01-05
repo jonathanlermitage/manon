@@ -9,6 +9,7 @@ import manon.user.api.UserAdminWS;
 import manon.user.api.UserWS;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
+import manon.util.web.Rs;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;

@@ -1,7 +1,7 @@
 package manon.app.batch.api;
 
 import manon.util.basetest.AbstractMockBeforeClass;
-import manon.util.basetest.Rs;
+import manon.util.web.Rs;
 import org.testng.annotations.Test;
 
 import static org.mockito.ArgumentMatchers.any;

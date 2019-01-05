@@ -4,7 +4,7 @@ import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import manon.util.basetest.AbstractInitBeforeClass;
-import manon.util.basetest.Rs;
+import manon.util.web.Rs;
 import org.springframework.http.HttpMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

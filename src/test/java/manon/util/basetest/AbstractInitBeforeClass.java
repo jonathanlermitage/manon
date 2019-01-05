@@ -16,6 +16,7 @@ import manon.user.err.UserNotFoundException;
 import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
+import manon.util.web.Rs;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

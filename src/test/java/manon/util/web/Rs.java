@@ -1,4 +1,4 @@
-package manon.util.basetest;
+package manon.util.web;
 
 import io.restassured.specification.RequestSpecification;
 import lombok.AllArgsConstructor;
