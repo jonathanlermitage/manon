@@ -86,14 +86,14 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     
     public final String FAKE_ID = Integer.toString(Integer.MAX_VALUE);
     
-    public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";
-    
     private Rs whenUsername(String username) {
         RequestSpecification rs = RestAssured.given()
             .header("X-Request-Id", username.toLowerCase() + "-" + currentTimeMillis())
             .auth().basic(username, PWD);
         return new Rs(rs, username, PWD);
     }
+    
+    public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";
     
     @DataProvider
     public Object[][] dataProviderAllowAdmin() {
