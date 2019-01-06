@@ -17,7 +17,7 @@
 
 ## Project
 
-Some experimentation with **Spring Boot 2**, JDK8+, NoSQL, Docker Compose, ELK stack, etc. It demonstrates usage of:
+Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, NoSQL, Docker, ELK stack, etc. It demonstrates usage of:
 
 * **Maven** (latest version) and **Gradle** build tools
   * migration from **Maven to Gradle** (but I'll stick to Maven). Stable and functional, but still needs some improvements. See commit [cf79b9c](https://github.com/jonathanlermitage/manon/commit/cf79b9c1f0a7eee7ffcd8a1fd0b1e05e11f1de75) ([spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle) branch)
@@ -30,7 +30,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, NoSQL, Docker Compose, ELK s
 * **Spring Data** to serve data from a **MongoDB** database
 * **Spring Batch** to schedule and manage some tasks
   * see commit [c0e3422](https://github.com/jonathanlermitage/manon/commit/c0e3422fcce5522c3320dd1a2eed65950e321621) ([spring5-light-batch](https://github.com/jonathanlermitage/manon/tree/spring5-light-batch) branch)
-* Spring **Cache** via Redis for application, and prefer an embedded cache provider during tests
+* **Spring Cache** via Redis for application, and prefer an embedded cache provider during tests
   * see commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) ([spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis) branch)
 * **integration tests** and (some) unit-test via **[TestNG](https://testng.org)** and **[REST Assured](http://rest-assured.io)**, because I like TestNG keywords, dataproviders and maturity. REST Assured helped me to test API without Spring's magic
   * migration from TestNG to **[JUnit5](https://junit.org/junit5/)** (with Spring Boot, dataproviders, expected exceptions, beforeClass and afterClass annotations). See last commit of [spring5-light-testng-to-junit5](https://github.com/jonathanlermitage/manon/tree/spring5-light-testng-to-junit5) branch
@@ -40,7 +40,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, NoSQL, Docker Compose, ELK s
   * replace HSQLDB by H2. See commit [ae4701e](https://github.com/jonathanlermitage/manon/commit/ae4701e6b0ed490aed32c5b07c84c5b52711188b) ([spring5-light-hsqldb-to-h2](https://github.com/jonathanlermitage/manon/tree/spring5-light-hsqldb-to-h2) branch)
 * integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Travis](https://travis-ci.org/jonathanlermitage/manon)** (Linux and MacOS CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[CodeCov](https://codecov.io/gh/jonathanlermitage/manon)** (code coverage), **[SonarCloud](https://sonarcloud.io/dashboard?id=nanon:manon)** (code quality), **[LGTM](https://lgtm.com/)** (code quality) 
 * [Maven](https://github.com/takari/maven-wrapper) and Gradle wrappers, and a `do` Bash script that helps you to launch some usefull commands
-* code coverage thanks to **JaCoCo** Maven and Gradle plugin
+* **code coverage** thanks to **JaCoCo** Maven and Gradle plugin
 * some **AOP** to capture performance of API endpoints
 * **Spring Actuator** web endpoints configured
 * **Swagger UI** to provide documentation about REST API endpoints
@@ -49,7 +49,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, NoSQL, Docker Compose, ELK s
   * See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594) ([spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib) branch)
 * **ELK** stack (**ElasticSearch Logstash Kibana**) via Docker plus Docker Compose to parse application and Nginx logs, and Cerebro to monitor ElasticSearch node
   * see [DEPLOY.md](DEPLOY.md) to package and run application. Also, see commits [6b76e37](https://github.com/jonathanlermitage/manon/commit/6b76e376566fd34b4b3521dc6c60eaf7c30c1c22) and [966969f](https://github.com/jonathanlermitage/manon/commit/966969fc16277be3ec8605592f5ed7ae90ba7024) ([spring5-light-elk](https://github.com/jonathanlermitage/manon/tree/spring5-light-elk) branch)
-* integration with [SpotBugs](https://github.com/find-sec-bugs/find-sec-bugs/wiki/Maven-configuration) ([FindBugs](http://findbugs.sourceforge.net))
+* integration with **[SpotBugs](https://github.com/find-sec-bugs/find-sec-bugs/wiki/Maven-configuration)** ([FindBugs](http://findbugs.sourceforge.net))
 
 For fun and to show some skills :cat:
 
