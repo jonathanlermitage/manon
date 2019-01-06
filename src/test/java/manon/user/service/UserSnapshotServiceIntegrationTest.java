@@ -15,7 +15,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserSnapshotServiceTest extends AbstractInitBeforeClass {
+public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private UserSnapshotRepository userSnapshotRepository;

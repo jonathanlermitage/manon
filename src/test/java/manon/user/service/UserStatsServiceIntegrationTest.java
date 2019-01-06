@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserStatsServiceTest extends AbstractInitBeforeClass {
+public class UserStatsServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private UserStatsRepository userStatsRepository;

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserloaderServiceTest extends AbstractInitBeforeClass {
+public class UserloaderServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private UserLoaderService userLoaderService;

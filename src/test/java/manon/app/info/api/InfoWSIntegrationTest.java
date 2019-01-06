@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InfoWSTest extends AbstractInitBeforeClass {
+public class InfoWSIntegrationTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

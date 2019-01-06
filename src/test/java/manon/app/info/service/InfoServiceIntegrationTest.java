@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InfoServiceTest extends AbstractInitBeforeClass {
+public class InfoServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private InfoService infoService;

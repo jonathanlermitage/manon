@@ -18,7 +18,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipWSTest extends AbstractInitBeforeClass {
+public class FriendshipWSIntegrationTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

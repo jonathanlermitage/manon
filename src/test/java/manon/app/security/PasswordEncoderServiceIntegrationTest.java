@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class PasswordEncoderServiceTest extends AbstractInitBeforeClass {
+public class PasswordEncoderServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private PasswordEncoderService passwordEncoderService;

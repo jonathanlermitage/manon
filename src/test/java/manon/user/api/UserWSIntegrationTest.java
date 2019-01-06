@@ -27,7 +27,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserWSTest extends AbstractInitBeforeTest {
+public class UserWSIntegrationTest extends AbstractInitBeforeTest {
     
     @Autowired
     protected UserService userService;

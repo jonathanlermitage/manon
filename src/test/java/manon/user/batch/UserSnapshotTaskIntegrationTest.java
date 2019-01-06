@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 
-public class UserSnapshotTaskTest extends AbstractInitBeforeClass {
+public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private TaskRunnerService taskRunnerService;

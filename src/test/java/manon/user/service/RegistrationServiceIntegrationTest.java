@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationServiceTest extends AbstractInitBeforeTest {
+public class RegistrationServiceIntegrationTest extends AbstractInitBeforeTest {
     
     @Override
     public int getNumberOfUsers() {

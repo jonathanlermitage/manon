@@ -21,7 +21,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserAdminWSTest extends AbstractInitBeforeClass {
+public class UserAdminWSIntegrationTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

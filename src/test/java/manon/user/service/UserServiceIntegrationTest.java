@@ -15,7 +15,7 @@ import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserServiceTest extends AbstractInitBeforeClass {
+public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private PasswordEncoderService passwordEncoderService;

@@ -19,7 +19,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
-public class ActuatorTest extends AbstractInitBeforeClass {
+public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
     
     @Override
     public int getNumberOfUsers() {

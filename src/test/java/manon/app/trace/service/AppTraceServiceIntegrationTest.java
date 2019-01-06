@@ -10,7 +10,7 @@ import static manon.app.trace.model.AppTraceEvent.APP_START;
 import static manon.app.trace.model.AppTraceEvent.UPTIME;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppTraceServiceTest extends AbstractInitBeforeClass {
+public class AppTraceServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private AppTraceService appTraceService;
