@@ -28,7 +28,7 @@
         <mariadb.version>2.3.0</mariadb.version>
         <rest-assured.version>3.2.0</rest-assured.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
-        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <testng.version>6.14.3</testng.version>
 
