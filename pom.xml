@@ -20,6 +20,7 @@
         <performanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</performanceArgLine>
         <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
 
+        <archunit.version>0.9.3</archunit.version>
         <embed.mongo.version>2.2.0</embed.mongo.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <janino.version>3.0.11</janino.version>
@@ -184,6 +185,12 @@
                     <artifactId>jaxb-osgi</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit</artifactId>
+            <version>${archunit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
