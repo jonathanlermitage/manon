@@ -17,6 +17,9 @@ import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
 import manon.util.web.Rs;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,9 +27,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Slf4j
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(listeners = DependencyInjectionTestExecutionListener.class)
-public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
+public abstract class AbstractInitBeforeClass extends AbstractTest {
     
     @Setter
     private boolean initialized = false;
@@ -76,8 +76,9 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
         return 2;
     }
     
-    @BeforeClass
-    public void beforeClass() {
+    /** Clear data before test class. Do NOT override it in non-abstract test classes. */
+    @BeforeAll
+    public final void beforeClass() {
         initialized = false;
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset("UTF-8"));
         RestAssured.baseURI = "http://localhost";
@@ -85,7 +86,7 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     }
     
     /** Clear data before test class. Do NOT override it in non-abstract test classes. */
-    @BeforeMethod
+    @BeforeEach
     public void beforeMethod() throws Exception {
         userIdCache.clear();
         if (!initialized) {
@@ -108,7 +109,7 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
     
     public void initDb() throws UserExistsException, UserNotFoundException {
         long t1 = currentTimeMillis();
-        MDC.put(MDC_KEY_ENV, "testng");
+        MDC.put(MDC_KEY_ENV, "junit");
         clearDb();
         registrationService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
@@ -133,8 +134,8 @@ public abstract class AbstractInitBeforeClass extends AbstractBaseTests {
         return "p4ssw0rd" + idx;
     }
     
-    @AfterClass
-    public void afterClass() {
+    @AfterAll
+    public final void afterClass() {
         if (!performanceRecorder.isEmpty()) {
             log.info(performanceRecorder.showStats());
         }

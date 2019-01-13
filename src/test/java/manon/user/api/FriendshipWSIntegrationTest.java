@@ -9,8 +9,8 @@ import manon.user.model.FriendshipEventCode;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
 import static manon.app.config.AbstractControllerAdvice.FIELD_MESSAGE;
@@ -25,7 +25,7 @@ public class FriendshipWSIntegrationTest extends AbstractInitBeforeClass {
         return 3;
     }
     
-    @AfterMethod
+    @AfterEach
     public void reinitFriendships() throws UserNotFoundException {
         for (String userId : new String[]{userId(1), userId(2), userId(3)}) {
             User user = userService.readOne(userId);

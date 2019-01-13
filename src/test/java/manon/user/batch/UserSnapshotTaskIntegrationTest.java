@@ -8,10 +8,10 @@ import manon.user.service.UserService;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
 import manon.util.basetest.AbstractInitBeforeClass;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,15 +41,15 @@ public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
         return cfg.getBatchUserSnapshotChunk() * NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY;
     }
     
-    @DataProvider
-    public static Object[][] dataProviderShouldCompleteMultipleTimes() {
+    public Object[][] dataProviderShouldCompleteMultipleTimes() {
         return new Object[][]{
             {2, 3},
             {4, 6}
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldCompleteMultipleTimes")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldCompleteMultipleTimes")
     public void shouldCompleteMultipleTimes(int snapshotsKept, int nbStats) throws Exception {
         int chunk = cfg.getBatchUserSnapshotChunk();
         int maxAge = cfg.getBatchUserSnapshotSnapshotMaxAge();

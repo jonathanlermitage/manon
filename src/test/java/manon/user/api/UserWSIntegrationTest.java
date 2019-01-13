@@ -11,9 +11,10 @@ import manon.user.form.UserUpdateForm;
 import manon.user.service.UserService;
 import manon.util.basetest.AbstractInitBeforeTest;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import static io.restassured.http.ContentType.JSON;
 import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
@@ -32,8 +33,7 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
     @Autowired
     protected UserService userService;
     
-    @DataProvider
-    public static Object[][] dataProviderShouldRegister() {
+    public Object[][] dataProviderShouldRegister() {
         return new Object[][]{
             {"JOHN", "12300"},
             {"BOB DYLAN AND FRIENDS", "PASSWORD"},
@@ -41,7 +41,8 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldRegister")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldRegister")
     public void shouldRegister(String name, String pwd) throws UserNotFoundException {
         whenAnonymous().getRequestSpecification()
             .body(RegistrationForm.builder().username(name).password(pwd).build())
@@ -121,7 +122,6 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
         assertThat(webUserVersion).isEqualTo(dbUserVersion);
     }
     
-    @DataProvider
     public Object[][] dataProviderShouldUpdate() {
         return new Object[][]{
             {"", ""},
@@ -129,7 +129,8 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldUpdate")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldUpdate")
     public void shouldUpdate(String nickname, String email) throws Exception {
         User userBefore = userService.readOne(userId(1));
         whenP1().getRequestSpecification()

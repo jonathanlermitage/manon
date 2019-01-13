@@ -6,9 +6,10 @@ import manon.user.document.UserSnapshot;
 import manon.user.repository.UserSnapshotRepository;
 import manon.util.Tools;
 import manon.util.basetest.AbstractInitBeforeClass;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -42,8 +43,7 @@ public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass 
         assertThat(userSnapshotService.findOne(UNKNOWN_ID)).isEmpty();
     }
     
-    @DataProvider
-    public static Object[] dataProviderCount() {
+    public Object[] dataProviderCount() {
         return new Object[][]{
             {0, 0},
             {1, 1},
@@ -51,7 +51,8 @@ public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass 
         };
     }
     
-    @Test(dataProvider = "dataProviderCount")
+    @ParameterizedTest
+    @MethodSource("dataProviderCount")
     public void shouldCount(int created, int expected) {
         for (int i = 0; i < created; i++) {
             saveUserSnapshot();

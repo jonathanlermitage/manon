@@ -5,9 +5,10 @@ import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import manon.util.basetest.AbstractInitBeforeClass;
 import manon.util.web.Rs;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
@@ -32,7 +33,6 @@ public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
      * See <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html">Spring Reference</a> and
      * <a href="https://docs.spring.io/spring-boot/docs/2.0.x/actuator-api/html/">Actuator API</a>.
      */
-    @DataProvider
     public Object[][] dataProviderShouldGetSpringBoot2Actuator() {
         return new Object[][]{
             {GET, "/actuator", false, true},
@@ -54,7 +54,8 @@ public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldGetSpringBoot2Actuator")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldGetSpringBoot2Actuator")
     public void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) throws IllegalArgumentException {
         call(whenAdmin(), verb, endpoint).statusCode(isEnabled ? SC_OK : SC_NOT_FOUND);
         call(whenP1(), verb, endpoint).statusCode(isPublic ? isEnabled ? SC_OK : SC_NOT_FOUND : SC_FORBIDDEN);

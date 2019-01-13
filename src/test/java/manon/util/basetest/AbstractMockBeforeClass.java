@@ -10,12 +10,11 @@ import manon.user.api.UserWS;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.util.web.Rs;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 
 import static java.lang.System.currentTimeMillis;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
@@ -66,7 +65,7 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
             registrationService.suspend(registrationService.registerPlayer(SUSPENDED_REACTIVATED_USERNAME, PWD).getId()).getId());
     }
     
-    @BeforeMethod
+    @BeforeEach
     public void setUpMocks() {
         initMocks(this);
         Mockito.clearInvocations(friendshipWS);
@@ -95,7 +94,7 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     
     public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";
     
-    @DataProvider
+    @SuppressWarnings("unused") // used via DP_ALLOW_ADMIN
     public Object[][] dataProviderAllowAdmin() {
         return new Object[][]{
             {whenAdmin(), SC_OK},
@@ -112,7 +111,7 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     
     public final String DP_ALLOW_AUTHENTICATED = "dataProviderAllowAuthenticated";
     
-    @DataProvider
+    @SuppressWarnings("unused") // used via DP_ALLOW_AUTHENTICATED
     public Object[][] dataProviderAllowAuthenticated() {
         return new Object[][]{
             {whenAdmin(), SC_OK},

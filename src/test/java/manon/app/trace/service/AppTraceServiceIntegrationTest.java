@@ -2,9 +2,10 @@ package manon.app.trace.service;
 
 import manon.app.trace.model.AppTraceLevel;
 import manon.util.basetest.AbstractInitBeforeClass;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import static manon.app.trace.model.AppTraceEvent.APP_START;
 import static manon.app.trace.model.AppTraceEvent.UPTIME;
@@ -35,12 +36,12 @@ public class AppTraceServiceIntegrationTest extends AbstractInitBeforeClass {
         appTraceService.findAll().forEach(appTrace -> assertThat(appTrace.getAppId()).isEqualTo(appId));
     }
     
-    @DataProvider
-    public static Object[] dataProviderShouldLog() {
+    public Object[] dataProviderShouldLog() {
         return AppTraceLevel.values();
     }
     
-    @Test(dataProvider = "dataProviderShouldLog")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldLog")
     public void shouldLog(AppTraceLevel level) {
         appTraceService.deleteByCurrentAppIdAndEvent(APP_START);
         long nbTraces = appTraceService.count();

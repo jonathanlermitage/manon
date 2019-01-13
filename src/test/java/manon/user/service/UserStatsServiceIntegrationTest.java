@@ -3,9 +3,8 @@ package manon.user.service;
 import manon.user.document.UserStats;
 import manon.user.repository.UserStatsRepository;
 import manon.util.basetest.AbstractInitBeforeClass;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -21,7 +20,6 @@ public class UserStatsServiceIntegrationTest extends AbstractInitBeforeClass {
     @Autowired
     private UserStatsService userStatsService;
     
-    @BeforeMethod
     @Override
     public void additionalBeforeMethod() {
         userStatsRepository.deleteAll();

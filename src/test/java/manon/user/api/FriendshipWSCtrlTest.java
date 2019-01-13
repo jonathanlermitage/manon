@@ -2,14 +2,16 @@ package manon.user.api;
 
 import manon.util.basetest.AbstractMockBeforeClass;
 import manon.util.web.Rs;
-import org.testng.annotations.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 public class FriendshipWSCtrlTest extends AbstractMockBeforeClass {
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyAskFriendship(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
             .pathParam("id", FAKE_ID)
@@ -19,7 +21,8 @@ public class FriendshipWSCtrlTest extends AbstractMockBeforeClass {
         verify(friendshipWS, status).askFriendship(any(), eq(FAKE_ID));
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyAcceptFriendship(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
             .pathParam("id", FAKE_ID)
@@ -29,7 +32,8 @@ public class FriendshipWSCtrlTest extends AbstractMockBeforeClass {
         verify(friendshipWS, status).acceptFriendshipRequest(any(), eq(FAKE_ID));
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRejectFriendship(Rs rs, Integer status) {
         rs.getRequestSpecification()
             .pathParam("id", FAKE_ID)
@@ -39,7 +43,8 @@ public class FriendshipWSCtrlTest extends AbstractMockBeforeClass {
         verify(friendshipWS, status).rejectFriendshipRequest(any(), eq(FAKE_ID));
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyCancelFriendship(Rs rs, Integer status) {
         rs.getRequestSpecification()
             .pathParam("id", FAKE_ID)
@@ -49,7 +54,8 @@ public class FriendshipWSCtrlTest extends AbstractMockBeforeClass {
         verify(friendshipWS, status).cancelFriendshipRequest(any(), eq(FAKE_ID));
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRevokeFriendship(Rs rs, Integer status) {
         rs.getRequestSpecification()
             .pathParam("id", FAKE_ID)

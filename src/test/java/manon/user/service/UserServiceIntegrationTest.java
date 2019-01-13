@@ -7,9 +7,10 @@ import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.RegistrationState;
 import manon.util.basetest.AbstractInitBeforeClass;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -114,37 +115,37 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
         assertThat(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
     }
     
-    @DataProvider
-    public static Object[] dataProviderRegistrationStates() {
+    public Object[] dataProviderRegistrationStates() {
         return RegistrationState.values();
     }
     
-    @Test(dataProvider = "dataProviderRegistrationStates")
+    @ParameterizedTest
+    @MethodSource("dataProviderRegistrationStates")
     public void shouldSetRegistrationState(RegistrationState registrationState) throws UserNotFoundException {
         userService.setRegistrationState(userId(4), registrationState);
         assertThat(userService.readOne(userId(4)).getRegistrationState()).isEqualTo(registrationState);
     }
     
-    @Test(dataProvider = "dataProviderRegistrationStates")
+    @ParameterizedTest
+    @MethodSource("dataProviderRegistrationStates")
     public void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
         userService.setRegistrationState(UNKNOWN_ID, registrationState);
     }
     
-    @DataProvider
-    public static Object[] dataProviderValidPasswords() {
+    public Object[] dataProviderValidPasswords() {
         return new String[][]{
             {"", ""},
             {"@ p4ssword!", "@ p4ssword!"}
         };
     }
     
-    @Test(dataProvider = "dataProviderValidPasswords")
+    @ParameterizedTest
+    @MethodSource("dataProviderValidPasswords")
     public void shoudValidatePassword(String rawPassword, String passwordToEncode) throws PasswordNotMatchException {
         userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
     }
     
-    @DataProvider
-    public static Object[] dataProviderInvalidPasswords() {
+    public Object[] dataProviderInvalidPasswords() {
         return new String[][]{
             {"a password!", "@ p4ssword!"},
             {"", "a"},
@@ -152,7 +153,8 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
         };
     }
     
-    @Test(dataProvider = "dataProviderInvalidPasswords")
+    @ParameterizedTest
+    @MethodSource("dataProviderInvalidPasswords")
     public void shoudNotValidatePassword(String rawPassword, String passwordToEncode) {
         assertThatThrownBy(() -> userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode)))
             .isInstanceOf(PasswordNotMatchException.class);
