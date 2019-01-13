@@ -4,8 +4,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import manon.app.batch.model.TaskStatus;
 import manon.util.basetest.AbstractInitBeforeTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
-import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;

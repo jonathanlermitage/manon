@@ -6,8 +6,8 @@ import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.util.basetest.AbstractMockBeforeClass;
 import manon.util.web.Rs;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static io.restassured.http.ContentType.JSON;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -15,7 +15,6 @@ import static org.mockito.ArgumentMatchers.any;
 
 public class UserWSCtrlTest extends AbstractMockBeforeClass {
     
-    @DataProvider
     public Object[] dataProviderShouldVerifyRegister() {
         return new Object[]{
             whenAdmin(),
@@ -24,7 +23,8 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyRegister")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyRegister")
     public void shouldVerifyRegister(Rs rs) throws Exception {
         rs.getRequestSpecification()
             .body(RegistrationForm.builder().username("USERNAME").password("PASSWORD").build())
@@ -35,7 +35,8 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
         verify(userWs, SC_CREATED).register(any());
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyDelete(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
             .contentType(JSON)
@@ -45,7 +46,8 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
         verify(userWs, status).delete(any());
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRead(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
             .get(API_USER)
@@ -54,7 +56,8 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
         verify(userWs, status).read(any());
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadVersion(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
             .get(API_USER + "/version")
@@ -63,7 +66,8 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
         verify(userWs, status).readVersion(any());
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdateField(Rs rs, Integer status) {
         rs.getRequestSpecification()
             .body(UserUpdateForm.builder().build())
@@ -74,7 +78,8 @@ public class UserWSCtrlTest extends AbstractMockBeforeClass {
         verify(userWs, status).update(any(), any());
     }
     
-    @Test(dataProvider = DP_ALLOW_AUTHENTICATED)
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdatePassword(Rs rs, Integer status) throws PasswordNotMatchException {
         rs.getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword("").newPassword("password").build())

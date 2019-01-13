@@ -1,7 +1,8 @@
 package manon.user.form;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,8 +14,7 @@ public class RegistrationFormTest {
             "username", "password");
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         RegistrationForm filled = RegistrationForm.builder()
             .username("u")
             .password("p")
@@ -27,12 +27,14 @@ public class RegistrationFormTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(RegistrationForm o1, RegistrationForm o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(RegistrationForm o1, RegistrationForm o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }

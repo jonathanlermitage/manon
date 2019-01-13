@@ -1,10 +1,11 @@
 package manon.util.basetest;
 
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.junit.jupiter.api.TestInstance;
 
 import static manon.util.Tools.objId;
 
-public abstract class AbstractBaseTests extends AbstractTestNGSpringContextTests {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public abstract class AbstractTest {
     
     public static final String ADMIN_NAME = "ROOT"; // IMPORTANT must reflect application.yml:manon.admin.default-admin.username
     public static final String ADMIN_PWD = "woot"; // IMPORTANT must reflect application.yml:manon.admin.default-admin.password

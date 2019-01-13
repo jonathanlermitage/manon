@@ -1,8 +1,9 @@
 package manon.user.document;
 
 import manon.util.Tools;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,8 +15,7 @@ public class UserStatsTest {
             "id", "nbUsers", "creationDate");
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserStats filled = UserStats.builder()
             .id("1")
             .nbUsers(2)
@@ -30,12 +30,14 @@ public class UserStatsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(Object o1, Object o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(Object o1, Object o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }

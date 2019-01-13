@@ -2,7 +2,7 @@ package manon.app.info.api;
 
 import io.restassured.response.Response;
 import manon.util.basetest.AbstractInitBeforeClass;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 

@@ -5,7 +5,7 @@ import manon.user.document.User;
 import manon.user.err.UserNotFoundException;
 import manon.util.basetest.AbstractInitBeforeClass;
 import manon.util.web.UserPage;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;

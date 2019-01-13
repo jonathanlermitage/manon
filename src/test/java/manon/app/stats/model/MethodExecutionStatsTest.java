@@ -1,7 +1,8 @@
 package manon.app.stats.model;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,8 +15,7 @@ public class MethodExecutionStatsTest {
             "service", "calls", "minTime", "maxTime", "totalTime", "times");
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         MethodExecutionStats sample = sample();
         MethodExecutionStats newService = sample();
         newService.setService("updated");
@@ -40,17 +40,19 @@ public class MethodExecutionStatsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
     
-    private MethodExecutionStats sample() {
+    private static MethodExecutionStats sample() {
         return new MethodExecutionStats("s", 0, 0, 0, 0, singletonList(0L));
     }
 }

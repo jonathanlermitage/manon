@@ -1,15 +1,14 @@
 package manon.util;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static manon.util.Tools.repeat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ToolsTest {
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyIsBlank() {
+    private static Object[][] dataProviderShouldVerifyIsBlank() {
         return new Object[][]{
             {null, true},
             {"", true},
@@ -18,13 +17,13 @@ public class ToolsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyIsBlank")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyIsBlank")
     public void shouldVerifyIsBlank(String input, Object expected) {
         assertThat(Tools.isBlank(input)).isEqualTo(expected);
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyShortenLog() {
+    public static Object[][] dataProviderShouldVerifyShortenLog() {
         return new Object[][]{
             {"abc", "abc"},
             {repeat("a", 200), "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... (long string, length=200)"},
@@ -37,13 +36,13 @@ public class ToolsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyShortenLog")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyShortenLog")
     public void shouldVerifyShortenLog(Object input, Object expected) {
         assertThat(Tools.shortenLog(input)).isEqualTo(expected);
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyShortenAndAnonymizeLog() {
+    public static Object[][] dataProviderShouldVerifyShortenAndAnonymizeLog() {
         return new Object[][]{
             {"abc", "***"},
             {repeat("a", 200), "******************************... (long string, length=200)"},
@@ -56,13 +55,13 @@ public class ToolsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyShortenAndAnonymizeLog")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyShortenAndAnonymizeLog")
     public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
         assertThat(Tools.shortenAndAnonymizeLog(input)).isEqualTo(expected);
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyRepeat() {
+    public static Object[][] dataProviderShouldVerifyRepeat() {
         return new Object[][]{
             {null, -1, null},
             {null, 0, null},
@@ -87,7 +86,8 @@ public class ToolsTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyRepeat")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyRepeat")
     public void shouldVerifyRepeat(String str, Integer repeat, String expected) {
         assertThat(repeat(str, repeat)).isEqualTo(expected);
     }

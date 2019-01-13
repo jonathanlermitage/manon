@@ -3,8 +3,9 @@ package manon.app.trace.document;
 import manon.app.trace.model.AppTraceEvent;
 import manon.app.trace.model.AppTraceLevel;
 import manon.util.Tools;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,8 +19,7 @@ public class AppTraceTest {
             "creationDate");
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         AppTrace filled = AppTrace.builder()
             .id("1")
             .appId("2")
@@ -40,12 +40,14 @@ public class AppTraceTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(AppTrace o1, AppTrace o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(AppTrace o1, AppTrace o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }

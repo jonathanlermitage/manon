@@ -1,8 +1,9 @@
 package manon.user.model;
 
 import manon.util.Tools;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static java.util.Collections.singletonList;
 import static manon.user.model.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
@@ -17,8 +18,7 @@ public class FriendshipEventTest {
             "date", "code", "params");
     }
     
-    @DataProvider
-    public Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         FriendshipEvent filled = FriendshipEvent.builder()
             .date(Tools.now())
             .code(TARGET_SENT_FRIEND_REQUEST)
@@ -33,12 +33,14 @@ public class FriendshipEventTest {
         };
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
-    @Test(dataProvider = "dataProviderShouldVerifyEqualsAndHashCode")
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }

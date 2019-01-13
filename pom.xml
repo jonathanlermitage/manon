@@ -26,6 +26,7 @@
         <embed.mongo.version>2.2.0</embed.mongo.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <janino.version>3.0.11</janino.version>
+        <junit5.version>5.3.2</junit5.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.4</lombok.version>
         <mariadb.version>2.3.0</mariadb.version>
@@ -33,7 +34,6 @@
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
-        <testng.version>6.14.3</testng.version>
 
         <findsecbugs-plugin.version>1.8.0</findsecbugs-plugin.version>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
@@ -149,18 +149,6 @@
         <!-- Unit Testing. -->
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
@@ -192,6 +180,24 @@
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit</artifactId>
             <version>${archunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
 
