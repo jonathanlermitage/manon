@@ -13,9 +13,18 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 public class ArchTest {
     
+    private final String[] allPackages = new String[]{"manon.."};
     private final String[] controlerPackages = new String[]{"manon.app.batch.api", "manon.app.info.api", "manon.user.api"};
     private final String[] repositoryPackages = new String[]{"manon.app.trace.repository", "manon.user.repository"};
     private final String[] servicePackages = new String[]{"manon.app.trace.service", "manon.user.service"};
+    
+    @Test
+    public void shouldNotDependOnJDKInternals() {
+        JavaClasses classes = new ClassFileImporter().importPackages(allPackages);
+        ArchRule rules = classes()
+            .should().onlyAccessClassesThat().resideOutsideOfPackage("com.sun..");
+        rules.check(classes);
+    }
     
     @Test
     public void shouldVerifyControlerArch() {
