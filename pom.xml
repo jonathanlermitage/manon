@@ -12,13 +12,15 @@
     <description>manon</description>
 
     <properties>
-        <start-class>manon.Application</start-class>
+        <docker-base-image>openjdk:11.0.1-jre-slim-sid</docker-base-image>
+        <docker-target-image>lermitage-manon:${project.version}</docker-target-image>
         <java.release>8</java.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <start-class>manon.Application</start-class>
         <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
-        <performanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</performanceArgLine>
-        <profileArgLine>-Dspring.profiles.active=test,metrics</profileArgLine>
+        <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</surefirePerformanceArgLine>
+        <surefireProfileArgLine>-Dspring.profiles.active=test,metrics</surefireProfileArgLine>
 
         <archunit.version>0.9.3</archunit.version>
         <embed.mongo.version>2.2.0</embed.mongo.version>
@@ -258,7 +260,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <argLine>${surefireArgLine} ${profileArgLine} ${performanceArgLine}</argLine>
+                    <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
                     <includes>
                         <include>**/*Tests.java</include>
@@ -290,7 +292,7 @@
         <profile>
             <id>embed-linux</id>
             <properties>
-                <profileArgLine>-Dspring.profiles.active=test-embed-linux,metrics</profileArgLine>
+                <surefireProfileArgLine>-Dspring.profiles.active=test-embed-linux,metrics</surefireProfileArgLine>
             </properties>
             <dependencies>
                 <dependency>
@@ -304,7 +306,7 @@
         <profile>
             <id>embed-win</id>
             <properties>
-                <profileArgLine>-Dspring.profiles.active=test-embed-win,metrics</profileArgLine>
+                <surefireProfileArgLine>-Dspring.profiles.active=test-embed-win,metrics</surefireProfileArgLine>
             </properties>
             <dependencies>
                 <dependency>
@@ -320,7 +322,7 @@
         <profile>
             <id>ci</id>
             <properties>
-                <performanceArgLine>-Dspring.jmx.enabled=false</performanceArgLine>
+                <surefirePerformanceArgLine>-Dspring.jmx.enabled=false</surefirePerformanceArgLine>
             </properties>
         </profile>
 
@@ -377,7 +379,7 @@
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <!--suppress MavenModelInspection -->
-                            <argLine>${surefireArgLine} ${profileArgLine} ${performanceArgLine} ${coverageSurefireArgLine}</argLine>
+                            <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine} ${coverageSurefireArgLine}</argLine>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                         </configuration>
                     </plugin>
@@ -434,17 +436,14 @@
                         <version>${jib-maven-plugin.version}</version>
                         <configuration>
                             <from>
-                                <!-- https://console.cloud.google.com/gcr/images/distroless/GLOBAL/java?gcrImageListsize=10 -->
-                                <image>gcr.io/distroless/java@sha256:84740ded6cbeebaa89c9b19aed3754d464586592b561e5494be4192ac0b3a8f5</image>
+                                <image>${docker-base-image}</image>
                             </from>
                             <to>
-                                <image>lermitage-manon:${project.version}</image>
+                                <image>${docker-target-image}</image>
                             </to>
                             <container>
                                 <jvmFlags>
                                     <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
-                                    <jvmFlag>-XX:+UnlockExperimentalVMOptions</jvmFlag>
-                                    <jvmFlag>-XX:+UseCGroupMemoryLimitForHeap</jvmFlag>
                                     <jvmFlag>-Dspring.jmx.enabled=false</jvmFlag>
                                     <jvmFlag>-Dspring.profiles.active=docker</jvmFlag>
                                 </jvmFlags>
