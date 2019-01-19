@@ -25,7 +25,7 @@
         <archunit.version>0.9.3</archunit.version>
         <embed.mongo.version>2.2.0</embed.mongo.version>
         <hsqldb.version>2.4.1</hsqldb.version>
-        <janino.version>3.0.11</janino.version>
+        <janino.version>3.0.12</janino.version>
         <junit5.version>5.3.2</junit5.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <lombok.version>1.18.4</lombok.version>
