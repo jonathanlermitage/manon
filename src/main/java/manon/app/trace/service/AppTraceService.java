@@ -25,15 +25,15 @@ public interface AppTraceService {
     
     void logUptime();
     
-    @VisibleForTesting(why = "AppTraceServiceTest")
+    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
     long count();
     
-    @VisibleForTesting(why = "AppTraceServiceTest")
+    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
     long countByCurrentAppId();
     
-    @VisibleForTesting(why = "AppTraceServiceTest")
+    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
     long countByCurrentAppIdAndEvent(AppTraceEvent event);
     
-    @VisibleForTesting(why = "AppTraceServiceTest")
+    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
     List<AppTrace> findAll();
 }
