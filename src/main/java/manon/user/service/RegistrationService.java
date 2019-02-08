@@ -11,27 +11,27 @@ public interface RegistrationService {
      * @param userId user id.
      * @return user.
      */
-    User activate(String userId) throws UserNotFoundException;
+    User activate(long userId) throws UserNotFoundException;
     
     /**
      * Ban a user.
      * @param userId user id.
      * @return user.
      */
-    User ban(String userId) throws UserNotFoundException;
+    User ban(long userId) throws UserNotFoundException;
     
     /**
      * Suspend a user.
      * @param userId user id.
      * @return user.
      */
-    User suspend(String userId) throws UserNotFoundException;
+    User suspend(long userId) throws UserNotFoundException;
     
     /**
      * Delete a user.
      * @param userId user id.
      */
-    User delete(String userId) throws UserNotFoundException;
+    User delete(long userId) throws UserNotFoundException;
     
     /**
      * Register a user.

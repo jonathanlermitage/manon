@@ -24,7 +24,7 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
@@ -66,9 +66,9 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
     protected InfoService infoService;
     
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private JdbcTemplate jdbcTemplate;
     
-    private final Map<Integer, String> userIdCache = new HashMap<>();
+    private final Map<Integer, Long> userIdCache = new HashMap<>();
     
     public int userCount;
     
@@ -101,10 +101,9 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
         // override if needed
     }
     
+    @SuppressWarnings("SqlResolve")
     public void clearDb() {
-        for (String cn : mongoTemplate.getDb().listCollectionNames()) {
-            mongoTemplate.dropCollection(cn);
-        }
+        jdbcTemplate.execute("TRUNCATE SCHEMA PUBLIC RESTART IDENTITY AND COMMIT NO CHECK");
     }
     
     public void initDb() throws UserExistsException, UserNotFoundException {
@@ -201,11 +200,11 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
     /** Get user id of player n°humanId, where humanId is an index starting at 1. */
     @SuppressWarnings("SameParameterValue")
     @SneakyThrows(UserNotFoundException.class)
-    public final String userId(int humanId) {
+    public final long userId(int humanId) {
         return findAndCacheUserIdByIdx(humanId - 1);
     }
     
-    private String findAndCacheUserIdByIdx(int idx) throws UserNotFoundException {
+    private long findAndCacheUserIdByIdx(int idx) throws UserNotFoundException {
         if (!userIdCache.containsKey(idx)) {
             userIdCache.put(idx, userService.readIdByUsername(makeName(idx)).getId());
         }

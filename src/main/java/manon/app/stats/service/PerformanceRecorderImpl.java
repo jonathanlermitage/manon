@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
             return "";
         }
         List<MethodExecutionStats> view = new ArrayList<>(stats.values());
-        view.sort((o1, o2) -> o1.getTotalTime() > o2.getTotalTime() ? 1 : -1);
+        view.sort(Comparator.comparingLong(MethodExecutionStats::getTotalTime));
         StringBuilder buff = new StringBuilder(2048);
         buff.append("\n calls     min     max     total     avg  median  name");
         view.stream().map(s -> format("\n%6s %7s %7s   %7s %7s %7s  %s",
@@ -88,7 +89,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
      * @param signature class and method signature.
      * @param execTime execution time.
      */
-    @VisibleForTesting(why = "PerformanceRecorderTest")
+    @VisibleForTesting(where = "PerformanceRecorderTest")
     @Synchronized
     public void saveTime(String signature, long execTime) {
         MethodExecutionStats stat;

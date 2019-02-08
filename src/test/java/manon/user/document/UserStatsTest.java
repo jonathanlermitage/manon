@@ -17,14 +17,14 @@ public class UserStatsTest {
     
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserStats filled = UserStats.builder()
-            .id("1")
+            .id(1L)
             .nbUsers(2)
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
             {UserStats.builder().build(), UserStats.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
-            {filled.toBuilder().id("99").build(), filled, false},
+            {filled.toBuilder().id(99L).build(), filled, false},
             {filled.toBuilder().nbUsers(99).build(), filled, false},
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
         };

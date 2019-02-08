@@ -29,6 +29,13 @@ public class UserControllerAdvice extends AbstractControllerAdvice {
         return error(error);
     }
     
+    @ExceptionHandler(FriendshipNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    @ResponseBody
+    public Map<String, Object> handle(FriendshipNotFoundException error) {
+        return error(error);
+    }
+    
     @ExceptionHandler(FriendshipRequestNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     @ResponseBody

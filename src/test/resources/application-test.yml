@@ -1,13 +1,9 @@
-### DEV CONFIGURATION for local unit testing with existing MongoDB ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local unit testing with embedded HSQLDB ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
   batch.user-snapshot.chunk: 10
   security.bcrypt.strength: 4
 
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: manontest
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
+  jpa.hibernate.ddl-auto: update

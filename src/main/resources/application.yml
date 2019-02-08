@@ -8,6 +8,8 @@ spring:
     job.enabled: false
   main.banner-mode: console
   datasource.driver-class-name: org.mariadb.jdbc.Driver
+  data.jpa.repositories.bootstrap-mode: deferred
+  jpa.open-in-view: false
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy

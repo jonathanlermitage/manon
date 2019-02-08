@@ -105,8 +105,8 @@ public class UserAdminWSIntegrationTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldCycleRegistrationState() {
-        List<String> uids = Arrays.asList(userId(1), userId(2));
-        for (String uid : uids) {
+        List<Long> uids = Arrays.asList(userId(1), userId(2));
+        for (long uid : uids) {
             whenAdmin().getRequestSpecification()
                 .post(API_USER_ADMIN + "/" + uid + "/suspend")
                 .then()

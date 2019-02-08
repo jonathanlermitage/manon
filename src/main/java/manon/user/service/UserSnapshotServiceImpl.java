@@ -5,6 +5,7 @@ import manon.user.document.UserSnapshot;
 import manon.user.repository.UserSnapshotRepository;
 import manon.util.Tools;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Optional;
@@ -14,12 +15,13 @@ import static manon.util.Tools.startOfDay;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserSnapshotServiceImpl implements UserSnapshotService {
     
     private final UserSnapshotRepository userSnapshotRepository;
     
     @Override
-    public Optional<UserSnapshot> findOne(String id) {
+    public Optional<UserSnapshot> findOne(long id) {
         return userSnapshotRepository.findById(id);
     }
     
@@ -30,19 +32,19 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     
     @Override
     public long countToday() {
-        return userSnapshotRepository.countAllByCreationDateInRange(startOfDay(), endOfDay());
+        return userSnapshotRepository.countAllByCreationDateBetween(startOfDay(), endOfDay());
     }
     
     @Override
     public void deleteToday() {
-        userSnapshotRepository.deleteAllByCreationDateInRange(startOfDay(), endOfDay());
+        userSnapshotRepository.deleteAllByCreationDateBetween(startOfDay(), endOfDay());
     }
     
     @Override
     public void keepRecent(int maxAgeInDays) {
         Calendar maxOldDate = Tools.today(0, 0, 0, 0);
         maxOldDate.add(Calendar.DAY_OF_MONTH, maxAgeInDays * -1);
-        userSnapshotRepository.deleteAllByCreationDateOutsideRange(maxOldDate.getTime(), endOfDay());
+        userSnapshotRepository.deleteAllByCreationDateBeforeOrCreationDateAfter(maxOldDate.getTime(), endOfDay());
     }
     
     @Override

@@ -19,15 +19,15 @@ public interface UserService {
     
     void save(User user);
     
-    void existOrFail(String... ids) throws UserNotFoundException;
+    void existOrFail(long... ids) throws UserNotFoundException;
     
-    User readOne(String id) throws UserNotFoundException;
+    User readOne(long id) throws UserNotFoundException;
     
     User readByUsername(String username) throws UserNotFoundException;
     
     Optional<User> findByUsername(String username);
     
-    UserVersionProjection readVersionById(String id) throws UserNotFoundException;
+    UserVersionProjection readVersionById(long id) throws UserNotFoundException;
     
     UserIdProjection readIdByUsername(String username) throws UserNotFoundException;
     
@@ -36,7 +36,7 @@ public interface UserService {
      * @param userId user id.
      * @param userUpdateForm user data.
      */
-    void update(String userId, UserUpdateForm userUpdateForm);
+    void update(long userId, UserUpdateForm userUpdateForm);
     
     Page<User> findAll(Pageable pageable);
     
@@ -47,9 +47,9 @@ public interface UserService {
      */
     User create(User user) throws UserExistsException;
     
-    void encodeAndSetPassword(String id, String password);
+    void encodeAndSetPassword(long id, String password);
     
-    void setRegistrationState(String id, RegistrationState registrationState);
+    void setRegistrationState(long id, RegistrationState registrationState);
     
     /**
      * Check if a raw password validates a (BCrypt) encoded password.

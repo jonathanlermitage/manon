@@ -2,7 +2,7 @@ package manon.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
+import lombok.SneakyThrows;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -110,11 +110,6 @@ public final class Tools {
         return repeat("*", str.length());
     }
     
-    /** Get a new MongoDB ObjectId as String. */
-    public static String objId() {
-        return new ObjectId().toString();
-    }
-    
     public static String repeat(String str, int repeat) {
         if (str == null) {
             return null;
@@ -129,5 +124,15 @@ public final class Tools {
             }
             return sb.toString();
         }
+    }
+    
+    /**
+     * Wait 10ms.
+     * Some service invocations are too fast to introduce time between them: use this method to wait 10ms.
+     */
+    @ExistForTesting
+    @SneakyThrows(InterruptedException.class)
+    public static void temporize() {
+        Thread.sleep(10);
     }
 }

@@ -6,11 +6,15 @@ import manon.user.err.PasswordNotMatchException;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.RegistrationState;
+import manon.user.model.UserAuthority;
+import manon.util.Tools;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Date;
 
 import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +31,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldExistOrFail() throws UserNotFoundException {
+    public void shouldExistOrFail() throws Exception {
         userService.existOrFail(userId(1));
     }
     
@@ -38,7 +42,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldReadOne() throws UserNotFoundException {
+    public void shouldReadOne() throws Exception {
         assertThat(userService.readOne(userId(1)).getId()).isEqualTo(userId(1));
     }
     
@@ -59,7 +63,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldReadByUsername() throws UserNotFoundException {
+    public void shouldReadByUsername() throws Exception {
         assertThat(userService.readByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
@@ -70,7 +74,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldReadVersionById() throws UserNotFoundException {
+    public void shouldReadVersionById() throws Exception {
         assertThat(userService.readVersionById(userId(2)).getVersion()).isGreaterThanOrEqualTo(0L);
     }
     
@@ -81,7 +85,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldReadIdByUsername() throws UserNotFoundException {
+    public void shouldReadIdByUsername() throws Exception {
         assertThat(userService.readIdByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
@@ -92,11 +96,13 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldCreateAndCheckEncodedPassword() throws UserExistsException {
+    public void shouldCreateAndCheckEncodedPassword() throws Exception {
         String rawPassword = "pwd" + currentTimeMillis();
         User user = userService.create(User.builder()
             .username(name(100))
+            .authorities("")
             .password(rawPassword)
+            .registrationState(RegistrationState.ACTIVE)
             .build());
         assertThat(user.getPassword()).isNotEqualTo(rawPassword);
         assertThat(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword())).isTrue();
@@ -109,7 +115,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     }
     
     @Test
-    public void shouldSetAndCheckEncodedPassword() throws UserNotFoundException {
+    public void shouldSetAndCheckEncodedPassword() throws Exception {
         String rawPassword = "pwd" + currentTimeMillis();
         userService.encodeAndSetPassword(userId(3), rawPassword);
         assertThat(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
@@ -121,7 +127,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @ParameterizedTest
     @MethodSource("dataProviderRegistrationStates")
-    public void shouldSetRegistrationState(RegistrationState registrationState) throws UserNotFoundException {
+    public void shouldSetRegistrationState(RegistrationState registrationState) throws Exception {
         userService.setRegistrationState(userId(4), registrationState);
         assertThat(userService.readOne(userId(4)).getRegistrationState()).isEqualTo(registrationState);
     }
@@ -141,7 +147,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @ParameterizedTest
     @MethodSource("dataProviderValidPasswords")
-    public void shoudValidatePassword(String rawPassword, String passwordToEncode) throws PasswordNotMatchException {
+    public void shoudValidatePassword(String rawPassword, String passwordToEncode) throws Exception {
         userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
     }
     
@@ -158,5 +164,24 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     public void shoudNotValidatePassword(String rawPassword, String passwordToEncode) {
         assertThatThrownBy(() -> userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode)))
             .isInstanceOf(PasswordNotMatchException.class);
+    }
+    
+    @Test
+    public void shouldSave() throws Exception {
+        Date before = Tools.now();
+        userService.save(User.builder()
+            .username("SHOULD_SAVE_USERNAME")
+            .password("password")
+            .registrationState(RegistrationState.ACTIVE)
+            .authorities(UserAuthority.ROLE_PLAYER.name())
+            .email("email@domain.com")
+            .nickname("nickname")
+            .build());
+        Date after = Tools.now();
+        
+        User user = userService.findByUsername("SHOULD_SAVE_USERNAME").orElseThrow(UserNotFoundException::new);
+        assertThat(user.getCreationDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
+        assertThat(user.getUpdateDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
+        assertThat(user.getVersion()).isGreaterThanOrEqualTo(0);
     }
 }

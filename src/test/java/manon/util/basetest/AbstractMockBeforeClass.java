@@ -34,7 +34,7 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     private static final String BANNED_REACTIVATED_USERNAME = "BANNED_REACTIVATED";
     private static final String DELETED_REACTIVATED_USERNAME = "DELETED_REACTIVATED";
     private static final String SUSPENDED_REACTIVATED_USERNAME = "SUSPENDED_REACTIVATED";
-    private static final String PWD = "password" + System.currentTimeMillis();
+    private static final String PWD = "password" + currentTimeMillis();
     
     @MockBean
     protected FriendshipWS friendshipWS;
@@ -82,8 +82,6 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     public <T> T verify(T mock, int status, int times) {
         return Mockito.verify(mock, status > 199 && status < 300 ? Mockito.times(times) : Mockito.never());
     }
-    
-    public final String FAKE_ID = Integer.toString(Integer.MAX_VALUE);
     
     private Rs whenUsername(String username) {
         RequestSpecification rs = RestAssured.given()

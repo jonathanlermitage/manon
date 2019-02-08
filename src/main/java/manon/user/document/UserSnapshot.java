@@ -7,37 +7,85 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.mapping.Document;
+import manon.user.model.RegistrationState;
+import manon.util.Tools;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
-import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
-@Document(collection = "UserSnapshot")
-@TypeAlias("UserSnapshot")
+@Entity
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
-@AllArgsConstructor(access = PRIVATE)
-@NoArgsConstructor(access = PRIVATE)
-public final class UserSnapshot implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserSnapshot implements Serializable {
     
     private static final long serialVersionUID = -4321502988403908385L;
     
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     
-    @NotNull
-    private User user;
+    @Column(updatable = false)
+    private long userId;
+    
+    @Column(updatable = false)
+    private String userUsername;
+    
+    @Column(updatable = false)
+    private String userAuthorities;
+    
+    @Column(updatable = false)
+    private String userPassword;
+    
+    @Column(updatable = false)
+    private RegistrationState userRegistrationState;
+    
+    @Column(updatable = false)
+    private String userNickname;
+    
+    @Column(updatable = false)
+    private String userEmail;
+    
+    @Column(updatable = false)
+    private long userVersion;
     
     @JsonFormat(pattern = DATE_FORMAT)
-    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date creationDate;
+    
+    @PrePersist
+    public void prePersist() {
+        Date now = Tools.now();
+        if (creationDate == null) {
+            creationDate = now;
+        }
+    }
+    
+    /** Populate a {@link UserSnapshot} from a {@link User}. */
+    public static UserSnapshot from(User user) {
+        return UserSnapshot.builder()
+            .userId(user.getId())
+            .userUsername(user.getUsername())
+            .userAuthorities(user.getAuthorities())
+            .userPassword(user.getPassword())
+            .userRegistrationState(user.getRegistrationState())
+            .userNickname(user.getNickname())
+            .userEmail(user.getEmail())
+            .userVersion(user.getVersion())
+            .build();
+    }
 }
