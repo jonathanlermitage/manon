@@ -2,29 +2,33 @@ package manon.user.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import manon.user.model.FriendshipEvent;
 import manon.user.model.RegistrationState;
-import manon.user.model.UserAuthority;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.TypeAlias;
+import manon.user.model.UserPublicInfo;
+import manon.util.Tools;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 import static manon.user.document.User.Validation.EMAIL_MAX_LENGTH;
@@ -43,65 +47,76 @@ import static manon.user.document.User.Validation.USERNAME_PATTERN_ERRMSG;
 import static manon.user.document.User.Validation.USERNAME_SIZE_ERRMSG;
 import static manon.util.Tools.DATE_FORMAT;
 
-@Document(collection = "User")
-@TypeAlias("User")
+@Entity
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = {"version", "creationDate", "updateDate"})
 @Builder(toBuilder = true)
-@AllArgsConstructor(access = PRIVATE)
-@NoArgsConstructor(access = PRIVATE)
-public final class User implements Serializable, UserVersionProjection {
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Serializable, UserVersionProjection {
     
     private static final long serialVersionUID = 443313310250932570L;
     
+    @JsonView(UserPublicInfo.class)
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     
     /** Unique, uppercase and not modifiable login name. */
     @NotNull(message = USERNAME_SIZE_ERRMSG)
     @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = USERNAME_SIZE_ERRMSG)
     @Pattern(regexp = USERNAME_PATTERN, message = USERNAME_PATTERN_ERRMSG)
+    @Column(nullable = false, length = USERNAME_MAX_LENGTH, unique = true, updatable = false)
     private String username;
     
-    private List<UserAuthority> roles;
+    /** Coma separated list of {@link manon.user.model.UserAuthority} names. */
+    @Column(nullable = false)
+    private String authorities;
     
     @JsonIgnore
     @NotNull(message = PASSWORD_SIZE_ERRMSG)
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = PASSWORD_SIZE_ERRMSG)
+    @Column(nullable = false, length = PASSWORD_MAX_LENGTH)
     private String password;
     
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private RegistrationState registrationState;
     
     /** A non-unique name that can change, NOT mandatory. */
     @Size(max = NICKNAME_MAX_LENGTH, message = NICKNAME_SIZE_ERRMSG)
     @Pattern(regexp = NICKNAME_PATTERN, message = NICKNAME_PATTERN_ERRMSG)
+    @Column(length = NICKNAME_MAX_LENGTH, unique = true)
     private String nickname;
     
     /** Email, NOT mandatory. */
     @Size(max = EMAIL_MAX_LENGTH, message = EMAIL_SIZE_ERRMSG)
+    @Column(length = EMAIL_MAX_LENGTH, unique = true)
     private String email;
     
-    // social
-    @Builder.Default
-    private List<String> friendshipRequestsTo = new ArrayList<>();
-    @Builder.Default
-    private List<String> friendshipRequestsFrom = new ArrayList<>();
-    @Builder.Default
-    private List<String> friends = new ArrayList<>();
-    @Builder.Default
-    private List<FriendshipEvent> friendshipEvents = new ArrayList<>();
-    
     @Version
+    @Column(nullable = false)
     private long version;
     
     @JsonFormat(pattern = DATE_FORMAT)
-    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date creationDate;
     
     @JsonFormat(pattern = DATE_FORMAT)
-    @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date updateDate;
+    
+    @PrePersist
+    public void prePersist() {
+        Date now = Tools.now();
+        if (creationDate == null) {
+            creationDate = now;
+        }
+        updateDate = now;
+    }
     
     /** {@link User} fields validation rules. */
     @NoArgsConstructor(access = PRIVATE)
@@ -125,21 +140,5 @@ public final class User implements Serializable, UserVersionProjection {
         public static final int PASSWORD_MIN_LENGTH = 5;
         public static final int PASSWORD_MAX_LENGTH = 256;
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
-        
-        public static final int MAX_EVENTS = 30;
-    }
-    
-    /** {@link User} fields name, to be used by MongoDB custom repositories. */
-    @NoArgsConstructor(access = PRIVATE)
-    public static final class Field {
-        public static final String ID = "id";
-        public static final String EMAIL = "email";
-        public static final String FRIENDS = "friends";
-        public static final String FRIENDSHIP_EVENTS = "friendshipEvents";
-        public static final String FRIENDSHIP_REQUESTS_FROM = "friendshipRequestsFrom";
-        public static final String FRIENDSHIP_REQUESTS_TO = "friendshipRequestsTo";
-        public static final String NICKNAME = "nickname";
-        public static final String REGISTRATION_STATE = "registrationState";
-        public static final String PASSWORD = "password";
     }
 }

@@ -1,5 +1,7 @@
 package manon.user.document;
 
+import manon.user.model.RegistrationState;
+import manon.user.model.UserAuthority;
 import manon.util.Tools;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,20 +14,37 @@ public class UserSnapshotTest {
     @Test
     public void shouldVerifyToString() {
         assertThat(UserSnapshot.builder().build().toString()).contains(
-            "id", "user", "creationDate");
+            "id", "userId", "userUsername",
+            "userAuthorities", "userPassword", "userRegistrationState",
+            "userNickname", "userEmail",
+            "userVersion", "creationDate");
     }
     
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserSnapshot filled = UserSnapshot.builder()
-            .id("1")
-            .user(User.builder().id("2").build())
+            .id(1)
+            .userId(2)
+            .userUsername("u")
+            .userAuthorities(UserAuthority.ROLE_PLAYER.name())
+            .userPassword("apassword")
+            .userRegistrationState(RegistrationState.ACTIVE)
+            .userNickname("n")
+            .userEmail("e")
+            .userVersion(2)
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
             {UserStats.builder().build(), UserStats.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
-            {filled.toBuilder().id("99").build(), filled, false},
-            {filled.toBuilder().user(User.builder().id("99").build()).build(), filled, false},
+            {filled.toBuilder().id(99).build(), filled, false},
+            {filled.toBuilder().userId(100).build(), filled, false},
+            {filled.toBuilder().userUsername("updated").build(), filled, false},
+            {filled.toBuilder().userAuthorities(UserAuthority.ROLE_ADMIN.name()).build(), filled, false},
+            {filled.toBuilder().userPassword("newpassword").build(), filled, false},
+            {filled.toBuilder().userRegistrationState(RegistrationState.SUSPENDED).build(), filled, false},
+            {filled.toBuilder().userNickname("updated").build(), filled, false},
+            {filled.toBuilder().userEmail("updated").build(), filled, false},
+            {filled.toBuilder().userVersion(99).build(), filled, false},
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
         };
     }

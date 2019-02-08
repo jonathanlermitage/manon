@@ -28,7 +28,7 @@ public class UserSimpleDetails implements UserDetails, Serializable {
     // Accelerators.
     
     @JsonIgnore
-    public String getUserId() {
+    public long getUserId() {
         return getUser().getId();
     }
     

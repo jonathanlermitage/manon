@@ -3,6 +3,7 @@ package manon.app.batch.service;
 import lombok.RequiredArgsConstructor;
 import manon.app.batch.err.TaskNotFoundException;
 import manon.user.batch.UserSnapshotTask;
+import manon.util.Tools;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map;
 
 @Component
@@ -47,6 +47,6 @@ public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerServic
     }
     
     private JobParameters todayDateJobParameters() {
-        return new JobParametersBuilder().addDate("START_DATE", new Date()).toJobParameters();
+        return new JobParametersBuilder().addDate("START_DATE", Tools.now()).toJobParameters();
     }
 }

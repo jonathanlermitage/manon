@@ -21,7 +21,7 @@ public class AppTraceTest {
     
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         AppTrace filled = AppTrace.builder()
-            .id("1")
+            .id(1L)
             .appId("2")
             .msg("m")
             .level(AppTraceLevel.INFO)
@@ -31,7 +31,7 @@ public class AppTraceTest {
         return new Object[][]{
             {AppTrace.builder().build(), AppTrace.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
-            {filled.toBuilder().id("99").build(), filled, false},
+            {filled.toBuilder().id(99L).build(), filled, false},
             {filled.toBuilder().appId("99").build(), filled, false},
             {filled.toBuilder().msg("updated").build(), filled, false},
             {filled.toBuilder().level(AppTraceLevel.WARN).build(), filled, false},

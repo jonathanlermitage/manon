@@ -2,6 +2,7 @@ package manon.user.service;
 
 import manon.user.document.UserStats;
 import manon.user.repository.UserStatsRepository;
+import manon.util.Tools;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,13 @@ public class UserStatsServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldSave() {
-        Date before = new Date();
+        Date before = Tools.now();
         userStatsService.save(UserStats.builder().nbUsers(100).build());
-        Date after = new Date();
+        Date after = Tools.now();
         
         List<UserStats> us = userStatsRepository.findAll();
         assertThat(us).hasSize(1);
-        assertThat(us.get(0).getCreationDate()).isBetween(before, after, true, true);
+        assertThat(us.get(0).getCreationDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
         assertThat(us.get(0).getNbUsers()).isEqualTo(100);
     }
 }

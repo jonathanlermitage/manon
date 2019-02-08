@@ -17,4 +17,3 @@ test_script:
 
 cache:
   - C:\Users\appveyor\.m2
-  - C:\Users\appveyor\.embedmongo

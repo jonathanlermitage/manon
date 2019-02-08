@@ -1,13 +1,8 @@
-### DEV CONFIGURATION for local application with existing MongoDB and MariaDB ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local application with existing MariaDB ###  (warning: avoid tabs, indent with two spaces)
 
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: manon_dev
   datasource:
     username: root
     password: woot
-    url: jdbc:mysql://localhost:3307/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    url: jdbc:mariadb://localhost:3307/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true
   jpa.hibernate.ddl-auto: update

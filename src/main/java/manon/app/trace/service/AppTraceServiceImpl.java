@@ -7,8 +7,10 @@ import manon.app.trace.document.AppTrace;
 import manon.app.trace.model.AppTraceEvent;
 import manon.app.trace.model.AppTraceLevel;
 import manon.app.trace.repository.AppTraceRepository;
+import manon.util.Tools;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,9 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.format;
+import static java.lang.System.currentTimeMillis;
 import static manon.app.trace.model.AppTraceEvent.UPTIME;
 import static manon.app.trace.model.AppTraceLevel.DEBUG;
-import static manon.util.Tools.objId;
 
 /**
  * Log messages to database.
@@ -27,15 +29,16 @@ import static manon.util.Tools.objId;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class AppTraceServiceImpl implements AppTraceService {
     
     private final AppTraceRepository appTraceRepository;
     private final Clock clock;
-    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private final Date startupDate = new Date();
+    private final DateFormat dateFormat = new SimpleDateFormat(Tools.DATE_FORMAT);
+    private final Date startupDate = Tools.now();
     
     @Getter
-    private final String appId = objId();
+    private final String appId = Long.toString(currentTimeMillis());
     
     @Override
     public void deleteByCurrentAppIdAndEvent(AppTraceEvent event) {

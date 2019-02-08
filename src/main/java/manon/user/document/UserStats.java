@@ -7,36 +7,49 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.mapping.Document;
+import manon.util.Tools;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
-import static lombok.AccessLevel.PRIVATE;
 import static manon.util.Tools.DATE_FORMAT;
 
 /** Statistics on all users. */
-@Document(collection = "UserStats")
-@TypeAlias("UserStats")
+@Entity
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
-@AllArgsConstructor(access = PRIVATE)
-@NoArgsConstructor(access = PRIVATE)
-public final class UserStats implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserStats implements Serializable {
     
     private static final long serialVersionUID = -6351299219725037369L;
     
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     
+    @Column(nullable = false)
     private long nbUsers;
     
     @JsonFormat(pattern = DATE_FORMAT)
-    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date creationDate;
+    
+    @PrePersist
+    public void prePersist() {
+        if (creationDate == null) {
+            creationDate = Tools.now();
+        }
+    }
 }

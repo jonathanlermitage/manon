@@ -24,32 +24,32 @@ public class UserAdminWSCtrlTest extends AbstractMockBeforeClass {
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyActivate(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-            .pathParam("userId", FAKE_ID)
+            .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/activate")
             .then()
             .statusCode(status);
-        verify(userAdminWS, status).activate(any(), eq(FAKE_ID));
+        verify(userAdminWS, status).activate(any(), eq(UNKNOWN_ID));
     }
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyBan(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-            .pathParam("userId", FAKE_ID)
+            .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/ban")
             .then()
             .statusCode(status);
-        verify(userAdminWS, status).ban(any(), eq(FAKE_ID));
+        verify(userAdminWS, status).ban(any(), eq(UNKNOWN_ID));
     }
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifySuspend(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-            .pathParam("userId", FAKE_ID)
+            .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/suspend")
             .then()
             .statusCode(status);
-        verify(userAdminWS, status).suspend(any(), eq(FAKE_ID));
+        verify(userAdminWS, status).suspend(any(), eq(UNKNOWN_ID));
     }
 }

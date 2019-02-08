@@ -4,10 +4,10 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import manon.user.document.User;
 import manon.user.err.UserExistsException;
-import manon.user.err.UserNotFoundException;
 import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
+import manon.user.model.UserPublicInfo;
 import manon.user.service.UserService;
 import manon.util.basetest.AbstractInitBeforeTest;
 import org.hamcrest.Matchers;
@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
 import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
@@ -33,6 +36,11 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
     @Autowired
     protected UserService userService;
     
+    @Override
+    public int getNumberOfUsers() {
+        return 3;
+    }
+    
     public Object[][] dataProviderShouldRegister() {
         return new Object[][]{
             {"JOHN", "12300"},
@@ -43,7 +51,7 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
     
     @ParameterizedTest
     @MethodSource("dataProviderShouldRegister")
-    public void shouldRegister(String name, String pwd) throws UserNotFoundException {
+    public void shouldRegister(String name, String pwd) throws Exception {
         whenAnonymous().getRequestSpecification()
             .body(RegistrationForm.builder().username(name).password(pwd).build())
             .contentType(JSON)
@@ -52,10 +60,12 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
             .statusCode(SC_CREATED);
         User user = userService.readByUsername(name);
         assertThat(user.getUsername()).isEqualTo(name);
-        assertThat(user.getRoles()).containsExactly(ROLE_PLAYER);
+        assertThat(user.getAuthorities()).isEqualTo(ROLE_PLAYER.name());
         assertThat(user.getVersion()).isGreaterThanOrEqualTo(0L);
         assertThat(user.getRegistrationState()).isEqualTo(ACTIVE);
-        assertThat(pwd).as("don't store raw passwords!").isNotEqualTo(user.getPassword()); // IMPORTANT always hash stored password
+        assertThat(pwd).as("don't store raw passwords!")
+            .isNotEqualTo(user.getPassword())
+            .doesNotContain(user.getPassword());
     }
     
     @Test
@@ -67,7 +77,7 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
             .then()
             .statusCode(SC_CREATED);
         whenAnonymous().getRequestSpecification()
-            .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
+            .body(RegistrationForm.builder().username("DUPLICATE").password("456789").build())
             .contentType(JSON)
             .post(API_USER)
             .then()
@@ -177,23 +187,19 @@ public class UserWSIntegrationTest extends AbstractInitBeforeTest {
             .then().statusCode(SC_OK);
     }
     
-    /** Only {@link User.Validation#MAX_EVENTS} most recent user's friendshipEvents should be kept. */
+    
     @Test
-    public void shouldCheckEventsMaintenance() throws Exception {
-        String p1UserId = userId(1);
-        String p2UserId = userId(2);
-        assertThat(userService.readOne(p1UserId).getFriendshipEvents()).isEmpty();
-        for (int i = 0; i < (User.Validation.MAX_EVENTS / 2) + 5; i++) {
-            whenP1().getRequestSpecification()
-                .post(API_USER + "/askfriendship/user/" + p2UserId)
-                .then()
-                .statusCode(SC_OK);
-            whenP1().getRequestSpecification()
-                .post(API_USER + "/cancelfriendship/user/" + p2UserId)
-                .then()
-                .statusCode(SC_OK);
-            
-        }
-        assertThat(userService.readOne(p1UserId).getFriendshipEvents()).hasSize(User.Validation.MAX_EVENTS);
+    public void shouldGetZeroFriends() {
+        //GIVEN a user with no friend
+        
+        //WHEN he gets friends
+        Response res = whenP1().getRequestSpecification()
+            .get(API_USER + "/friends");
+        res.then()
+            .statusCode(SC_OK);
+        List<UserPublicInfo> friends = Arrays.asList(res.getBody().as(UserPublicInfo[].class));
+        
+        //THEN he gets nothing
+        assertThat(friends).isEmpty();
     }
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserSnapshotService {
     
-    Optional<UserSnapshot> findOne(String id);
+    Optional<UserSnapshot> findOne(long id);
     
     long count();
     

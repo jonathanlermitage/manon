@@ -39,7 +39,7 @@ public class UserAdminWS {
     /** Activate a user. */
     @PostMapping(value = "/{userId}/activate")
     public String activate(@AuthenticationPrincipal UserSimpleDetails admin,
-                           @PathVariable("userId") String userId)
+                           @PathVariable("userId") long userId)
         throws UserNotFoundException {
         log.warn("admin {} activates user {}", admin.getUsername(), userId);
         return registrationService.activate(userId).getRegistrationState().name();
@@ -48,7 +48,7 @@ public class UserAdminWS {
     /** Suspend a user. */
     @PostMapping(value = "/{userId}/suspend")
     public String suspend(@AuthenticationPrincipal UserSimpleDetails admin,
-                          @PathVariable("userId") String userId)
+                          @PathVariable("userId") long userId)
         throws UserNotFoundException {
         log.warn("admin {} suspends user {}", admin.getUsername(), userId);
         return registrationService.suspend(userId).getRegistrationState().name();
@@ -57,7 +57,7 @@ public class UserAdminWS {
     /** Ban a user. */
     @PostMapping(value = "/{userId}/ban")
     public String ban(@AuthenticationPrincipal UserSimpleDetails admin,
-                      @PathVariable("userId") String userId)
+                      @PathVariable("userId") long userId)
         throws UserNotFoundException {
         log.warn("admin {} bans user {}", admin.getUsername(), userId);
         return registrationService.ban(userId).getRegistrationState().name();

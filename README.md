@@ -17,7 +17,7 @@
 
 ## Project
 
-Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, NoSQL, Docker, ELK stack, etc. It demonstrates usage of:
+Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, Docker, ELK stack, etc. It demonstrates usage of:
 
 * **Maven** (latest version) and **Gradle** build tools
   * migration from **Maven to Gradle** (but I'll stick to Maven). Stable and functional, but still needs some improvements. See commit [cf79b9c](https://github.com/jonathanlermitage/manon/commit/cf79b9c1f0a7eee7ffcd8a1fd0b1e05e11f1de75) ([spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle) branch)
@@ -26,9 +26,10 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, NoSQL, Docke
 * built with JDK11 on Travis CI, targets JRE8 bytecode
   * see commit [f778bf0](https://github.com/jonathanlermitage/manon/commit/f778bf072ebcd951082be934ef4b4af763beb103) ([spring5-light-jre8-with-jdk11](https://github.com/jonathanlermitage/manon/tree/spring5-light-jre8-with-jdk11) branch)
 * **Spring Web** with a **REST API**
-* **Spring Security**, to authenticate users via auth_basic, and fetch authentication data from MongoDB instead of default SQL database 
+* **Spring Security**, to authenticate users via auth_basic and fetch authentication data from SQL database 
 * **Spring Data** to serve data from a **MongoDB** database
 * **Spring Batch** to schedule and manage some tasks
+* **migration from MongoDB** (used to store regular and authentication data) to **MariaDB**. See last commit of [spring5-light-mongo-to-sql](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo-to-sql) branch
   * see commit [c0e3422](https://github.com/jonathanlermitage/manon/commit/c0e3422fcce5522c3320dd1a2eed65950e321621) ([spring5-light-batch](https://github.com/jonathanlermitage/manon/tree/spring5-light-batch) branch)
 * **Spring Cache** via Redis for application, and prefer an embedded cache provider during tests
   * see commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) ([spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis) branch)

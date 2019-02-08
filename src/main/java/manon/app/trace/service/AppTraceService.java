@@ -3,7 +3,7 @@ package manon.app.trace.service;
 import manon.app.trace.document.AppTrace;
 import manon.app.trace.model.AppTraceEvent;
 import manon.app.trace.model.AppTraceLevel;
-import manon.util.VisibleForTesting;
+import manon.util.ExistForTesting;
 
 import java.util.List;
 
@@ -25,15 +25,15 @@ public interface AppTraceService {
     
     void logUptime();
     
-    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     long count();
     
-    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     long countByCurrentAppId();
     
-    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     long countByCurrentAppIdAndEvent(AppTraceEvent event);
     
-    @VisibleForTesting(why = "AppTraceServiceIntegrationTest")
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     List<AppTrace> findAll();
 }

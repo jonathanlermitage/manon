@@ -2,11 +2,11 @@ package manon.app.trace.repository;
 
 import manon.app.trace.document.AppTrace;
 import manon.app.trace.model.AppTraceEvent;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AppTraceRepository extends MongoRepository<AppTrace, String> {
+public interface AppTraceRepository extends JpaRepository<AppTrace, Long> {
     
     long countByAppId(String appId);
     

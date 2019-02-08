@@ -2,8 +2,6 @@ package manon.util.basetest;
 
 import org.junit.jupiter.api.TestInstance;
 
-import static manon.util.Tools.objId;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class AbstractTest {
     
@@ -18,7 +16,7 @@ public abstract class AbstractTest {
     public static final String ERRORS_MSG = "errors.defaultMessage";
     
     /** Simply a new unique objectId. */
-    public static final String UNKNOWN_ID = objId();
+    public static final long UNKNOWN_ID = Long.MAX_VALUE;
     
     public static final String UNKNOWN_USER_NAME = "u" + UNKNOWN_ID;
     

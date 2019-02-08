@@ -14,11 +14,13 @@ import manon.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
@@ -35,20 +37,20 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void existOrFail(String... ids) throws UserNotFoundException {
-        for (String id : ids) {
+    public void existOrFail(long... ids) throws UserNotFoundException {
+        for (long id : ids) {
             readOne(id);
         }
     }
     
     @Override
-    public User readOne(String id) throws UserNotFoundException {
+    public User readOne(long id) throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public void update(String userId, UserUpdateForm userUpdateForm) {
-        userRepository.update(userId, userUpdateForm);
+    public void update(long userId, UserUpdateForm userUpdateForm) {
+        userRepository.update(userId, userUpdateForm.getEmail(), userUpdateForm.getNickname());
     }
     
     @Override
@@ -67,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public UserVersionProjection readVersionById(String id) throws UserNotFoundException {
+    public UserVersionProjection readVersionById(long id) throws UserNotFoundException {
         return userRepository.findVersionById(id).orElseThrow(UserNotFoundException::new);
     }
     
@@ -78,7 +80,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User create(User user) throws UserExistsException {
-        if (userRepository.usernameExists(user.getUsername())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException();
         }
         return userRepository.save(user.toBuilder()
@@ -87,12 +89,12 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void encodeAndSetPassword(String id, String password) {
+    public void encodeAndSetPassword(long id, String password) {
         userRepository.setPassword(id, passwordEncoderService.encode(password));
     }
     
     @Override
-    public void setRegistrationState(String id, RegistrationState registrationState) {
+    public void setRegistrationState(long id, RegistrationState registrationState) {
         userRepository.setRegistrationState(id, registrationState);
     }
     

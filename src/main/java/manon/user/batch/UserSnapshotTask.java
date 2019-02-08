@@ -6,6 +6,8 @@ import manon.app.config.Cfg;
 import manon.user.document.User;
 import manon.user.document.UserSnapshot;
 import manon.user.document.UserStats;
+import manon.user.repository.UserRepository;
+import manon.user.repository.UserSnapshotRepository;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
 import org.springframework.batch.core.Job;
@@ -18,15 +20,15 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.data.MongoItemReader;
-import org.springframework.batch.item.data.MongoItemWriter;
+import org.springframework.batch.item.data.RepositoryItemReader;
+import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.Collections;
+import java.util.Map;
 
 /** Keep recent user snapshots, then create snapshot of all existing users. */
 @Configuration
@@ -38,32 +40,34 @@ public class UserSnapshotTask {
     public static final String JOB_STEP1_SNAPSHOT_NAME = "userSnapshotJobStepSnapshot";
     public static final String JOB_STEP2_STATS_NAME = "userSnapshotJobStepStats";
     
+    private static final Map<String, Sort.Direction> SORT = Collections.singletonMap("id", Sort.Direction.ASC);
+    
     private final Cfg cfg;
-    private final MongoTemplate mongoTemplate;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
     private final TaskListener listener;
+    private final UserRepository userRepository;
+    private final UserSnapshotRepository userSnapshotRepository;
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
     
     @Bean
     @StepScope
-    public MongoItemReader<User> reader() {
-        MongoItemReader<User> reader = new MongoItemReader<>();
-        reader.setCollection(User.class.getSimpleName());
-        reader.setTargetType(User.class);
-        reader.setTemplate(mongoTemplate);
-        reader.setQuery("{}");
-        reader.setSort(Collections.singletonMap("id", Sort.Direction.ASC));
+    public RepositoryItemReader<User> reader() {
+        RepositoryItemReader<User> reader = new RepositoryItemReader<>();
+        reader.setRepository(userRepository);
+        reader.setSort(SORT);
+        reader.setMethodName("findAll");
+        reader.setPageSize(cfg.getBatchUserSnapshotChunk());
         return reader;
     }
     
     @Bean
     @StepScope
-    public MongoItemWriter<UserSnapshot> writer() {
-        MongoItemWriter<UserSnapshot> writer = new MongoItemWriter<>();
-        writer.setCollection(UserSnapshot.class.getSimpleName());
-        writer.setTemplate(mongoTemplate);
+    public RepositoryItemWriter<UserSnapshot> writer() {
+        RepositoryItemWriter<UserSnapshot> writer = new RepositoryItemWriter<>();
+        writer.setRepository(userSnapshotRepository);
+        writer.setMethodName("save");
         return writer;
     }
     
@@ -127,9 +131,7 @@ public class UserSnapshotTask {
     private static class UserItemProcessor implements ItemProcessor<User, UserSnapshot> {
         @Override
         public UserSnapshot process(User item) {
-            return UserSnapshot.builder()
-                .user(item)
-                .build();
+            return UserSnapshot.from(item);
         }
     }
 }

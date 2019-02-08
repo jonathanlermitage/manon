@@ -15,7 +15,7 @@ public class PerformanceRecorderTest {
     public void shouldEmptyShowStats() {
         PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
         assertThat(performanceRecorder.isEmpty()).isTrue();
-        assert (performanceRecorder.showStats()).isEmpty();
+        assertThat(performanceRecorder.showStats()).isEmpty();
     }
     
     @Test

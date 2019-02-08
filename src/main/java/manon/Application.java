@@ -9,11 +9,12 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.PostConstruct;
 
@@ -21,9 +22,10 @@ import static manon.app.trace.model.AppTraceEvent.APP_START;
 import static manon.app.trace.model.AppTraceLevel.INFO;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackages = {"manon.user.repository", "manon.app.trace.repository"})
-@EnableMongoAuditing
 @EnableBatchProcessing
+@EnableJpaRepositories(basePackages = {"manon.user.repository", "manon.app.trace.repository"})
+@EntityScan(basePackages = {"manon.user.document", "manon.app.trace.document"})
+@EnableTransactionManagement
 @EnableScheduling
 @RequiredArgsConstructor
 public class Application extends SpringBootServletInitializer {

@@ -14,21 +14,7 @@ services:
     volumes:
       - ~/manon-app-logs:/logs
     depends_on:
-      - mongo
       - maria
-
-  mongo:
-    container_name: mongo
-    image: mongo:4.0.5-xenial # see https://hub.docker.com/_/mongo/
-    command: --smallfiles --logpath=/dev/null
-    ports:
-      - "27017:27017"
-    volumes:
-      - ~/manon-mongo-db:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ROOT
-      MONGO_INITDB_ROOT_PASSWORD: woot
-      MONGO_INITDB_DATABASE: admin
 
   maria:
     container_name: maria

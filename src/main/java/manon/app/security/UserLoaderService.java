@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static manon.user.model.RegistrationState.ACTIVE;
 
@@ -27,12 +28,13 @@ public class UserLoaderService implements UserDetailsService {
         } catch (UserNotFoundException e) {
             throw new UsernameNotFoundException(username);
         }
+        
         return new UserSimpleDetails(
             user.getUsername(),
             user.getPassword(),
             true, true, true,
             ACTIVE == user.getRegistrationState(),
-            user.getRoles().stream().map(userAuthority -> new SimpleGrantedAuthority(userAuthority.name())).collect(Collectors.toSet()),
+            Stream.of(user.getAuthorities().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toSet()),
             user);
     }
 }

@@ -6,14 +6,13 @@ First, go to project's root and make the `./do` utility script executable if nee
 ### Manually
 
 * Install recent **JDK11**.
-* Install **MongoDB** (any version from 3.4.x to 4.1.x should work). Make it listen on port 27017, with no authentication. See `src/main/resources/application-dev.yml` for details.
 * Install **MariaDB** or MySQL (any reasonably recent version should work).
 * Package and run application via `./do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `./do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod manon.jar`.
 
 ### Docker Compose (application + nginx + log analysis via ELK + Cerebro)
 
-Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and [Distroless](https://github.com/GoogleContainerTools/distroless) + [MongoDB Community](https://www.mongodb.com/download-center/community) and [MariaDB](https://downloads.mariadb.org/) databases + [Nginx](http://nginx.org/en/download.html) as HTTP proxy, and an ELK stack to parse logs. To proceed, follow these steps:
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, [MariaDB](https://downloads.mariadb.org/) database, [Nginx](http://nginx.org/en/download.html) as HTTP proxy, and an ELK stack to parse logs. To proceed, follow these steps:
 
 #### Preparation: create directories and install software
 
@@ -21,7 +20,6 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Create data and log directories with read/write permissions:
     ```bash
     mkdir ~/manon-app-logs
-    mkdir ~/manon-mongo-db
     mkdir ~/manon-maria-db
     mkdir ~/manon-nginx-logs
     mkdir ~/manon-elastic-db
@@ -53,16 +51,11 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * or via traditional `Dockerfile`: `./do docker`.
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
 * Then run application image and dependencies via Docker Compose: `./do up` (it actually does: `docker-compose -f ./config/docker/docker-compose.yml up -d`).
-* MongoDB data is persisted in `~/manon-mongo-db/`. Application listen on port 8080 and its logs are stored in `~/manon-app-logs/`.
-* Optional: install MongoDB command-line client and check database connectivity:
-  ```bash
-  sudo apt-get install mongodb-clients
-  mongo -u ROOT -p woot --authenticationDatabase admin localhost/manon
-  ```
+* Application listens on port 8080 and its logs are stored in `~/manon-app-logs/`.
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
 * Replace `8080` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
-* Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `UserStats` and `UserSnapshot` MongoDB collections (connect to database, then do `db.UserStats.find()` and `db.UserSnapshot.find()`).
+* Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `user_stats` and `user_snapshot` MariaDB tables.
 
 #### Deploy ELK stack and Cerebro
 

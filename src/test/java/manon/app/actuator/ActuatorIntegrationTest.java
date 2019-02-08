@@ -56,7 +56,7 @@ public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
     
     @ParameterizedTest
     @MethodSource("dataProviderShouldGetSpringBoot2Actuator")
-    public void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) throws IllegalArgumentException {
+    public void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) {
         call(whenAdmin(), verb, endpoint).statusCode(isEnabled ? SC_OK : SC_NOT_FOUND);
         call(whenP1(), verb, endpoint).statusCode(isPublic ? isEnabled ? SC_OK : SC_NOT_FOUND : SC_FORBIDDEN);
         call(whenAnonymous(), verb, endpoint).statusCode(isPublic ? isEnabled ? SC_OK : SC_NOT_FOUND : SC_UNAUTHORIZED);
@@ -66,8 +66,7 @@ public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
     public void shouldGetFullHealthActuatorWhenAdmin() {
         whenAdmin().getRequestSpecification().get("/actuator/health").then().assertThat().body(
             containsString("\"status\""),
-            containsString("\"diskSpace\""),
-            containsString("\"mongo\"")
+            containsString("\"diskSpace\"")
         );
     }
     
@@ -78,7 +77,7 @@ public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
         );
     }
     
-    private ValidatableResponse call(Rs rs, HttpMethod verb, String endpoint) throws IllegalArgumentException {
+    private ValidatableResponse call(Rs rs, HttpMethod verb, String endpoint) {
         RequestSpecification spec = rs.getRequestSpecification();
         switch (verb) {
             case GET:

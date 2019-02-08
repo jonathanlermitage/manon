@@ -22,7 +22,6 @@ script: "./mvnw clean test -P embed-linux,coverage,ci -B"
 cache:
   directories:
     - '$HOME/.m2'
-    - '$HOME/.embedmongo'
 
 git:
   depth: 3
