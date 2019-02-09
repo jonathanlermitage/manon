@@ -152,7 +152,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     
     @Override
     public List<UserPublicInfo> findAllFor(long userId) {
-        return friendshipRepository.findAllFor(userId).stream()
+        return friendshipRepository.streamAllFor(userId)
             .map(friendship -> UserPublicInfo.from(friendship.getRequestFrom().getId() == userId ? friendship.getRequestTo() : friendship.getRequestFrom()))
             .collect(Collectors.toList());
     }

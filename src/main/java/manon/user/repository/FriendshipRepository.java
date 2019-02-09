@@ -1,6 +1,7 @@
 package manon.user.repository;
 
 import manon.user.document.Friendship;
+import manon.util.ExistForTesting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
@@ -24,6 +26,12 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     void deleteCouple(@Param("userId1") long userId1, @Param("userId2") long userId2);
     
     /** Find all friends for given user. */
+    @Query("select f from Friendship f " +
+        "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc")
+    Stream<Friendship> streamAllFor(@Param("userId") long userId);
+    
+    /** Find all friends for given user. */
+    @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from Friendship f " +
         "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc")
     List<Friendship> findAllFor(@Param("userId") long userId);
