@@ -1,6 +1,7 @@
 package manon.user.batch;
 
 import lombok.RequiredArgsConstructor;
+import manon.app.batch.listener.ChunkFlushListener;
 import manon.app.batch.listener.TaskListener;
 import manon.app.config.Cfg;
 import manon.user.document.User;
@@ -45,7 +46,8 @@ public class UserSnapshotTask {
     private final Cfg cfg;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
-    private final TaskListener listener;
+    private final TaskListener taskListener;
+    private final ChunkFlushListener chunkFlushListener;
     private final UserRepository userRepository;
     private final UserSnapshotRepository userSnapshotRepository;
     private final UserSnapshotService userSnapshotService;
@@ -90,6 +92,7 @@ public class UserSnapshotTask {
             .reader(reader())
             .processor(processor())
             .writer(writer())
+            .listener(chunkFlushListener)
             .build();
     }
     
@@ -104,7 +107,7 @@ public class UserSnapshotTask {
     Job userSnapshotJob() {
         return jbf.get(JOB_NAME)
             .incrementer(new RunIdIncrementer())
-            .listener(listener)
+            .listener(taskListener)
             .start(userSnapshotJobStepKeepRecent())
             .next(userSnapshotJobStepSnapshot())
             .next(userSnapshotJobStepStats())
