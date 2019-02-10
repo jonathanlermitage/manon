@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Date;
+
+import static manon.util.Tools.temporize;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
@@ -59,5 +62,25 @@ public class UserTest {
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(User o1, User o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
+    }
+    
+    @Test
+    public void shouldVerifyPrePersistOnNew() {
+        User o = User.builder().build();
+        o.prePersist();
+        assertThat(o.getCreationDate()).isNotNull();
+        assertThat(o.getUpdateDate()).isEqualTo(o.getCreationDate());
+    }
+    
+    @Test
+    public void shouldVerifyPrePersistOnExisting() {
+        User o = User.builder().build();
+        o.prePersist();
+        Date creationDate = o.getCreationDate();
+        temporize();
+        
+        o.prePersist();
+        assertThat(o.getCreationDate()).isEqualTo(creationDate);
+        assertThat(o.getUpdateDate()).isAfter(creationDate);
     }
 }

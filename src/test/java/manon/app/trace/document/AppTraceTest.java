@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Date;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppTraceTest {
@@ -50,5 +52,22 @@ public class AppTraceTest {
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(AppTrace o1, AppTrace o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
+    }
+    
+    @Test
+    public void shouldVerifyPrePersistOnNew() {
+        AppTrace o = AppTrace.builder().build();
+        o.prePersist();
+        assertThat(o.getCreationDate()).isNotNull();
+    }
+    
+    @Test
+    public void shouldVerifyPrePersistOnExisting() {
+        AppTrace o = AppTrace.builder().build();
+        o.prePersist();
+        Date creationDate = o.getCreationDate();
+        
+        o.prePersist();
+        assertThat(o.getCreationDate()).isEqualTo(creationDate);
     }
 }
