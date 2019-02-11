@@ -1,0 +1,13 @@
+### DEV CONFIGURATION for local unit testing with existing fresh MariaDB ###  (warning: avoid tabs, indent with two spaces)
+
+manon:
+  batch.user-snapshot.chunk: 10
+  security.bcrypt.strength: 4
+
+spring:
+  datasource:
+    username: root
+    password: woot
+    url: jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa.hibernate.ddl-auto: update

@@ -10,9 +10,6 @@ import manon.user.err.FriendshipRequestExistsException;
 import manon.user.err.FriendshipRequestNotFoundException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.UserPublicInfo;
-import manon.user.repository.FriendshipEventRepository;
-import manon.user.repository.FriendshipRepository;
-import manon.user.repository.FriendshipRequestRepository;
 import manon.user.service.FriendshipService;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.hamcrest.Matchers;
@@ -42,12 +39,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class FriendshipWSIntegrationTest extends AbstractInitBeforeClass {
     
-    @Autowired
-    private FriendshipEventRepository friendshipEventRepository;
-    @Autowired
-    private FriendshipRepository friendshipRepository;
-    @Autowired
-    private FriendshipRequestRepository friendshipRequestRepository;
     @Autowired
     protected FriendshipService friendshipService;
     

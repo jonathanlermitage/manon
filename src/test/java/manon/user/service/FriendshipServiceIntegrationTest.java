@@ -6,7 +6,6 @@ import manon.user.err.FriendshipRequestExistsException;
 import manon.user.err.FriendshipRequestNotFoundException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.UserPublicInfo;
-import manon.user.repository.FriendshipRequestRepository;
 import manon.util.basetest.AbstractInitBeforeTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,9 +19,6 @@ public class FriendshipServiceIntegrationTest extends AbstractInitBeforeTest {
     
     @Autowired
     private FriendshipService friendshipService;
-    
-    @Autowired
-    private FriendshipRequestRepository friendshipRequestRepository;
     
     @Override
     public int getNumberOfUsers() {

@@ -75,7 +75,7 @@ public class UserSnapshotTest {
         UserSnapshot o = UserSnapshot.builder().build();
         o.prePersist();
         Date creationDate = o.getCreationDate();
-    
+        
         o.prePersist();
         assertThat(o.getCreationDate()).isEqualTo(creationDate);
     }

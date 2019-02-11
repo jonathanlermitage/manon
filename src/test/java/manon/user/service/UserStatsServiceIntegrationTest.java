@@ -1,7 +1,6 @@
 package manon.user.service;
 
 import manon.user.document.UserStats;
-import manon.user.repository.UserStatsRepository;
 import manon.util.Tools;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.api.Test;
@@ -14,9 +13,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserStatsServiceIntegrationTest extends AbstractInitBeforeClass {
-    
-    @Autowired
-    private UserStatsRepository userStatsRepository;
     
     @Autowired
     private UserStatsService userStatsService;

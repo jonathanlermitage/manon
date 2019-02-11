@@ -3,7 +3,6 @@ package manon.user.service;
 import lombok.SneakyThrows;
 import manon.user.document.User;
 import manon.user.document.UserSnapshot;
-import manon.user.repository.UserSnapshotRepository;
 import manon.util.Tools;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.api.Test;
@@ -17,9 +16,6 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass {
-    
-    @Autowired
-    private UserSnapshotRepository userSnapshotRepository;
     
     @Autowired
     private UserSnapshotService userSnapshotService;
