@@ -10,9 +10,16 @@ import manon.Application;
 import manon.app.config.Cfg;
 import manon.app.info.service.InfoService;
 import manon.app.stats.service.PerformanceRecorder;
+import manon.app.trace.repository.AppTraceRepository;
 import manon.user.document.User;
 import manon.user.err.UserExistsException;
 import manon.user.err.UserNotFoundException;
+import manon.user.repository.FriendshipEventRepository;
+import manon.user.repository.FriendshipRepository;
+import manon.user.repository.FriendshipRequestRepository;
+import manon.user.repository.UserRepository;
+import manon.user.repository.UserSnapshotRepository;
+import manon.user.repository.UserStatsRepository;
 import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
@@ -24,7 +31,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
@@ -66,7 +72,19 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
     protected InfoService infoService;
     
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    protected AppTraceRepository appTraceRepository;
+    @Autowired
+    protected FriendshipEventRepository friendshipEventRepository;
+    @Autowired
+    protected FriendshipRepository friendshipRepository;
+    @Autowired
+    protected FriendshipRequestRepository friendshipRequestRepository;
+    @Autowired
+    protected UserRepository userRepository;
+    @Autowired
+    protected UserSnapshotRepository userSnapshotRepository;
+    @Autowired
+    protected UserStatsRepository userStatsRepository;
     
     private final Map<Integer, Long> userIdCache = new HashMap<>();
     
@@ -101,9 +119,17 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
         // override if needed
     }
     
-    @SuppressWarnings("SqlResolve")
     public void clearDb() {
-        jdbcTemplate.execute("TRUNCATE SCHEMA PUBLIC RESTART IDENTITY AND COMMIT NO CHECK");
+        appTraceRepository.deleteAll();
+        
+        friendshipEventRepository.deleteAll();
+        friendshipRequestRepository.deleteAll();
+        friendshipRepository.deleteAll();
+        
+        userSnapshotRepository.deleteAll();
+        userStatsRepository.deleteAll();
+        
+        userRepository.deleteAll();
     }
     
     public void initDb() throws UserExistsException, UserNotFoundException {

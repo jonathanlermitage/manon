@@ -8,13 +8,11 @@ import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.UserPublicInfo;
-import manon.user.service.UserService;
 import manon.util.basetest.AbstractInitBeforeTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,9 +30,6 @@ import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserWSIntegrationTest extends AbstractInitBeforeTest {
-    
-    @Autowired
-    protected UserService userService;
     
     @Override
     public int getNumberOfUsers() {

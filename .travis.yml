@@ -1,3 +1,6 @@
+services:
+  - docker
+
 matrix:
   include:
     - os: linux
@@ -9,15 +12,19 @@ matrix:
 
 language: java
 
-sudo: false # faster builds
-
 before_install:
   - chmod +x mvnw
+  - mkdir ~/manon-maria-db
+  - sudo /etc/init.d/mysql stop
+  - sudo /etc/init.d/postgresql stop
+  - sudo netstat -antp
+  - docker-compose --version
+  - docker-compose -f ./config/docker/docker-compose.yml up -d maria
+
+script: "./mvnw clean test -P test-maria,coverage,ci -B"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-script: "./mvnw clean test -P coverage,ci -B"
 
 cache:
   directories:

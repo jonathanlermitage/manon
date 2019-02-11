@@ -284,6 +284,14 @@
             </properties>
         </profile>
 
+        <!-- Test with MariaDB. -->
+        <profile>
+            <id>test-maria</id>
+            <properties>
+                <surefireProfileArgLine>-Dspring.profiles.active=test-maria,metrics</surefireProfileArgLine>
+            </properties>
+        </profile>
+
         <!-- Code coverage via JaCoCo. -->
         <profile>
             <id>coverage</id>
