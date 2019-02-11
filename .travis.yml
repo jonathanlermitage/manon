@@ -17,7 +17,7 @@ before_install:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
-script: "./mvnw clean test -P embed-linux,coverage,ci -B"
+script: "./mvnw clean test -P coverage,ci -B"
 
 cache:
   directories:

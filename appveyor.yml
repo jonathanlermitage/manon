@@ -13,7 +13,7 @@ build_script:
   - mvnw clean package -DskipTests -B
 
 test_script:
-  - mvnw test -P embed-win,ci -B
+  - mvnw test -P ci -B
 
 cache:
   - C:\Users\appveyor\.m2
