@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
 
@@ -15,6 +15,12 @@ services:
       - ~/manon-app-logs:/logs
     depends_on:
       - maria
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/v1/sys/info/up || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   maria:
     container_name: maria

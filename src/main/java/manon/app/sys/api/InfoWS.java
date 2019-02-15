@@ -19,4 +19,9 @@ public class InfoWS {
     public String getAppVersion() {
         return infoService.getAppVersion();
     }
+    
+    @GetMapping(value = "/info/up")
+    public String getUp() {
+        return "UP";
+    }
 }

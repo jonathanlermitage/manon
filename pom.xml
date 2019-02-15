@@ -391,6 +391,7 @@
         </profile>
 
         <!-- Build a Docker image based on a lightweight JDK8 layer, without Docker daemon. -->
+        <!-- Deprecated: image doesn't contain curl application, so healthcheck won't work. Prefer build with Dockerfile. -->
         <profile>
             <id>jib</id>
             <build>

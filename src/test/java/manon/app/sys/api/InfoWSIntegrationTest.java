@@ -22,4 +22,11 @@ public class InfoWSIntegrationTest extends AbstractInitBeforeClass {
         res.then().statusCode(SC_OK);
         assertThat(res.asString()).matches(Pattern.compile("^[0-9]+\\.[0-9]+\\.[0-9]+[\\-A-Z]*$"));
     }
+    
+    @Test
+    public void shouldGetUp() {
+        Response res = whenAnonymous().getRequestSpecification().get(API_SYS + "/info/up");
+        res.then().statusCode(SC_OK);
+        assertThat(res.asString()).isEqualTo("UP");
+    }
 }

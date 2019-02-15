@@ -123,4 +123,21 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
             {whenUsername(SUSPENDED_USERNAME), SC_UNAUTHORIZED}
         };
     }
+    
+    public final String DP_ALLOW_ALL = "dataProviderAllowAll";
+    
+    @SuppressWarnings("unused") // used via DP_ALLOW_ALL
+    public Object[][] dataProviderAllowAll() {
+        return new Object[][]{
+            {whenAdmin(), SC_OK},
+            {whenP1(), SC_OK},
+            {whenAnonymous(), SC_OK},
+            {whenUsername(BANNED_REACTIVATED_USERNAME), SC_OK},
+            {whenUsername(DELETED_REACTIVATED_USERNAME), SC_OK},
+            {whenUsername(SUSPENDED_REACTIVATED_USERNAME), SC_OK},
+            {whenUsername(BANNED_USERNAME), SC_OK},
+            {whenUsername(DELETED_USERNAME), SC_OK},
+            {whenUsername(SUSPENDED_USERNAME), SC_OK}
+        };
+    }
 }

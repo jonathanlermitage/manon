@@ -52,6 +52,8 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
 * Then run application image and dependencies via Docker Compose: `./do up` (it actually does: `docker-compose -f ./config/docker/docker-compose.yml up -d`).
 * Application listens on port 8080 and its logs are stored in `~/manon-app-logs/`.
+* Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
+  * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
 * Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
 * Replace `8080` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.

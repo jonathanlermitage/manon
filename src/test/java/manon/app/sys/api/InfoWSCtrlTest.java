@@ -16,4 +16,14 @@ public class InfoWSCtrlTest extends AbstractMockBeforeClass {
             .statusCode(status);
         verify(infoWS, status).getAppVersion();
     }
+    
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_ALL)
+    public void shouldVerifyGetUp(Rs rs, Integer status) {
+        rs.getRequestSpecification()
+            .get(API_SYS + "/info/up")
+            .then()
+            .statusCode(status);
+        verify(infoWS, status).getUp();
+    }
 }
