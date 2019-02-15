@@ -1,4 +1,4 @@
-package manon.app.info.api;
+package manon.app.sys.api;
 
 import io.restassured.response.Response;
 import manon.util.basetest.AbstractInitBeforeClass;

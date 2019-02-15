@@ -1,4 +1,4 @@
-package manon.app.info.service;
+package manon.app.sys.service;
 
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.api.Test;

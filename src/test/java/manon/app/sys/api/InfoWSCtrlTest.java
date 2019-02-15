@@ -1,4 +1,4 @@
-package manon.app.info.api;
+package manon.app.sys.api;
 
 import manon.util.basetest.AbstractMockBeforeClass;
 import manon.util.web.Rs;

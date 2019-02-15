@@ -3,7 +3,7 @@ package manon.util.basetest;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import manon.app.batch.api.TaskRunnerWS;
-import manon.app.info.api.InfoWS;
+import manon.app.sys.api.InfoWS;
 import manon.user.api.FriendshipWS;
 import manon.user.api.UserAdminWS;
 import manon.user.api.UserWS;

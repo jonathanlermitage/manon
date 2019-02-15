@@ -1,7 +1,7 @@
-package manon.app.info.api;
+package manon.app.sys.api;
 
 import lombok.RequiredArgsConstructor;
-import manon.app.info.service.InfoService;
+import manon.app.sys.service.InfoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

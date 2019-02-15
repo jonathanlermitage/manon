@@ -1,4 +1,4 @@
-package manon.app.info.service;
+package manon.app.sys.service;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.config.Cfg;
