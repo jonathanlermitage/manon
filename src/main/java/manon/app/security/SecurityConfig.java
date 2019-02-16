@@ -16,12 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static manon.app.config.API.API_LOBBY;
 import static manon.app.config.API.API_SYS;
 import static manon.app.config.API.API_USER;
 import static manon.app.config.API.API_USER_ADMIN;
-import static manon.app.config.API.API_WORLD;
-import static manon.app.config.API.API_WORLD_ADMIN;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -47,12 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(API_SYS + "/info/up").permitAll()
             .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
             .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
-            .antMatchers(API_WORLD_ADMIN + "/**").hasAuthority(ADMIN)
             
             .antMatchers(POST, API_USER).permitAll() // user registration
             .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
-            .antMatchers(API_LOBBY + "/**").hasAuthority(PLAYER)
-            .antMatchers(API_WORLD + "/**").hasAuthority(PLAYER)
             
             .antMatchers("/actuator").hasAuthority(ACTUATOR)
             .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
