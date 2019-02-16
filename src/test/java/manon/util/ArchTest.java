@@ -2,7 +2,6 @@ package manon.util;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
-import com.tngtech.archunit.lang.ArchRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -13,77 +12,67 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 public class ArchTest {
     
-    private final String[] allPackages = new String[]{"manon.."};
-    private final String[] controlerPackages = new String[]{"manon.app.batch.api", "manon.app.info.api", "manon.user.api"};
-    private final String[] repositoryPackages = new String[]{"manon.app.trace.repository", "manon.user.repository"};
-    private final String[] servicePackages = new String[]{"manon.app.trace.service", "manon.user.service"};
+    private final JavaClasses appClasses = new ClassFileImporter().importPackages("manon..");
     
     @Test
     public void shouldNotDependOnJDKInternals() {
-        JavaClasses classes = new ClassFileImporter().importPackages(allPackages);
-        ArchRule rules = classes()
-            .should().onlyAccessClassesThat().resideOutsideOfPackage("com.sun..");
-        rules.check(classes);
+        classes()
+            .should().onlyAccessClassesThat().resideOutsideOfPackage("com.sun..")
+            .check(appClasses);
     }
     
     @Test
     public void shouldVerifyControlerArch() {
-        JavaClasses classes = new ClassFileImporter().importPackages(controlerPackages);
-        ArchRule rules = classes().that()
+        classes().that()
             .haveSimpleNameEndingWith("WS")
             .should().beAnnotatedWith(RestController.class)
             .andShould().beAnnotatedWith(RequestMapping.class)
-            .andShould().notBeInterfaces();
-        rules.check(classes);
+            .andShould().notBeInterfaces()
+            .check(appClasses);
     }
     
     @Test
     public void shouldVerifyRepositoryArch() {
-        JavaClasses classes = new ClassFileImporter().importPackages(repositoryPackages);
-        ArchRule rules = classes().that()
+        classes().that()
             .haveSimpleNameEndingWith("Repository")
             .should().beAnnotatedWith(Repository.class)
-            .andShould().beInterfaces();
-        rules.check(classes);
+            .andShould().beInterfaces()
+            .check(appClasses);
     }
     
     @Test
     public void shouldVerifyRepositoryCustomArch() {
-        JavaClasses classes = new ClassFileImporter().importPackages(repositoryPackages);
-        ArchRule rules = classes().that()
+        classes().that()
             .haveSimpleNameEndingWith("RepositoryCustom")
             .should().notBeAnnotatedWith(Repository.class)
-            .andShould().beInterfaces();
-        rules.check(classes);
+            .andShould().beInterfaces()
+            .check(appClasses);
     }
     
     @Test
     public void shouldVerifyRepositoryImplArch() {
-        JavaClasses classes = new ClassFileImporter().importPackages(repositoryPackages);
-        ArchRule rules = classes().that()
+        classes().that()
             .haveSimpleNameEndingWith("RepositoryImpl")
             .should().beAnnotatedWith(Repository.class)
-            .andShould().notBeInterfaces();
-        rules.check(classes);
+            .andShould().notBeInterfaces()
+            .check(appClasses);
     }
     
     @Test
     public void shouldVerifyServiceArch() {
-        JavaClasses classes = new ClassFileImporter().importPackages(servicePackages);
-        ArchRule rules = classes().that()
+        classes().that()
             .haveSimpleNameEndingWith("Service")
             .should().notBeAnnotatedWith(Service.class)
-            .andShould().beInterfaces();
-        rules.check(classes);
+            .andShould().beInterfaces()
+            .check(appClasses);
     }
     
     @Test
     public void shouldVerifyServicesImplArch() {
-        JavaClasses classes = new ClassFileImporter().importPackages(servicePackages);
-        ArchRule rules = classes().that()
+        classes().that()
             .haveSimpleNameEndingWith("ServiceImpl")
             .should().beAnnotatedWith(Service.class)
-            .andShould().notBeInterfaces();
-        rules.check(classes);
+            .andShould().notBeInterfaces()
+            .check(appClasses);
     }
 }

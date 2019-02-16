@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserloaderServiceIntegrationTest extends AbstractInitBeforeClass {
+public class UserDetailsServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
-    private UserLoaderService userLoaderService;
+    private UserDetailsServiceImpl UserDetailsService;
     
     @Override
     public int getNumberOfUsers() {
@@ -21,7 +21,7 @@ public class UserloaderServiceIntegrationTest extends AbstractInitBeforeClass {
     @Test
     public void shouldLoadUserByUsername() {
         String username = name(1);
-        UserSimpleDetails userSimpleDetailsFound = userLoaderService.loadUserByUsername(username);
+        UserSimpleDetails userSimpleDetailsFound = UserDetailsService.loadUserByUsername(username);
         assertThat(userSimpleDetailsFound).isNotNull();
         assertThat(userSimpleDetailsFound.getUsername()).isEqualTo(username);
         assertThat(userSimpleDetailsFound.getUser().getUsername()).isEqualTo(username);
@@ -29,13 +29,13 @@ public class UserloaderServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldFailLoadUserByUnknownUsername() {
-        assertThatThrownBy(() -> userLoaderService.loadUserByUsername(UNKNOWN_USER_NAME))
+        assertThatThrownBy(() -> UserDetailsService.loadUserByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UsernameNotFoundException.class);
     }
     
     @Test
     public void shouldFailLoadUserByNullUsername() {
-        assertThatThrownBy(() -> userLoaderService.loadUserByUsername(null))
+        assertThatThrownBy(() -> UserDetailsService.loadUserByUsername(null))
             .isInstanceOf(UsernameNotFoundException.class);
     }
 }

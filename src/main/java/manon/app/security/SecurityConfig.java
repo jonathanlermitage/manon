@@ -36,14 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String DEV = UserAuthority.ROLE_DEV.name();
     
     private final PasswordEncoderService passwordEncoderService;
-    private final UserLoaderService userLoaderService;
+    private final UserDetailsServiceImpl UserDetailsService;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
             .sessionManagement().sessionCreationPolicy(STATELESS)
             .and().authorizeRequests()
-    
+            
             .antMatchers(API_SYS + "/info/up").permitAll()
             .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
             .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
@@ -84,6 +84,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userLoaderService).passwordEncoder(passwordEncoderService.getEncoder());
+        auth.userDetailsService(UserDetailsService).passwordEncoder(passwordEncoderService.getEncoder());
     }
 }

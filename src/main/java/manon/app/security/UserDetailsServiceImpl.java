@@ -4,19 +4,19 @@ import lombok.RequiredArgsConstructor;
 import manon.user.document.User;
 import manon.user.err.UserNotFoundException;
 import manon.user.service.UserService;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static manon.user.model.RegistrationState.ACTIVE;
 
-@Configuration
+@Service
 @RequiredArgsConstructor
-public class UserLoaderService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     
     private final UserService userService;
     

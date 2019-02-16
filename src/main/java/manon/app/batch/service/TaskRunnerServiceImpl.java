@@ -15,12 +15,12 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerService {
     
