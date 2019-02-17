@@ -2,7 +2,6 @@ package manon.user.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.user.model.RegistrationState;
-import manon.user.model.UserPublicInfo;
 import manon.util.Tools;
 import org.springframework.data.annotation.Version;
 
@@ -58,7 +56,6 @@ public class User implements Serializable, UserVersionProjection {
     
     private static final long serialVersionUID = 443313310250932570L;
     
-    @JsonView(UserPublicInfo.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
