@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static manon.user.model.FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST;
 import static manon.user.model.FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST;
@@ -152,8 +153,9 @@ public class FriendshipServiceImpl implements FriendshipService {
     
     @Override
     public List<UserPublicInfo> findAllFor(long userId) {
-        return friendshipRepository.streamAllFor(userId)
-            .map(friendship -> UserPublicInfo.from(friendship.getRequestFrom().getId() == userId ? friendship.getRequestTo() : friendship.getRequestFrom()))
-            .collect(Collectors.toList());
+        try (Stream<Friendship> stream = friendshipRepository.streamAllFor(userId)) {
+            return stream.map(friendship -> UserPublicInfo.from(friendship.getRequestFrom().getId() == userId ? friendship.getRequestTo() : friendship.getRequestFrom()))
+                .collect(Collectors.toList());
+        }
     }
 }
