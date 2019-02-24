@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -24,37 +27,35 @@ public final class Tools {
     /** {@value} media type. */
     public static final String MEDIA_JSON = "application/json";
     
-    /** {@value} date format. */
-    public static final String DATE_FORMAT = "yyyy-MM-ddHH:mm:ssS Z";
+    public static final String ZONE_ID_NAME = "Europe/Paris";
+    public static final ZoneId ZONE_ID = ZoneId.of(ZONE_ID_NAME);
     
-    public static final ObjectMapper JSON;
+    public static final ObjectMapper JSON = new ObjectMapper();
     
-    static {
-        JSON = new ObjectMapper();
-        JSON.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
+    /** Get current date as {@code java.time.LocalDateTime} from {@value ZONE_ID_NAME} timezone. */
+    public static LocalDateTime now() {
+        return ZonedDateTime.now(ZONE_ID).toLocalDateTime().truncatedTo(ChronoUnit.MICROS);
     }
     
-    /** Get current date. */
-    public static Date now() {
-        return new Date();
+    /** Get current date as {@code java.util.Date} from {@value ZONE_ID_NAME} timezone. */
+    public static Date nowAsDate() {
+        return Date.from(Instant.from(ZonedDateTime.now(Tools.ZONE_ID)));
     }
     
-    public static Date yesterday() {
-        Calendar yesterday = new GregorianCalendar();
-        yesterday.add(Calendar.DAY_OF_MONTH, -1);
-        return yesterday.getTime();
+    public static LocalDateTime yesterday() {
+        return nowMinusDays(1);
     }
     
-    public static Date daysBefore(int nbDays) {
-        Calendar yesterday = new GregorianCalendar();
-        yesterday.add(Calendar.DAY_OF_MONTH, -1 * nbDays);
-        return yesterday.getTime();
+    public static LocalDateTime tomorrow() {
+        return nowPlusDays(1);
     }
     
-    public static Date tomorrow() {
-        Calendar yesterday = new GregorianCalendar();
-        yesterday.add(Calendar.DAY_OF_MONTH, 1);
-        return yesterday.getTime();
+    public static LocalDateTime nowMinusDays(int nbDays) {
+        return now().minus(Period.ofDays(nbDays));
+    }
+    
+    public static LocalDateTime nowPlusDays(int nbDays) {
+        return now().plus(Period.ofDays(nbDays));
     }
     
     /**
@@ -64,23 +65,18 @@ public final class Tools {
      * @param second seconds (0-59).
      * @param millisecond milliseconds (0-999).
      */
-    public static Calendar today(int hourOfDay, int minute, int second, int millisecond) {
-        Calendar cal = new GregorianCalendar();
-        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        cal.set(Calendar.MINUTE, minute);
-        cal.set(Calendar.SECOND, second);
-        cal.set(Calendar.MILLISECOND, millisecond);
-        return cal;
+    public static LocalDateTime today(int hourOfDay, int minute, int second, int millisecond) {
+        return now().withHour(hourOfDay).withMinute(minute).withSecond(second).withNano(millisecond * 1_000_000);
     }
     
     /** Get current date at 0:00'0 000. */
-    public static Date startOfDay() {
-        return today(0, 0, 0, 0).getTime();
+    public static LocalDateTime startOfDay() {
+        return today(0, 0, 0, 0);
     }
     
     /** Get current date at 23:59'59 999. */
-    public static Date endOfDay() {
-        return today(23, 59, 59, 999).getTime();
+    public static LocalDateTime endOfDay() {
+        return today(23, 59, 59, 999);
     }
     
     /** Return {@code true} if the provided string is null or empty once trimmed, otherwise {@code false}. */

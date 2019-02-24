@@ -4,9 +4,9 @@ import manon.app.batch.service.TaskRunnerService;
 import manon.user.document.User;
 import manon.user.document.UserSnapshot;
 import manon.user.document.UserStats;
-import manon.user.service.UserService;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
+import manon.util.Tools;
 import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,9 +25,6 @@ public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
     
     @Autowired
     private TaskRunnerService taskRunnerService;
-    
-    @Autowired
-    private UserService userService;
     @Autowired
     private UserSnapshotService userSnapshotService;
     @Autowired
@@ -67,7 +61,7 @@ public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
         }
         userSnapshotService.save(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {
-            userSnapshots.set(i, userSnapshots.get(i).toBuilder().creationDate(nowPlusDays(delays.get(i))).build());
+            userSnapshots.set(i, userSnapshots.get(i).toBuilder().creationDate(Tools.nowPlusDays(delays.get(i))).build());
         }
         userSnapshotService.save(userSnapshots);
         
@@ -90,13 +84,5 @@ public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
         List<UserStats> userStats = userStatsService.findAll();
         assertThat(userStats).isNotNull().hasSize(nbStats);
         userStats.forEach(ps -> assertThat(ps.getNbUsers()).isEqualTo(expectedTodayUserSnapshots));
-    }
-    
-    
-    /** Get current date plus given days. */
-    private Date nowPlusDays(int nbDays) {
-        Calendar cal = new GregorianCalendar();
-        cal.add(Calendar.DAY_OF_MONTH, nbDays);
-        return cal.getTime();
     }
 }

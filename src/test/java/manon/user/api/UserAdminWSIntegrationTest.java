@@ -7,6 +7,7 @@ import manon.util.basetest.AbstractInitBeforeClass;
 import manon.util.web.UserPage;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,9 +41,9 @@ public class UserAdminWSIntegrationTest extends AbstractInitBeforeClass {
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
-            long top = users.get(i - 1).getCreationDate().getTime();
-            long bottom = users.get(i).getCreationDate().getTime();
-            assertThat(top >= bottom).as("order").isTrue();
+            LocalDateTime top = users.get(i - 1).getCreationDate();
+            LocalDateTime bottom = users.get(i).getCreationDate();
+            assertThat(top).as("order").isAfterOrEqualTo(bottom);
         }
     }
     
@@ -58,9 +59,9 @@ public class UserAdminWSIntegrationTest extends AbstractInitBeforeClass {
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
-            long top = users.get(i - 1).getCreationDate().getTime();
-            long bottom = users.get(i).getCreationDate().getTime();
-            assertThat(top <= bottom).as("order").isTrue();
+            LocalDateTime top = users.get(i - 1).getCreationDate();
+            LocalDateTime bottom = users.get(i).getCreationDate();
+            assertThat(top).as("order").isBeforeOrEqualTo(bottom);
         }
     }
     

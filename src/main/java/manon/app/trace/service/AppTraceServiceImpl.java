@@ -12,10 +12,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Clock;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -34,8 +34,8 @@ public class AppTraceServiceImpl implements AppTraceService {
     
     private final AppTraceRepository appTraceRepository;
     private final Clock clock;
-    private final DateFormat dateFormat = new SimpleDateFormat(Tools.DATE_FORMAT);
-    private final Date startupDate = Tools.now();
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final LocalDateTime startupDate = Tools.now();
     
     @Getter
     private final String appId = Long.toString(currentTimeMillis());
@@ -76,9 +76,9 @@ public class AppTraceServiceImpl implements AppTraceService {
     @Scheduled(fixedRate = 30_000, initialDelay = 30_000)
     public void logUptime() {
         deleteByCurrentAppIdAndEvent(UPTIME);
-        log(DEBUG, UPTIME, format("Application [%s] is alive since %ss (%s)",
+        log(DEBUG, UPTIME, format("Application [%s] is alive since %s (%s)",
             appId,
-            (clock.millis() - startupDate.getTime()) / 1_000,
+            Duration.between(startupDate, Tools.now()).toString(),
             dateFormat.format(startupDate))
         );
     }
