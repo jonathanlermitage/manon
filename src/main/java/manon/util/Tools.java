@@ -15,7 +15,7 @@ import java.util.Date;
 import static lombok.AccessLevel.PRIVATE;
 
 /**
- * Utility methods related to now and time.
+ * Utility methods related to date and time.
  */
 @NoArgsConstructor(access = PRIVATE)
 public final class Tools {
