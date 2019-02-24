@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static manon.user.model.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
 import static manon.user.model.FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST;
@@ -61,7 +61,7 @@ public class FriendshipEventTest {
     public void shouldVerifyPrePersistOnExisting() {
         FriendshipEvent o = FriendshipEvent.builder().build();
         o.prePersist();
-        Date creationDate = o.getCreationDate();
+        LocalDateTime creationDate = o.getCreationDate();
         
         o.prePersist();
         assertThat(o.getCreationDate()).isEqualTo(creationDate);

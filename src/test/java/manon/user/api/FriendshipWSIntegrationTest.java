@@ -71,6 +71,7 @@ public class FriendshipWSIntegrationTest extends AbstractInitBeforeClass {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
+        temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()

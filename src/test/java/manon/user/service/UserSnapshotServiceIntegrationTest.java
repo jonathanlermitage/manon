@@ -10,8 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -73,8 +73,8 @@ public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass 
     
     @Test
     public void shouldDeleteToday() {
-        Date yesterday = Tools.yesterday();
-        Date tomorrow = Tools.tomorrow();
+        LocalDateTime yesterday = Tools.yesterday();
+        LocalDateTime tomorrow = Tools.tomorrow();
         for (int i = 0; i < 3; i++) {
             userSnapshotRepository.saveAll(Arrays.asList(
                 makeUserSnapshot(),
@@ -88,17 +88,17 @@ public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass 
         assertThat(userSnapshotService.countToday()).isEqualTo(0);
         assertThat(userSnapshotService.count()).isEqualTo(6);
         userSnapshotRepository.findAll().forEach(userSnapshot ->
-            assertThat(userSnapshot.getCreationDate().toInstant())
-                .isBetween(yesterday.toInstant().minusMillis(100), tomorrow.toInstant().plusMillis(100)));
+            assertThat(userSnapshot.getCreationDate())
+                .isBetween(yesterday, tomorrow));
     }
     
     @Test
     public void shouldKeepRecent() {
-        Date before2Days = Tools.daysBefore(2);
+        LocalDateTime before2Days = Tools.nowMinusDays(2);
         for (int i = 0; i < 3; i++) {
             userSnapshotRepository.saveAll(Arrays.asList(
                 makeUserSnapshot(),
-                saveUserSnapshot().toBuilder().creationDate(Tools.daysBefore(3)).build(),
+                saveUserSnapshot().toBuilder().creationDate(Tools.nowMinusDays(3)).build(),
                 saveUserSnapshot().toBuilder().creationDate(before2Days).build(),
                 saveUserSnapshot().toBuilder().creationDate(Tools.yesterday()).build(),
                 saveUserSnapshot().toBuilder().creationDate(Tools.tomorrow()).build()
@@ -109,21 +109,21 @@ public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass 
         
         assertThat(userSnapshotService.count()).isEqualTo(9);
         userSnapshotRepository.findAll().forEach(userSnapshot ->
-            assertThat(userSnapshot.getCreationDate().toInstant()).isAfterOrEqualTo(before2Days.toInstant().minusMillis(100)));
+            assertThat(userSnapshot.getCreationDate()).isAfterOrEqualTo(before2Days));
     }
     
     @Test
     public void shouldSave() {
-        Date before = Tools.now();
+        LocalDateTime before = Tools.now();
         userSnapshotService.save(Arrays.asList(
             makeUserSnapshot(),
             makeUserSnapshot()
         ));
-        Date after = Tools.now();
+        LocalDateTime after = Tools.now();
         
         userSnapshotRepository.findAll().forEach(userSnapshot -> {
             assertThat(userSnapshot.getUserId()).isEqualTo(user(1).getId());
-            assertThat(userSnapshot.getCreationDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
+            assertThat(userSnapshot.getCreationDate()).isBetween(before, after);
         });
     }
     

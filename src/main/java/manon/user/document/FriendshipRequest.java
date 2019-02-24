@@ -1,6 +1,9 @@
 package manon.user.document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,12 +20,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Date;
-
-import static manon.util.Tools.DATE_FORMAT;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -45,16 +44,15 @@ public class FriendshipRequest implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User requestTo;
     
-    @JsonFormat(pattern = DATE_FORMAT)
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
-    private Date creationDate;
+    private LocalDateTime creationDate;
     
     @PrePersist
     public void prePersist() {
-        Date now = Tools.now();
         if (creationDate == null) {
-            creationDate = now;
+            creationDate = Tools.now();
         }
     }
 }

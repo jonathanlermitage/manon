@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -168,7 +168,7 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldSave() throws Exception {
-        Date before = Tools.now();
+        LocalDateTime before = Tools.now();
         userService.save(User.builder()
             .username("SHOULD_SAVE_USERNAME")
             .password("password")
@@ -177,11 +177,11 @@ public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
             .email("email@domain.com")
             .nickname("nickname")
             .build());
-        Date after = Tools.now();
+        LocalDateTime after = Tools.now();
         
         User user = userService.findByUsername("SHOULD_SAVE_USERNAME").orElseThrow(UserNotFoundException::new);
-        assertThat(user.getCreationDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
-        assertThat(user.getUpdateDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
+        assertThat(user.getCreationDate()).isBetween(before, after);
+        assertThat(user.getUpdateDate()).isBetween(before, after);
         assertThat(user.getVersion()).isGreaterThanOrEqualTo(0);
     }
 }

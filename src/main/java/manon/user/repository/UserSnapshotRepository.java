@@ -4,14 +4,14 @@ import manon.user.document.UserSnapshot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Repository
 public interface UserSnapshotRepository extends JpaRepository<UserSnapshot, Long> {
     
-    long countAllByCreationDateBetween(Date start, Date end);
+    long countAllByCreationDateBetween(LocalDateTime start, LocalDateTime end);
     
-    void deleteAllByCreationDateBetween(Date start, Date end);
+    void deleteAllByCreationDateBetween(LocalDateTime start, LocalDateTime end);
     
-    void deleteAllByCreationDateBeforeOrCreationDateAfter(Date start, Date end);
+    void deleteAllByCreationDateBeforeOrCreationDateAfter(LocalDateTime start, LocalDateTime end);
 }

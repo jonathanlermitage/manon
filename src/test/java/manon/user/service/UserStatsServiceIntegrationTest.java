@@ -6,8 +6,8 @@ import manon.util.basetest.AbstractInitBeforeClass;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,13 +34,13 @@ public class UserStatsServiceIntegrationTest extends AbstractInitBeforeClass {
     
     @Test
     public void shouldSave() {
-        Date before = Tools.now();
+        LocalDateTime before = Tools.now();
         userStatsService.save(UserStats.builder().nbUsers(100).build());
-        Date after = Tools.now();
+        LocalDateTime after = Tools.now();
         
         List<UserStats> us = userStatsRepository.findAll();
         assertThat(us).hasSize(1);
-        assertThat(us.get(0).getCreationDate().toInstant()).isBetween(before.toInstant().minusMillis(100), after.toInstant().plusMillis(100));
+        assertThat(us.get(0).getCreationDate()).isBetween(before, after);
         assertThat(us.get(0).getNbUsers()).isEqualTo(100);
     }
 }

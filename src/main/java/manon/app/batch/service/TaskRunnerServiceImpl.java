@@ -47,6 +47,6 @@ public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerServic
     }
     
     private JobParameters todayDateJobParameters() {
-        return new JobParametersBuilder().addDate("START_DATE", Tools.now()).toJobParameters();
+        return new JobParametersBuilder().addDate("START_DATE", Tools.nowAsDate()).toJobParameters();
     }
 }
