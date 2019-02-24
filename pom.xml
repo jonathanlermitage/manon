@@ -33,7 +33,7 @@
 
         <findsecbugs-plugin.version>1.8.0</findsecbugs-plugin.version>
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
-        <jib-maven-plugin.version>1.0.0</jib-maven-plugin.version>
+        <jib-maven-plugin.version>1.0.1</jib-maven-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
