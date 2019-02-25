@@ -1,6 +1,7 @@
 package manon.app.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
@@ -17,7 +18,9 @@ public class ConverterConfig implements WebMvcConfigurer {
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream().filter(converter -> converter instanceof AbstractJackson2HttpMessageConverter).forEach(converter -> {
             ObjectMapper objectMapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
-            objectMapper.setSerializationInclusion(NON_NULL);
+            objectMapper
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .setSerializationInclusion(NON_NULL);
         });
     }
 }
