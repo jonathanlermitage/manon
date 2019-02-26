@@ -1,8 +1,7 @@
 package manon.app.stats.service;
 
+import manon.util.Tools;
 import org.junit.jupiter.api.Test;
-
-import java.time.Clock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,14 +12,14 @@ public class PerformanceRecorderTest {
     
     @Test
     public void shouldEmptyShowStats() {
-        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
+        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Tools.CLOCK);
         assertThat(performanceRecorder.isEmpty()).isTrue();
         assertThat(performanceRecorder.showStats()).isEmpty();
     }
     
     @Test
     public void shouldShowStats() {
-        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
+        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Tools.CLOCK);
         
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);
         performanceRecorder.saveTime("manon.user.UserService:do1()", 2);
@@ -39,7 +38,7 @@ public class PerformanceRecorderTest {
     
     @Test
     public void shouldShowStatsManyTimesWithDifferentOrders() {
-        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Clock.systemDefaultZone());
+        PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Tools.CLOCK);
         
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);
         performanceRecorder.saveTime("manon.user.UserService:do2()", 100);

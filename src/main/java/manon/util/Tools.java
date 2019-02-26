@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -29,6 +30,7 @@ public final class Tools {
     
     public static final String ZONE_ID_NAME = "Europe/Paris";
     public static final ZoneId ZONE_ID = ZoneId.of(ZONE_ID_NAME);
+    public static final Clock CLOCK = Clock.system(ZONE_ID);
     
     public static final ObjectMapper JSON = new ObjectMapper();
     

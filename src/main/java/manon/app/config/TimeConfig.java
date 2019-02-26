@@ -1,5 +1,6 @@
 package manon.app.config;
 
+import manon.util.Tools;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +11,6 @@ public class TimeConfig {
     
     @Bean
     public Clock clock() {
-        return Clock.systemDefaultZone();
+        return Tools.CLOCK;
     }
 }
