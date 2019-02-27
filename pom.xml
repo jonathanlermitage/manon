@@ -24,6 +24,7 @@
 
         <archunit.version>0.9.3</archunit.version>
         <hsqldb.version>2.4.1</hsqldb.version>
+        <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
         <junit5.version>5.4.0</junit5.version>
         <lombok.version>1.18.6</lombok.version>
         <mariadb.version>2.4.0</mariadb.version>
@@ -191,6 +192,11 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jetbrains-annotations.version}</version>
         </dependency>
 
     </dependencies>

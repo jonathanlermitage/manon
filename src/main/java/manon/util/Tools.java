@@ -3,6 +3,8 @@ package manon.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -35,11 +37,13 @@ public final class Tools {
     public static final ObjectMapper JSON = new ObjectMapper();
     
     /** Get current date as {@code java.time.LocalDateTime} from {@value ZONE_ID_NAME} timezone. */
+    @NotNull
     public static LocalDateTime now() {
         return ZonedDateTime.now(ZONE_ID).toLocalDateTime().truncatedTo(ChronoUnit.MICROS);
     }
     
     /** Get current date as {@code java.util.Date} from {@value ZONE_ID_NAME} timezone. */
+    @NotNull
     public static Date nowAsDate() {
         return Date.from(Instant.from(ZonedDateTime.now(Tools.ZONE_ID)));
     }
@@ -67,25 +71,30 @@ public final class Tools {
      * @param second seconds (0-59).
      * @param millisecond milliseconds (0-999).
      */
+    @NotNull
     public static LocalDateTime today(int hourOfDay, int minute, int second, int millisecond) {
         return now().withHour(hourOfDay).withMinute(minute).withSecond(second).withNano(millisecond * 1_000_000);
     }
     
     /** Get current date at 0:00'0 000. */
+    @NotNull
     public static LocalDateTime startOfDay() {
         return today(0, 0, 0, 0);
     }
     
     /** Get current date at 23:59'59 999. */
+    @NotNull
     public static LocalDateTime endOfDay() {
         return today(23, 59, 59, 999);
     }
     
     /** Return {@code true} if the provided string is null or empty once trimmed, otherwise {@code false}. */
+    @Contract("null -> true")
     public static boolean isBlank(String str) {
         return str == null || str.trim().isEmpty();
     }
     
+    @Contract("null -> !null")
     public static String shortenLog(Object obj) {
         if (obj == null) {
             return "null";
@@ -97,6 +106,7 @@ public final class Tools {
         return str;
     }
     
+    @Contract("null -> !null")
     public static String shortenAndAnonymizeLog(Object obj) {
         if (obj == null) {
             return "null";
@@ -108,6 +118,7 @@ public final class Tools {
         return repeat("*", str.length());
     }
     
+    @Contract("null, _ -> null")
     public static String repeat(String str, int repeat) {
         if (str == null) {
             return null;

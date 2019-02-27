@@ -15,6 +15,7 @@ import manon.user.model.UserPublicInfo;
 import manon.user.repository.FriendshipEventRepository;
 import manon.user.repository.FriendshipRepository;
 import manon.user.repository.FriendshipRequestRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +46,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final UserService userService;
     
     /** Keep only {@link FriendshipEvent.Validation#MAX_EVENTS_PER_USER} recent friendshipEvents on users. */
-    private void keepEvents(long... userIds) {
+    private void keepEvents(@NotNull long... userIds) {
         for (long userId : userIds) {
             List<FriendshipEvent> events = friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
             if (events.size() > FriendshipEvent.Validation.MAX_EVENTS_PER_USER) {
