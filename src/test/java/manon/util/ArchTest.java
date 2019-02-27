@@ -2,6 +2,7 @@ package manon.util;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import manon.util.basetest.AbstractParallelUnitTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-public class ArchTest {
+public class ArchTest extends AbstractParallelUnitTest {
     
     private final JavaClasses appClasses = new ClassFileImporter().importPackages("manon..");
     
