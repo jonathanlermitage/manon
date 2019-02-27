@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +32,6 @@ import static manon.app.trace.model.AppTraceLevel.DEBUG;
 public class AppTraceServiceImpl implements AppTraceService {
     
     private final AppTraceRepository appTraceRepository;
-    private final Clock clock;
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final LocalDateTime startupDate = Tools.now();
     
