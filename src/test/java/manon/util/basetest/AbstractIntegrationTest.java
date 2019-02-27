@@ -171,9 +171,8 @@ public abstract class AbstractIntegrationTest {
     @AfterAll
     public final void afterClass() {
         if (!performanceRecorder.isEmpty()) {
-            log.info(performanceRecorder.showStats());
+            log.info(performanceRecorder.showStats() + "\n");
         }
-        //clearDb();
     }
     
     //
