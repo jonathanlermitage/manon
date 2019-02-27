@@ -1,6 +1,6 @@
 package manon.user.err;
 
-import manon.app.config.AbstractControllerAdvice;
+import manon.app.err.AbstractControllerAdvice;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,4 +1,4 @@
-package manon.app.config;
+package manon.app.err;
 
 import java.util.HashMap;
 import java.util.Map;

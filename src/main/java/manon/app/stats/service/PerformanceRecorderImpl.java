@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Collections.sort;
-import static manon.app.config.SpringProfiles.METRICS;
+import static manon.app.config.Globals.SpringProfiles.METRICS;
 
 @Aspect
 @Service

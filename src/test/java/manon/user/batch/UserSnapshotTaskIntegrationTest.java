@@ -7,9 +7,8 @@ import manon.user.document.UserStats;
 import manon.user.service.UserSnapshotService;
 import manon.user.service.UserStatsService;
 import manon.util.Tools;
-import manon.util.basetest.AbstractInitBeforeClass;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import manon.util.basetest.AbstractIntegrationTest;
+import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 
-public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
+public class UserSnapshotTaskIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private TaskRunnerService taskRunnerService;
@@ -35,16 +34,13 @@ public class UserSnapshotTaskIntegrationTest extends AbstractInitBeforeClass {
         return cfg.getBatchUserSnapshotChunk() * NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY;
     }
     
-    public Object[][] dataProviderShouldCompleteMultipleTimes() {
-        return new Object[][]{
-            {2, 3},
-            {4, 6}
-        };
+    @Test
+    public void shouldCompleteMultipleTimes() throws Exception {
+        checkComplete(2, 3);
+        checkComplete(4, 6);
     }
     
-    @ParameterizedTest
-    @MethodSource("dataProviderShouldCompleteMultipleTimes")
-    public void shouldCompleteMultipleTimes(int snapshotsKept, int nbStats) throws Exception {
+    public void checkComplete(int snapshotsKept, int nbStats) throws Exception {
         int chunk = cfg.getBatchUserSnapshotChunk();
         int maxAge = cfg.getBatchUserSnapshotSnapshotMaxAge();
         assertThat(chunk).isEqualTo(10);

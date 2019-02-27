@@ -11,7 +11,7 @@ import manon.user.err.FriendshipRequestNotFoundException;
 import manon.user.err.UserNotFoundException;
 import manon.user.model.UserPublicInfo;
 import manon.user.service.FriendshipService;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
-import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
+import static manon.app.err.AbstractControllerAdvice.FIELD_ERRORS;
 import static manon.user.model.FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST;
 import static manon.user.model.FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST;
 import static manon.user.model.FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST;
@@ -37,7 +37,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipWSIntegrationTest extends AbstractInitBeforeClass {
+public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     protected FriendshipService friendshipService;

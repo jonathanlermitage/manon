@@ -23,10 +23,11 @@ import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
- * Used to mock services.
+ * Used to mock all controllers and test access rights.
+ * Application starts with some users and one admin. Data is recreated before test class.
  */
 @TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
-public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
+public abstract class AbstractAccessControlTest extends AbstractIntegrationTest {
     
     private static final String BANNED_USERNAME = "BANNED";
     private static final String DELETED_USERNAME = "DELETED";
@@ -35,6 +36,18 @@ public abstract class AbstractMockBeforeClass extends AbstractInitBeforeClass {
     private static final String DELETED_REACTIVATED_USERNAME = "DELETED_REACTIVATED";
     private static final String SUSPENDED_REACTIVATED_USERNAME = "SUSPENDED_REACTIVATED";
     private static final String PWD = "password" + currentTimeMillis();
+    
+    private boolean initialized = false;
+    
+    /** Clear data before test class. */
+    @Override
+    @BeforeEach
+    public void clearData() throws Exception {
+        if (!initialized) {
+            super.clearData();
+            initialized = true;
+        }
+    }
     
     @MockBean
     protected FriendshipWS friendshipWS;

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static manon.app.config.API.API_USER;
+import static manon.app.config.Globals.API.API_USER;
 
 @RestController
 @RequestMapping(value = API_USER)

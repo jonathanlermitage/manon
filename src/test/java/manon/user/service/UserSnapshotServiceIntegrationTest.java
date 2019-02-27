@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 import manon.user.document.User;
 import manon.user.document.UserSnapshot;
 import manon.util.Tools;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,15 +15,10 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserSnapshotServiceIntegrationTest extends AbstractInitBeforeClass {
+public class UserSnapshotServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private UserSnapshotService userSnapshotService;
-    
-    @Override
-    public void additionalBeforeMethod() {
-        userSnapshotRepository.deleteAll();
-    }
     
     @Test
     public void shouldFindOne() throws Exception {

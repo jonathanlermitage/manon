@@ -104,7 +104,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "docker")
       sh ./mvnw package -DskipTests -T1
-      docker build -t lermitage-manon:1.0.0-SNAPSHOT .
+      docker build -f ./config/docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
       ;;
 
     "jib")

@@ -1,6 +1,6 @@
 package manon.app.sys.service;
 
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InfoServiceIntegrationTest extends AbstractInitBeforeClass {
+public class InfoServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private InfoService infoService;

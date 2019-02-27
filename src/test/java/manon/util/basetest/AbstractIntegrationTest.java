@@ -3,7 +3,6 @@ package manon.util.basetest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
@@ -27,6 +26,7 @@ import manon.util.web.Rs;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInstance;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,16 +44,14 @@ import static manon.util.Tools.MDC_KEY_ENV;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
- * Recreate data before test class.
- * To recreate data before every test method, see {@link AbstractInitBeforeTest}.
+ * Base for integration tests.
+ * Application starts with some users and one admin. Data is recreated before test methods.
  */
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(listeners = DependencyInjectionTestExecutionListener.class)
-public abstract class AbstractInitBeforeClass extends AbstractTest {
-    
-    @Setter
-    private boolean initialized = false;
+public abstract class AbstractIntegrationTest {
     
     @LocalServerPort
     private int port;
@@ -86,7 +84,25 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
     @Autowired
     protected UserStatsRepository userStatsRepository;
     
-    private final Map<Integer, Long> userIdCache = new HashMap<>();
+    private final String API_V1 = "/api/v1";
+    public final String API_USER = API_V1 + "/user";
+    public final String API_USER_ADMIN = API_V1 + "/admin/user";
+    public final String API_SYS = API_V1 + "/sys";
+    
+    public final String ERRORS_MSG = "errors.defaultMessage";
+    
+    /** Simply a new unique objectId. */
+    public final long UNKNOWN_ID = Long.MAX_VALUE;
+    
+    public final String UNKNOWN_USER_NAME = "u" + UNKNOWN_ID;
+    
+    /** Number of times to start a batch to ensure its repeatability. */
+    public final int NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY = 3;
+    
+    /** Number of batch chunks to process to ensure its reliability. */
+    public final int NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY = 3;
+    
+    protected final Map<Integer, Long> userIdCache = new HashMap<>();
     
     public int userCount;
     
@@ -97,29 +113,19 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
     /** Clear data before test class. Do NOT override it in non-abstract test classes. */
     @BeforeAll
     public final void beforeClass() {
-        initialized = false;
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset("UTF-8"));
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
     }
     
-    /** Clear data before test class. Do NOT override it in non-abstract test classes. */
+    /** Clear data before test methods. */
     @BeforeEach
-    public void beforeMethod() throws Exception {
+    public void clearData() throws Exception {
         userIdCache.clear();
-        if (!initialized) {
-            initDb();
-            initialized = true;
-        }
-        additionalBeforeMethod();
+        initDb();
     }
     
-    /** Override do add logic that occurs after the <code>@BeforeMethod</code> {@link #beforeMethod()}. */
-    public void additionalBeforeMethod() {
-        // override if needed
-    }
-    
-    public void clearDb() {
+    private void clearDb() {
         appTraceRepository.deleteAll();
         
         friendshipEventRepository.deleteAll();
@@ -164,8 +170,7 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
         if (!performanceRecorder.isEmpty()) {
             log.info(performanceRecorder.showStats());
         }
-        clearDb();
-        setInitialized(false);
+        //clearDb();
     }
     
     //
@@ -179,9 +184,11 @@ public abstract class AbstractInitBeforeClass extends AbstractTest {
     }
     
     public final Rs whenAdmin() {
+        String adminUsername = cfg.getAdminDefaultAdminUsername();
+        String adminPassword = cfg.getAdminDefaultAdminPassword();
         return new Rs(RestAssured.given()
             .header("X-Request-Id", "admin-" + currentTimeMillis())
-            .auth().basic(ADMIN_NAME, ADMIN_PWD), ADMIN_NAME, ADMIN_PWD);
+            .auth().basic(adminUsername, adminPassword), adminUsername, adminPassword);
     }
     
     /** When player n°humanId, where humanId is an index starting at 1. */

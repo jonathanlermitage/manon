@@ -8,7 +8,7 @@ import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.UserPublicInfo;
-import manon.util.basetest.AbstractInitBeforeTest;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
-import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
+import static manon.app.err.AbstractControllerAdvice.FIELD_ERRORS;
 import static manon.user.model.RegistrationState.ACTIVE;
 import static manon.user.model.RegistrationState.DELETED;
 import static manon.user.model.UserAuthority.ROLE_PLAYER;
@@ -29,7 +29,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserWSIntegrationTest extends AbstractInitBeforeTest {
+public class UserWSIntegrationTest extends AbstractIntegrationTest {
     
     @Override
     public int getNumberOfUsers() {

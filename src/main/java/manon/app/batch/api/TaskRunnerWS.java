@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static manon.app.config.API.API_SYS;
+import static manon.app.config.Globals.API.API_SYS;
 
 /** Task API. */
 @RestController

@@ -1,6 +1,6 @@
 package manon.user.api;
 
-import manon.util.basetest.AbstractMockBeforeClass;
+import manon.util.basetest.AbstractAccessControlTest;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class UserAdminWSCtrlTest extends AbstractMockBeforeClass {
+public class UserAdminWSCtrlTest extends AbstractAccessControlTest {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)

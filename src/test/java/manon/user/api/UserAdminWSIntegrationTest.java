@@ -3,7 +3,7 @@ package manon.user.api;
 import io.restassured.response.Response;
 import manon.user.document.User;
 import manon.user.err.UserNotFoundException;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import manon.util.web.UserPage;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.http.ContentType.TEXT;
-import static manon.app.config.AbstractControllerAdvice.FIELD_ERRORS;
+import static manon.app.err.AbstractControllerAdvice.FIELD_ERRORS;
 import static manon.user.model.RegistrationState.ACTIVE;
 import static manon.user.model.RegistrationState.BANNED;
 import static manon.user.model.RegistrationState.SUSPENDED;
@@ -22,7 +22,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserAdminWSIntegrationTest extends AbstractInitBeforeClass {
+public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
     
     @Override
     public int getNumberOfUsers() {

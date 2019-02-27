@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static manon.app.config.API.API_SYS;
+import static manon.app.config.Globals.API.API_SYS;
 
 @RestController
 @RequestMapping(value = API_SYS)

@@ -16,9 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static manon.app.config.API.API_SYS;
-import static manon.app.config.API.API_USER;
-import static manon.app.config.API.API_USER_ADMIN;
+import static manon.app.config.Globals.API.API_SYS;
+import static manon.app.config.Globals.API.API_USER;
+import static manon.app.config.Globals.API.API_USER_ADMIN;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 

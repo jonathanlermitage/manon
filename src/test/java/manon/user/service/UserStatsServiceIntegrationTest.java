@@ -2,7 +2,7 @@ package manon.user.service;
 
 import manon.user.document.UserStats;
 import manon.util.Tools;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,15 +12,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserStatsServiceIntegrationTest extends AbstractInitBeforeClass {
+public class UserStatsServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private UserStatsService userStatsService;
-    
-    @Override
-    public void additionalBeforeMethod() {
-        userStatsRepository.deleteAll();
-    }
     
     @Test
     public void shouldFindAll() {

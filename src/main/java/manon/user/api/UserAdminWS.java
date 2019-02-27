@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static manon.app.config.API.API_USER_ADMIN;
+import static manon.app.config.Globals.API.API_USER_ADMIN;
 
 /** User admin API. */
 @RestController

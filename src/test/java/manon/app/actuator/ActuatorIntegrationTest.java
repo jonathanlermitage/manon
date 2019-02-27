@@ -3,7 +3,7 @@ package manon.app.actuator;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
-public class ActuatorIntegrationTest extends AbstractInitBeforeClass {
+public class ActuatorIntegrationTest extends AbstractIntegrationTest {
     
     @Override
     public int getNumberOfUsers() {

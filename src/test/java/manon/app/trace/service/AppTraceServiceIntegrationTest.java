@@ -1,7 +1,7 @@
 package manon.app.trace.service;
 
 import manon.app.trace.model.AppTraceLevel;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +11,7 @@ import static manon.app.trace.model.AppTraceEvent.APP_START;
 import static manon.app.trace.model.AppTraceEvent.UPTIME;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppTraceServiceIntegrationTest extends AbstractInitBeforeClass {
+public class AppTraceServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private AppTraceService appTraceService;

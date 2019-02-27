@@ -1,7 +1,7 @@
 package manon.app.sys.api;
 
 import io.restassured.response.Response;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InfoWSIntegrationTest extends AbstractInitBeforeClass {
+public class InfoWSIntegrationTest extends AbstractIntegrationTest {
     
     @Override
     public int getNumberOfUsers() {

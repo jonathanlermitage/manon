@@ -1,6 +1,6 @@
 package manon.app.security;
 
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserDetailsServiceIntegrationTest extends AbstractInitBeforeClass {
+public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private UserDetailsServiceImpl UserDetailsService;

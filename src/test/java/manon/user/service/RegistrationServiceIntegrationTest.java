@@ -1,12 +1,12 @@
 package manon.user.service;
 
 import manon.user.document.User;
-import manon.util.basetest.AbstractInitBeforeTest;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationServiceIntegrationTest extends AbstractInitBeforeTest {
+public class RegistrationServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Override
     public int getNumberOfUsers() {
@@ -22,9 +22,12 @@ public class RegistrationServiceIntegrationTest extends AbstractInitBeforeTest {
     
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
-        clearDb();
+        User previousAdmin = userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new);
+        userRepository.deleteAll();
         assertThat(userService.findByUsername(cfg.getAdminDefaultAdminUsername())).isNotPresent();
         User ensuredAdmin = registrationService.ensureAdmin();
-        assertThat(ensuredAdmin).isEqualTo(userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new));
+        assertThat(ensuredAdmin)
+            .isNotEqualTo(previousAdmin)
+            .isEqualTo(userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new));
     }
 }

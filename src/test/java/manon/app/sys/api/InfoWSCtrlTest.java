@@ -1,11 +1,11 @@
 package manon.app.sys.api;
 
-import manon.util.basetest.AbstractMockBeforeClass;
+import manon.util.basetest.AbstractAccessControlTest;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class InfoWSCtrlTest extends AbstractMockBeforeClass {
+public class InfoWSCtrlTest extends AbstractAccessControlTest {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)

@@ -8,7 +8,7 @@ import manon.user.err.UserNotFoundException;
 import manon.user.model.RegistrationState;
 import manon.user.model.UserAuthority;
 import manon.util.Tools;
-import manon.util.basetest.AbstractInitBeforeClass;
+import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,7 +20,7 @@ import static java.lang.System.currentTimeMillis;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserServiceIntegrationTest extends AbstractInitBeforeClass {
+public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private PasswordEncoderService passwordEncoderService;
