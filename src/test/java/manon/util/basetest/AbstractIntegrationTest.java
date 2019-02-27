@@ -27,6 +27,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,6 +51,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  */
 @Slf4j
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Execution(value = ExecutionMode.SAME_THREAD)
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(listeners = DependencyInjectionTestExecutionListener.class)
 public abstract class AbstractIntegrationTest {
