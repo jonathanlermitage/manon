@@ -8,6 +8,7 @@ import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.UserPublicInfo;
+import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -167,6 +168,50 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
+    public void shouldUpdateWithLongestPassword() {
+        String newPassword = Tools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        whenP1().getRequestSpecification()
+            .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
+            .contentType(JSON)
+            .put(API_USER + "/password")
+            .then()
+            .statusCode(SC_OK);
+        RestAssured.given().auth().basic(name(1), newPassword)
+            .get(API_USER)
+            .then().statusCode(SC_OK);
+    }
+    
+    @Test
+    public void shouldUpdatePasswordWithDataLongerThanBCryptMaxLength() {
+        // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
+        String newPassword = Tools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        whenP1().getRequestSpecification()
+            .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
+            .contentType(JSON)
+            .put(API_USER + "/password")
+            .then()
+            .statusCode(SC_OK);
+        RestAssured.given().auth().basic(name(1), newPassword.substring(0, 80))
+            .get(API_USER)
+            .then().statusCode(SC_OK);
+    }
+    
+    @Test
+    public void shouldUpdatePasswordWithDataShorterThanBCryptMaxLength() {
+        // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
+        String newPassword = Tools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        whenP1().getRequestSpecification()
+            .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
+            .contentType(JSON)
+            .put(API_USER + "/password")
+            .then()
+            .statusCode(SC_OK);
+        RestAssured.given().auth().basic(name(1), newPassword.substring(0, 20))
+            .get(API_USER)
+            .then().statusCode(SC_UNAUTHORIZED);
+    }
+    
+    @Test
     public void shouldNotUpdateBadPassword() {
         whenP1().getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword("wrongpassword").newPassword("a new password").build())
@@ -181,7 +226,6 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
             .get(API_USER)
             .then().statusCode(SC_OK);
     }
-    
     
     @Test
     public void shouldGetZeroFriends() {

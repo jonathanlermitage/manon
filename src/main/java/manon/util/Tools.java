@@ -135,6 +135,16 @@ public final class Tools {
         }
     }
     
+    @ExistForTesting
+    @NotNull
+    public static String fill(String word, int length) {
+        StringBuilder sb = new StringBuilder(word);
+        while (sb.length() < length) {
+            sb.append(word);
+        }
+        return sb.length() == length ? sb.toString() : sb.toString().substring(0, length);
+    }
+    
     /**
      * Wait 10ms.
      * Some service invocations are too fast to introduce time between them: use this method to wait 10ms.
