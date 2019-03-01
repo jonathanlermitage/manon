@@ -8,7 +8,7 @@ import manon.user.form.RegistrationForm;
 import manon.user.form.UserPasswordUpdateForm;
 import manon.user.form.UserUpdateForm;
 import manon.user.model.UserPublicInfo;
-import manon.util.Tools;
+import manon.util.TestTools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -169,7 +169,7 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldUpdateWithLongestPassword() {
-        String newPassword = Tools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
@@ -182,9 +182,9 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldUpdatePasswordWithDataLongerThanBCryptMaxLength() {
+    public void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
         // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
-        String newPassword = Tools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
@@ -197,9 +197,9 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldUpdatePasswordWithDataShorterThanBCryptMaxLength() {
+    public void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
         // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
-        String newPassword = Tools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getRequestSpecification()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)

@@ -2,7 +2,6 @@ package manon.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -133,25 +132,5 @@ public final class Tools {
             }
             return sb.toString();
         }
-    }
-    
-    @ExistForTesting
-    @NotNull
-    public static String fill(String word, int length) {
-        StringBuilder sb = new StringBuilder(word);
-        while (sb.length() < length) {
-            sb.append(word);
-        }
-        return sb.length() == length ? sb.toString() : sb.toString().substring(0, length);
-    }
-    
-    /**
-     * Wait 10ms.
-     * Some service invocations are too fast to introduce time between them: use this method to wait 10ms.
-     */
-    @ExistForTesting
-    @SneakyThrows(InterruptedException.class)
-    public static void temporize() {
-        Thread.sleep(10);
     }
 }
