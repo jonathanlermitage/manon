@@ -18,7 +18,7 @@ public class ArchTest extends AbstractParallelUnitTest {
     @Test
     public void shouldNotDependOnJDKInternals() {
         classes()
-            .should().onlyAccessClassesThat().resideOutsideOfPackage("com.sun..")
+            .should().onlyAccessClassesThat().resideOutsideOfPackages("com.sun..", "sun..")
             .check(appClasses);
     }
     
