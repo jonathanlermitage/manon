@@ -17,9 +17,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import static manon.app.trace.model.AppTraceEvent.APP_START;
-import static manon.app.trace.model.AppTraceLevel.INFO;
+import static manon.app.trace.model.AppTraceEvent.APP_STOP;
+import static manon.app.trace.model.AppTraceLevel.WARN;
 
 @SpringBootApplication
 @EnableBatchProcessing
@@ -44,7 +46,7 @@ public class Application extends SpringBootServletInitializer {
     }
     
     @PostConstruct
-    public void initApp() throws UserExistsException {
+    public void startupHook() throws UserExistsException {
         String initAppEvent = String.format("jvm: [%s %s %s %s], os: [%s], file encoding: [%s], admin username: [%s], ManonConfig: [%s]",
             System.getProperty("java.version"),
             System.getProperty("java.vm.name"),
@@ -54,6 +56,11 @@ public class Application extends SpringBootServletInitializer {
             System.getProperty("file.encoding"),
             registrationService.ensureAdmin().getUsername(),
             cfg);
-        appTraceService.log(INFO, APP_START, initAppEvent);
+        appTraceService.log(WARN, APP_START, initAppEvent);
+    }
+    
+    @PreDestroy
+    public void shutdownHook() {
+        appTraceService.log(WARN, APP_STOP);
     }
 }
