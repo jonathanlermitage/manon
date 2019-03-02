@@ -24,7 +24,7 @@ services:
 
   maria:
     container_name: maria
-    image: mariadb:10.3.12-bionic # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.3.13 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3306:3306"
     volumes:
