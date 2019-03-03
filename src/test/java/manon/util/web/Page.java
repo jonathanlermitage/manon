@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import manon.user.document.User;
 
 import java.util.List;
 
@@ -14,9 +13,9 @@ import java.util.List;
 @EqualsAndHashCode
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserPage {
+public class Page<T> {
     
-    private List<User> content;
+    private List<T> content;
     
     private long totalElements;
     private long totalPages;

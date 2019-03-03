@@ -22,6 +22,7 @@ import manon.user.repository.UserStatsRepository;
 import manon.user.service.RegistrationService;
 import manon.user.service.UserService;
 import manon.util.Tools;
+import manon.util.web.Page;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -250,10 +251,16 @@ public abstract class AbstractIntegrationTest {
     // Utils
     //
     
-    /** Convert object to JSON. */
+    /** Convert single object to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> T readValue(Response content, Class<T> valueType) {
         return Tools.JSON.readValue(content.asString(), valueType);
+    }
+    
+    /** Convert generic paged objects to JSON. */
+    @SneakyThrows(IOException.class)
+    public final <T> Page<T> readPage(Response content, Class<T> parameterClass) {
+        return Tools.JSON.readValue(content.asString(), Tools.JSON.getTypeFactory().constructParametricType(Page.class, parameterClass));
     }
     
     /** Compute a long string. */

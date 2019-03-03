@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import manon.user.document.User;
 import manon.user.err.UserNotFoundException;
 import manon.util.basetest.AbstractIntegrationTest;
-import manon.util.web.UserPage;
+import manon.util.web.Page;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        UserPage result = readValue(res, UserPage.class);
+        Page<User> result = readPage(res, User.class);
         List<User> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
@@ -54,7 +54,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        UserPage result = readValue(res, UserPage.class);
+        Page<User> result = readPage(res, User.class);
         List<User> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
@@ -72,7 +72,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        UserPage result = readValue(res, UserPage.class);
+        Page<User> result = readPage(res, User.class);
         List<User> users = result.getContent();
         assertThat(users).hasSize(userCount - 1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
@@ -85,7 +85,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        UserPage result = readValue(res, UserPage.class);
+        Page<User> result = readPage(res, User.class);
         List<User> users = result.getContent();
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
@@ -98,7 +98,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        UserPage result = readValue(res, UserPage.class);
+        Page<User> result = readPage(res, User.class);
         List<User> users = result.getContent();
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
