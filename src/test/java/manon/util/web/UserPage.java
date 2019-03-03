@@ -1,8 +1,6 @@
 package manon.util.web;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,8 +16,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPage {
     
-    @JsonSerialize(using = UserListSerializer.class)
-    @JsonDeserialize(using = UserListDeserializer.class)
     private List<User> content;
     
     private long totalElements;
