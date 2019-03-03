@@ -26,7 +26,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * built with JDK11 on Travis CI, targets JRE8 bytecode. See commit [f778bf0](https://github.com/jonathanlermitage/manon/commit/f778bf072ebcd951082be934ef4b4af763beb103) ([spring5-light-jre8-with-jdk11](https://github.com/jonathanlermitage/manon/tree/spring5-light-jre8-with-jdk11) branch)
 * **Spring Web** with a **REST API**
 * **Spring Security**, to authenticate users via auth_basic and fetch authentication data from SQL database 
-* **Spring Data** to serve data from a **MongoDB** database
+* **Spring Data** to serve data from a database
 * **Spring Batch** to schedule and manage some tasks. See commit [c0e3422](https://github.com/jonathanlermitage/manon/commit/c0e3422fcce5522c3320dd1a2eed65950e321621) ([spring5-light-batch](https://github.com/jonathanlermitage/manon/tree/spring5-light-batch) branch)
 * **Spring Cache** via Redis for application, and prefer an embedded cache provider during tests. See commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) ([spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis) branch)
 * **integration tests** and (some) **unit-test** via **[JUnit5](https://junit.org/junit5/)** and **[REST Assured](http://rest-assured.io)**. I prefer TestNG for its keywords, dataproviders and maturity, but JUnit is the most used testing framework. REST Assured helped me to test API without Spring's magic
@@ -68,8 +68,8 @@ First, install JDK11 and Maven3+.
 You can now use the `./do` Linux Bash script:  
 ```
 do help         show this help message
-do t            test without code coverage (with embedded MongoDB)
-do tc           test with code coverage (with embedded MongoDB)
+do t            test without code coverage
+do tc           test with code coverage
 do sc           compute and upload Sonar analysis to SonarCloud
 do tsc          similar to "do tc" then "do sc"
 do sb           scan with SpotBugs then show GUI
