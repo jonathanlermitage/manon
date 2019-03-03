@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String DEV = UserAuthority.ROLE_DEV.name();
     
     private final PasswordEncoderService passwordEncoderService;
-    private final UserDetailsServiceImpl UserDetailsService;
+    private final UserDetailsService userDetailsService;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -78,6 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(UserDetailsService).passwordEncoder(passwordEncoderService.getEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderService.getEncoder());
     }
 }
