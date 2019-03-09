@@ -55,8 +55,8 @@ public class UserWSValidTest extends AbstractMockTest {
             .then()
             .statusCode(statusCode);
         if (SC_BAD_REQUEST == statusCode) {
-            response.body(ERRORS_MSG, Matchers.hasSize(errMsg.length),
-                ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
+            response.body(VALIDATION_ERRORS_MSG, Matchers.hasSize(errMsg.length),
+                VALIDATION_ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
         }
     }
     
@@ -83,8 +83,8 @@ public class UserWSValidTest extends AbstractMockTest {
             .then()
             .statusCode(statusCode);
         if (SC_BAD_REQUEST == statusCode) {
-            response.body(ERRORS_MSG, Matchers.hasSize(1),
-                ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
+            response.body(VALIDATION_ERRORS_MSG, Matchers.hasSize(1),
+                VALIDATION_ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
         }
     }
     
@@ -107,8 +107,8 @@ public class UserWSValidTest extends AbstractMockTest {
             .then()
             .statusCode(statusCode);
         if (SC_BAD_REQUEST == statusCode) {
-            response.body(ERRORS_MSG, Matchers.hasSize(1),
-                ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
+            response.body(VALIDATION_ERRORS_MSG, Matchers.hasSize(1),
+                VALIDATION_ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
         }
     }
 }

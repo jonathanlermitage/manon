@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
-import static manon.err.AbstractControllerAdvice.ERROR_TYPE;
 import static manon.model.user.RegistrationState.ACTIVE;
 import static manon.model.user.RegistrationState.DELETED;
 import static manon.model.user.UserAuthority.ROLE_PLAYER;
@@ -78,7 +77,7 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
             .post(API_USER)
             .then()
             .statusCode(SC_CONFLICT).contentType(JSON)
-            .body(ERROR_TYPE, Matchers.equalTo(UserExistsException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(UserExistsException.class.getSimpleName()));
     }
     
     @Test

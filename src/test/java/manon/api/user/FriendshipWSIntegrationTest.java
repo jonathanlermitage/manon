@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
-import static manon.err.AbstractControllerAdvice.ERROR_TYPE;
 import static manon.model.user.FriendshipEventCode.TARGET_ACCEPTED_FRIEND_REQUEST;
 import static manon.model.user.FriendshipEventCode.TARGET_CANCELED_FRIEND_REQUEST;
 import static manon.model.user.FriendshipEventCode.TARGET_REJECTED_FRIEND_REQUEST;
@@ -139,7 +138,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_CONFLICT)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()));
         
         //THEN P1 has 0 friend and 1 remaining request
         List<Friendship> p1Friends = friendshipRepository.findAllFor(userId(1));
@@ -236,7 +235,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
             .post(API_USER + "/askfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_CONFLICT)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()));
         
         //THEN P1 has 0 friend and 1 remaining request
         List<Friendship> p1Friends = friendshipRepository.findAllFor(userId(1));
@@ -274,7 +273,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(UserNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(UserNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -457,7 +456,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         List<Friendship> p1Friends = friendshipRepository.findAllFor(userId(1));
@@ -493,7 +492,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/acceptfriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -509,7 +508,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/acceptfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -597,7 +596,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/rejectfriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -613,7 +612,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/rejectfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -701,7 +700,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/cancelfriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -717,7 +716,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/cancelfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -823,7 +822,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/revokefriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
@@ -839,7 +838,7 @@ public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
         whenP1().getRequestSpecification()
             .post(API_USER + "/revokefriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
-            .body(ERROR_TYPE, Matchers.equalTo(FriendshipNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipNotFoundException.class.getSimpleName()));
         
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);

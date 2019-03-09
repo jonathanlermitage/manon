@@ -2,12 +2,11 @@ package manon.err.user;
 
 import manon.err.AbstractControllerAdvice;
 import manon.err.AbstractManagedException;
+import manon.err.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -19,7 +18,7 @@ public class UserControllerAdvice extends AbstractControllerAdvice {
     @ExceptionHandler(PasswordNotMatchException.class)
     @ResponseStatus(BAD_REQUEST)
     @ResponseBody
-    public Map<String, Object> handleBadRequest(AbstractManagedException error) {
+    public ErrorResponse handleBadRequest(AbstractManagedException error) {
         return error(error);
     }
     
@@ -29,7 +28,7 @@ public class UserControllerAdvice extends AbstractControllerAdvice {
         UserExistsException.class})
     @ResponseStatus(CONFLICT)
     @ResponseBody
-    public Map<String, Object> handleConflict(AbstractManagedException error) {
+    public ErrorResponse handleConflict(AbstractManagedException error) {
         return error(error);
     }
     
@@ -39,7 +38,7 @@ public class UserControllerAdvice extends AbstractControllerAdvice {
         UserNotFoundException.class})
     @ResponseStatus(NOT_FOUND)
     @ResponseBody
-    public Map<String, Object> handleNotFound(AbstractManagedException error) {
+    public ErrorResponse handleNotFound(AbstractManagedException error) {
         return error(error);
     }
 }

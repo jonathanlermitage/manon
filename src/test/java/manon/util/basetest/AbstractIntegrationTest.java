@@ -93,7 +93,8 @@ public abstract class AbstractIntegrationTest {
     public final String API_USER_ADMIN = API_V1 + "/admin/user";
     public final String API_SYS = API_V1 + "/sys";
     
-    public final String ERRORS_MSG = "errors.defaultMessage";
+    public static final String MANAGED_ERROR_TYPE = "errorType";
+    public static final String VALIDATION_ERRORS_MSG = "errors.defaultMessage";
     
     /** Simply a new unique objectId. */
     public final long UNKNOWN_ID = Long.MAX_VALUE;

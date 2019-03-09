@@ -13,7 +13,6 @@ import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
 import static io.restassured.http.ContentType.TEXT;
-import static manon.err.AbstractControllerAdvice.ERROR_TYPE;
 import static manon.model.user.RegistrationState.ACTIVE;
 import static manon.model.user.RegistrationState.BANNED;
 import static manon.model.user.RegistrationState.SUSPENDED;
@@ -136,7 +135,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
             .then()
             .statusCode(SC_NOT_FOUND)
             .contentType(JSON)
-            .body(ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
     
     @Test
@@ -146,7 +145,7 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
             .then()
             .statusCode(SC_NOT_FOUND)
             .contentType(JSON)
-            .body(ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
     
     @Test
@@ -156,6 +155,6 @@ public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
             .then()
             .statusCode(SC_NOT_FOUND)
             .contentType(JSON)
-            .body(ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
+            .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
 }
