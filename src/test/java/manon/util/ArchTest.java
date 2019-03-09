@@ -18,9 +18,9 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 public class ArchTest extends AbstractParallelUnitTest {
     
-    private final JavaClasses appClasses = new ClassFileImporter().importPackages("manon..");
+    private static final JavaClasses PROJECT = new ClassFileImporter().importPackages("manon..");
     
-    ArchCondition<JavaClass> DONT_CALL_METHODS_THAT_EXIST_FOR_TESTS =
+    private static final ArchCondition<JavaClass> DONT_CALL_METHODS_THAT_EXIST_FOR_TESTS =
         new ArchCondition<JavaClass>("not call methods that exist for tests") {
             @Override
             public void check(@NotNull JavaClass item, ConditionEvents events) {
@@ -39,7 +39,7 @@ public class ArchTest extends AbstractParallelUnitTest {
     public void shouldNotDependOnJDKInternals() {
         classes()
             .should().onlyAccessClassesThat().resideOutsideOfPackages("com.sun..", "sun..")
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -47,7 +47,7 @@ public class ArchTest extends AbstractParallelUnitTest {
         classes().that()
             .haveSimpleNameNotEndingWith("Test")
             .should(DONT_CALL_METHODS_THAT_EXIST_FOR_TESTS)
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -57,7 +57,7 @@ public class ArchTest extends AbstractParallelUnitTest {
             .should().beAnnotatedWith(RestController.class)
             .andShould().beAnnotatedWith(RequestMapping.class)
             .andShould().notBeInterfaces()
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -66,7 +66,7 @@ public class ArchTest extends AbstractParallelUnitTest {
             .haveSimpleNameEndingWith("Repository")
             .should().beAnnotatedWith(Repository.class)
             .andShould().beInterfaces()
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -75,7 +75,7 @@ public class ArchTest extends AbstractParallelUnitTest {
             .haveSimpleNameEndingWith("RepositoryCustom")
             .should().notBeAnnotatedWith(Repository.class)
             .andShould().beInterfaces()
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -84,7 +84,7 @@ public class ArchTest extends AbstractParallelUnitTest {
             .haveSimpleNameEndingWith("RepositoryImpl")
             .should().beAnnotatedWith(Repository.class)
             .andShould().notBeInterfaces()
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -93,7 +93,7 @@ public class ArchTest extends AbstractParallelUnitTest {
             .haveSimpleNameEndingWith("Service")
             .should().notBeAnnotatedWith(Service.class)
             .andShould().beInterfaces()
-            .check(appClasses);
+            .check(PROJECT);
     }
     
     @Test
@@ -102,6 +102,6 @@ public class ArchTest extends AbstractParallelUnitTest {
             .haveSimpleNameEndingWith("ServiceImpl")
             .should().beAnnotatedWith(Service.class)
             .andShould().notBeInterfaces()
-            .check(appClasses);
+            .check(PROJECT);
     }
 }

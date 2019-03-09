@@ -1,10 +1,10 @@
 package manon;
 
 import lombok.RequiredArgsConstructor;
-import manon.app.config.Cfg;
-import manon.app.trace.service.AppTraceService;
-import manon.user.err.UserExistsException;
-import manon.user.service.RegistrationService;
+import manon.app.Cfg;
+import manon.err.user.UserExistsException;
+import manon.service.app.AppTraceService;
+import manon.service.user.RegistrationService;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -19,14 +19,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import static manon.app.trace.model.AppTraceEvent.APP_START;
-import static manon.app.trace.model.AppTraceEvent.APP_STOP;
-import static manon.app.trace.model.AppTraceLevel.WARN;
+import static manon.model.app.AppTraceEvent.APP_START;
+import static manon.model.app.AppTraceEvent.APP_STOP;
+import static manon.model.app.AppTraceLevel.WARN;
 
 @SpringBootApplication
 @EnableBatchProcessing
-@EnableJpaRepositories(basePackages = {"manon.user.repository", "manon.app.trace.repository"})
-@EntityScan(basePackages = {"manon.user.document", "manon.app.trace.document"})
+@EnableJpaRepositories(basePackages = "manon.repository")
+@EntityScan(basePackages = "manon.document")
 @EnableTransactionManagement
 @EnableScheduling
 @RequiredArgsConstructor
