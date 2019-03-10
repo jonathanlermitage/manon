@@ -59,7 +59,6 @@ public class UserSnapshotServiceIntegrationTest extends AbstractIntegrationTest 
                 makeUserSnapshot(),
                 saveUserSnapshot().toBuilder().creationDate(Tools.yesterday()).build(),
                 saveUserSnapshot().toBuilder().creationDate(Tools.tomorrow()).build()
-            
             ));
         }
         
@@ -117,7 +116,7 @@ public class UserSnapshotServiceIntegrationTest extends AbstractIntegrationTest 
         LocalDateTime after = Tools.now();
         
         userSnapshotRepository.findAll().forEach(userSnapshot -> {
-            Assertions.assertThat(userSnapshot.getUserId()).isEqualTo(user(1).getId());
+            Assertions.assertThat(userSnapshot.getUser().getId()).isEqualTo(user(1).getId());
             Assertions.assertThat(userSnapshot.getCreationDate()).isBetween(before, after);
         });
     }

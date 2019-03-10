@@ -15,7 +15,7 @@ public class UserSnapshotTest {
     @Test
     public void shouldVerifyToString() {
         Assertions.assertThat(UserSnapshot.builder().build().toString()).contains(
-            "id", "userId", "userUsername",
+            "id", "userUsername",
             "userAuthorities", "userPassword", "userRegistrationState",
             "userNickname", "userEmail",
             "userVersion", "creationDate");
@@ -24,7 +24,7 @@ public class UserSnapshotTest {
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserSnapshot filled = UserSnapshot.builder()
             .id(1)
-            .userId(2)
+            .user(User.builder().id(2).build())
             .userUsername("u")
             .userAuthorities(UserAuthority.ROLE_PLAYER.name())
             .userPassword("apassword")
@@ -38,7 +38,7 @@ public class UserSnapshotTest {
             {UserStats.builder().build(), UserStats.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
-            {filled.toBuilder().userId(100).build(), filled, false},
+            {filled.toBuilder().user(User.builder().id(100).build()).build(), filled, true},
             {filled.toBuilder().userUsername("updated").build(), filled, false},
             {filled.toBuilder().userAuthorities(UserAuthority.ROLE_ADMIN.name()).build(), filled, false},
             {filled.toBuilder().userPassword("newpassword").build(), filled, false},
