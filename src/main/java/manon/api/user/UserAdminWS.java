@@ -1,5 +1,7 @@
 package manon.api.user;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.user.User;
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_USER_ADMIN;
+import static manon.util.Tools.Media.JSON;
+import static manon.util.Tools.Media.TEXT;
 
 /** User admin API. */
+@Api(description = "User administration tasks. Used by: admin.")
 @RestController
 @RequestMapping(value = API_USER_ADMIN)
 @RequiredArgsConstructor
@@ -29,6 +34,7 @@ public class UserAdminWS {
     private final UserService userService;
     
     /** Get all users. */
+    @ApiOperation(value = "Get all users. Result is paginated.", produces = JSON, response = Page.class)
     @GetMapping(value = "/all")
     public Page<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                               Pageable pageable) {
@@ -37,6 +43,7 @@ public class UserAdminWS {
     }
     
     /** Activate a user. */
+    @ApiOperation(value = "Activate a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/activate")
     public String activate(@AuthenticationPrincipal UserSimpleDetails admin,
                            @PathVariable("userId") long userId)
@@ -46,6 +53,7 @@ public class UserAdminWS {
     }
     
     /** Suspend a user. */
+    @ApiOperation(value = "Suspend a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/suspend")
     public String suspend(@AuthenticationPrincipal UserSimpleDetails admin,
                           @PathVariable("userId") long userId)
@@ -55,6 +63,7 @@ public class UserAdminWS {
     }
     
     /** Ban a user. */
+    @ApiOperation(value = "Ban a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/ban")
     public String ban(@AuthenticationPrincipal UserSimpleDetails admin,
                       @PathVariable("userId") long userId)

@@ -8,16 +8,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class TaskRunnerWSCtrlTest extends AbstractMockTest {
+public class JobRunnerWSCtrlTest extends AbstractMockTest {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyStartTask(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
-            .pathParam("task", "foobar")
-            .post(API_SYS + "/batch/start/{task}")
+            .pathParam("job", "foobar")
+            .post(API_SYS + "/batch/start/{job}")
             .then()
             .statusCode(status);
-        verify(taskRunnerWS, status).startTask(any(), eq("foobar"));
+        verify(jobRunnerWS, status).startJob(any(), eq("foobar"));
     }
 }

@@ -3,7 +3,7 @@ package manon.batch;
 import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
 import manon.batch.listener.ChunkFlushListener;
-import manon.batch.listener.TaskListener;
+import manon.batch.listener.JobListener;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.document.user.UserStats;
@@ -34,7 +34,7 @@ import java.util.Map;
 /** Keep recent user snapshots, then create snapshot of all existing users. */
 @Configuration
 @RequiredArgsConstructor
-public class UserSnapshotTask {
+public class UserSnapshotJobConfig {
     
     public static final String JOB_NAME = "userSnapshotJob";
     public static final String JOB_STEP0_KEEP_RECENT_NAME = "userSnapshotJobStepKeepRecent";
@@ -46,7 +46,7 @@ public class UserSnapshotTask {
     private final Cfg cfg;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
-    private final TaskListener taskListener;
+    private final JobListener jobListener;
     private final ChunkFlushListener chunkFlushListener;
     private final UserRepository userRepository;
     private final UserSnapshotRepository userSnapshotRepository;
@@ -107,7 +107,7 @@ public class UserSnapshotTask {
     Job userSnapshotJob() {
         return jbf.get(JOB_NAME)
             .incrementer(new RunIdIncrementer())
-            .listener(taskListener)
+            .listener(jobListener)
             .start(userSnapshotJobStepKeepRecent())
             .next(userSnapshotJobStepSnapshot())
             .next(userSnapshotJobStepStats())

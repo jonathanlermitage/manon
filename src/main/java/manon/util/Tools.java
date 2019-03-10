@@ -22,12 +22,25 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public final class Tools {
     
-    public static final String MDC_KEY_ENV = "env";
-    public static final String MDC_KEY_REQUEST_ID = "reqId";
-    public static final String MDC_KEY_USER = "user";
+    /** Logback MDC keys. */
+    @NoArgsConstructor(access = PRIVATE)
+    public static final class Mdc {
+        /** {@value} MDC environment key. */
+        public static final String KEY_ENV = "env";
+        /** {@value} MDC request id key. */
+        public static final String KEY_REQUEST_ID = "reqId";
+        /** {@value} MDC user key. */
+        public static final String KEY_USER = "user";
+    }
     
-    /** {@value} media type. */
-    public static final String MEDIA_JSON = "application/json";
+    /** Media types. */
+    @NoArgsConstructor(access = PRIVATE)
+    public static final class Media {
+        /** {@value} media type. */
+        public static final String JSON = "application/json";
+        /** {@value} media type. */
+        public static final String TEXT = "text/plain";
+    }
     
     public static final String ZONE_ID_NAME = "Europe/Paris";
     public static final ZoneId ZONE_ID = ZoneId.of(ZONE_ID_NAME);

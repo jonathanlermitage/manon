@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
 
-import static manon.util.Tools.MDC_KEY_REQUEST_ID;
-import static manon.util.Tools.MDC_KEY_USER;
+import static manon.util.Tools.Mdc.KEY_REQUEST_ID;
+import static manon.util.Tools.Mdc.KEY_USER;
 import static manon.util.Tools.isBlank;
 
 @Configuration
@@ -42,10 +42,10 @@ public class FilterConfig {
                     principal = ((HttpServletRequest) request).getUserPrincipal();
                     String requestId = ((HttpServletRequest) request).getHeader("X-Request-Id");
                     if (requestId != null) {
-                        MDC.put(MDC_KEY_REQUEST_ID, requestId);
+                        MDC.put(KEY_REQUEST_ID, requestId);
                     }
                 }
-                MDC.put(MDC_KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
+                MDC.put(KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
                 chain.doFilter(request, response);
             } finally {
                 MDC.clear();

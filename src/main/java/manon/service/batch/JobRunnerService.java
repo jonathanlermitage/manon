@@ -7,7 +7,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 
-public interface TaskRunnerService {
+public interface JobRunnerService {
     
     ExitStatus run(String task) throws TaskNotFoundException,
         JobParametersInvalidException, JobExecutionAlreadyRunningException,

@@ -1,11 +1,13 @@
 package manon.api.batch;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.err.batch.TaskNotFoundException;
 import manon.model.batch.TaskStatus;
 import manon.model.user.UserSimpleDetails;
-import manon.service.batch.TaskRunnerService;
+import manon.service.batch.JobRunnerService;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -18,22 +20,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_SYS;
+import static manon.util.Tools.Media.JSON;
 
-/** Task API. */
+/** Job API. */
+@Api(description = "Start batch jobs. Used by: admin.")
 @RestController
 @RequestMapping(value = API_SYS)
 @RequiredArgsConstructor
 @Slf4j
-public class TaskRunnerWS {
+public class JobRunnerWS {
     
-    private final TaskRunnerService taskRunnerService;
+    private final JobRunnerService jobRunnerService;
     
-    @PostMapping(value = "/batch/start/{task}")
-    public TaskStatus startTask(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("task") String task)
+    @ApiOperation(value = "Start given job.", produces = JSON, response = TaskStatus.class)
+    @PostMapping(value = "/batch/start/{job}")
+    public TaskStatus startJob(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("job") String job)
         throws TaskNotFoundException, JobParametersInvalidException, JobExecutionAlreadyRunningException,
         JobRestartException, JobInstanceAlreadyCompleteException {
-        log.warn("admin {} starts task {}", sys.getUsername(), task);
-        ExitStatus exitStatus = taskRunnerService.run(task);
+        log.warn("admin {} starts job {}", sys.getUsername(), job);
+        ExitStatus exitStatus = jobRunnerService.run(job);
         return TaskStatus.builder()
             .running(exitStatus.isRunning())
             .exitCode(exitStatus.getExitCode())

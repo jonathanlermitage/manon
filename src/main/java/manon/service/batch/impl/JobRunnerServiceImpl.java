@@ -1,9 +1,9 @@
 package manon.service.batch.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.batch.UserSnapshotTask;
+import manon.batch.UserSnapshotJobConfig;
 import manon.err.batch.TaskNotFoundException;
-import manon.service.batch.TaskRunnerService;
+import manon.service.batch.JobRunnerService;
 import manon.util.Tools;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
@@ -23,26 +23,26 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class TaskRunnerServiceImpl implements InitializingBean, TaskRunnerService {
+public class JobRunnerServiceImpl implements InitializingBean, JobRunnerService {
     
     private final JobLauncher launcher;
     
-    @Qualifier(UserSnapshotTask.JOB_NAME)
+    @Qualifier(UserSnapshotJobConfig.JOB_NAME)
     private final Job userSnapshotJob;
     
     private Map<String, Job> jobs;
     
     @Override
     public void afterPropertiesSet() {
-        this.jobs = Collections.singletonMap(UserSnapshotTask.JOB_NAME, userSnapshotJob);
+        this.jobs = Collections.singletonMap(UserSnapshotJobConfig.JOB_NAME, userSnapshotJob);
     }
     
     @Override
-    public ExitStatus run(String task) throws TaskNotFoundException,
+    public ExitStatus run(String job) throws TaskNotFoundException,
         JobParametersInvalidException, JobExecutionAlreadyRunningException,
         JobRestartException, JobInstanceAlreadyCompleteException {
-        if (jobs.containsKey(task)) {
-            return launcher.run(jobs.get(task), todayDateJobParameters()).getExitStatus();
+        if (jobs.containsKey(job)) {
+            return launcher.run(jobs.get(job), todayDateJobParameters()).getExitStatus();
         }
         throw new TaskNotFoundException();
     }

@@ -1,5 +1,7 @@
 package manon.api.user;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.user.User;
@@ -24,10 +26,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_USER;
-import static manon.util.Tools.MEDIA_JSON;
+import static manon.util.Tools.Media.JSON;
 import static org.springframework.http.HttpStatus.CREATED;
 
 /** User API. */
+@Api(description = "Register new user and manipulate own user data. Used by: registered users, except registration that is public.")
 @RestController
 @RequestMapping(value = API_USER)
 @RequiredArgsConstructor
@@ -38,7 +41,8 @@ public class UserWS {
     private final UserService userService;
     
     /** Register a new user. */
-    @PostMapping(consumes = MEDIA_JSON)
+    @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = User.class)
+    @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
     public User register(@RequestBody @Validated RegistrationForm registrationForm)
         throws UserExistsException {
@@ -47,6 +51,7 @@ public class UserWS {
     }
     
     /** Unregister a user. */
+    @ApiOperation(value = "Unregister me.")
     @DeleteMapping
     public void delete(@AuthenticationPrincipal UserSimpleDetails user)
         throws UserNotFoundException {
@@ -55,6 +60,7 @@ public class UserWS {
     }
     
     /** Get user. */
+    @ApiOperation(value = "Get my user information.", produces = JSON, response = User.class)
     @GetMapping
     public User read(@AuthenticationPrincipal UserSimpleDetails user)
         throws UserNotFoundException {
@@ -63,6 +69,7 @@ public class UserWS {
     }
     
     /** Get user's version. */
+    @ApiOperation(value = "Get my user version number.", produces = JSON, response = Long.class)
     @GetMapping("/version")
     public long readVersion(@AuthenticationPrincipal UserSimpleDetails user)
         throws UserNotFoundException {
@@ -71,7 +78,8 @@ public class UserWS {
     }
     
     /** Update one user's user field. */
-    @PutMapping(value = "/field", consumes = MEDIA_JSON)
+    @ApiOperation(value = "Update my user data.", consumes = JSON)
+    @PutMapping(value = "/field", consumes = JSON)
     public void update(@AuthenticationPrincipal UserSimpleDetails user,
                        @RequestBody @Validated UserUpdateForm userUpdateForm) {
         log.debug("user {} updates his user with {}", user.getIdentity(), userUpdateForm);
@@ -79,7 +87,8 @@ public class UserWS {
     }
     
     /** Update current user's password. */
-    @PutMapping(value = "/password", consumes = MEDIA_JSON)
+    @ApiOperation(value = "Update my user password.", consumes = JSON)
+    @PutMapping(value = "/password", consumes = JSON)
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
                                @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm)
         throws PasswordNotMatchException {

@@ -3,7 +3,7 @@ package manon.batch;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.document.user.UserStats;
-import manon.service.batch.TaskRunnerService;
+import manon.service.batch.JobRunnerService;
 import manon.service.user.UserSnapshotService;
 import manon.service.user.UserStatsService;
 import manon.util.Tools;
@@ -20,10 +20,10 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 
-public class UserSnapshotTaskIntegrationTest extends AbstractIntegrationTest {
+public class UserSnapshotJobConfigIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
-    private TaskRunnerService taskRunnerService;
+    private JobRunnerService jobRunnerService;
     @Autowired
     private UserSnapshotService userSnapshotService;
     @Autowired
@@ -66,7 +66,7 @@ public class UserSnapshotTaskIntegrationTest extends AbstractIntegrationTest {
         for (int i = 0; i < NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY; i++) {
             
             //WHEN run User snapshot job
-            ExitStatus run = taskRunnerService.run(UserSnapshotTask.JOB_NAME);
+            ExitStatus run = jobRunnerService.run(UserSnapshotJobConfig.JOB_NAME);
             
             //THEN should keep recent User snapshots only and generate today's ones
             assertThat(run).isEqualTo(COMPLETED);

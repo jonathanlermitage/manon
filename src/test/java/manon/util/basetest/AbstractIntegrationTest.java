@@ -43,7 +43,7 @@ import java.util.Map;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static java.lang.System.currentTimeMillis;
-import static manon.util.Tools.MDC_KEY_ENV;
+import static manon.util.Tools.Mdc.KEY_ENV;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
@@ -145,7 +145,7 @@ public abstract class AbstractIntegrationTest {
     
     public void initDb() throws UserExistsException, UserNotFoundException {
         long t1 = currentTimeMillis();
-        MDC.put(MDC_KEY_ENV, "junit");
+        MDC.put(KEY_ENV, "junit");
         clearDb();
         registrationService.ensureAdmin();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {

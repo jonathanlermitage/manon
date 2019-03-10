@@ -3,7 +3,7 @@ package manon.util.basetest;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import manon.api.app.InfoWS;
-import manon.api.batch.TaskRunnerWS;
+import manon.api.batch.JobRunnerWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
 import manon.api.user.UserWS;
@@ -54,7 +54,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     @MockBean
     protected InfoWS infoWS;
     @MockBean
-    protected TaskRunnerWS taskRunnerWS;
+    protected JobRunnerWS jobRunnerWS;
     @MockBean
     protected UserAdminWS userAdminWS;
     @MockBean
@@ -83,7 +83,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
         initMocks(this);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(infoWS);
-        Mockito.clearInvocations(taskRunnerWS);
+        Mockito.clearInvocations(jobRunnerWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
     }
