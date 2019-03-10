@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.MediaType;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -37,9 +38,9 @@ public final class Tools {
     @NoArgsConstructor(access = PRIVATE)
     public static final class Media {
         /** {@value} media type. */
-        public static final String JSON = "application/json";
+        public static final String JSON = MediaType.APPLICATION_JSON_VALUE;
         /** {@value} media type. */
-        public static final String TEXT = "text/plain";
+        public static final String TEXT = MediaType.TEXT_PLAIN_VALUE;
     }
     
     public static final String ZONE_ID_NAME = "Europe/Paris";
