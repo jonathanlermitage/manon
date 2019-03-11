@@ -1,21 +1,25 @@
 package manon.service.user.impl;
 
 import manon.document.user.User;
+import manon.document.user.UserSnapshot;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserAuthority;
 import manon.service.user.PasswordEncoderService;
+import manon.service.user.UserSnapshotService;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.assertj.core.api.Assertions;
+import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -23,6 +27,8 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Autowired
     private PasswordEncoderService passwordEncoderService;
+    @Autowired
+    private UserSnapshotService userSnapshotService;
     
     @Override
     public int getNumberOfUsers() {
@@ -35,18 +41,65 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldFailExistOrFail() {
+    public void shouldFailExistOrFailUnknown() {
         Assertions.assertThatThrownBy(() -> userService.existOrFail(userId(1), UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
     public void shouldReadOne() throws Exception {
-        Assertions.assertThat(userService.readOne(userId(1)).getId()).isEqualTo(userId(1));
+        User dbUser = userService.readOne(userId(1));
+        Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
     }
     
     @Test
-    public void shouldFailReadOne() {
+    public void shouldReadOneFailReadLazyDataOutsideASession() throws Exception {
+        User dbUser = userService.readOne(userId(1));
+        Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
+            .isInstanceOf(LazyInitializationException.class);
+    }
+    
+    @Test
+    public void shouldReadOneWhenUserHasSnapshots() throws Exception {
+        userSnapshotService.save(Arrays.asList(
+            UserSnapshot.from(user(1)),
+            UserSnapshot.from(user(1))
+        ));
+        User dbUser = userService.readOne(userId(1));
+        Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
+    }
+    
+    @Test
+    public void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() throws Exception {
+        userSnapshotService.save(Arrays.asList(
+            UserSnapshot.from(user(1)),
+            UserSnapshot.from(user(1))
+        ));
+        User dbUser = userService.readOne(userId(1));
+        Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
+            .isInstanceOf(LazyInitializationException.class);
+    }
+    
+    @Test
+    public void shouldReadOneAndFetchUserSnapshots() throws Exception {
+        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1));
+        Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
+        Assertions.assertThat(dbUser.getUserSnapshots()).isEmpty();
+    }
+    
+    @Test
+    public void shouldReadOneAndFetchUserSnapshotsWhenUserHasSnapshots() throws Exception {
+        userSnapshotService.save(Arrays.asList(
+            UserSnapshot.from(user(1)),
+            UserSnapshot.from(user(1))
+        ));
+        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1));
+        Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
+        Assertions.assertThat(dbUser.getUserSnapshots()).hasSize(2);
+    }
+    
+    @Test
+    public void shouldFailReadOneUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readOne(UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
@@ -67,7 +120,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldFailReadByUsername() {
+    public void shouldFailReadByUsernameUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UserNotFoundException.class);
     }
@@ -78,7 +131,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldFailReadVersionById() {
+    public void shouldFailReadVersionByIdUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readVersionById(UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
@@ -89,7 +142,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldFailReadIdByUsername() {
+    public void shouldFailReadIdByUsernameUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readIdByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UserNotFoundException.class);
     }
@@ -108,7 +161,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     }
     
     @Test
-    public void shouldFailCreate() {
+    public void shouldFailCreateExisting() {
         Assertions.assertThatThrownBy(() -> userService.create(userService.readOne(userId(1))))
             .isInstanceOf(UserExistsException.class);
     }

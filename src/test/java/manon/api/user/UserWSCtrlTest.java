@@ -58,6 +58,16 @@ public class UserWSCtrlTest extends AbstractMockTest {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
+    public void shouldVerifyReadAndIncludeUserSnapshots(Rs rs, Integer status) throws Exception {
+        rs.getRequestSpecification()
+            .get(API_USER + "/include/usersnapshots")
+            .then()
+            .statusCode(status);
+        verify(userWs, status).readAndIncludeUserSnapshots(any());
+    }
+    
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadVersion(Rs rs, Integer status) throws Exception {
         rs.getRequestSpecification()
             .get(API_USER + "/version")

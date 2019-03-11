@@ -1,6 +1,7 @@
 package manon.document.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import manon.document.DefaultView;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserAuthority;
 import manon.util.Tools;
@@ -20,15 +22,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 import static manon.document.user.User.Validation.EMAIL_MAX_LENGTH;
@@ -48,8 +53,8 @@ import static manon.document.user.User.Validation.USERNAME_SIZE_ERRMSG;
 
 @Entity
 @Getter
-@ToString
-@EqualsAndHashCode(exclude = {"version", "creationDate", "updateDate"})
+@ToString(exclude = "userSnapshots")
+@EqualsAndHashCode(exclude = {"userSnapshots", "version", "creationDate", "updateDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -92,6 +97,10 @@ public class User implements Serializable, UserVersionProjection {
     @Size(max = EMAIL_MAX_LENGTH, message = EMAIL_SIZE_ERRMSG)
     @Column(length = EMAIL_MAX_LENGTH, unique = true)
     private String email;
+    
+    @JsonView(WithUserSnapshots.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<UserSnapshot> userSnapshots;
     
     @Version
     @Column(nullable = false)
@@ -138,5 +147,8 @@ public class User implements Serializable, UserVersionProjection {
         public static final int PASSWORD_MIN_LENGTH = 5;
         public static final int PASSWORD_MAX_LENGTH = 256;
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
+    }
+    
+    public interface WithUserSnapshots extends DefaultView {
     }
 }

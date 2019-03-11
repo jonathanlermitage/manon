@@ -1,9 +1,11 @@
 package manon.api.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import manon.document.DefaultView;
 import manon.document.user.User;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
@@ -44,6 +46,7 @@ public class UserWS {
     @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = User.class)
     @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
+    @JsonView(DefaultView.class)
     public User register(@RequestBody @Validated RegistrationForm registrationForm)
         throws UserExistsException {
         log.debug("user registration with {}", registrationForm);
@@ -62,10 +65,21 @@ public class UserWS {
     /** Get user. */
     @ApiOperation(value = "Get my user information.", produces = JSON, response = User.class)
     @GetMapping
+    @JsonView(DefaultView.class)
     public User read(@AuthenticationPrincipal UserSimpleDetails user)
         throws UserNotFoundException {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
+    }
+    
+    /** Get user and linked user snapshots. */
+    @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = User.class)
+    @GetMapping("/include/usersnapshots")
+    @JsonView(User.WithUserSnapshots.class)
+    public User readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user)
+        throws UserNotFoundException {
+        log.debug("user {} reads his user", user.getIdentity());
+        return userService.readOneAndFetchUserSnapshots(user.getUserId()); // todo jouer des snapshots puis tester le WS dans firefox
     }
     
     /** Get user's version. */

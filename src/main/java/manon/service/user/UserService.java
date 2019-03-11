@@ -23,6 +23,8 @@ public interface UserService {
     
     User readOne(long id) throws UserNotFoundException;
     
+    User readOneAndFetchUserSnapshots(long id) throws UserNotFoundException;
+    
     User readByUsername(String username) throws UserNotFoundException;
     
     Optional<User> findByUsername(String username);

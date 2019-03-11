@@ -36,4 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("update User u set u.registrationState = :registrationState where u.id = :id")
     void setRegistrationState(@Param("id") long id, @Param("registrationState") RegistrationState registrationState);
+    
+    @Query("select u from User u left join fetch u.userSnapshots where u.id = :id")
+    Optional<User> findAndFetchUserSnapshots(@Param("id") long id);
 }

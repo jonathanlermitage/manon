@@ -1,6 +1,7 @@
 package manon.app.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,8 @@ public class ConverterConfig implements WebMvcConfigurer {
             ObjectMapper objectMapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
             objectMapper
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .setSerializationInclusion(JsonInclude.Include.USE_DEFAULTS);
+                .setSerializationInclusion(JsonInclude.Include.USE_DEFAULTS)
+                .enable(MapperFeature.DEFAULT_VIEW_INCLUSION);
         });
     }
 }

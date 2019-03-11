@@ -52,6 +52,11 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
+    public User readOneAndFetchUserSnapshots(long id) throws UserNotFoundException {
+        return userRepository.findAndFetchUserSnapshots(id).orElseThrow(UserNotFoundException::new);
+    }
+    
+    @Override
     public void update(long userId, UserUpdateForm userUpdateForm) {
         userRepository.update(userId, userUpdateForm.getEmail(), userUpdateForm.getNickname());
     }

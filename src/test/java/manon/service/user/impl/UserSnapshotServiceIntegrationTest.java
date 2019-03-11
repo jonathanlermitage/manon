@@ -7,6 +7,7 @@ import manon.service.user.UserSnapshotService;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.assertj.core.api.Assertions;
+import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -29,8 +30,17 @@ public class UserSnapshotServiceIntegrationTest extends AbstractIntegrationTest 
         Assertions.assertThat(userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new)).isEqualTo(us);
     }
     
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    public void shouldFailFindOne() {
+    public void shouldFindOneFailReadLazyDataOutsideASession() {
+        UserSnapshot us = saveUserSnapshot();
+        
+        Assertions.assertThatThrownBy(() -> userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new).getUser().hashCode())
+            .isInstanceOf(LazyInitializationException.class);
+    }
+    
+    @Test
+    public void shouldFailFindOneUnknown() {
         Assertions.assertThat(userSnapshotService.findOne(UNKNOWN_ID)).isEmpty();
     }
     

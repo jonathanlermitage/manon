@@ -1,9 +1,11 @@
 package manon.api.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import manon.document.DefaultView;
 import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserSimpleDetails;
@@ -36,6 +38,7 @@ public class UserAdminWS {
     /** Get all users. */
     @ApiOperation(value = "Get all users. Result is paginated.", produces = JSON, response = Page.class)
     @GetMapping(value = "/all")
+    @JsonView(DefaultView.class)
     public Page<User> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                               Pageable pageable) {
         log.debug("admin {} finds all users pageable {}", admin.getUsername(), pageable);

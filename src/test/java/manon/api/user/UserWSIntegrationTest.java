@@ -3,17 +3,20 @@ package manon.api.user;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import manon.document.user.User;
+import manon.document.user.UserSnapshot;
 import manon.err.user.UserExistsException;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.form.RegistrationForm;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
+import manon.service.user.UserSnapshotService;
 import manon.util.TestTools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +33,9 @@ import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserWSIntegrationTest extends AbstractIntegrationTest {
+    
+    @Autowired
+    private UserSnapshotService userSnapshotService;
     
     @Override
     public int getNumberOfUsers() {
@@ -112,8 +118,53 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
         res.then()
             .statusCode(SC_OK);
         User webUser = readValue(res, User.class);
-        User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
+        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
         assertThat(webUser).isEqualTo(dbUser);
+        assertThat(webUser.getUserSnapshots()).isNull();
+    }
+    
+    @Test
+    public void shouldReadWhenUserHasSnapshots() throws Exception {
+        userSnapshotService.save(Arrays.asList(
+            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
+            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
+        ));
+        Response res = whenP1().getRequestSpecification()
+            .get(API_USER);
+        res.then()
+            .statusCode(SC_OK);
+        User webUser = readValue(res, User.class);
+        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        assertThat(webUser).isEqualTo(dbUser);
+        assertThat(webUser.getUserSnapshots()).isNull();
+    }
+    
+    @Test
+    public void shouldReadAndIncludeUserSnapshots() throws Exception {
+        Response res = whenP1().getRequestSpecification()
+            .get(API_USER + "/include/usersnapshots");
+        res.then()
+            .statusCode(SC_OK);
+        User webUser = readValue(res, User.class);
+        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        assertThat(webUser).isEqualTo(dbUser);
+        assertThat(webUser.getUserSnapshots()).isEmpty();
+    }
+    
+    @Test
+    public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() throws Exception {
+        userSnapshotService.save(Arrays.asList(
+            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
+            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
+        ));
+        Response res = whenP1().getRequestSpecification()
+            .get(API_USER + "/include/usersnapshots");
+        res.then()
+            .statusCode(SC_OK);
+        User webUser = readValue(res, User.class);
+        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        assertThat(webUser).isEqualTo(dbUser);
+        assertThat(webUser.getUserSnapshots()).hasSize(2).isEqualTo(dbUser.getUserSnapshots());
     }
     
     @Test

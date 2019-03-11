@@ -1,5 +1,6 @@
 package manon.document.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -41,7 +42,7 @@ public class UserSnapshot implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @JsonView(WithLinkedEntitiesView.class)
+    @JsonView(WithLUserView.class)
     @ManyToOne(fetch = LAZY)
     private User user;
     
@@ -51,6 +52,7 @@ public class UserSnapshot implements Serializable {
     @Column(updatable = false)
     private String userAuthorities;
     
+    @JsonIgnore
     @Column(updatable = false)
     private String userPassword;
     
@@ -92,6 +94,6 @@ public class UserSnapshot implements Serializable {
             .build();
     }
     
-    public interface WithLinkedEntitiesView {
+    public interface WithLUserView {
     }
 }
