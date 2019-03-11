@@ -79,7 +79,7 @@ public class UserWS {
     public User readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user)
         throws UserNotFoundException {
         log.debug("user {} reads his user", user.getIdentity());
-        return userService.readOneAndFetchUserSnapshots(user.getUserId()); // todo jouer des snapshots puis tester le WS dans firefox
+        return userService.readOneAndFetchUserSnapshots(user.getUserId());
     }
     
     /** Get user's version. */
