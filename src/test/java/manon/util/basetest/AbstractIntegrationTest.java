@@ -60,7 +60,7 @@ public abstract class AbstractIntegrationTest {
     @LocalServerPort
     private int port;
     
-    @Autowired
+    @Autowired(required = false)
     protected PerformanceRecorder performanceRecorder;
     
     @Autowired
@@ -172,7 +172,7 @@ public abstract class AbstractIntegrationTest {
     
     @AfterAll
     public final void afterClass() {
-        if (!performanceRecorder.isEmpty()) {
+        if (performanceRecorder != null && !performanceRecorder.isEmpty()) {
             log.info(performanceRecorder.showStats() + "\n");
         }
     }
