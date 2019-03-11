@@ -40,7 +40,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void existOrFail(long... ids) throws UserNotFoundException {
         for (long id : ids) {
-            readOne(id);
+            if (!userRepository.existsById(id)) {
+                throw new UserNotFoundException();
+            }
         }
     }
     
