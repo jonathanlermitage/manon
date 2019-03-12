@@ -1,4 +1,4 @@
-### FINAL CONFIGURATION ###  (warning: avoid tabs, indent with two spaces)
+### MAIN CONFIGURATION ###  (warning: avoid tabs, indent with two spaces)
 # see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 
 spring:
