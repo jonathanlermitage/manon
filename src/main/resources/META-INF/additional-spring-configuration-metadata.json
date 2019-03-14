@@ -1,14 +1,24 @@
 {
   "properties": [
     {
-      "name": "manon.admin.default-admin.username",
+      "name": "manon.default-user.admin.username",
       "type": "java.lang.String",
       "description": "An admin user is created in database with this username if no admin found in database during start-up."
     },
     {
-      "name": "manon.admin.default-admin.password",
+      "name": "manon.default-user.admin.password",
       "type": "java.lang.String",
       "description": "An admin user is created in database with this password if no admin found in database during start-up."
+    },
+    {
+      "name": "manon.default-user.actuator.username",
+      "type": "java.lang.String",
+      "description": "An actuator-client user is created in database with this username if no actuator-client found in database during start-up."
+    },
+    {
+      "name": "manon.default-user.actuator.password",
+      "type": "java.lang.String",
+      "description": "An actuator-client user is created in database with this password if no actuator-client found in database during start-up."
     },
     {
       "name": "manon.security.bcrypt.strength",
@@ -26,7 +36,12 @@
       "description": "User snapshot batch: user snapshot max age in days."
     },
     {
-      "name": "manon.version",
+      "name": "info.app.name",
+      "type": "java.lang.String",
+      "description": "Application name."
+    },
+    {
+      "name": "info.app.version",
       "type": "java.lang.String",
       "description": "Application version, taken from pom.xml."
     }

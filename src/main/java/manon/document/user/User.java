@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.document.DefaultView;
 import manon.model.user.RegistrationState;
-import manon.model.user.UserAuthority;
 import manon.util.Tools;
 import org.springframework.data.annotation.Version;
 
@@ -73,7 +72,7 @@ public class User implements Serializable, UserVersionProjection {
     @Column(nullable = false, length = USERNAME_MAX_LENGTH, unique = true, updatable = false)
     private String username;
     
-    /** Coma separated list of {@link UserAuthority} names. */
+    /** Comma separated list of authorities. */
     @Column(nullable = false)
     private String authorities;
     

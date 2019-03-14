@@ -6,7 +6,7 @@ import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
-import manon.model.user.UserAuthority;
+import manon.model.user.UserRole;
 import manon.service.user.PasswordEncoderService;
 import manon.service.user.UserSnapshotService;
 import manon.util.Tools;
@@ -225,7 +225,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
             .username("SHOULD_SAVE_USERNAME")
             .password("password")
             .registrationState(RegistrationState.ACTIVE)
-            .authorities(UserAuthority.ROLE_PLAYER.name())
+            .authorities(UserRole.PLAYER.name())
             .email("email@domain.com")
             .nickname("nickname")
             .build());

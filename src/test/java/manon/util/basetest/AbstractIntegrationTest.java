@@ -2,7 +2,6 @@ package manon.util.basetest;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
@@ -17,7 +16,6 @@ import manon.repository.user.FriendshipRequestRepository;
 import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.repository.user.UserStatsRepository;
-import manon.service.app.InfoService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
@@ -70,8 +68,6 @@ public abstract class AbstractIntegrationTest {
     protected UserService userService;
     @Autowired
     protected RegistrationService registrationService;
-    @Autowired
-    protected InfoService infoService;
     
     @Autowired
     protected AppTraceRepository appTraceRepository;
@@ -148,6 +144,7 @@ public abstract class AbstractIntegrationTest {
         MDC.put(KEY_ENV, "junit");
         clearDb();
         registrationService.ensureAdmin();
+        registrationService.ensureActuator();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
@@ -183,25 +180,28 @@ public abstract class AbstractIntegrationTest {
     
     public final Rs whenAnonymous() {
         return new Rs(RestAssured.given()
-            .header("X-Request-Id", "anonymous-" + currentTimeMillis())
+            .header("X-Request-Id", "anon-" + currentTimeMillis())
             .auth().none(), "", "");
     }
     
-    public final Rs whenAdmin() {
-        String adminUsername = cfg.getAdminDefaultAdminUsername();
-        String adminPassword = cfg.getAdminDefaultAdminPassword();
+    public final Rs whenAuthenticated(String username, String password) {
         return new Rs(RestAssured.given()
-            .header("X-Request-Id", "admin-" + currentTimeMillis())
-            .auth().basic(adminUsername, adminPassword), adminUsername, adminPassword);
+            .header("X-Request-Id", "user-" + currentTimeMillis())
+            .auth().basic(username, password), username, password);
+    }
+    
+    public final Rs whenAdmin() {
+        return whenAuthenticated(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword());
+    }
+    
+    public final Rs whenActuator() {
+        return whenAuthenticated(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword());
     }
     
     /** When player n°humanId, where humanId is an index starting at 1. */
     public final Rs whenPX(int humanId) {
         int idx = humanId - 1;
-        RequestSpecification rs = RestAssured.given()
-            .header("X-Request-Id", "player-" + currentTimeMillis())
-            .auth().basic(makeName(idx), makePwd(idx));
-        return new Rs(rs, makeName(idx), makePwd(idx));
+        return whenAuthenticated(makeName(idx), makePwd(idx));
     }
     
     /** When player 1. */

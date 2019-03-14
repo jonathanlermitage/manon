@@ -18,6 +18,6 @@ public class Rs {
     @Contract(pure = true)
     @Override
     public String toString() {
-        return "u=" + username;
+        return username + ":" + password;
     }
 }

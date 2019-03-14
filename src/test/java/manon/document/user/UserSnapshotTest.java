@@ -1,7 +1,7 @@
 package manon.document.user;
 
 import manon.model.user.RegistrationState;
-import manon.model.user.UserAuthority;
+import manon.model.user.UserRole;
 import manon.util.Tools;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ public class UserSnapshotTest {
             .id(1)
             .user(User.builder().id(2).build())
             .userUsername("u")
-            .userAuthorities(UserAuthority.ROLE_PLAYER.name())
+            .userAuthorities(UserRole.PLAYER.name())
             .userPassword("apassword")
             .userRegistrationState(RegistrationState.ACTIVE)
             .userNickname("n")
@@ -40,7 +40,7 @@ public class UserSnapshotTest {
             {filled.toBuilder().id(99).build(), filled, false},
             {filled.toBuilder().user(User.builder().id(100).build()).build(), filled, true},
             {filled.toBuilder().userUsername("updated").build(), filled, false},
-            {filled.toBuilder().userAuthorities(UserAuthority.ROLE_ADMIN.name()).build(), filled, false},
+            {filled.toBuilder().userAuthorities(UserRole.ADMIN.name()).build(), filled, false},
             {filled.toBuilder().userPassword("newpassword").build(), filled, false},
             {filled.toBuilder().userRegistrationState(RegistrationState.SUSPENDED).build(), filled, false},
             {filled.toBuilder().userNickname("updated").build(), filled, false},

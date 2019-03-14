@@ -8,7 +8,10 @@ spring:
   jpa.hibernate.ddl-auto: update
 
 manon:
-  admin:
-    default-admin:
+  default-user:
+    admin:
       username: ${MANON_PROD_ADMIN_USERNAME}
       password: ${MANON_PROD_ADMIN_PASSWORD}
+    actuator:
+      username: ${MANON_PROD_ACTUATOR_USERNAME}
+      password: ${MANON_PROD_ACTUATOR_PASSWORD}

@@ -18,14 +18,18 @@ server:
   undertow.accesslog.enabled: false
   servlet.context-path: "/"
 
-info.app.name: manon
+info.app:
+  name: manon
+  version: @project.version@
+
 management:
   endpoint:
     configprops.enabled: true
     env.enabled: true
     health:
       enabled: true
-      show-details: always
+      show-details: when_authorized
+      roles: "ROLE_ACTUATOR"
     info.enabled: true
     metrics.enabled: true
     scheduledtasks.enabled: true
@@ -34,14 +38,17 @@ management:
     web:
       base-path: /actuator
       exposure.include: ["configprops", "env", "health", "info", "metrics", "scheduledtasks"]
+
 manon:
-  admin:
-    default-admin:
+  default-user:
+    admin:
       username: ROOT
+      password: woot
+    actuator:
+      username: ACTUATOR
       password: woot
   batch:
     user-snapshot:
       chunk: 1000
       snapshot.max-age: 30
   security.bcrypt.strength: 6
-  version: @project.version@

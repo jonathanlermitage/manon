@@ -24,7 +24,7 @@ import java.util.List;
 import static io.restassured.http.ContentType.JSON;
 import static manon.model.user.RegistrationState.ACTIVE;
 import static manon.model.user.RegistrationState.DELETED;
-import static manon.model.user.UserAuthority.ROLE_PLAYER;
+import static manon.model.user.UserRole.PLAYER;
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_CREATED;
@@ -61,7 +61,7 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
             .statusCode(SC_CREATED);
         User user = userService.readByUsername(name);
         assertThat(user.getUsername()).isEqualTo(name);
-        assertThat(user.getAuthorities()).isEqualTo(ROLE_PLAYER.name());
+        assertThat(user.getAuthorities()).isEqualTo(PLAYER.getAuthority());
         assertThat(user.getVersion()).isGreaterThanOrEqualTo(0L);
         assertThat(user.getRegistrationState()).isEqualTo(ACTIVE);
         assertThat(pwd).as("don't store raw passwords!")

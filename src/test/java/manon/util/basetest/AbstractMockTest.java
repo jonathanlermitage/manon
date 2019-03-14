@@ -2,7 +2,6 @@ package manon.util.basetest;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
-import manon.api.app.InfoWS;
 import manon.api.batch.JobRunnerWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
@@ -52,8 +51,6 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     @MockBean
     protected FriendshipWS friendshipWS;
     @MockBean
-    protected InfoWS infoWS;
-    @MockBean
     protected JobRunnerWS jobRunnerWS;
     @MockBean
     protected UserAdminWS userAdminWS;
@@ -82,7 +79,6 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     public void setUpMocks() {
         initMocks(this);
         Mockito.clearInvocations(friendshipWS);
-        Mockito.clearInvocations(infoWS);
         Mockito.clearInvocations(jobRunnerWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
@@ -109,6 +105,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     public Object[][] dataProviderAllowAdmin() {
         return new Object[][]{
             {whenAdmin(), SC_OK},
+            {whenActuator(), SC_FORBIDDEN},
             {whenP1(), SC_FORBIDDEN},
             {whenAnonymous(), SC_UNAUTHORIZED},
             {whenUsername(BANNED_REACTIVATED_USERNAME), SC_FORBIDDEN},
@@ -126,6 +123,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     public Object[][] dataProviderAllowAuthenticated() {
         return new Object[][]{
             {whenAdmin(), SC_OK},
+            {whenActuator(), SC_OK},
             {whenP1(), SC_OK},
             {whenAnonymous(), SC_UNAUTHORIZED},
             {whenUsername(BANNED_REACTIVATED_USERNAME), SC_OK},
@@ -134,23 +132,6 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
             {whenUsername(BANNED_USERNAME), SC_UNAUTHORIZED},
             {whenUsername(DELETED_USERNAME), SC_UNAUTHORIZED},
             {whenUsername(SUSPENDED_USERNAME), SC_UNAUTHORIZED}
-        };
-    }
-    
-    public final String DP_ALLOW_ALL = "dataProviderAllowAll";
-    
-    @SuppressWarnings("unused") // used via DP_ALLOW_ALL
-    public Object[][] dataProviderAllowAll() {
-        return new Object[][]{
-            {whenAdmin(), SC_OK},
-            {whenP1(), SC_OK},
-            {whenAnonymous(), SC_OK},
-            {whenUsername(BANNED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(DELETED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(SUSPENDED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(BANNED_USERNAME), SC_OK},
-            {whenUsername(DELETED_USERNAME), SC_OK},
-            {whenUsername(SUSPENDED_USERNAME), SC_OK}
         };
     }
 }

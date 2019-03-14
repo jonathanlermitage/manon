@@ -1,7 +1,7 @@
 package manon.document.user;
 
 import manon.model.user.RegistrationState;
-import manon.model.user.UserAuthority;
+import manon.model.user.UserRole;
 import manon.util.TestTools;
 import manon.util.Tools;
 import org.assertj.core.api.Assertions;
@@ -26,7 +26,7 @@ public class UserTest {
         User filled = User.builder()
             .id(1)
             .username("u")
-            .authorities(UserAuthority.ROLE_PLAYER.name())
+            .authorities(UserRole.PLAYER.name())
             .password("apassword")
             .registrationState(RegistrationState.ACTIVE)
             .nickname("n")
@@ -40,7 +40,7 @@ public class UserTest {
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
             {filled.toBuilder().username("updated").build(), filled, false},
-            {filled.toBuilder().authorities(UserAuthority.ROLE_ADMIN.name()).build(), filled, false},
+            {filled.toBuilder().authorities(UserRole.ADMIN.name()).build(), filled, false},
             {filled.toBuilder().password("newpassword").build(), filled, false},
             {filled.toBuilder().registrationState(RegistrationState.SUSPENDED).build(), filled, false},
             {filled.toBuilder().nickname("updated").build(), filled, false},

@@ -14,19 +14,19 @@ public class RegistrationServiceIntegrationTest extends AbstractIntegrationTest 
     
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {
-        User existingAdmin = userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new);
+        User existingAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);
         User ensuredAdmin = registrationService.ensureAdmin();
         Assertions.assertThat(ensuredAdmin).isEqualTo(existingAdmin);
     }
     
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
-        User previousAdmin = userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new);
+        User previousAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);
         userRepository.deleteAll();
-        Assertions.assertThat(userService.findByUsername(cfg.getAdminDefaultAdminUsername())).isNotPresent();
+        Assertions.assertThat(userService.findByUsername(cfg.getDefaultUserAdminUsername())).isNotPresent();
         User ensuredAdmin = registrationService.ensureAdmin();
         Assertions.assertThat(ensuredAdmin)
             .isNotEqualTo(previousAdmin)
-            .isEqualTo(userService.findByUsername(cfg.getAdminDefaultAdminUsername()).orElseThrow(Exception::new));
+            .isEqualTo(userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new));
     }
 }

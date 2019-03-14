@@ -1,7 +1,7 @@
 package manon.app.config;
 
 import lombok.RequiredArgsConstructor;
-import manon.model.user.UserAuthority;
+import manon.model.user.UserRole;
 import manon.service.user.PasswordEncoderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,10 +29,10 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
-    private static final String ADMIN = UserAuthority.ROLE_ADMIN.name();
-    private static final String PLAYER = UserAuthority.ROLE_PLAYER.name();
-    private static final String ACTUATOR = UserAuthority.ROLE_ACTUATOR.name();
-    private static final String DEV = UserAuthority.ROLE_DEV.name();
+    private static final String ACTUATOR = UserRole.ACTUATOR.name();
+    private static final String ADMIN = UserRole.ADMIN.name();
+    private static final String DEV = UserRole.DEV.name();
+    private static final String PLAYER = UserRole.PLAYER.name();
     
     private final PasswordEncoderService passwordEncoderService;
     private final UserDetailsService userDetailsService;
@@ -44,21 +44,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and().authorizeRequests()
             
             .antMatchers(API_SYS + "/info/up").permitAll()
-            .antMatchers(API_SYS + "/**").hasAuthority(ADMIN)
-            .antMatchers(API_USER_ADMIN + "/**").hasAuthority(ADMIN)
+            .antMatchers(API_SYS + "/**").hasRole(ADMIN)
+            .antMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
             
             .antMatchers(POST, API_USER).permitAll() // user registration
-            .antMatchers(API_USER + "/**").hasAuthority(PLAYER)
+            .antMatchers(API_USER + "/**").hasRole(PLAYER)
             
-            .antMatchers("/actuator").hasAuthority(ACTUATOR)
-            .antMatchers("/actuator/**").hasAuthority(ACTUATOR)
+            .antMatchers("/actuator/health").permitAll()
+            .antMatchers("/actuator").hasRole(ACTUATOR)
+            .antMatchers("/actuator/**").hasRole(ACTUATOR)
             
             .antMatchers("/swagger-resources",
                 "/swagger-resources/configuration/ui",
                 "/swagger-resources/configuration/security",
                 "/swagger-ui.html",
                 "/webjars/**",
-                "/v2/api-docs").hasAuthority(DEV)
+                "/v2/api-docs").hasRole(DEV)
             
             .and().httpBasic()
             .and().csrf().disable();

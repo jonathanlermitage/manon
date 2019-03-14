@@ -2,7 +2,6 @@ package manon;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
-import manon.err.user.UserExistsException;
 import manon.service.app.AppTraceService;
 import manon.service.user.RegistrationService;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -46,8 +45,8 @@ public class Application extends SpringBootServletInitializer {
     }
     
     @PostConstruct
-    public void startupHook() throws UserExistsException {
-        String initAppEvent = String.format("jvm: [%s %s %s %s], os: [%s], file encoding: [%s], admin username: [%s], ManonConfig: [%s]",
+    public void startupHook() {
+        String initAppEvent = String.format("jvm: [%s %s %s %s], os: [%s], file encoding: [%s], admin username: [%s], actuator username: [%s], ManonConfig: [%s]",
             System.getProperty("java.version"),
             System.getProperty("java.vm.name"),
             System.getProperty("java.vm.version"),
@@ -55,6 +54,7 @@ public class Application extends SpringBootServletInitializer {
             System.getProperty("os.name"),
             System.getProperty("file.encoding"),
             registrationService.ensureAdmin().getUsername(),
+            registrationService.ensureActuator().getUsername(),
             cfg);
         appTraceService.log(WARN, APP_START, initAppEvent);
     }

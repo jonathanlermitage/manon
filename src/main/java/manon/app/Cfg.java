@@ -10,14 +10,20 @@ import org.springframework.stereotype.Component;
 @ToString
 public class Cfg {
     
-    @Value("${manon.version}")
+    @Value("${info.app.version}")
     private String version;
     
-    @Value("${manon.admin.default-admin.username}")
-    private String adminDefaultAdminUsername;
+    @Value("${manon.default-user.admin.username}")
+    private String defaultUserAdminUsername;
     
-    @Value("${manon.admin.default-admin.password}")
-    private String adminDefaultAdminPassword;
+    @Value("${manon.default-user.admin.password}")
+    private String defaultUserAdminPassword;
+    
+    @Value("${manon.default-user.actuator.username}")
+    private String defaultUserActuatorUsername;
+    
+    @Value("${manon.default-user.actuator.password}")
+    private String defaultUserActuatorPassword;
     
     @Value("${manon.batch.user-snapshot.chunk}")
     private Integer batchUserSnapshotChunk;
