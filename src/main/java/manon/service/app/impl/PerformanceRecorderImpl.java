@@ -59,13 +59,8 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
     }
     
     @Override
-    public boolean isEmpty() {
-        return stats.isEmpty();
-    }
-    
-    @Override
     @Synchronized
-    public String showStats() {
+    public String getStats() {
         if (stats.isEmpty()) {
             return "";
         }

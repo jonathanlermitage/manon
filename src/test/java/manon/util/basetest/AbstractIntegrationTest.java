@@ -169,8 +169,8 @@ public abstract class AbstractIntegrationTest {
     
     @AfterAll
     public final void afterClass() {
-        if (performanceRecorder != null && !performanceRecorder.isEmpty()) {
-            log.info(performanceRecorder.showStats() + "\n");
+        if (performanceRecorder != null && !performanceRecorder.getStats().isEmpty()) {
+            log.info(performanceRecorder.getStats() + "\n");
         }
     }
     
