@@ -36,7 +36,7 @@ if [%1] == [p] (
 if [%1] == [rd] (
   mvnw clean package -DskipTests -T1
   cd target
-  java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+  java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
   cd ..
 )
 if [%1] == [w] (

@@ -60,7 +60,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
     "rd")
       sh ./mvnw package -DskipTests -T1
       cd target/
-      java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev,metrics -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+      java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
       cd ..
       ;;
 

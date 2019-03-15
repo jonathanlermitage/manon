@@ -24,11 +24,11 @@ public class Globals {
         public static final String API_SYS = API_V1 + "/sys";
     }
     
-    /** Spring profiles. */
+    /** Properties. */
     @NoArgsConstructor(access = PRIVATE)
-    public static final class SpringProfiles {
+    public static final class Properties {
         
-        /** {@value}, an <b>additional profile</b> to enable performance metrics collection. */
-        public static final String METRICS = "metrics";
+        /** {@value}, enable API performance recorder. Should be used in development or test environment only.. */
+        public static final String ENABLE_PERFORMANCE_RECORDER = "manon.enable-performance-recorder";
     }
 }

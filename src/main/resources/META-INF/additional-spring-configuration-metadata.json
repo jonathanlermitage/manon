@@ -36,6 +36,11 @@
       "description": "User snapshot batch: user snapshot max age in days."
     },
     {
+      "name": "manon.enable-performance-recorder",
+      "type": "java.lang.String",
+      "description": "Enable API performance recorder. Should be used in development or test environment only."
+    },
+    {
       "name": "info.app.name",
       "type": "java.lang.String",
       "description": "Application name."

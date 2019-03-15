@@ -10,7 +10,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
@@ -27,13 +27,13 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Collections.sort;
-import static manon.app.Globals.SpringProfiles.METRICS;
+import static manon.app.Globals.Properties.ENABLE_PERFORMANCE_RECORDER;
 
 @Aspect
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Profile(METRICS)
+@ConditionalOnProperty(name = ENABLE_PERFORMANCE_RECORDER)
 public class PerformanceRecorderImpl implements PerformanceRecorder {
     
     private final Clock clock;
