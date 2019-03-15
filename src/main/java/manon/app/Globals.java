@@ -29,6 +29,6 @@ public class Globals {
     public static final class Properties {
         
         /** {@value}, enable API performance recorder. Should be used in development or test environment only.. */
-        public static final String ENABLE_PERFORMANCE_RECORDER = "manon.enable-performance-recorder";
+        public static final String ENABLE_PERFORMANCE_RECORDER = "manon.performance-recorder.enabled";
     }
 }

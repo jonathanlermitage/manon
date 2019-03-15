@@ -2,7 +2,7 @@
 
 manon:
   batch.user-snapshot.chunk: 10
-  enable-performance-recorder: true
+  performance-recorder.enabled: true
   security.bcrypt.strength: 4
 
 spring:

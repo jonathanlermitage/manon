@@ -51,5 +51,5 @@ manon:
     user-snapshot:
       chunk: 1000
       snapshot.max-age: 30
-  enable-performance-recorder: false
+  performance-recorder.enabled: false
   security.bcrypt.strength: 6
