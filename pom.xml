@@ -262,7 +262,6 @@
                     </includes>
                     <excludes>
                         <exclude>**/Abstract*.java</exclude>
-                        <exclude>**/Test*.java</exclude>
                     </excludes>
                     <!-- Prevent "Could not find or load main class org.apache.maven.surefire.booter.ForkedBooter" issue on Ubuntu. -->
                     <useSystemClassLoader>false</useSystemClassLoader>
