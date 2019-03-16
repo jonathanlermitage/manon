@@ -1,0 +1,38 @@
+### (sample requests to be played with IntelliJ IDEA HTTP client)
+
+### ------------------------------------------------
+### --- SPRING ACTUATOR ---
+
+### authorized users get full health (app status and details), see management.endpoint.health.show-details: when_authorized
+GET http://localhost:8080/actuator/health
+Authorization: Basic ACTUATOR woot
+
+### anonymous and not authorized users get minimal health (app status only)
+GET http://localhost:8080/actuator/health
+
+### get application info: name and version
+GET http://localhost:8080/actuator/info
+Authorization: Basic ACTUATOR woot
+
+### ------------------------------------------------
+### --- USER API ---
+
+### register a new user
+POST http://localhost:8080/api/v1/user
+Content-Type: application/json
+
+{
+  "username": "NEWUSER",
+  "password": "p4ssworD"
+}
+
+### new user gets his profile
+GET http://localhost:8080/api/v1/user
+Authorization: Basic NEWUSER p4ssworD
+
+### ------------------------------------------------
+### --- USER ADMIN API ---
+
+### list all users
+GET http://localhost:8080/api/v1/admin/user/all?offset=0&size=100&sort=creationDate,DESC
+Authorization: Basic ROOT woot
