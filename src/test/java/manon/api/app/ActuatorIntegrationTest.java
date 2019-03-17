@@ -54,7 +54,6 @@ public class ActuatorIntegrationTest extends AbstractIntegrationTest {
             {GET, "/actuator/httptrace", false, false},
             {GET, "/actuator/info", false, true},
             {GET, "/actuator/loggers", false, false},
-            {GET, "/actuator/mappings", false, false},
             {GET, "/actuator/metrics", false, true},
             {GET, "/actuator/scheduledtasks", false, true},
             {POST, "/actuator/shutdown", false, false},
