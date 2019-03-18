@@ -22,7 +22,7 @@
         <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1 -noverify</surefirePerformanceArgLine>
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
 
-        <archunit.version>0.9.3</archunit.version>
+        <archunit.version>0.10.1</archunit.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
         <junit5.version>5.4.1</junit5.version>
