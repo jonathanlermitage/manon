@@ -36,12 +36,15 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import java.io.IOException;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static java.lang.System.currentTimeMillis;
 import static manon.util.Tools.Mdc.KEY_ENV;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
@@ -169,9 +172,26 @@ public abstract class AbstractIntegrationTest {
     
     @AfterAll
     public final void afterClass() {
+        MDC.put(KEY_ENV, "junit");
         if (performanceRecorder != null && !performanceRecorder.getStats().isEmpty()) {
-            log.info(performanceRecorder.getStats() + "\n");
+            log.info(performanceRecorder.getStats());
         }
+        logGCStats();
+        MDC.clear();
+    }
+    
+    private void logGCStats() {
+        long totalGarbageCollections = 0;
+        long garbageCollectionTime = 0;
+        for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
+            totalGarbageCollections += gc.getCollectionCount();
+            garbageCollectionTime += gc.getCollectionTime();
+        }
+        long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+        long gcActivityRatio = (garbageCollectionTime * 100) / uptime;
+        log.info("GC stats:\n - total GC collections: {}\n - total GC collection time: {}ms (activity ratio: {}%)\n - JVM uptime: {}ms\n",
+            totalGarbageCollections, garbageCollectionTime, gcActivityRatio, uptime);
+        assertThat(gcActivityRatio).as("GC pressure should be low (less than 10% execution time)").isLessThan(10);
     }
     
     //
