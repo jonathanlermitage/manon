@@ -16,10 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 import static manon.model.app.AppTraceEvent.APP_START;
-import static manon.model.app.AppTraceEvent.APP_STOP;
 import static manon.model.app.AppTraceLevel.WARN;
 
 @SpringBootApplication
@@ -59,10 +57,5 @@ public class Application extends SpringBootServletInitializer {
             registrationService.ensureDev().getUsername(),
             cfg);
         appTraceService.log(WARN, APP_START, initAppEvent);
-    }
-    
-    @PreDestroy
-    public void shutdownHook() {
-        appTraceService.log(WARN, APP_STOP);
     }
 }
