@@ -38,7 +38,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     
     private boolean initialized = false;
     
-    /** Clear data before test class. */
+    /** Clear data before test class, not before each test method. */
     @Override
     @BeforeEach
     public void clearData() throws Exception {
@@ -106,6 +106,26 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
         return new Object[][]{
             {whenAdmin(), SC_OK},
             {whenActuator(), SC_FORBIDDEN},
+            {whenDev(), SC_FORBIDDEN},
+            {whenP1(), SC_FORBIDDEN},
+            {whenAnonymous(), SC_UNAUTHORIZED},
+            {whenUsername(BANNED_REACTIVATED_USERNAME), SC_FORBIDDEN},
+            {whenUsername(DELETED_REACTIVATED_USERNAME), SC_FORBIDDEN},
+            {whenUsername(SUSPENDED_REACTIVATED_USERNAME), SC_FORBIDDEN},
+            {whenUsername(BANNED_USERNAME), SC_UNAUTHORIZED},
+            {whenUsername(DELETED_USERNAME), SC_UNAUTHORIZED},
+            {whenUsername(SUSPENDED_USERNAME), SC_UNAUTHORIZED}
+        };
+    }
+    
+    public final String DP_ALLOW_DEV = "dataProviderAllowDev";
+    
+    @SuppressWarnings("unused") // used via DP_ALLOW_DEV
+    public Object[][] dataProviderAllowDev() {
+        return new Object[][]{
+            {whenAdmin(), SC_OK},
+            {whenActuator(), SC_FORBIDDEN},
+            {whenDev(), SC_OK},
             {whenP1(), SC_FORBIDDEN},
             {whenAnonymous(), SC_UNAUTHORIZED},
             {whenUsername(BANNED_REACTIVATED_USERNAME), SC_FORBIDDEN},
@@ -124,6 +144,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
         return new Object[][]{
             {whenAdmin(), SC_OK},
             {whenActuator(), SC_OK},
+            {whenDev(), SC_OK},
             {whenP1(), SC_OK},
             {whenAnonymous(), SC_UNAUTHORIZED},
             {whenUsername(BANNED_REACTIVATED_USERNAME), SC_OK},

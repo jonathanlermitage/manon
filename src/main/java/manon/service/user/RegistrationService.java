@@ -43,14 +43,20 @@ public interface RegistrationService {
     User registerPlayer(String username, String password) throws UserExistsException;
     
     /**
-     * Register an admin if absent.
-     * @return existing admin user, otherwise newly registered user.
+     * Register actuator-user if absent.
+     * @return existing actuator-user, otherwise newly registered user.
+     */
+    User ensureActuator();
+    
+    /**
+     * Register admin-user if absent.
+     * @return existing admin-user, otherwise newly registered user.
      */
     User ensureAdmin();
     
     /**
-     * Register an actuator client user if absent.
-     * @return existing actuator client user, otherwise newly registered user.
+     * Register development-user if absent.
+     * @return existing development-user, otherwise newly registered user.
      */
-    User ensureActuator();
+    User ensureDev();
 }

@@ -81,6 +81,7 @@ public class ActuatorIntegrationTest extends AbstractIntegrationTest {
             //  problem with tests only. To-Do: reproduce this behavior via RestTemplate.
             //{whenActuator(), true},
             //{whenAdmin(), true},
+            {whenDev(), false},
             {whenP1(), false},
             {whenAnonymous(), false}
         };

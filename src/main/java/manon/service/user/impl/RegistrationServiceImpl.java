@@ -21,6 +21,7 @@ import static manon.model.user.RegistrationState.BANNED;
 import static manon.model.user.RegistrationState.DELETED;
 import static manon.model.user.RegistrationState.SUSPENDED;
 import static manon.model.user.UserRole.ACTUATOR;
+import static manon.model.user.UserRole.DEV;
 import static manon.model.user.UserRole.PLAYER;
 
 @Service
@@ -67,13 +68,18 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
     
     @Override
+    public User ensureActuator() {
+        return ensureUser(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword(), ACTUATOR, PLAYER);
+    }
+    
+    @Override
     public User ensureAdmin() {
         return ensureUser(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword(), UserRole.values());
     }
     
     @Override
-    public User ensureActuator() {
-        return ensureUser(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword(), ACTUATOR, PLAYER);
+    public User ensureDev() {
+        return ensureUser(cfg.getDefaultUserDevUsername(), cfg.getDefaultUserDevPassword(), ACTUATOR, DEV, PLAYER);
     }
     
     @SneakyThrows(UserExistsException.class)

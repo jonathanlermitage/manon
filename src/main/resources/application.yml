@@ -42,11 +42,14 @@ management:
 
 manon:
   default-user:
+    actuator:
+      username: ACTUATOR
+      password: woot
     admin:
       username: ROOT
       password: woot
-    actuator:
-      username: ACTUATOR
+    dev:
+      username: DEV
       password: woot
   batch:
     user-snapshot:

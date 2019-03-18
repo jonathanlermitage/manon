@@ -122,7 +122,7 @@ public abstract class AbstractIntegrationTest {
         RestAssured.port = port;
     }
     
-    /** Clear data before test methods. */
+    /** Clear data before each test method. */
     @BeforeEach
     public void clearData() throws Exception {
         userIdCache.clear();
@@ -146,8 +146,9 @@ public abstract class AbstractIntegrationTest {
         long t1 = currentTimeMillis();
         MDC.put(KEY_ENV, "junit");
         clearDb();
-        registrationService.ensureAdmin();
         registrationService.ensureActuator();
+        registrationService.ensureAdmin();
+        registrationService.ensureDev();
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
@@ -210,12 +211,16 @@ public abstract class AbstractIntegrationTest {
             .auth().basic(username, password), username, password);
     }
     
+    public final Rs whenActuator() {
+        return whenAuthenticated(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword());
+    }
+    
     public final Rs whenAdmin() {
         return whenAuthenticated(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword());
     }
     
-    public final Rs whenActuator() {
-        return whenAuthenticated(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword());
+    public final Rs whenDev() {
+        return whenAuthenticated(cfg.getDefaultUserDevUsername(), cfg.getDefaultUserDevPassword());
     }
     
     /** When player n°humanId, where humanId is an index starting at 1. */

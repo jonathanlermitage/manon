@@ -1,24 +1,34 @@
 {
   "properties": [
     {
-      "name": "manon.default-user.admin.username",
-      "type": "java.lang.String",
-      "description": "An admin user is created in database with this username if no admin found in database during start-up."
-    },
-    {
-      "name": "manon.default-user.admin.password",
-      "type": "java.lang.String",
-      "description": "An admin user is created in database with this password if no admin found in database during start-up."
-    },
-    {
       "name": "manon.default-user.actuator.username",
       "type": "java.lang.String",
-      "description": "An actuator-client user is created in database with this username if no actuator-client found in database during start-up."
+      "description": "Default actuator-user name. This user is created in database if not found during start-up."
     },
     {
       "name": "manon.default-user.actuator.password",
       "type": "java.lang.String",
-      "description": "An actuator-client user is created in database with this password if no actuator-client found in database during start-up."
+      "description": "Default actuator-user password. This user is created in database if not found during start-up."
+    },
+    {
+      "name": "manon.default-user.admin.username",
+      "type": "java.lang.String",
+      "description": "Default admin-user name. This user is created in database if not found during start-up."
+    },
+    {
+      "name": "manon.default-user.admin.password",
+      "type": "java.lang.String",
+      "description": "Default admin-user password. This user is created in database if not found during start-up."
+    },
+    {
+      "name": "manon.default-user.dev.username",
+      "type": "java.lang.String",
+      "description": "Default development-user name. This user is created in database if not found during start-up."
+    },
+    {
+      "name": "manon.default-user.dev.password",
+      "type": "java.lang.String",
+      "description": "Default development-user password. This user is created in database if not found during start-up."
     },
     {
       "name": "manon.security.bcrypt.strength",

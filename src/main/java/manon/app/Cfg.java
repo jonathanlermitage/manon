@@ -13,17 +13,23 @@ public class Cfg {
     @Value("${info.app.version}")
     private String version;
     
+    @Value("${manon.default-user.actuator.username}")
+    private String defaultUserActuatorUsername;
+    
+    @Value("${manon.default-user.actuator.password}")
+    private String defaultUserActuatorPassword;
+    
     @Value("${manon.default-user.admin.username}")
     private String defaultUserAdminUsername;
     
     @Value("${manon.default-user.admin.password}")
     private String defaultUserAdminPassword;
     
-    @Value("${manon.default-user.actuator.username}")
-    private String defaultUserActuatorUsername;
+    @Value("${manon.default-user.dev.username}")
+    private String defaultUserDevUsername;
     
-    @Value("${manon.default-user.actuator.password}")
-    private String defaultUserActuatorPassword;
+    @Value("${manon.default-user.dev.password}")
+    private String defaultUserDevPassword;
     
     @Value("${manon.batch.user-snapshot.chunk}")
     private Integer batchUserSnapshotChunk;
