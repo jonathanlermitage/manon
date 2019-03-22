@@ -38,7 +38,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
     
     private final Clock clock;
     
-    private Map<String, MethodExecutionStats> stats = new HashMap<>();
+    private final Map<String, MethodExecutionStats> stats = new HashMap<>();
     
     /**
      * Collect execution time on every WS class methods.
