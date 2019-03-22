@@ -82,8 +82,6 @@ public class AppTraceServiceImpl implements AppTraceService {
         );
     }
     
-    // VisibleForTesting
-    
     @Override
     public long count() {
         return appTraceRepository.count();
@@ -103,6 +101,4 @@ public class AppTraceServiceImpl implements AppTraceService {
     public List<AppTrace> findAll() {
         return appTraceRepository.findAll();
     }
-    
-    // end of VisibleForTesting
 }
