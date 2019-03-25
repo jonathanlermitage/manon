@@ -32,12 +32,9 @@ public class ActuatorIntegrationTest extends AbstractIntegrationTest {
      */
     public Object[][] dataProviderShouldGetFullHealth() {
         return new Object[][]{
-            // FIXME /actuator/health endpoint shows minimal data with Admin/Actuator user during test with RestAssured, but
-            //  it shows full data via curl (during test + debug breakpoint, or in production mode). So, it seems to be a
-            //  problem with tests only. To-Do: reproduce this behavior via RestTemplate.
-            //{whenActuator(), true},
-            //{whenAdmin(), true},
-            {whenDev(), false},
+            {whenActuator(), true},
+            {whenAdmin(), true},
+            {whenDev(), true},
             {whenP1(), false},
             {whenAnonymous(), false}
         };

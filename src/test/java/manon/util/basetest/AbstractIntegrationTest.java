@@ -208,7 +208,7 @@ public abstract class AbstractIntegrationTest {
     public final Rs whenAuthenticated(String username, String password) {
         return new Rs(RestAssured.given()
             .header("X-Request-Id", "user-" + currentTimeMillis())
-            .auth().basic(username, password), username, password);
+            .auth().preemptive().basic(username, password), username, password);
     }
     
     public final Rs whenActuator() {
