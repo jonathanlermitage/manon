@@ -8,12 +8,15 @@ import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
+import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserUpdateForm;
 import manon.repository.user.UserRepository;
 import manon.service.user.PasswordEncoderService;
 import manon.service.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +31,23 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoderService passwordEncoderService;
     
     @Override
+    public User readCurrentUser() throws UserNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated()) {
+            UserSimpleDetails userDetails = (UserSimpleDetails) authentication.getPrincipal();
+            return userDetails.getUser();
+        }
+        throw new UserNotFoundException();
+    }
+    
+    @Override
     public long count() {
         return userRepository.count();
     }
     
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
     
     @Override

@@ -37,5 +37,9 @@
         <appender-ref ref="ROLLING"/>
         <appender-ref ref="CONSOLE"/>
     </logger>
+    <logger name="graphql.execution.SimpleDataFetcherExceptionHandler" level="ERROR" additivity="false">
+        <appender-ref ref="ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
 
 </configuration>

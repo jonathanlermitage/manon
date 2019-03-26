@@ -1,0 +1,21 @@
+type User {
+    id: ID!
+    username: String!
+    authorities: String!
+    registrationState: String!
+    nickname: String
+    email: String
+    version: Int!
+    creationDate: String!
+    updateDate: String!
+    userSnapshots: [UserSnapshot!]
+}
+
+type Query {
+    userById(id: ID): User!
+    myUser: User!
+}
+
+type Mutation {
+    setMyNickname(nickname: String): User!
+}

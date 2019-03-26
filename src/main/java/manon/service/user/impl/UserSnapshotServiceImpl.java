@@ -8,6 +8,7 @@ import manon.util.Tools;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static manon.util.Tools.endOfDay;
@@ -23,6 +24,11 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     @Override
     public Optional<UserSnapshot> findOne(long id) {
         return userSnapshotRepository.findById(id);
+    }
+    
+    @Override
+    public List<UserSnapshot> findAllByUserId(long userId) {
+        return userSnapshotRepository.findAllByUserId(userId);
     }
     
     @Override

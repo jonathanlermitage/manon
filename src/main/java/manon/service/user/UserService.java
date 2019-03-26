@@ -15,9 +15,11 @@ import java.util.Optional;
 
 public interface UserService {
     
+    User readCurrentUser() throws UserNotFoundException;
+    
     long count();
     
-    void save(User user);
+    User save(User user);
     
     void existOrFail(long... ids) throws UserNotFoundException;
     

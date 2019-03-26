@@ -87,6 +87,7 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     protected UserStatsRepository userStatsRepository;
     
+    public final String API_GRAPHQL = "/graphql";
     private final String API_V1 = "/api/v1";
     public final String API_USER = API_V1 + "/user";
     public final String API_USER_ADMIN = API_V1 + "/admin/user";
