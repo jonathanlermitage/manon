@@ -2,11 +2,14 @@ package manon.service.user;
 
 import manon.document.user.UserSnapshot;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserSnapshotService {
     
     Optional<UserSnapshot> findOne(long id);
+    
+    List<UserSnapshot> findAllByUserId(long userId);
     
     long count();
     

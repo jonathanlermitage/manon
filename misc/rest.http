@@ -22,12 +22,16 @@ POST http://localhost:8080/api/v1/user
 Content-Type: application/json
 
 {
-  "username": "NEWUSER",
-  "password": "p4ssworD"
+    "username": "NEWUSER",
+    "password": "p4ssworD"
 }
 
 ### new user gets his profile
 GET http://localhost:8080/api/v1/user
+Authorization: Basic NEWUSER p4ssworD
+
+### new user gets his profile and linked snapshots
+GET http://localhost:8080/api/v1/user/include/usersnapshots
 Authorization: Basic NEWUSER p4ssworD
 
 ### ------------------------------------------------
@@ -36,3 +40,12 @@ Authorization: Basic NEWUSER p4ssworD
 ### list all users
 GET http://localhost:8080/api/v1/admin/user/all?offset=0&size=100&sort=creationDate,DESC
 Authorization: Basic ROOT woot
+
+### ------------------------------------------------
+### --- BATCH API ---
+
+### create a snapshot of all users
+POST http://localhost:8080/api/v1/sys/batch/start/userSnapshotJob
+Authorization: Basic ROOT woot
+
+###
