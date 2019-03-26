@@ -35,7 +35,7 @@ public class UserSnapshotTest {
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
-            {UserStats.builder().build(), UserStats.builder().build(), true},
+            {UserSnapshot.builder().build(), UserSnapshot.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
             {filled.toBuilder().user(User.builder().id(100).build()).build(), filled, true},
