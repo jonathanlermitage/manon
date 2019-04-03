@@ -31,6 +31,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -38,6 +39,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +57,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Execution(value = ExecutionMode.SAME_THREAD)
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
-@TestExecutionListeners(listeners = DependencyInjectionTestExecutionListener.class)
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, MockitoTestExecutionListener.class})
 public abstract class AbstractIntegrationTest {
     
     @LocalServerPort
@@ -118,7 +120,7 @@ public abstract class AbstractIntegrationTest {
     /** Clear data before test class. Do NOT override it in non-abstract test classes. */
     @BeforeAll
     public final void beforeClass() {
-        RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset("UTF-8"));
+        RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset(StandardCharsets.UTF_8));
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
     }

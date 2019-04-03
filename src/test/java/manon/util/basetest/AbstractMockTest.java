@@ -2,6 +2,7 @@ package manon.util.basetest;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
+import manon.api.app.PingWS;
 import manon.api.batch.JobRunnerWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
@@ -12,8 +13,6 @@ import manon.util.web.Rs;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
-import org.springframework.test.context.TestExecutionListeners;
 
 import static java.lang.System.currentTimeMillis;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
@@ -25,7 +24,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Used to mock all controllers and test access rights or input validation.
  * Application starts with some users and one admin. Data is recreated before test class.
  */
-@TestExecutionListeners(listeners = MockitoTestExecutionListener.class)
 public abstract class AbstractMockTest extends AbstractIntegrationTest {
     
     private static final String BANNED_USERNAME = "BANNED";
@@ -52,6 +50,8 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
     protected FriendshipWS friendshipWS;
     @MockBean
     protected JobRunnerWS jobRunnerWS;
+    @MockBean
+    protected PingWS pingWS;
     @MockBean
     protected UserAdminWS userAdminWS;
     @MockBean
@@ -80,6 +80,7 @@ public abstract class AbstractMockTest extends AbstractIntegrationTest {
         initMocks(this);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(jobRunnerWS);
+        Mockito.clearInvocations(pingWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
     }
