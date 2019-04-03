@@ -14,8 +14,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.UUID;
 
 import static manon.util.Tools.Mdc.KEY_REQUEST_ID;
+import static manon.util.Tools.Mdc.KEY_URI;
 import static manon.util.Tools.Mdc.KEY_USER;
 import static manon.util.Tools.isBlank;
 
@@ -37,6 +39,7 @@ public class FilterConfig {
         @Override
         public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
             try {
+                Thread.currentThread().setName(UUID.randomUUID().toString());
                 Principal principal = null;
                 if (request instanceof HttpServletRequest) {
                     principal = ((HttpServletRequest) request).getUserPrincipal();
@@ -44,8 +47,10 @@ public class FilterConfig {
                     if (requestId != null) {
                         MDC.put(KEY_REQUEST_ID, requestId);
                     }
+                    MDC.put(KEY_URI, ((HttpServletRequest) request).getRequestURI());
                 }
                 MDC.put(KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
+                
                 chain.doFilter(request, response);
             } finally {
                 MDC.clear();

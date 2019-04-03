@@ -32,6 +32,8 @@ public final class Tools {
         public static final String KEY_REQUEST_ID = "reqId";
         /** {@value} MDC user key. */
         public static final String KEY_USER = "user";
+        /** {@value} MDC user key. */
+        public static final String KEY_URI = "uri";
     }
     
     /** Media types. */
