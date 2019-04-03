@@ -17,6 +17,7 @@ import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.repository.user.UserStatsRepository;
 import manon.service.app.PerformanceRecorder;
+import manon.service.app.PingService;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
 import manon.util.Tools;
@@ -28,10 +29,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.mockito.Mockito;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -73,6 +76,9 @@ public abstract class AbstractIntegrationTest {
     protected UserService userService;
     @Autowired
     protected RegistrationService registrationService;
+    
+    @SpyBean
+    protected PingService pingService;
     
     @Autowired
     protected AppTraceRepository appTraceRepository;
@@ -130,6 +136,8 @@ public abstract class AbstractIntegrationTest {
     public void clearData() throws Exception {
         userIdCache.clear();
         initDb();
+        
+        Mockito.clearInvocations(pingService);
     }
     
     private void clearDb() {

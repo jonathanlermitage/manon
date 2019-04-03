@@ -2,12 +2,9 @@ package manon.api.app;
 
 import io.restassured.RestAssured;
 import manon.err.app.PingException;
-import manon.service.app.PingService;
 import manon.util.basetest.AbstractIntegrationTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -20,17 +17,9 @@ import static org.mockito.Mockito.verify;
 
 public class PingWSIntegrationTest extends AbstractIntegrationTest {
     
-    @SpyBean
-    protected PingService pingService;
-    
     @Override
     public int getNumberOfUsers() {
         return 0;
-    }
-    
-    @BeforeEach
-    public void setUpMocks() {
-        Mockito.clearInvocations(pingService);
     }
     
     @Test
