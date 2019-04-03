@@ -16,7 +16,7 @@ public class PingCtrlTest extends AbstractMockTest {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldGetSwaggerIndex(Rs rs, Integer status) throws UnsupportedEncodingException {
+    public void shouldVerifyPing(Rs rs, Integer status) throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         rs.getRequestSpecification()
