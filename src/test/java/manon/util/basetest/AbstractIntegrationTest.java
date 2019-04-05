@@ -79,27 +79,27 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     protected Cfg cfg;
     
-    @Autowired
-    protected AppTraceService appTraceService;
-    @Autowired
-    protected FriendshipService friendshipService;
-    @Autowired
-    protected JobRunnerService jobRunnerService;
-    @Autowired
-    protected PasswordEncoderService passwordEncoderService;
-    @Autowired
-    protected RegistrationService registrationService;
-    @Autowired
-    protected UserDetailsService userDetailsService;
-    @Autowired
+    @SpyBean
     protected UserService userService;
-    @Autowired
+    @SpyBean
     protected UserSnapshotService userSnapshotService;
-    @Autowired
-    protected UserStatsService userStatsService;
     
     @SpyBean
+    protected AppTraceService appTraceService;
+    @SpyBean
+    protected FriendshipService friendshipService;
+    @SpyBean
+    protected JobRunnerService jobRunnerService;
+    @SpyBean
+    protected PasswordEncoderService passwordEncoderService;
+    @SpyBean
     protected PingService pingService;
+    @SpyBean
+    protected RegistrationService registrationService;
+    @SpyBean
+    protected UserDetailsService userDetailsService;
+    @SpyBean
+    protected UserStatsService userStatsService;
     
     @Autowired
     protected AppTraceRepository appTraceRepository;
