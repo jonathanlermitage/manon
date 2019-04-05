@@ -7,8 +7,6 @@ import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
-import manon.service.user.PasswordEncoderService;
-import manon.service.user.UserSnapshotService;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.assertj.core.api.Assertions;
@@ -16,7 +14,6 @@ import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -24,11 +21,6 @@ import java.util.Arrays;
 import static java.lang.System.currentTimeMillis;
 
 public class UserServiceIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private PasswordEncoderService passwordEncoderService;
-    @Autowired
-    private UserSnapshotService userSnapshotService;
     
     @Override
     public int getNumberOfUsers() {

@@ -16,10 +16,16 @@ import manon.repository.user.FriendshipRequestRepository;
 import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.repository.user.UserStatsRepository;
+import manon.service.app.AppTraceService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
+import manon.service.batch.JobRunnerService;
+import manon.service.user.FriendshipService;
+import manon.service.user.PasswordEncoderService;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
+import manon.service.user.UserSnapshotService;
+import manon.service.user.UserStatsService;
 import manon.util.Tools;
 import manon.util.web.Page;
 import manon.util.web.Rs;
@@ -36,6 +42,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
@@ -73,9 +80,23 @@ public abstract class AbstractIntegrationTest {
     protected Cfg cfg;
     
     @Autowired
-    protected UserService userService;
+    protected AppTraceService appTraceService;
+    @Autowired
+    protected FriendshipService friendshipService;
+    @Autowired
+    protected JobRunnerService jobRunnerService;
+    @Autowired
+    protected PasswordEncoderService passwordEncoderService;
     @Autowired
     protected RegistrationService registrationService;
+    @Autowired
+    protected UserDetailsService userDetailsService;
+    @Autowired
+    protected UserService userService;
+    @Autowired
+    protected UserSnapshotService userSnapshotService;
+    @Autowired
+    protected UserStatsService userStatsService;
     
     @SpyBean
     protected PingService pingService;

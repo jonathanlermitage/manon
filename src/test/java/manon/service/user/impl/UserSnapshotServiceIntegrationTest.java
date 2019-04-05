@@ -3,7 +3,6 @@ package manon.service.user.impl;
 import lombok.SneakyThrows;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
-import manon.service.user.UserSnapshotService;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.assertj.core.api.Assertions;
@@ -11,15 +10,11 @@ import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public class UserSnapshotServiceIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private UserSnapshotService userSnapshotService;
     
     @Test
     public void shouldFindOne() throws Exception {

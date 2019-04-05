@@ -6,18 +6,13 @@ import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
-import manon.service.user.FriendshipService;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class FriendshipServiceIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private FriendshipService friendshipService;
     
     @Override
     public int getNumberOfUsers() {

@@ -3,14 +3,10 @@ package manon.batch;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.document.user.UserStats;
-import manon.service.batch.JobRunnerService;
-import manon.service.user.UserSnapshotService;
-import manon.service.user.UserStatsService;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,13 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 
 public class UserSnapshotJobConfigIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private JobRunnerService jobRunnerService;
-    @Autowired
-    private UserSnapshotService userSnapshotService;
-    @Autowired
-    private UserStatsService userStatsService;
     
     @Override
     public int getNumberOfUsers() {

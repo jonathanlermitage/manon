@@ -1,21 +1,16 @@
 package manon.service.user.impl;
 
 import manon.document.user.UserStats;
-import manon.service.user.UserStatsService;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 public class UserStatsServiceIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private UserStatsService userStatsService;
     
     @Test
     public void shouldFindAll() {

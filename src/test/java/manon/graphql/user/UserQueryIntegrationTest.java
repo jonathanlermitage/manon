@@ -4,13 +4,11 @@ import io.restassured.response.ValidatableResponse;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.err.user.UserNotFoundException;
-import manon.service.user.UserSnapshotService;
 import manon.util.basetest.AbstractIntegrationTest;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,9 +18,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 public class UserQueryIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private UserSnapshotService userSnapshotService;
     
     @Test
     public void shouldGetUserById() throws UserNotFoundException {

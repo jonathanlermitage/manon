@@ -10,13 +10,11 @@ import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
-import manon.service.user.FriendshipService;
 import manon.util.TestTools;
 import manon.util.basetest.AbstractIntegrationTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,9 +35,6 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    protected FriendshipService friendshipService;
     
     @Override
     public int getNumberOfUsers() {

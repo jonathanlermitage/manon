@@ -2,14 +2,12 @@ package manon.api.app;
 
 import io.restassured.response.ValidatableResponse;
 import lombok.extern.slf4j.Slf4j;
-import manon.app.Cfg;
 import manon.model.user.UserRole;
 import manon.util.basetest.AbstractIntegrationTest;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,9 +15,6 @@ import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
 @Slf4j
 public class ActuatorIntegrationTest extends AbstractIntegrationTest {
-    
-    @Autowired
-    private Cfg cfg;
     
     @Override
     public int getNumberOfUsers() {

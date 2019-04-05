@@ -5,6 +5,7 @@ import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserSimpleDetails;
 import manon.service.user.UserService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
 import static manon.model.user.RegistrationState.ACTIVE;
 
 @Service
+@Primary
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     
