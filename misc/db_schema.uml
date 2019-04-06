@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship</OriginalElement>
+  <nodes>
+    <node x="0.0" y="711.0">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.app_trace</node>
+    <node x="279.25" y="0.0">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user</node>
+    <node x="0.0" y="430.5">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship_event</node>
+    <node x="480.0" y="363.0">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user_snapshot</node>
+    <node x="237.0" y="444.0">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship_request</node>
+    <node x="747.0" y="444.0">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship</node>
+    <node x="262.0" y="711.0">6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user_stats</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user_snapshot" target="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user">
+      <point x="0.0" y="-151.5" />
+      <point x="603.5" y="343.0" />
+      <point x="439.9642857142857" y="343.0" />
+      <point x="35.71428571428572" y="151.5" />
+    </edge>
+    <edge source="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship_request" target="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user">
+      <point x="-55.75" y="-70.5" />
+      <point x="292.75" y="343.0" />
+      <point x="368.5357142857143" y="343.0" />
+      <point x="-35.71428571428572" y="151.5" />
+    </edge>
+    <edge source="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship" target="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user">
+      <point x="55.75" y="-70.5" />
+      <point x="914.25" y="323.0" />
+      <point x="511.3928571428571" y="323.0" />
+      <point x="107.14285714285711" y="151.5" />
+    </edge>
+    <edge source="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.friendship_event" target="6c431433-d25a-4084-b813-4324215f9616.TABLE:manon_dev.user">
+      <point x="-54.25" y="-84.0" />
+      <point x="54.25" y="323.0" />
+      <point x="297.1071428571429" y="323.0" />
+      <point x="-107.14285714285711" y="151.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="656.0" y="107.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+
