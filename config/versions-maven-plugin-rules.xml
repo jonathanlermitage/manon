@@ -5,7 +5,7 @@
         <ignoreVersion type="regex">.*\-[b|build|BUILD]{1}[0-9]+.*</ignoreVersion>
 
         <!-- ex: foo-M10 -->
-        <ignoreVersion type="regex">.*[-_\.](alpha|Alpha|ALPHA|b|beta|Beta|BETA|rc|‌RC|EA|M|pr|atlassian)[-_\.]?[0-9]‌*</ignoreVersion>
+        <ignoreVersion type="regex">.*[-_\.](alpha|Alpha|ALPHA|b|beta|Beta|BETA|rc|‌RC|EA|M|pr|atlassian)[-_\.]?[0-9]*</ignoreVersion>
 
     </ignoreVersions>
 </ruleset>
