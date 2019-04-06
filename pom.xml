@@ -24,7 +24,7 @@
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
 
         <archunit.version>0.10.2</archunit.version>
-        <graphql-spring-boot-starter.version>5.7.2</graphql-spring-boot-starter.version>
+        <graphql-spring-boot-starter.version>5.7.3</graphql-spring-boot-starter.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
         <junit5.version>5.4.1</junit5.version>
