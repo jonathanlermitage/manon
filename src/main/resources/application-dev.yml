@@ -4,5 +4,5 @@ spring:
   datasource:
     username: root
     password: woot
-    url: jdbc:mariadb://localhost:3307/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
+    url: jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
   jpa.hibernate.ddl-auto: update
