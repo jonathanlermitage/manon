@@ -40,8 +40,6 @@ management:
       base-path: /actuator
       exposure.include: ["configprops", "env", "health", "info", "metrics", "scheduledtasks"]
 
-graphql.servlet.corsEnabled: false
-
 manon:
   default-user:
     actuator:

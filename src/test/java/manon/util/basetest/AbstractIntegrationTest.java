@@ -79,12 +79,6 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     protected Cfg cfg;
     
-    // TODO use SpyBean once https://github.com/graphql-java-kickstart/graphql-java-servlet/issues/161 is resolved
-    @Autowired
-    protected UserService userService;
-    @Autowired
-    protected UserSnapshotService userSnapshotService;
-    
     @SpyBean
     protected AppTraceService appTraceService;
     @SpyBean
@@ -99,6 +93,10 @@ public abstract class AbstractIntegrationTest {
     protected RegistrationService registrationService;
     @SpyBean
     protected UserDetailsService userDetailsService;
+    @SpyBean
+    protected UserService userService;
+    @SpyBean
+    protected UserSnapshotService userSnapshotService;
     @SpyBean
     protected UserStatsService userStatsService;
     
@@ -117,7 +115,6 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     protected UserStatsRepository userStatsRepository;
     
-    public final String API_GRAPHQL = "/graphql";
     private final String API_V1 = "/api/v1";
     public final String API_USER = API_V1 + "/user";
     public final String API_USER_ADMIN = API_V1 + "/admin/user";
