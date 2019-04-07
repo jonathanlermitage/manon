@@ -89,7 +89,7 @@ public class User implements Serializable, UserVersionProjection {
     /** A non-unique name that can change, NOT mandatory. */
     @Size(max = NICKNAME_MAX_LENGTH, message = NICKNAME_SIZE_ERRMSG)
     @Pattern(regexp = NICKNAME_PATTERN, message = NICKNAME_PATTERN_ERRMSG)
-    @Column(length = NICKNAME_MAX_LENGTH, unique = true)
+    @Column(length = NICKNAME_MAX_LENGTH)
     private String nickname;
     
     /** Email, NOT mandatory. */
