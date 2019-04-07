@@ -5,7 +5,7 @@ matrix:
   include:
     - os: linux
       jdk: openjdk11
-  allow_failures:
+  #allow_failures:
     # snapshot and non-LTS jdk can fail, I won't use it in production but it's useful to prepare migration to next LTS release
     #- os: linux
     #  jdk: openjdk12
