@@ -28,9 +28,9 @@ create table user
     update_date        datetime(6)  not null,
     username           varchar(24)  not null,
     version            bigint       not null,
-    constraint uk_ob8kqyqqgmefl0aco34akdtpe
+    constraint uk__user__email
         unique (email),
-    constraint uk_sb8bbouer5wak8vyiiy4pf2bx
+    constraint uk__user__username
         unique (username)
 );
 
@@ -41,9 +41,9 @@ create table friendship
     creation_date   datetime(6) not null,
     request_from_id bigint      not null,
     request_to_id   bigint      not null,
-    constraint fk7tv9o7v3idnrnkenkklfahxw6
+    constraint fk__friendship__request_to_id
         foreign key (request_to_id) references user (id),
-    constraint fktr9d7qkl2qu3mlgg4xt1xqenw
+    constraint fk__friendship__request_from_id
         foreign key (request_from_id) references user (id)
 );
 
@@ -55,9 +55,9 @@ create table friendship_event
     creation_date datetime(6)  not null,
     friend_id     bigint       not null,
     user_id       bigint       not null,
-    constraint fk8s2sne3o1l6dh8tsati2i0dfc
+    constraint fk__friendship_event__friend_id
         foreign key (friend_id) references user (id),
-    constraint fkpj2dxgfm4gtes0gay8sqikiy0
+    constraint fk__friendship_event__user_id
         foreign key (user_id) references user (id)
 );
 
@@ -68,9 +68,9 @@ create table friendship_request
     creation_date   datetime(6) not null,
     request_from_id bigint      not null,
     request_to_id   bigint      not null,
-    constraint fk3tpudm67c2uu564ak199779va
+    constraint fk__friendship_request__request_to_id
         foreign key (request_to_id) references user (id),
-    constraint fkhtafgmony5je6ei5v2pqq04rw
+    constraint fk__friendship_request__request_from_id
         foreign key (request_from_id) references user (id)
 );
 
@@ -87,7 +87,7 @@ create table user_snapshot
     user_username           varchar(255) null,
     user_version            bigint       null,
     user_id                 bigint       null,
-    constraint fkdn8mnv26gj3an6kom0tif95dk
+    constraint fk__user_snapshot__user_id
         foreign key (user_id) references user (id)
 );
 
