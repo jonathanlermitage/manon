@@ -9,7 +9,12 @@ spring:
   main.banner-mode: console
   datasource.driver-class-name: org.mariadb.jdbc.Driver
   data.jpa.repositories.bootstrap-mode: deferred
-  jpa.open-in-view: false
+  jpa:
+    hibernate.ddl-auto: validate
+    open-in-view: false
+  flyway:
+    baseline-on-migrate: true
+    locations: "classpath:db/migration/mariadb"
 
 server:
   compression.enabled: false # compression is handled by Nginx proxy

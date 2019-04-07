@@ -5,7 +5,6 @@ spring:
     username: ${MANON_PROD_SQL_USERNAME}
     password: ${MANON_PROD_SQL_PASSWORD}
     url: ${MANON_PROD_SQL_JDBC_URL}
-  jpa.hibernate.ddl-auto: update
 
 manon:
   default-user:
