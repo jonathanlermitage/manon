@@ -24,6 +24,7 @@
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
 
         <archunit.version>0.10.2</archunit.version>
+        <flywaydb.version>5.2.4</flywaydb.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
         <junit5.version>5.4.2</junit5.version>
@@ -108,6 +109,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flywaydb.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>

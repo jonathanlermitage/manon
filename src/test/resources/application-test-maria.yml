@@ -11,4 +11,3 @@ spring:
     password: woot
     url: jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
     driver-class-name: org.mariadb.jdbc.Driver
-  jpa.hibernate.ddl-auto: update
