@@ -35,6 +35,8 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "stopelk      stop ELK containers via docker-compose"
       echo  "upcerebro    create and start Cerebro container via docker-compose"
       echo  "stopcerebro  stop Cerebro container via docker-compose"
+      echo  "maria        connect to dockerized MariaDB by calling MySQL Client provided by container"
+      echo  "mariah       connect to dockerized MariaDB by calling host MySQL Client (mysql-client package must be installed)"
       ;;
 
     "t")
@@ -137,6 +139,14 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "stopcerebro")
       docker-compose -f ./config/docker/docker-compose-cerebro.yml down
+      ;;
+
+    "maria")
+      docker exec -it maria mysql --user=root --password=woot manon
+      ;;
+
+    "mariah")
+      mysql -h $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' maria) --port 3306 --protocol=TCP --user=root --password=woot manon
       ;;
 
     esac

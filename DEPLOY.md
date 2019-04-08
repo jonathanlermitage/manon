@@ -58,6 +58,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Replace `8080` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `user_stats` and `user_snapshot` MariaDB tables.
+* Connect to MariaDB: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
 
 #### Deploy ELK stack and Cerebro
 

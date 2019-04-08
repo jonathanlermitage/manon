@@ -95,6 +95,8 @@ do upelk        create and start ELK containers via docker-compose
 do stopelk      stop ELK containers via docker-compose
 do upcerebro    create and start Cerebro container via docker-compose
 do stopcerebro  stop Cerebro container via docker-compose
+do maria        connect to dockerized MariaDB by calling MySQL Client provided by container
+do mariah       connect to dockerized MariaDB by calling host MySQL Client (mysql-client package must be installed)
 ```
 
 Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  
