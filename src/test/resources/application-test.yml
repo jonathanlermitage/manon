@@ -8,4 +8,4 @@ manon:
 spring:
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
   flyway.enabled: false
-  jpa.hibernate.ddl-auto: create
+  jpa.hibernate.ddl-auto: update
