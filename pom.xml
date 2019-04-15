@@ -14,7 +14,8 @@
     <properties>
         <docker-base-image>openjdk:11.0.2-jre-slim</docker-base-image>
         <docker-target-image>lermitage-manon:${project.version}</docker-target-image>
-        <java.release>8</java.release>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <start-class>manon.Application</start-class>
@@ -258,7 +259,6 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
-                    <release>${java.release}</release>
                 </configuration>
             </plugin>
             <plugin>
