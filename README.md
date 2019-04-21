@@ -32,11 +32,12 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * **Spring Retry**. See last commit of [spring5-light-retry](https://github.com/jonathanlermitage/manon/tree/spring5-light-retry) branch
 * **[Flyway](https://flywaydb.org/)** support (database migration). See last commit of [spring5-light-flyway](https://github.com/jonathanlermitage/manon/tree/spring5-light-flyway) branch
 * **[GraphQL](https://www.graphql-java.com)** support (queries and mutations). See last commit of [spring5-light-graphql](https://github.com/jonathanlermitage/manon/tree/spring5-light-graphql) branch. Please note that you may see instrumentation warnings during JaCoCo test coverage, and some frameworks don't work: cant use Mockito's `SpyBean` ([issue](https://github.com/graphql-java-kickstart/graphql-java-servlet/issues/161)) on a Spring service used by GraphQL; can't load Flyway. That's why it's not merged into main branch yet
-* **integration tests** and (some) **unit-test** via **[JUnit5](https://junit.org/junit5/)** and **[REST Assured](http://rest-assured.io)**. I prefer TestNG for its keywords, dataproviders and maturity, but JUnit is the most used testing framework. REST Assured helped me to test API without Spring's magic
+* **Integration Tests** and (some) **Unit Tests** via **[JUnit5](https://junit.org/junit5/)** and **[REST Assured](http://rest-assured.io)**. I prefer TestNG for its keywords, dataproviders and maturity, but JUnit is the most used testing framework. REST Assured helped me to test API without Spring's magic
   * **migration from [TestNG](https://testng.org) to [JUnit5](https://junit.org/junit5/)** (with Spring Boot, dataproviders, expected exceptions, beforeClass and afterClass annotations). See last commit of [spring5-light-testng-to-junit5](https://github.com/jonathanlermitage/manon/tree/spring5-light-testng-to-junit5) branch
   * some **test parallelization with JUnit5**. See last commit of [spring5-light-junit5-parallel-execution](https://github.com/jonathanlermitage/manon/tree/spring5-light-junit5-parallel-execution) branch
   * Java **architecture tests** via [**ArchUnit**](https://github.com/TNG/ArchUnit). See last commit of [spring5-light-archunit](https://github.com/jonathanlermitage/manon/tree/spring5-light-archunit) branch
   * use dockerized MariaDB on **[Travis](https://travis-ci.org/jonathanlermitage/manon)** CI instead of embedded HSQLDB. See last commit of [spring5-light-travis-with-mariadb](https://github.com/jonathanlermitage/manon/tree/spring5-light-travis-with-mariadb) branch
+  * **split Unit and Integration Tests**: run Unit Tests first and, if they don't fail, run Integration Tests. See last commit of [spring5-light-separate-integ-unit](https://github.com/jonathanlermitage/manon/tree/spring5-light-separate-integ-unit) branch. Due to JDK11+JUnit5+Failsafe issues ([that may be fixed in Failsafe 3.0.0](https://maven.apache.org/surefire/maven-failsafe-plugin/)), I run both Integration and Unit tests via Surefire Maven plugin
 * **migration from MongoDB** (used to store regular and authentication data) to **MariaDB**. See last commit of [spring5-light-mongo-to-sql](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo-to-sql) branch
   * tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project
     * use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7) ([spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo) branch)
@@ -71,8 +72,9 @@ First, install JDK11 and Maven3+.
 You can now use the `./do` Linux Bash script:  
 ```
 do help         show this help message
-do t            test without code coverage
-do tc           test with code coverage
+do t            test
+do ut           test: run unit tests only, no integration tests
+do tc           test and generate coverage data
 do sc           compute and upload Sonar analysis to SonarCloud
 do tsc          similar to "do tc" then "do sc"
 do sb           scan with SpotBugs then show GUI

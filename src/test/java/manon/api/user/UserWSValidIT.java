@@ -4,7 +4,7 @@ import io.restassured.response.ValidatableResponse;
 import manon.model.user.form.RegistrationForm;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
-import manon.util.basetest.AbstractMockTest;
+import manon.util.basetest.AbstractMockIT;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,7 +20,7 @@ import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 
-public class UserWSValidTest extends AbstractMockTest {
+public class UserWSValidIT extends AbstractMockIT {
     
     public Object[][] dataProviderShouldValidateRegister() {
         return new Object[][]{

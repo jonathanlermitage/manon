@@ -266,18 +266,40 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
+                    <skipTests>true</skipTests>
                     <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}</argLine>
                     <workingDirectory>${project.build.directory}</workingDirectory>
-                    <includes>
-                        <include>**/*Tests.java</include>
-                        <include>**/*Test.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/Abstract*.java</exclude>
-                    </excludes>
-                    <!-- Prevent "Could not find or load main class org.apache.maven.surefire.booter.ForkedBooter" issue on Ubuntu. -->
+                    <!-- Prevent "Could not find or load main class ForkedBooter" issue. It may be fixed once surefire 3.0.0 is released. -->
                     <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>unit-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>**/*IT.*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -331,6 +353,16 @@
                                 </configuration>
                             </execution>
                             <execution>
+                                <id>pre-integration-test</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <destFile>${project.build.directory}/jacoco.exec</destFile>
+                                    <propertyName>coverageSurefireArgLine</propertyName>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>post-unit-test</id>
                                 <phase>test</phase>
                                 <goals>
@@ -339,21 +371,18 @@
                                 <configuration>
                                     <dataFile>${project.build.directory}/jacoco.exec</dataFile>
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
-                                    <!--excludes>
-                                        <exclude>**/document/*</exclude>
-                                        <exclude>**/model/*</exclude>
-                                        <exclude>**/**Form.*</exclude>
-                                        <exclude>**/**FormBuilder.*</exclude>
-                                        <exclude>**/Application.*</exclude>
-                                    </excludes-->
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>default-report</id>
-                                <phase>prepare-package</phase>
+                                <id>post-integration-test</id>
+                                <phase>post-integration-test</phase>
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
+                                <configuration>
+                                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

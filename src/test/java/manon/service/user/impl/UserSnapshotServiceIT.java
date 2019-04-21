@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.util.Tools;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-public class UserSnapshotServiceIntegrationTest extends AbstractIntegrationTest {
+public class UserSnapshotServiceIT extends AbstractIT {
     
     @Test
     public void shouldFindOne() throws Exception {

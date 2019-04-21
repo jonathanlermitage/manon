@@ -10,7 +10,7 @@ import manon.model.user.form.RegistrationForm;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
 import manon.util.TestTools;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,7 +30,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserWSIntegrationTest extends AbstractIntegrationTest {
+public class UserWSIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

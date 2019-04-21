@@ -4,13 +4,13 @@ import manon.err.user.FriendshipExistsException;
 import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class FriendshipRequestServiceIntegrationTest extends AbstractIntegrationTest {
+public class FriendshipRequestServiceIT extends AbstractIT {
     
     public Object[] dataProviderUnknownUserInCouple() {
         return new Object[][]{

@@ -11,7 +11,7 @@ import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
 import manon.util.TestTools;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipWSIntegrationTest extends AbstractIntegrationTest {
+public class FriendshipWSIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

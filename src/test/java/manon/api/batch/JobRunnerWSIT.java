@@ -3,7 +3,7 @@ package manon.api.batch;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import manon.model.batch.TaskStatus;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 
@@ -11,7 +11,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class JobRunnerWSIntegrationTest extends AbstractIntegrationTest {
+public class JobRunnerWSIT extends AbstractIT {
     
     private static final TaskStatus TASK_STATUS_COMPLETED = TaskStatus.builder()
         .running(ExitStatus.COMPLETED.isRunning())

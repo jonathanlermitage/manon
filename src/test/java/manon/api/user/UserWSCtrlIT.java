@@ -4,7 +4,7 @@ import manon.err.user.PasswordNotMatchException;
 import manon.model.user.form.RegistrationForm;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
-import manon.util.basetest.AbstractMockTest;
+import manon.util.basetest.AbstractMockIT;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,7 +13,7 @@ import static io.restassured.http.ContentType.JSON;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 
-public class UserWSCtrlTest extends AbstractMockTest {
+public class UserWSCtrlIT extends AbstractMockIT {
     
     public Object[] dataProviderShouldVerifyRegister() {
         return new Object[]{

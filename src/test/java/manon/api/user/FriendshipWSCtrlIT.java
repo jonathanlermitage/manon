@@ -1,6 +1,6 @@
 package manon.api.user;
 
-import manon.util.basetest.AbstractMockTest;
+import manon.util.basetest.AbstractMockIT;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,7 +9,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class FriendshipWSCtrlTest extends AbstractMockTest {
+public class FriendshipWSCtrlIT extends AbstractMockIT {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)

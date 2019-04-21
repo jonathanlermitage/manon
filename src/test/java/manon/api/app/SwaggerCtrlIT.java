@@ -1,11 +1,11 @@
 package manon.api.app;
 
-import manon.util.basetest.AbstractMockTest;
+import manon.util.basetest.AbstractMockIT;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class SwaggerCtrlTest extends AbstractMockTest {
+public class SwaggerCtrlIT extends AbstractMockIT {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_DEV)

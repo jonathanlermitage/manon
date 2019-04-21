@@ -4,7 +4,7 @@ import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.document.user.UserStats;
 import manon.util.Tools;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 
-public class UserSnapshotJobConfigIntegrationTest extends AbstractIntegrationTest {
+public class UserSnapshotJobConfigIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

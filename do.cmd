@@ -2,6 +2,7 @@
 
 if [%1] == [help] (
   echo  t       test
+  echo  ut      test: run unit tests only, no integration tests
   echo  tc      test and generate coverage data
   echo  sc      compute and upload Sonar analysis to SonarCloud
   echo  tsc     similar to "do tc" then "do sc"
@@ -19,10 +20,13 @@ if [%1] == [help] (
 )
 
 if [%1] == [t] (
+  mvnw clean verify
+)
+if [%1] == [ut] (
   mvnw clean test
 )
 if [%1] == [tc] (
-  mvnw clean test -P coverage
+  mvnw clean verify -P coverage
 )
 if [%1] == [b] (
   mvnw clean compile -DskipTests -T1
@@ -55,7 +59,7 @@ if [%1] == [sc] (
   mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [tsc] (
-  mvnw clean test sonar:sonar -P coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  mvnw clean verify sonar:sonar -P coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [sb] (
   mvnw clean compile spotbugs:spotbugs spotbugs:gui -P spotbugs

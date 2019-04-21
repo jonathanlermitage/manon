@@ -3,7 +3,7 @@ package manon.api.user;
 import io.restassured.response.Response;
 import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import manon.util.web.Page;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserAdminWSIntegrationTest extends AbstractIntegrationTest {
+public class UserAdminWSIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

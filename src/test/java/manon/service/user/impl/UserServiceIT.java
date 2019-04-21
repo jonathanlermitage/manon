@@ -8,7 +8,7 @@ import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
 import manon.util.Tools;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 import static java.lang.System.currentTimeMillis;
 
-public class UserServiceIntegrationTest extends AbstractIntegrationTest {
+public class UserServiceIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

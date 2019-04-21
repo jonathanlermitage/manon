@@ -3,7 +3,7 @@ package manon.api.app;
 import io.restassured.response.ValidatableResponse;
 import lombok.extern.slf4j.Slf4j;
 import manon.model.user.UserRole;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
 @Slf4j
-public class ActuatorIntegrationTest extends AbstractIntegrationTest {
+public class ActuatorIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

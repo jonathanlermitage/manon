@@ -2,4 +2,4 @@ container:
   image: openjdk:11-jdk-oracle
 
 test_task:
-  script: sh ./mvnw clean test -P ci -B
+  script: sh ./mvnw clean verify -P ci -B

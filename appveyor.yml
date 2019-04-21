@@ -11,7 +11,7 @@ build_script:
   - mvnw clean package -DskipTests -B
 
 test_script:
-  - mvnw test -P ci -B
+  - mvnw verify -P ci -B
 
 cache:
   - C:\Users\appveyor\.m2

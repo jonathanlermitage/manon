@@ -63,7 +63,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Execution(value = ExecutionMode.SAME_THREAD)
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, MockitoTestExecutionListener.class})
-public abstract class AbstractIntegrationTest {
+public abstract class AbstractIT {
     
     @LocalServerPort
     private int port;
