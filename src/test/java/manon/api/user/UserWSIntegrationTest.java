@@ -120,7 +120,7 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldReadWhenUserHasSnapshots() throws Exception {
-        userSnapshotService.save(Arrays.asList(
+        userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));
@@ -148,7 +148,7 @@ public class UserWSIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() throws Exception {
-        userSnapshotService.save(Arrays.asList(
+        userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));

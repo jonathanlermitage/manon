@@ -53,7 +53,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldReadOneWhenUserHasSnapshots() throws Exception {
-        userSnapshotService.save(Arrays.asList(
+        userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.from(user(1)),
             UserSnapshot.from(user(1))
         ));
@@ -63,7 +63,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() throws Exception {
-        userSnapshotService.save(Arrays.asList(
+        userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.from(user(1)),
             UserSnapshot.from(user(1))
         ));
@@ -81,7 +81,7 @@ public class UserServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldReadOneAndFetchUserSnapshotsWhenUserHasSnapshots() throws Exception {
-        userSnapshotService.save(Arrays.asList(
+        userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.from(user(1)),
             UserSnapshot.from(user(1))
         ));

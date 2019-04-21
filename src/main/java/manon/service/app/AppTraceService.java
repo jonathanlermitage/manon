@@ -36,4 +36,7 @@ public interface AppTraceService {
     
     @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     List<AppTrace> findAll();
+    
+    @ExistForTesting(why = "AbstractIntegrationTest")
+    void deleteAll();
 }

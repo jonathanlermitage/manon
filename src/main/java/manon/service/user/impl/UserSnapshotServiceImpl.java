@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import manon.document.user.UserSnapshot;
 import manon.repository.user.UserSnapshotRepository;
 import manon.service.user.UserSnapshotService;
+import manon.util.ExistForTesting;
 import manon.util.Tools;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,21 +23,6 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     private final UserSnapshotRepository userSnapshotRepository;
     
     @Override
-    public Optional<UserSnapshot> findOne(long id) {
-        return userSnapshotRepository.findById(id);
-    }
-    
-    @Override
-    public List<UserSnapshot> findAllByUserId(long userId) {
-        return userSnapshotRepository.findAllByUserId(userId);
-    }
-    
-    @Override
-    public long count() {
-        return userSnapshotRepository.count();
-    }
-    
-    @Override
     public long countToday() {
         return userSnapshotRepository.countAllByCreationDateBetween(startOfDay(), endOfDay());
     }
@@ -52,7 +38,37 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     }
     
     @Override
-    public void save(Iterable<UserSnapshot> entities) {
+    @ExistForTesting
+    public long count() {
+        return userSnapshotRepository.count();
+    }
+    
+    @Override
+    @ExistForTesting
+    public Optional<UserSnapshot> findOne(long id) {
+        return userSnapshotRepository.findById(id);
+    }
+    
+    @Override
+    @ExistForTesting(why = "AbstractIntegrationTest")
+    public List<UserSnapshot> findAll() {
+        return userSnapshotRepository.findAll();
+    }
+    
+    @Override
+    public UserSnapshot save(UserSnapshot entity) {
+        return userSnapshotRepository.save(entity);
+    }
+    
+    @Override
+    @ExistForTesting
+    public void saveAll(Iterable<UserSnapshot> entities) {
         userSnapshotRepository.saveAll(entities);
+    }
+    
+    @Override
+    @ExistForTesting(why = "AbstractIntegrationTest")
+    public void deleteAll() {
+        userSnapshotRepository.deleteAll();
     }
 }

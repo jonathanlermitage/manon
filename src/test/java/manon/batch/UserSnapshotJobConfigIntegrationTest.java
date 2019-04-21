@@ -44,11 +44,11 @@ public class UserSnapshotJobConfigIntegrationTest extends AbstractIntegrationTes
         for (int i = 0; i < delays.size(); i++) {
             userSnapshots.add(UserSnapshot.from(userToSnapshot));
         }
-        userSnapshotService.save(userSnapshots);
+        userSnapshotService.saveAll(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {
             userSnapshots.set(i, userSnapshots.get(i).toBuilder().creationDate(Tools.nowPlusDays(delays.get(i))).build());
         }
-        userSnapshotService.save(userSnapshots);
+        userSnapshotService.saveAll(userSnapshots);
         
         long expectedTodayUserSnapshots = userService.count();
         long expectedUserSnapshots = expectedTodayUserSnapshots + snapshotsKept; // keep 1 - maxAge and 0, other are too old, present or future

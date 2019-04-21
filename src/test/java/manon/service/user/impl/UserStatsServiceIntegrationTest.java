@@ -14,7 +14,7 @@ public class UserStatsServiceIntegrationTest extends AbstractIntegrationTest {
     
     @Test
     public void shouldFindAll() {
-        userStatsRepository.saveAll(Arrays.asList(
+        userStatsService.saveAll(Arrays.asList(
             UserStats.builder().build(),
             UserStats.builder().build()
         ));
@@ -28,7 +28,7 @@ public class UserStatsServiceIntegrationTest extends AbstractIntegrationTest {
         userStatsService.save(UserStats.builder().nbUsers(100).build());
         LocalDateTime after = Tools.now();
         
-        List<UserStats> us = userStatsRepository.findAll();
+        List<UserStats> us = userStatsService.findAll();
         Assertions.assertThat(us).hasSize(1);
         Assertions.assertThat(us.get(0).getCreationDate()).isBetween(before, after);
         Assertions.assertThat(us.get(0).getNbUsers()).isEqualTo(100);

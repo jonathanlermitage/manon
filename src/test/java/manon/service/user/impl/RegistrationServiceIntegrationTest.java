@@ -22,7 +22,7 @@ public class RegistrationServiceIntegrationTest extends AbstractIntegrationTest 
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
         User previousAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);
-        userRepository.deleteAll();
+        userService.deleteAll();
         Assertions.assertThat(userService.findByUsername(cfg.getDefaultUserAdminUsername())).isNotPresent();
         User ensuredAdmin = registrationService.ensureAdmin();
         Assertions.assertThat(ensuredAdmin)

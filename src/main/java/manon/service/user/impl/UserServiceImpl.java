@@ -8,15 +8,13 @@ import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
-import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserUpdateForm;
 import manon.repository.user.UserRepository;
 import manon.service.user.PasswordEncoderService;
 import manon.service.user.UserService;
+import manon.util.ExistForTesting;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,35 +27,6 @@ public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
     private final PasswordEncoderService passwordEncoderService;
-    
-    @Override
-    public User readCurrentUser() throws UserNotFoundException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated()) {
-            UserSimpleDetails userDetails = (UserSimpleDetails) authentication.getPrincipal();
-            return userDetails.getUser();
-        }
-        throw new UserNotFoundException();
-    }
-    
-    @Override
-    public long count() {
-        return userRepository.count();
-    }
-    
-    @Override
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-    
-    @Override
-    public void existOrFail(long... ids) throws UserNotFoundException {
-        for (long id : ids) {
-            if (!userRepository.existsById(id)) {
-                throw new UserNotFoundException();
-            }
-        }
-    }
     
     @Override
     public User readOne(long id) throws UserNotFoundException {
@@ -95,11 +64,6 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public UserIdProjection readIdByUsername(String username) throws UserNotFoundException {
-        return userRepository.findVersionByUsername(username).orElseThrow(UserNotFoundException::new);
-    }
-    
-    @Override
     public User create(User user) throws UserExistsException {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException();
@@ -124,5 +88,39 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoderService.matches(rawPassword, encodedPassword)) {
             throw new PasswordNotMatchException();
         }
+    }
+    
+    @Override
+    @ExistForTesting
+    public long count() {
+        return userRepository.count();
+    }
+    
+    @Override
+    @ExistForTesting
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+    
+    @Override
+    @ExistForTesting
+    public void existOrFail(long... ids) throws UserNotFoundException {
+        for (long id : ids) {
+            if (!userRepository.existsById(id)) {
+                throw new UserNotFoundException();
+            }
+        }
+    }
+    
+    @Override
+    @ExistForTesting
+    public UserIdProjection readIdByUsername(String username) throws UserNotFoundException {
+        return userRepository.findVersionByUsername(username).orElseThrow(UserNotFoundException::new);
+    }
+    
+    @Override
+    @ExistForTesting(why = "AbstractIntegrationTest")
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 }

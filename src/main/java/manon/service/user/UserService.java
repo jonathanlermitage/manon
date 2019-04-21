@@ -8,20 +8,13 @@ import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
 import manon.model.user.form.UserUpdateForm;
+import manon.util.ExistForTesting;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
 public interface UserService {
-    
-    User readCurrentUser() throws UserNotFoundException;
-    
-    long count();
-    
-    User save(User user);
-    
-    void existOrFail(long... ids) throws UserNotFoundException;
     
     User readOne(long id) throws UserNotFoundException;
     
@@ -32,8 +25,6 @@ public interface UserService {
     Optional<User> findByUsername(String username);
     
     UserVersionProjection readVersionById(long id) throws UserNotFoundException;
-    
-    UserIdProjection readIdByUsername(String username) throws UserNotFoundException;
     
     /**
      * Update a user's data.
@@ -61,4 +52,19 @@ public interface UserService {
      * @param encodedPassword encoded password; must not be null.
      */
     void validatePassword(String rawPassword, String encodedPassword) throws PasswordNotMatchException;
+    
+    @ExistForTesting
+    long count();
+    
+    @ExistForTesting
+    User save(User user);
+    
+    @ExistForTesting
+    void existOrFail(long... ids) throws UserNotFoundException;
+    
+    @ExistForTesting
+    UserIdProjection readIdByUsername(String username) throws UserNotFoundException;
+    
+    @ExistForTesting(why = "AbstractIntegrationTest")
+    void deleteAll();
 }

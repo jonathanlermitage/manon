@@ -9,17 +9,12 @@ import manon.app.Cfg;
 import manon.document.user.User;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
-import manon.repository.app.AppTraceRepository;
-import manon.repository.user.FriendshipEventRepository;
-import manon.repository.user.FriendshipRepository;
-import manon.repository.user.FriendshipRequestRepository;
-import manon.repository.user.UserRepository;
-import manon.repository.user.UserSnapshotRepository;
-import manon.repository.user.UserStatsRepository;
 import manon.service.app.AppTraceService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
 import manon.service.batch.JobRunnerService;
+import manon.service.user.FriendshipEventService;
+import manon.service.user.FriendshipRequestService;
 import manon.service.user.FriendshipService;
 import manon.service.user.PasswordEncoderService;
 import manon.service.user.RegistrationService;
@@ -84,6 +79,10 @@ public abstract class AbstractIntegrationTest {
     @SpyBean
     protected FriendshipService friendshipService;
     @SpyBean
+    protected FriendshipEventService friendshipEventService;
+    @SpyBean
+    protected FriendshipRequestService friendshipRequestService;
+    @SpyBean
     protected JobRunnerService jobRunnerService;
     @SpyBean
     protected PasswordEncoderService passwordEncoderService;
@@ -99,21 +98,6 @@ public abstract class AbstractIntegrationTest {
     protected UserSnapshotService userSnapshotService;
     @SpyBean
     protected UserStatsService userStatsService;
-    
-    @Autowired
-    protected AppTraceRepository appTraceRepository;
-    @Autowired
-    protected FriendshipEventRepository friendshipEventRepository;
-    @Autowired
-    protected FriendshipRepository friendshipRepository;
-    @Autowired
-    protected FriendshipRequestRepository friendshipRequestRepository;
-    @Autowired
-    protected UserRepository userRepository;
-    @Autowired
-    protected UserSnapshotRepository userSnapshotRepository;
-    @Autowired
-    protected UserStatsRepository userStatsRepository;
     
     private final String API_V1 = "/api/v1";
     public final String API_USER = API_V1 + "/user";
@@ -160,16 +144,16 @@ public abstract class AbstractIntegrationTest {
     }
     
     private void clearDb() {
-        appTraceRepository.deleteAll();
+        appTraceService.deleteAll();
         
-        friendshipEventRepository.deleteAll();
-        friendshipRequestRepository.deleteAll();
-        friendshipRepository.deleteAll();
+        friendshipEventService.deleteAll();
+        friendshipRequestService.deleteAll();
+        friendshipService.deleteAll();
         
-        userSnapshotRepository.deleteAll();
-        userStatsRepository.deleteAll();
+        userSnapshotService.deleteAll();
+        userStatsService.deleteAll();
         
-        userRepository.deleteAll();
+        userService.deleteAll();
     }
     
     public void initDb() throws UserExistsException, UserNotFoundException {

@@ -8,6 +8,7 @@ import manon.model.app.AppTraceEvent;
 import manon.model.app.AppTraceLevel;
 import manon.repository.app.AppTraceRepository;
 import manon.service.app.AppTraceService;
+import manon.util.ExistForTesting;
 import manon.util.Tools;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -83,22 +84,32 @@ public class AppTraceServiceImpl implements AppTraceService {
     }
     
     @Override
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     public long count() {
         return appTraceRepository.count();
     }
     
     @Override
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     public long countByCurrentAppId() {
         return appTraceRepository.countByAppId(appId);
     }
     
     @Override
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     public long countByCurrentAppIdAndEvent(AppTraceEvent event) {
         return appTraceRepository.countByAppIdAndEvent(appId, event);
     }
     
     @Override
+    @ExistForTesting(why = "AppTraceServiceIntegrationTest")
     public List<AppTrace> findAll() {
         return appTraceRepository.findAll();
+    }
+    
+    @Override
+    @ExistForTesting(why = "AbstractIntegrationTest")
+    public void deleteAll() {
+        appTraceRepository.deleteAll();
     }
 }

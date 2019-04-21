@@ -11,6 +11,7 @@ import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.UserSimpleDetails;
+import manon.service.user.FriendshipRequestService;
 import manon.service.user.FriendshipService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ import static manon.util.Tools.Media.JSON;
 public class FriendshipWS {
     
     private final FriendshipService friendshipService;
+    private final FriendshipRequestService friendshipRequestService;
     
     /** Create a friendship request to another user. */
     @ApiOperation(value = "Create a friendship request to another user.")
@@ -40,7 +42,7 @@ public class FriendshipWS {
                               @PathVariable("id") long id)
         throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
         log.debug("user {} asks friendship request to user {}", user.getIdentity(), id);
-        friendshipService.askFriendship(user.getUser().getId(), id);
+        friendshipRequestService.askFriendship(user.getUser().getId(), id);
     }
     
     /** Accept a friendship request from another user. */
@@ -50,7 +52,7 @@ public class FriendshipWS {
                                         @PathVariable("id") long id)
         throws UserNotFoundException, FriendshipRequestNotFoundException {
         log.debug("user {} accepts friendship request from user {}", user.getIdentity(), id);
-        friendshipService.acceptFriendshipRequest(id, user.getUser().getId());
+        friendshipRequestService.acceptFriendshipRequest(id, user.getUser().getId());
     }
     
     /** Reject a friendship request from another user. */
@@ -60,7 +62,7 @@ public class FriendshipWS {
                                         @PathVariable("id") long id)
         throws UserNotFoundException, FriendshipRequestNotFoundException {
         log.debug("user {} rejects friendship request from user {}", user.getIdentity(), id);
-        friendshipService.rejectFriendshipRequest(id, user.getUser().getId());
+        friendshipRequestService.rejectFriendshipRequest(id, user.getUser().getId());
     }
     
     /** Cancel a friendship request to another user. */
@@ -70,7 +72,7 @@ public class FriendshipWS {
                                         @PathVariable("id") long id)
         throws UserNotFoundException, FriendshipRequestNotFoundException {
         log.debug("user {} cancels friendship request to user {}", user.getIdentity(), id);
-        friendshipService.cancelFriendshipRequest(user.getUser().getId(), id);
+        friendshipRequestService.cancelFriendshipRequest(user.getUser().getId(), id);
     }
     
     /** Delete an existing friendship relation with another user. */
@@ -88,6 +90,6 @@ public class FriendshipWS {
     @GetMapping("/friends")
     public List<UserPublicInfo> getFriends(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his friends", user.getIdentity());
-        return friendshipService.findAllFor(user.getUserId());
+        return friendshipService.findAllPublicInfoFor(user.getUserId());
     }
 }
