@@ -3,7 +3,7 @@ package manon.api.app;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-import manon.util.basetest.AbstractMockTest;
+import manon.util.basetest.AbstractMockIT;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -17,7 +17,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
-public class ActuatorCtrlTest extends AbstractMockTest {
+public class ActuatorCtrlIT extends AbstractMockIT {
     
     /**
      * Spring Boot 2 actuator endpoints and configured visibility to public.

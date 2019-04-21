@@ -1,14 +1,14 @@
 package manon.service.user.impl;
 
 import manon.model.user.UserSimpleDetails;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserDetailsServiceIntegrationTest extends AbstractIntegrationTest {
+public class UserDetailsServiceIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

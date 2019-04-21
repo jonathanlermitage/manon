@@ -2,7 +2,7 @@ package manon.service.user.impl;
 
 import manon.document.user.UserStats;
 import manon.util.Tools;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserStatsServiceIntegrationTest extends AbstractIntegrationTest {
+public class UserStatsServiceIT extends AbstractIT {
     
     @Test
     public void shouldFindAll() {

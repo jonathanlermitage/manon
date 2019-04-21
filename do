@@ -12,6 +12,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")"
       echo  ""
       echo  "t            test"
+      echo  "ut           test: run unit tests only, no integration tests"
       echo  "tc           test and generate coverage data"
       echo  "sc           compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
       echo  "tsc          similar to \"do tc\" then \"do sc\""
@@ -40,11 +41,15 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "t")
+      sh ./mvnw verify
+      ;;
+
+    "ut")
       sh ./mvnw test
       ;;
 
     "tc")
-      sh ./mvnw test -P coverage
+      sh ./mvnw verify -P coverage
       ;;
 
     "b")
@@ -87,7 +92,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "tsc")
-      sh ./mvnw test sonar:sonar -P coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+      sh ./mvnw verify sonar:sonar -P coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
       ;;
 
     "sb")

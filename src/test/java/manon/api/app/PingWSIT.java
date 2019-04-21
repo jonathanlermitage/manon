@@ -2,7 +2,7 @@ package manon.api.app;
 
 import io.restassured.RestAssured;
 import manon.err.app.PingException;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -15,7 +15,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-public class PingWSIntegrationTest extends AbstractIntegrationTest {
+public class PingWSIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

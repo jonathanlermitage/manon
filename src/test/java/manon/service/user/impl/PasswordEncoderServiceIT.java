@@ -1,13 +1,13 @@
 package manon.service.user.impl;
 
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class PasswordEncoderServiceIntegrationTest extends AbstractIntegrationTest {
+public class PasswordEncoderServiceIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

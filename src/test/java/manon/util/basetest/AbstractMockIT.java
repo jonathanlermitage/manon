@@ -24,7 +24,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Used to mock all controllers and test access rights or input validation.
  * Application starts with some users and one admin. Data is recreated before test class.
  */
-public abstract class AbstractMockTest extends AbstractIntegrationTest {
+public abstract class AbstractMockIT extends AbstractIT {
     
     private static final String BANNED_USERNAME = "BANNED";
     private static final String DELETED_USERNAME = "DELETED";

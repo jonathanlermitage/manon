@@ -8,5 +8,5 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  * See {@code junit-platform.properties} for parallelism configuration.
  */
 @Execution(value = ExecutionMode.CONCURRENT)
-public abstract class AbstractParallelUnitTest {
+public abstract class AbstractParallelTest {
 }

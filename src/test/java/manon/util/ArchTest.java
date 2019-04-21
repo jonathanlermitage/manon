@@ -6,7 +6,7 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
-import manon.util.basetest.AbstractParallelUnitTest;
+import manon.util.basetest.AbstractParallelTest;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-public class ArchTest extends AbstractParallelUnitTest {
+public class ArchTest extends AbstractParallelTest {
     
     private static final JavaClasses PROJECT = new ClassFileImporter().importPackages("manon..");
     
@@ -65,7 +65,7 @@ public class ArchTest extends AbstractParallelUnitTest {
     @Test
     public void shouldVerifyProductionCodeDontUseMethodThatExistsForTests() {
         classes().that()
-            .haveSimpleNameNotEndingWith("Test")
+            .haveSimpleNameNotEndingWith("IT")
             .should(NOT_CALL_METHOD_THAT_EXISTS_FOR_TESTS)
             .check(PROJECT);
     }

@@ -2,7 +2,7 @@ package manon.api.app;
 
 import io.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;
-import manon.util.basetest.AbstractMockTest;
+import manon.util.basetest.AbstractMockIT;
 import manon.util.web.Rs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-public class PingCtrlTest extends AbstractMockTest {
+public class PingCtrlIT extends AbstractMockIT {
     
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)

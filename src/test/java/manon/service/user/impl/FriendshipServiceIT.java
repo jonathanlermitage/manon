@@ -2,13 +2,13 @@ package manon.service.user.impl;
 
 import manon.err.user.FriendshipNotFoundException;
 import manon.model.user.UserPublicInfo;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class FriendshipServiceIntegrationTest extends AbstractIntegrationTest {
+public class FriendshipServiceIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {

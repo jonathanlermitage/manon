@@ -1,11 +1,11 @@
 package manon.service.user.impl;
 
 import manon.document.user.User;
-import manon.util.basetest.AbstractIntegrationTest;
+import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class RegistrationServiceIntegrationTest extends AbstractIntegrationTest {
+public class RegistrationServiceIT extends AbstractIT {
     
     @Override
     public int getNumberOfUsers() {
