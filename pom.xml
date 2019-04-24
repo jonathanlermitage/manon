@@ -316,6 +316,20 @@
 
     <profiles>
 
+        <!-- Spring Boot properties migrator: activate only while upgrading from an earlier version of Spring Boot.
+             See https://docs.spring.io/spring-boot/docs/2.2.0.M2/reference/html/getting-started.html#getting-started-upgrading-from-an-earlier-version -->
+        <profile>
+            <id>mig</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-properties-migrator</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
         <!-- CI: disable aggressive optimizations like "-XX:TieredStopAtLevel=1" or "-noverify". -->
         <profile>
             <id>ci</id>
