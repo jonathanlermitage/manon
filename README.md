@@ -24,6 +24,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * **Spring Boot 2** (Spring Framework 5)
   * you can compare [spring4](https://github.com/jonathanlermitage/manon/tree/spring4) and [spring5](https://github.com/jonathanlermitage/manon/tree/spring5) branches to study migration from Spring Boot 1 (Spring Framework 4) to Spring Boot 2
 * built with JDK8 and JDK11 on Travis CI, targets JRE8 bytecode
+* replace **Tomcat** by **Undertow**. See last commit of [spring5-light-undertow](https://github.com/jonathanlermitage/manon/tree/spring5-light-undertow) branch. Also, it seems to fix some annoying `ConnectionClosedException: Premature end of chunk coded message body: closing chunk expected` issues when sending a large number (2000+) of HTTP requests with message body
 * **Spring Web** with a **REST API**
 * **Spring Security**, to authenticate users via auth_basic and fetch authentication data from SQL database 
 * **Spring Data** to serve data from a database
