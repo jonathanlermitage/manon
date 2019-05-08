@@ -47,6 +47,10 @@ import java.lang.management.ManagementFactory;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static java.lang.System.currentTimeMillis;
@@ -156,24 +160,43 @@ public abstract class AbstractIT {
         userService.deleteAll();
     }
     
-    public void initDb() throws UserExistsException, UserNotFoundException {
+    public void initDb() throws ExecutionException, InterruptedException {
         long t1 = currentTimeMillis();
         MDC.put(KEY_ENV, "junit");
         clearDb();
-        registrationService.ensureActuator();
-        registrationService.ensureAdmin();
-        registrationService.ensureDev();
-        for (int idx = 0; idx < getNumberOfUsers(); idx++) {
-            registrationService.registerPlayer(makeName(idx), makePwd(idx));
-        }
-        additionalInitDb();
+        
+        Executor tasksExecutor = Executors.newFixedThreadPool(3);
+        CompletableFuture<Void> registerPlayerTask = CompletableFuture.runAsync(() -> {
+            for (int idx = 0; idx < getNumberOfUsers(); idx++) {
+                try {
+                    registrationService.registerPlayer(makeName(idx), makePwd(idx));
+                } catch (UserExistsException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+        }, tasksExecutor);
+        CompletableFuture<Void> ensureUsersTask = CompletableFuture.runAsync(() -> {
+            registrationService.ensureActuator();
+            registrationService.ensureAdmin();
+            registrationService.ensureDev();
+        }, tasksExecutor);
+        CompletableFuture<Void> additionalInitDbTask = CompletableFuture.runAsync(() -> {
+            try {
+                additionalParallelInitDb();
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        }, tasksExecutor);
+        CompletableFuture.allOf(registerPlayerTask, ensureUsersTask, additionalInitDbTask).get();
+        
         userCount = (int) userService.count();
+        
         log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
         MDC.clear();
     }
     
     /** Override do add logic that occurs at the end of the {@link #initDb()}. */
-    public void additionalInitDb() throws UserExistsException, UserNotFoundException {
+    public void additionalParallelInitDb() throws Exception {
         // override if needed
     }
     

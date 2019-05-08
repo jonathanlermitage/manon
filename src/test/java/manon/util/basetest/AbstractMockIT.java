@@ -7,8 +7,6 @@ import manon.api.batch.JobRunnerWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
 import manon.api.user.UserWS;
-import manon.err.user.UserExistsException;
-import manon.err.user.UserNotFoundException;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
@@ -63,7 +61,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     }
     
     @Override
-    public void additionalInitDb() throws UserExistsException, UserNotFoundException {
+    public void additionalParallelInitDb() throws Exception {
         registrationService.ban(registrationService.registerPlayer(BANNED_USERNAME, PWD).getId());
         registrationService.delete(registrationService.registerPlayer(DELETED_USERNAME, PWD).getId());
         registrationService.suspend(registrationService.registerPlayer(SUSPENDED_USERNAME, PWD).getId());
