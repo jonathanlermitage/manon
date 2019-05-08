@@ -166,8 +166,8 @@ public abstract class AbstractIT {
         for (int idx = 0; idx < getNumberOfUsers(); idx++) {
             registrationService.registerPlayer(makeName(idx), makePwd(idx));
         }
-        userCount = (int) userService.count();
         additionalInitDb();
+        userCount = (int) userService.count();
         log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
         MDC.clear();
     }
