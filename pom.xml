@@ -25,6 +25,7 @@
 
         <archunit.version>0.10.2</archunit.version>
         <flywaydb.version>5.2.4</flywaydb.version>
+        <guava.version>27.1-jre</guava.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
         <junit5.version>5.4.2</junit5.version>
@@ -46,6 +47,15 @@
     </properties>
 
     <dependencies>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- Security related version overrides.                -->
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Spring. -->
