@@ -21,21 +21,13 @@
         </encoder>
     </appender>
 
-    <logger name="root" level="INFO">
-        <appender-ref ref="ROLLING"/>
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="manon" level="INFO" additivity="false">
         <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework" level="INFO" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework.web" level="ERROR" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
+    </root>
+
+    <logger name="manon" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.web" level="ERROR"/>
 
 </configuration>

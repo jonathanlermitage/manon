@@ -21,35 +21,18 @@
         </encoder>
     </appender>
 
-    <logger name="root" level="WARN">
-        <appender-ref ref="ROLLING"/>
+    <root level="WARN">
         <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="manon" level="TRACE" additivity="false">
         <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework" level="INFO" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework.web" level="ERROR" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
+    </root>
+
+    <logger name="manon" level="TRACE"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.web" level="ERROR"/>
 
     <!-- Don't care about Spring Integration Testing related INFO messages. -->
-    <logger name="org.springframework.scheduling" level="WARN" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework.boot.test" level="WARN" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-    <logger name="org.springframework.test" level="WARN" additivity="false">
-        <appender-ref ref="ROLLING"/>
-        <appender-ref ref="CONSOLE"/>
-    </logger>
+    <logger name="org.springframework.scheduling" level="WARN"/>
+    <logger name="org.springframework.boot.test" level="WARN"/>
+    <logger name="org.springframework.test" level="WARN"/>
 
 </configuration>
