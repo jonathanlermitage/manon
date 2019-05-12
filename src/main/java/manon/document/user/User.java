@@ -143,7 +143,7 @@ public class User implements Serializable, UserVersionProjection {
         public static final int EMAIL_MAX_LENGTH = 256;
         public static final String EMAIL_SIZE_ERRMSG = "EMAIL_SIZE";
         
-        public static final int PASSWORD_MIN_LENGTH = 5;
+        public static final int PASSWORD_MIN_LENGTH = 4;
         public static final int PASSWORD_MAX_LENGTH = 256;
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
     }
