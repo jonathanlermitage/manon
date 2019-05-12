@@ -47,7 +47,7 @@ public class Application extends SpringBootServletInitializer {
     @PostConstruct
     public void startupHook() {
         String initAppEvent = String.format("jvm: [%s %s %s %s], os: [%s], file encoding: [%s], " +
-                "admin username: [%s], actuator username: [%s], dev username: [%s], Cfg: [%s]",
+                "admin username: [%s], actuator username: [%s], Cfg: [%s]",
             System.getProperty("java.version"),
             System.getProperty("java.vm.name"),
             System.getProperty("java.vm.version"),
@@ -56,7 +56,6 @@ public class Application extends SpringBootServletInitializer {
             System.getProperty("file.encoding"),
             registrationService.ensureAdmin().getUsername(),
             registrationService.ensureActuator().getUsername(),
-            registrationService.ensureDev().getUsername(),
             cfg);
         appTraceService.log(WARN, APP_START, initAppEvent);
     }

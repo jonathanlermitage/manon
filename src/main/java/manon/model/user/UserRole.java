@@ -9,7 +9,6 @@ public enum UserRole {
     
     ACTUATOR("ROLE_ACTUATOR"),
     ADMIN("ROLE_ADMIN"),
-    DEV("ROLE_DEV"),
     PLAYER("ROLE_PLAYER");
     
     @Getter

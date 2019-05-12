@@ -51,9 +51,6 @@ manon:
     admin:
       username: ROOT
       password: woot
-    dev:
-      username: DEV
-      password: woot
   batch:
     user-snapshot:
       chunk: 1000

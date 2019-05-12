@@ -34,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     private static final String ACTUATOR = UserRole.ACTUATOR.name();
     private static final String ADMIN = UserRole.ADMIN.name();
-    private static final String DEV = UserRole.DEV.name();
     private static final String PLAYER = UserRole.PLAYER.name();
     
     private final PasswordEncoderService passwordEncoderService;
@@ -62,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/configuration/security",
                 "/swagger-ui.html",
                 "/webjars/**",
-                "/v2/api-docs").hasRole(DEV)
+                "/v2/api-docs").permitAll()
             
             .and().httpBasic()
             .and().csrf().disable();

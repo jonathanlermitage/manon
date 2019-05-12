@@ -29,7 +29,6 @@ public class ActuatorIT extends AbstractIT {
         return new Object[][]{
             {whenActuator(), true},
             {whenAdmin(), true},
-            {whenDev(), true},
             {whenP1(), false},
             {whenAnonymous(), false}
         };

@@ -53,10 +53,4 @@ public interface RegistrationService {
      * @return existing admin-user, otherwise newly registered user.
      */
     User ensureAdmin();
-    
-    /**
-     * Register development-user if absent.
-     * @return existing development-user, otherwise newly registered user.
-     */
-    User ensureDev();
 }

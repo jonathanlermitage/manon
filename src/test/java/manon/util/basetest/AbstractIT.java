@@ -178,7 +178,6 @@ public abstract class AbstractIT {
         CompletableFuture<Void> ensureUsersTask = CompletableFuture.runAsync(() -> {
             registrationService.ensureActuator();
             registrationService.ensureAdmin();
-            registrationService.ensureDev();
         }, tasksExecutor);
         CompletableFuture<Void> additionalInitDbTask = CompletableFuture.runAsync(() -> {
             try {
@@ -254,10 +253,6 @@ public abstract class AbstractIT {
     
     public final Rs whenAdmin() {
         return whenAuthenticated(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword());
-    }
-    
-    public final Rs whenDev() {
-        return whenAuthenticated(cfg.getDefaultUserDevUsername(), cfg.getDefaultUserDevPassword());
     }
     
     /** When player n°humanId, where humanId is an index starting at 1. */
