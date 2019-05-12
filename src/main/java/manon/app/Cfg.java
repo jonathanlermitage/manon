@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Getter
-@ToString
+@ToString(exclude = {"defaultUserActuatorPassword", "defaultUserAdminPassword"})
 public class Cfg {
     
     @Value("${info.app.version}")
@@ -24,12 +24,6 @@ public class Cfg {
     
     @Value("${manon.default-user.admin.password}")
     private String defaultUserAdminPassword;
-    
-    @Value("${manon.default-user.dev.username}")
-    private String defaultUserDevUsername;
-    
-    @Value("${manon.default-user.dev.password}")
-    private String defaultUserDevPassword;
     
     @Value("${manon.batch.user-snapshot.chunk}")
     private Integer batchUserSnapshotChunk;
