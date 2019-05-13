@@ -32,11 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserWSIT extends AbstractIT {
     
-    @Override
-    public int getNumberOfUsers() {
-        return 3;
-    }
-    
     public Object[][] dataProviderShouldRegister() {
         return new Object[][]{
             {"JOHN", "12300"},
