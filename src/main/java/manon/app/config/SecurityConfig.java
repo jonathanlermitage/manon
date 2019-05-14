@@ -19,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static manon.app.Globals.API.API;
 import static manon.app.Globals.API.API_SYS;
 import static manon.app.Globals.API.API_USER;
 import static manon.app.Globals.API.API_USER_ADMIN;
@@ -41,12 +42,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
-            .sessionManagement().sessionCreationPolicy(STATELESS)
-            .and().authorizeRequests()
+        // @formatter:off
+        http
+            .csrf().disable()
+            .cors()
+            
+        .and()
+            .httpBasic()
+            
+        .and()
+            .sessionManagement()
+            .sessionCreationPolicy(STATELESS)
+            
+        .and()
+            .authorizeRequests()
             
             .antMatchers(API_SYS + "/info/up").permitAll()
             .antMatchers(API_SYS + "/**").hasRole(ADMIN)
+            
             .antMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
             
             .antMatchers(POST, API_USER).permitAll() // user registration
@@ -55,16 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/actuator/health").permitAll()
             .antMatchers("/actuator").hasRole(ACTUATOR)
             .antMatchers("/actuator/**").hasRole(ACTUATOR)
-            
             .antMatchers("/swagger-resources",
                 "/swagger-resources/configuration/ui",
                 "/swagger-resources/configuration/security",
                 "/swagger-ui.html",
                 "/webjars/**",
-                "/v2/api-docs").permitAll()
-            
-            .and().httpBasic()
-            .and().csrf().disable();
+                "/v2/api-docs").permitAll();
+        // @formatter:on
     }
     
     @Bean
