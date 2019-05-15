@@ -32,7 +32,7 @@
         <lombok.version>1.18.8</lombok.version>
         <mariadb.version>2.4.1</mariadb.version>
         <rest-assured.version>4.0.0</rest-assured.version>
-        <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
         <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
 
