@@ -328,7 +328,7 @@
                 <version>${versions-maven-plugin.version}</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
-                    <rulesUri>file:///${basedir}/config/versions-maven-plugin-rules.xml</rulesUri>
+                    <rulesUri>file:///${basedir}/.mvn/versions-maven-plugin-rules.xml</rulesUri>
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>

@@ -21,7 +21,7 @@ before_install:
   - sudo /etc/init.d/postgresql stop
   - sudo netstat -antp
   - docker-compose --version
-  - docker-compose -f ./config/docker/docker-compose.yml up -d maria
+  - docker-compose -f ./docker/docker-compose.yml up -d maria
 
 script: "./mvnw clean verify -P test-maria,coverage,ci -B"
 

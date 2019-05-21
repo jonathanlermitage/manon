@@ -100,7 +100,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "rmi")
-      docker-compose -f ./config/docker/docker-compose.yml stop
+      docker-compose -f ./docker/docker-compose.yml stop
       docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
       docker rmi $(docker images | grep -E "^lermitage-manon|gcr.io/distroless/java|<none>" | awk '{print $3}')
       ;;
@@ -111,7 +111,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "docker")
       sh ./mvnw package -DskipTests -T1
-      docker build -f ./config/docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
+      docker build -f ./docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
       ;;
 
     "jib")
@@ -123,27 +123,27 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "up")
-      docker-compose -f ./config/docker/docker-compose.yml up -d
+      docker-compose -f ./docker/docker-compose.yml up -d
       ;;
 
     "stop")
-      docker-compose -f ./config/docker/docker-compose.yml down
+      docker-compose -f ./docker/docker-compose.yml down
       ;;
 
     "upelk")
-      docker-compose -f ./config/docker/docker-compose-elk.yml up -d
+      docker-compose -f ./docker/docker-compose-elk.yml up -d
       ;;
 
     "stopelk")
-      docker-compose -f ./config/docker/docker-compose-elk.yml down
+      docker-compose -f ./docker/docker-compose-elk.yml down
       ;;
 
     "upcerebro")
-      docker-compose -f ./config/docker/docker-compose-cerebro.yml up -d
+      docker-compose -f ./docker/docker-compose-cerebro.yml up -d
       ;;
 
     "stopcerebro")
-      docker-compose -f ./config/docker/docker-compose-cerebro.yml down
+      docker-compose -f ./docker/docker-compose-cerebro.yml down
       ;;
 
     "maria")

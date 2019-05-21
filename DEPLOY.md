@@ -50,7 +50,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * via Jib: `./do jib`.
   * or via traditional `Dockerfile`: `./do docker`.
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
-* Then run application image and dependencies via Docker Compose: `./do up` (it actually does: `docker-compose -f ./config/docker/docker-compose.yml up -d`).
+* Then run application image and dependencies via Docker Compose: `./do up` (it actually does: `docker-compose -f ./docker/docker-compose.yml up -d`).
 * Application listens on port 8080 and its logs are stored in `~/manon-app-logs/`.
 * Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
   * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
@@ -68,6 +68,6 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * Get Nginx access logs via: `GET /manon-nginx-access-*/_search`.
   * You can delete these logs via: `DELETE /manon*`. Play with application and show logs again.
 * Optional: run Cerebro via Docker Compose: `./do upcerebro`.
-  * Visit `http://localhost:9000` and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `config/docker/cerebro/cerebro.conf` file for details).
+  * Visit `http://localhost:9000` and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `docker/cerebro/cerebro.conf` file for details).
 
 You can now stop images via `./do stopcerebro` (Cerebro), `./do stopelk` (ELK stack), `./do stop` (application and dependencies).
