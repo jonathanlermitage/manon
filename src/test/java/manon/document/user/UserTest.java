@@ -2,7 +2,6 @@ package manon.document.user;
 
 import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
-import manon.util.TestTools;
 import manon.util.Tools;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -76,7 +75,6 @@ public class UserTest {
         User o = User.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
-        TestTools.temporize();
         
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isEqualTo(creationDate);

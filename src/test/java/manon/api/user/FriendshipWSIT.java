@@ -10,7 +10,6 @@ import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
-import manon.util.TestTools;
 import manon.util.basetest.AbstractIT;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -57,7 +56,6 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
@@ -120,7 +118,6 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -162,9 +159,7 @@ public class FriendshipWSIT extends AbstractIT {
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
         friendshipRequestService.askFriendship(userId(1), userId(2));
-        TestTools.temporize();
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
-        TestTools.temporize();
         
         //WHEN P1 asks friendship to P2 again
         whenP1().getRequestSpecification()
@@ -217,7 +212,6 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP2().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(1))
             .then()
@@ -281,12 +275,10 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         
         //WHEN P2 accepts
         whenP2().getRequestSpecification()
@@ -356,17 +348,14 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP2().getRequestSpecification()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         
         //WHEN P3 accepts
         whenP3().getRequestSpecification()
@@ -436,7 +425,6 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         
         //WHEN P1 tries to accept his own friendship request
         whenP1().getRequestSpecification()
@@ -516,12 +504,10 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         
         //WHEN P2 rejects P1 friendship request
         whenP2().getRequestSpecification()
@@ -620,12 +606,10 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         
         //WHEN P1 cancels friendship request to P2
         whenP1().getRequestSpecification()
@@ -724,22 +708,18 @@ public class FriendshipWSIT extends AbstractIT {
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP1().getRequestSpecification()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP2().getRequestSpecification()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         whenP3().getRequestSpecification()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
-        TestTools.temporize();
         
         //WHEN P1 revokes friendship with P2
         whenP1().getRequestSpecification()
@@ -848,12 +828,10 @@ public class FriendshipWSIT extends AbstractIT {
                 .post(API_USER + "/askfriendship/user/" + userId(2))
                 .then()
                 .statusCode(SC_OK);
-            TestTools.temporize();
             whenP1().getRequestSpecification()
                 .post(API_USER + "/cancelfriendship/user/" + userId(2))
                 .then()
                 .statusCode(SC_OK);
-            TestTools.temporize();
         }
         
         //THEN only last MAX_EVENTS_PER_USER events stay in database for each user
@@ -865,11 +843,8 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldGetFriends() throws Exception {
         //GIVEN a P1 user with 2 friends P2 and P3: P1 initiated friendship with P2 and P3
         friendshipRequestService.askFriendship(userId(1), userId(2));
-        TestTools.temporize();
         friendshipRequestService.askFriendship(userId(1), userId(3));
-        TestTools.temporize();
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
-        TestTools.temporize();
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(3));
         UserPublicInfo upi1 = UserPublicInfo.from(userService.readOne(userId(1)));
         UserPublicInfo upi2 = UserPublicInfo.from(userService.readOne(userId(2)));
@@ -916,11 +891,8 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldGetFriendsMixed() throws Exception {
         //GIVEN a P1 user with 2 friends P2 and P3: P2 and P3 initiated friendship with P1
         friendshipRequestService.askFriendship(userId(2), userId(1));
-        TestTools.temporize();
         friendshipRequestService.askFriendship(userId(3), userId(1));
-        TestTools.temporize();
         friendshipRequestService.acceptFriendshipRequest(userId(2), userId(1));
-        TestTools.temporize();
         friendshipRequestService.acceptFriendshipRequest(userId(3), userId(1));
         UserPublicInfo upi1 = UserPublicInfo.from(userService.readOne(userId(1)));
         UserPublicInfo upi2 = UserPublicInfo.from(userService.readOne(userId(2)));

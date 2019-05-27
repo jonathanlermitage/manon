@@ -27,12 +27,12 @@ public interface FriendshipRequestRepository extends JpaRepository<FriendshipReq
     /** Find all friendship requests from given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from FriendshipRequest f " +
-        "where f.requestFrom.id = :userId order by f.creationDate desc")
+        "where f.requestFrom.id = :userId order by f.creationDate desc, f.id desc")
     List<FriendshipRequest> findAllByRequestFrom(@Param("userId") long userId);
     
     /** Find all friendship requests to given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from FriendshipRequest f " +
-        "where f.requestTo.id = :userId order by f.creationDate desc")
+        "where f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
     List<FriendshipRequest> findAllByRequestTo(@Param("userId") long userId);
 }

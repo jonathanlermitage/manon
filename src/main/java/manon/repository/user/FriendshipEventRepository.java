@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface FriendshipEventRepository extends JpaRepository<FriendshipEvent, Long> {
     
-    @Query("select f from FriendshipEvent f where f.user.id = :userId order by f.creationDate desc")
+    @Query("select f from FriendshipEvent f where f.user.id = :userId order by f.creationDate desc, f.id desc")
     List<FriendshipEvent> findAllByUserOrderByCreationDateDesc(@Param("userId") long userId);
     
     @ExistForTesting(why = "FriendshipWSIntegrationTest")

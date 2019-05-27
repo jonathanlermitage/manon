@@ -27,12 +27,12 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     
     /** Find all friends for given user. */
     @Query("select f from Friendship f " +
-        "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc")
+        "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
     Stream<Friendship> streamAllFor(@Param("userId") long userId);
     
     /** Find all friends for given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from Friendship f " +
-        "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc")
+        "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
     List<Friendship> findAllFor(@Param("userId") long userId);
 }
