@@ -9,7 +9,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public class TestTools {
     
-    private static final int TRIAL_MIN_CLOCK_RESOLUTION_MS = 2;
+    private static final int TRIAL_MIN_CLOCK_RESOLUTION_MS = 1;
     
     /**
      * Append {@code word} many times in order to create a {@code length} characters string; last {@code word} may be
@@ -35,7 +35,6 @@ public class TestTools {
      * minimal intermission, you may observe that some items have identical creation timestamp, that may introduce lack of order.
      * Adding a very short pause solves this problem. Please note this is a test scenario, production is usually not impacted:
      * that's why this method is limited to the test scope.
-     *
      */
     @SneakyThrows(InterruptedException.class)
     public static void temporize() {
