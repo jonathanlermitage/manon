@@ -32,6 +32,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: woot
       MYSQL_DATABASE: manon
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 1 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/3306' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # ----------------------------------------
   # --- Frontend proxy
