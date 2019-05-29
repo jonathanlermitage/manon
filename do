@@ -123,6 +123,21 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "up")
+      if [[ ! -d ~/manon-app-logs ]]; then
+        mkdir ~/manon-app-logs
+        echo "~/manon-app-logs directory created"
+      fi
+      if [[ ! -d ~/manon-maria-db ]]; then
+        mkdir ~/manon-maria-db
+        docker-compose -f ./docker/docker-compose.yml up -d maria
+        echo "~/manon-maria-db directory created, starting maria and wait 15 seconds..."
+        sleep 15
+        echo "Done, maria shoubd be open to connections. If manon startup fails, please restart maria"
+      fi
+      if [[ ! -d ~/manon-nginx-logs ]]; then
+        mkdir ~/manon-nginx-logs
+        echo "~/manon-nginx-logs directory created"
+      fi
       docker-compose -f ./docker/docker-compose.yml up -d
       ;;
 
@@ -131,6 +146,10 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "upelk")
+      if [[ ! -d ~/manon-elastic-db ]]; then
+        mkdir ~/manon-elastic-db
+        echo "~/manon-elastic-db directory created"
+      fi
       docker-compose -f ./docker/docker-compose-elk.yml up -d
       ;;
 
