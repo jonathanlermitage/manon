@@ -17,13 +17,6 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 #### Preparation: create directories and install software
 
 * Elasticsearch may need `sudo sysctl -w vm.max_map_count=262144`.
-* Create data and log directories with read/write permissions:
-    ```bash
-    mkdir ~/manon-app-logs
-    mkdir ~/manon-maria-db
-    mkdir ~/manon-nginx-logs
-    mkdir ~/manon-elastic-db
-    ```
 * Install **Docker**:
   ```bash
   # install Docker Community Edition, tested on Lubuntu 18.04 LTS
