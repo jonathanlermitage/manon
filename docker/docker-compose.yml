@@ -13,6 +13,10 @@ services:
       - "8080:8080"
     volumes:
       - ~/manon-app-logs:/logs
+    environment:
+      MANON_SQL_USERNAME: root
+      MANON_SQL_PASSWORD: woot
+      MANON_SQL_JDBC_URL: jdbc:mariadb://maria:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
     depends_on:
       - maria
     healthcheck:

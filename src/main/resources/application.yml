@@ -7,7 +7,11 @@ spring:
     initialize-schema: always
     job.enabled: false
   main.banner-mode: console
-  datasource.driver-class-name: org.mariadb.jdbc.Driver
+  datasource:
+    username: ${MANON_SQL_USERNAME:}
+    password: ${MANON_SQL_PASSWORD:}
+    url: ${MANON_SQL_JDBC_URL:}
+    driver-class-name: ${MANON_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
   data.jpa.repositories.bootstrap-mode: deferred
   jpa:
     hibernate.ddl-auto: validate
@@ -46,11 +50,11 @@ management:
 manon:
   default-user:
     actuator:
-      username: ACTUATOR
-      password: woot
+      username: ${MANON_ACTUATOR_USERNAME:ACTUATOR}
+      password: ${MANON_ACTUATOR_PASSWORD:woot}
     admin:
-      username: ROOT
-      password: woot
+      username: ${MANON_ADMIN_USERNAME:ROOT}
+      password: ${MANON_ADMIN_PASSWORD:woot}
   batch:
     user-snapshot:
       chunk: 1000

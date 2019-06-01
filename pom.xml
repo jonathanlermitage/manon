@@ -501,10 +501,7 @@
                             </to>
                             <container>
                                 <jvmFlags>
-                                    <jvmFlag>-Djava.security.egd=file:/dev/./urandom</jvmFlag>
                                     <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
-                                    <jvmFlag>-Dspring.jmx.enabled=false</jvmFlag>
-                                    <jvmFlag>-Dspring.profiles.active=docker</jvmFlag>
                                 </jvmFlags>
                                 <mainClass>${start-class}</mainClass>
                                 <ports>

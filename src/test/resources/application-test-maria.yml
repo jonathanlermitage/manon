@@ -7,7 +7,7 @@ manon:
 
 spring:
   datasource:
-    username: root
-    password: woot
-    url: jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
-    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${MANON_TEST_SQL_USERNAME:root}
+    password: ${MANON_TEST_SQL_PASSWORD:woot}
+    url: ${MANON_TEST_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+    driver-class-name: ${MANON_TEST_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
