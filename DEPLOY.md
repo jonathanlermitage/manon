@@ -47,7 +47,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Application listens on port 8080 and its logs are stored in `~/manon-app-logs/`.
 * Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
   * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
-* Check application connectivity by visiting `http://localhost:8080/actuator/health` (default login/password is `ROOT/woot`).
+* Check application connectivity by visiting `http://localhost:8080/actuator/health`.
 * Replace `8080` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --user ROOT:woot` then check the `user_stats` and `user_snapshot` MariaDB tables.

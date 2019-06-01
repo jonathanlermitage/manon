@@ -54,7 +54,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * **Spring Actuator** web endpoints configured
 * **Swagger UI** to provide documentation about REST API endpoints
   * run application and check `http://localhost:8080/swagger-ui.html`. See commit [834852c](https://github.com/jonathanlermitage/manon/commit/834852cd5ce8bbb869a189aecdd90097c9168152) ([spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger) branch)
-* **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support. Linux base image is [Distroless](https://github.com/GoogleContainerTools/distroless)
+* **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support
   * See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594) ([spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib) branch)
 * **ELK** stack (**ElasticSearch Logstash Kibana**) via Docker plus Docker Compose to parse application and Nginx logs, and Cerebro to monitor ElasticSearch node
   * see [DEPLOY.md](DEPLOY.md) to package and run application. Also, see commits [6b76e37](https://github.com/jonathanlermitage/manon/commit/6b76e376566fd34b4b3521dc6c60eaf7c30c1c22) and [966969f](https://github.com/jonathanlermitage/manon/commit/966969fc16277be3ec8605592f5ed7ae90ba7024) ([spring5-light-elk](https://github.com/jonathanlermitage/manon/tree/spring5-light-elk) branch)
