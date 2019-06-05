@@ -167,12 +167,12 @@ public abstract class AbstractIT {
         
         Executor tasksExecutor = Executors.newFixedThreadPool(3);
         CompletableFuture<Void> registerPlayerTask = CompletableFuture.runAsync(() -> {
-            for (int idx = 0; idx < getNumberOfUsers(); idx++) {
-                try {
+            try {
+                for (int idx = 0; idx < getNumberOfUsers(); idx++) {
                     registrationService.registerPlayer(makeName(idx), makePwd(idx));
-                } catch (UserExistsException e) {
-                    throw new IllegalStateException(e);
                 }
+            } catch (UserExistsException e) {
+                throw new IllegalStateException(e);
             }
         }, tasksExecutor);
         CompletableFuture<Void> ensureUsersTask = CompletableFuture.runAsync(() -> {
