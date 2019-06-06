@@ -2,6 +2,6 @@
 
 spring:
   datasource:
-    username: ${MANON_SQL_USERNAME:root}
-    password: ${MANON_SQL_PASSWORD:woot}
-    url: ${MANON_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+    username: ${MANON_DEV_SQL_USERNAME:root}
+    password: ${MANON_DEV_SQL_PASSWORD:woot}
+    url: ${MANON_DEV_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
