@@ -1,0 +1,16 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - spring5-light
+  - spring5-light-jwt-auth
+  - spring5-light-ms-azure-pipeline
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: ./mvnw clean verify -P ci -B
+    displayName: 'buil and test app'
