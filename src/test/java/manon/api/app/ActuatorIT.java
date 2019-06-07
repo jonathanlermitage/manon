@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.equalToCompressingWhiteSpace;
 
 @Slf4j
 public class ActuatorIT extends AbstractIT {
@@ -50,7 +50,7 @@ public class ActuatorIT extends AbstractIT {
     @Test
     public void shouldGetInfoActuatorWhenAdmin() {
         whenAdmin().getRequestSpecification().get("/actuator/info").then().body(
-            equalToIgnoringWhiteSpace("{\"app\":{\"name\":\"manon\",\"version\":\"" + cfg.getVersion() + "\"}}")
+            equalToCompressingWhiteSpace("{\"app\":{\"name\":\"manon\",\"version\":\"" + cfg.getVersion() + "\"}}")
         );
     }
 }
