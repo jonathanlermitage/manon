@@ -20,5 +20,13 @@ steps:
       dockerComposeFile: './docker/docker-compose.yml'
       action: 'Run a Docker Compose command'
       dockerComposeCommand: 'up -d maria'
-  - script: ./mvnw clean verify -P test-maria,ci -B
-    displayName: 'Buil and test app with Maven'
+  - task: Maven@3 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
+    inputs:
+      mavenPomFile: 'pom.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      goals: 'verify'
+      options: '-P test-maria,ci -B'
