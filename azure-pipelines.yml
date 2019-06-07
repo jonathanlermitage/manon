@@ -12,5 +12,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: ./mvnw clean verify -P ci -B
-    displayName: 'buil and test app'
+  - script: mkdir ~/manon-maria-db
+  - script: sudo /etc/init.d/mysql stop
+  - task: DockerCompose@0
+    inputs:
+      containerregistrytype: 'Container Registry'
+      dockerComposeFile: './docker/docker-compose.yml'
+      action: 'Run a Docker Compose command'
+      dockerComposeCommand: 'up -d maria'
+  - script: ./mvnw clean verify -P test-maria,ci -B
+    displayName: 'Buil and test app with Maven'
