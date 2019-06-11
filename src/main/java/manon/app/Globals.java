@@ -12,9 +12,9 @@ public class Globals {
     @NoArgsConstructor(access = PRIVATE)
     public static final class API {
     
-        public static final String API = "/api";
+        public static final String API_BASE = "/api";
     
-        public static final String API_V1 = API + "/v1";
+        public static final String API_V1 = API_BASE + "/v1";
         
         /** Operations on users. */
         public static final String API_USER = API_V1 + "/user";

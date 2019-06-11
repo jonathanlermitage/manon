@@ -19,7 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static manon.app.Globals.API.API;
+import static manon.app.Globals.API.API_BASE;
 import static manon.app.Globals.API.API_SYS;
 import static manon.app.Globals.API.API_USER;
 import static manon.app.Globals.API.API_USER_ADMIN;
@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(POST, API_USER).permitAll() // user registration
             .antMatchers(API_USER + "/**").hasRole(PLAYER)
             
-            .antMatchers(API + "/**").authenticated()
+            .antMatchers(API_BASE + "/**").authenticated()
             
             .antMatchers("/actuator/health").permitAll()
             .antMatchers("/actuator").hasRole(ACTUATOR)
