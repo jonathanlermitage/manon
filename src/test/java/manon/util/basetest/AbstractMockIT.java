@@ -1,7 +1,5 @@
 package manon.util.basetest;
 
-import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import manon.api.app.PingWS;
 import manon.api.batch.JobRunnerWS;
 import manon.api.user.FriendshipWS;
@@ -92,10 +90,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     }
     
     private Rs whenUsername(String username) {
-        RequestSpecification rs = RestAssured.given()
-            .header("X-Request-Id", username.toLowerCase() + "-" + currentTimeMillis())
-            .auth().basic(username, PWD);
-        return new Rs(rs, username, PWD);
+        return Rs.authenticated(username, PWD);
     }
     
     public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";

@@ -236,15 +236,11 @@ public abstract class AbstractIT {
     //
     
     public final Rs whenAnonymous() {
-        return new Rs(RestAssured.given()
-            .header("X-Request-Id", "anon-" + currentTimeMillis())
-            .auth().none(), "", "");
+        return Rs.anonymous();
     }
     
     public final Rs whenAuthenticated(String username, String password) {
-        return new Rs(RestAssured.given()
-            .header("X-Request-Id", "user-" + currentTimeMillis())
-            .auth().preemptive().basic(username, password), username, password);
+        return Rs.authenticatedPreemptively(username, password);
     }
     
     public final Rs whenActuator() {

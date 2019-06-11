@@ -30,7 +30,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldFindAllDesc() {
-        Response res = whenAdmin().getRequestSpecification()
+        Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,DESC");
         res.then()
             .contentType(JSON)
@@ -48,7 +48,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldFindAllAsc() {
-        Response res = whenAdmin().getRequestSpecification()
+        Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,ASC");
         res.then()
             .contentType(JSON)
@@ -66,7 +66,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldFindAllSmallPageStartPart() {
-        Response res = whenAdmin().getRequestSpecification()
+        Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?size=" + (userCount - 1));
         res.then()
             .contentType(JSON)
@@ -79,7 +79,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldFindAllPageEndPart() {
-        Response res = whenAdmin().getRequestSpecification()
+        Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?page=1&size=" + (userCount - 1));
         res.then()
             .contentType(JSON)
@@ -92,7 +92,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldFindAllSmallPageMiddlePart() {
-        Response res = whenAdmin().getRequestSpecification()
+        Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?size=1");
         res.then()
             .contentType(JSON)
@@ -107,19 +107,19 @@ public class UserAdminWSIT extends AbstractIT {
     public void shouldCycleRegistrationState() {
         List<Long> uids = Arrays.asList(userId(1), userId(2));
         for (long uid : uids) {
-            whenAdmin().getRequestSpecification()
+            whenAdmin().getSpec()
                 .post(API_USER_ADMIN + "/" + uid + "/suspend")
                 .then()
                 .statusCode(SC_OK)
                 .contentType(TEXT)
                 .body(equalTo(SUSPENDED.name()));
-            whenAdmin().getRequestSpecification()
+            whenAdmin().getSpec()
                 .post(API_USER_ADMIN + "/" + uid + "/ban")
                 .then()
                 .statusCode(SC_OK)
                 .contentType(TEXT)
                 .body(equalTo(BANNED.name()));
-            whenAdmin().getRequestSpecification()
+            whenAdmin().getSpec()
                 .post(API_USER_ADMIN + "/" + uid + "/activate")
                 .then()
                 .statusCode(SC_OK)
@@ -130,7 +130,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldNotActivateUnknown() {
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/activate")
             .then()
             .statusCode(SC_NOT_FOUND)
@@ -140,7 +140,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldNotBanUnknown() {
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/ban")
             .then()
             .statusCode(SC_NOT_FOUND)
@@ -150,7 +150,7 @@ public class UserAdminWSIT extends AbstractIT {
     
     @Test
     public void shouldNotSuspendUnknown() {
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/suspend")
             .then()
             .statusCode(SC_NOT_FOUND)

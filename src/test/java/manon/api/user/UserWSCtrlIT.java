@@ -26,7 +26,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyRegister")
     public void shouldVerifyRegister(Rs rs) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .body(RegistrationForm.builder().username("USERNAME").password("PASSWORD").build())
             .contentType(JSON)
             .post(API_USER)
@@ -38,7 +38,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyDelete(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .contentType(JSON)
             .delete(API_USER)
             .then()
@@ -49,7 +49,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRead(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get(API_USER)
             .then()
             .statusCode(status);
@@ -59,7 +59,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadAndIncludeUserSnapshots(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get(API_USER + "/include/usersnapshots")
             .then()
             .statusCode(status);
@@ -69,7 +69,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadVersion(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get(API_USER + "/version")
             .then()
             .statusCode(status);
@@ -79,7 +79,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdateField(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .body(UserUpdateForm.builder().build())
             .contentType(JSON)
             .put(API_USER + "/field")
@@ -91,7 +91,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdatePassword(Rs rs, Integer status) throws PasswordNotMatchException {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword("").newPassword("password").build())
             .contentType(JSON)
             .put(API_USER + "/password")

@@ -19,7 +19,7 @@ public class PingCtrlIT extends AbstractMockIT {
     public void shouldVerifyPing(Rs rs, Integer status) throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get(API_SYS + "/ping/" + urlencodedWsUrl)
             .then()
             .statusCode(status);

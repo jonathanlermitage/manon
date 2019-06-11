@@ -43,7 +43,7 @@ public class UserWSIT extends AbstractIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldRegister")
     public void shouldRegister(String name, String pwd) throws Exception {
-        whenAnonymous().getRequestSpecification()
+        whenAnonymous().getSpec()
             .body(RegistrationForm.builder().username(name).password(pwd).build())
             .contentType(JSON)
             .post(API_USER)
@@ -61,13 +61,13 @@ public class UserWSIT extends AbstractIT {
     
     @Test
     public void shouldNotRegisterTwice() {
-        whenAnonymous().getRequestSpecification()
+        whenAnonymous().getSpec()
             .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
             .contentType(JSON)
             .post(API_USER)
             .then()
             .statusCode(SC_CREATED);
-        whenAnonymous().getRequestSpecification()
+        whenAnonymous().getSpec()
             .body(RegistrationForm.builder().username("DUPLICATE").password("456789").build())
             .contentType(JSON)
             .post(API_USER)
@@ -78,32 +78,32 @@ public class UserWSIT extends AbstractIT {
     
     @Test
     public void shouldDeleteAndLooseAuthorisations() throws Exception {
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .get(API_USER).then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .delete(API_USER).then()
             .statusCode(SC_OK);
         assertThat(userService.readOne(userId(1)).getRegistrationState()).isEqualTo(DELETED);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .get(API_USER).then()
             .statusCode(SC_UNAUTHORIZED);
     }
     
     @Test
     public void shouldNotDeleteTwice() throws Exception {
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .delete(API_USER).then()
             .statusCode(SC_OK);
         assertThat(userService.readOne(userId(1)).getRegistrationState()).isEqualTo(DELETED);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .delete(API_USER).then()
             .statusCode(SC_UNAUTHORIZED);
     }
     
     @Test
     public void shouldRead() throws Exception {
-        Response res = whenP1().getRequestSpecification()
+        Response res = whenP1().getSpec()
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
@@ -119,7 +119,7 @@ public class UserWSIT extends AbstractIT {
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));
-        Response res = whenP1().getRequestSpecification()
+        Response res = whenP1().getSpec()
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
@@ -131,7 +131,7 @@ public class UserWSIT extends AbstractIT {
     
     @Test
     public void shouldReadAndIncludeUserSnapshots() throws Exception {
-        Response res = whenP1().getRequestSpecification()
+        Response res = whenP1().getSpec()
             .get(API_USER + "/include/usersnapshots");
         res.then()
             .statusCode(SC_OK);
@@ -147,7 +147,7 @@ public class UserWSIT extends AbstractIT {
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));
-        Response res = whenP1().getRequestSpecification()
+        Response res = whenP1().getSpec()
             .get(API_USER + "/include/usersnapshots");
         res.then()
             .statusCode(SC_OK);
@@ -159,7 +159,7 @@ public class UserWSIT extends AbstractIT {
     
     @Test
     public void shouldReadVersion() throws Exception {
-        Response res = whenP1().getRequestSpecification()
+        Response res = whenP1().getSpec()
             .get(API_USER + "/version");
         res.then()
             .statusCode(SC_OK);
@@ -179,7 +179,7 @@ public class UserWSIT extends AbstractIT {
     @MethodSource("dataProviderShouldUpdate")
     public void shouldUpdate(String nickname, String email) throws Exception {
         User userBefore = userService.readOne(userId(1));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
             .contentType(JSON)
             .put(API_USER + "/field")
@@ -196,7 +196,7 @@ public class UserWSIT extends AbstractIT {
     
     @Test
     public void shouldUpdatePassword() {
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword("a new password").build())
             .contentType(JSON)
             .put(API_USER + "/password")
@@ -210,7 +210,7 @@ public class UserWSIT extends AbstractIT {
     @Test
     public void shouldUpdateWithLongestPassword() {
         String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
             .put(API_USER + "/password")
@@ -225,7 +225,7 @@ public class UserWSIT extends AbstractIT {
     public void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
         // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
         String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
             .put(API_USER + "/password")
@@ -240,7 +240,7 @@ public class UserWSIT extends AbstractIT {
     public void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
         // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
         String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
             .put(API_USER + "/password")
@@ -253,7 +253,7 @@ public class UserWSIT extends AbstractIT {
     
     @Test
     public void shouldNotUpdateBadPassword() {
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword("wrongpassword").newPassword("a new password").build())
             .contentType(JSON)
             .put(API_USER + "/password")
@@ -272,7 +272,7 @@ public class UserWSIT extends AbstractIT {
         //GIVEN a user with no friend
         
         //WHEN he gets friends
-        Response res = whenP1().getRequestSpecification()
+        Response res = whenP1().getSpec()
             .get(API_USER + "/friends");
         res.then()
             .statusCode(SC_OK);

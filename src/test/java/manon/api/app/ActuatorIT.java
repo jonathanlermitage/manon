@@ -37,7 +37,7 @@ public class ActuatorIT extends AbstractIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldGetFullHealth")
     public void shouldGetHealthActuatorWithMinimalOrFullInformation(Rs rs, boolean isFullInfo) {
-        ValidatableResponse response = rs.getRequestSpecification().get("/actuator/health").then();
+        ValidatableResponse response = rs.getSpec().get("/actuator/health").then();
         if (isFullInfo) {
             response.body(containsString("\"status\":\"UP\""),
                 containsString("\"database\""),
@@ -49,7 +49,7 @@ public class ActuatorIT extends AbstractIT {
     
     @Test
     public void shouldGetInfoActuatorWhenAdmin() {
-        whenAdmin().getRequestSpecification().get("/actuator/info").then().body(
+        whenAdmin().getSpec().get("/actuator/info").then().body(
             equalToCompressingWhiteSpace("{\"app\":{\"name\":\"manon\",\"version\":\"" + cfg.getVersion() + "\"}}")
         );
     }

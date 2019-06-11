@@ -10,7 +10,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerIndex(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get("/swagger-ui.html")
             .then()
             .statusCode(status);
@@ -19,7 +19,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerApiDocs(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get("/v2/api-docs")
             .then()
             .statusCode(status);
@@ -28,7 +28,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerResourcesConfigurationUi(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get("/swagger-resources/configuration/ui")
             .then()
             .statusCode(status);
@@ -37,7 +37,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerResourcesConfigurationSecurity(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get("/swagger-resources/configuration/security")
             .then()
             .statusCode(status);
@@ -46,7 +46,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerWebjars(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get("/webjars/springfox-swagger-ui/springfox.css")
             .then()
             .statusCode(status);

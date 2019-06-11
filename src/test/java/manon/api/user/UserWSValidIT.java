@@ -48,7 +48,7 @@ public class UserWSValidIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateRegister")
     public void shouldValidateRegister(int statusCode, String username, String pwd, String[] errMsg) {
-        ValidatableResponse response = whenAnonymous().getRequestSpecification()
+        ValidatableResponse response = whenAnonymous().getSpec()
             .body(RegistrationForm.builder().username(username).password(pwd).build())
             .contentType(JSON)
             .post(API_USER)
@@ -76,7 +76,7 @@ public class UserWSValidIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateUpdate")
     public void shouldValidateUpdate(int statusCode, String nickname, String email, String errMsg) {
-        ValidatableResponse response = whenP1().getRequestSpecification()
+        ValidatableResponse response = whenP1().getSpec()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
             .contentType(JSON)
             .put(API_USER + "/field")
@@ -100,7 +100,7 @@ public class UserWSValidIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateUpdatePassword")
     public void shouldValidateUpdatePassword(int statusCode, String oldPwd, String newPwd, String errMsg) {
-        ValidatableResponse response = whenP1().getRequestSpecification()
+        ValidatableResponse response = whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(oldPwd).newPassword(newPwd).build())
             .contentType(JSON)
             .put(API_USER + "/password")

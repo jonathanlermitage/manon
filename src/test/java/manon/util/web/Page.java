@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/** Object representing a Spring paged result. Use it to deserialize a paged result returned by a controller. */
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode

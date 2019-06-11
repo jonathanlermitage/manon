@@ -52,11 +52,11 @@ public class FriendshipWSIT extends AbstractIT {
         User p3 = userService.readOne(userId(3));
         
         //WHEN P1 sends friendship requests to P2 and P3
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
@@ -114,11 +114,11 @@ public class FriendshipWSIT extends AbstractIT {
         User p2 = userService.readOne(userId(2));
         
         //WHEN P1 asks friendship to P2 twice
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_CONFLICT)
@@ -162,7 +162,7 @@ public class FriendshipWSIT extends AbstractIT {
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
         
         //WHEN P1 asks friendship to P2 again
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_CONFLICT);
@@ -208,11 +208,11 @@ public class FriendshipWSIT extends AbstractIT {
         User p2 = userService.readOne(userId(2));
         
         //WHEN P1 asks friendship then P2 asks friendship to P1
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP2().getRequestSpecification()
+        whenP2().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_CONFLICT)
@@ -251,7 +251,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotAskFriendshipToUnknownUser() {
         //GIVEN 1 users with no friends nor friendship requests
         //WHEN P1 tries to ask friendship to unknown user
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(UserNotFoundException.class.getSimpleName()));
@@ -271,17 +271,17 @@ public class FriendshipWSIT extends AbstractIT {
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
         User p3 = userService.readOne(userId(3));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
         
         //WHEN P2 accepts
-        whenP2().getRequestSpecification()
+        whenP2().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
@@ -344,21 +344,21 @@ public class FriendshipWSIT extends AbstractIT {
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
         User p3 = userService.readOne(userId(3));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        whenP2().getRequestSpecification()
+        whenP2().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
         
         //WHEN P3 accepts
-        whenP3().getRequestSpecification()
+        whenP3().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
@@ -421,13 +421,13 @@ public class FriendshipWSIT extends AbstractIT {
         //GIVEN 2 users. P1 asks friendship to P2
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
         
         //WHEN P1 tries to accept his own friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_NOT_FOUND)
@@ -464,7 +464,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotAcceptUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to accept an unknown friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
@@ -480,7 +480,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotAcceptUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to accept an unknown user friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
@@ -500,17 +500,17 @@ public class FriendshipWSIT extends AbstractIT {
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
         User p3 = userService.readOne(userId(3));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
         
         //WHEN P2 rejects P1 friendship request
-        whenP2().getRequestSpecification()
+        whenP2().getSpec()
             .post(API_USER + "/rejectfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
@@ -566,7 +566,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotRejectUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to reject an unknown friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/rejectfriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
@@ -582,7 +582,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotRejectUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to reject an unknown user friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/rejectfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
@@ -602,17 +602,17 @@ public class FriendshipWSIT extends AbstractIT {
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
         User p3 = userService.readOne(userId(3));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
         
         //WHEN P1 cancels friendship request to P2
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/cancelfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
@@ -668,7 +668,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotCancelUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to cancel an unknown friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/cancelfriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
@@ -684,7 +684,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotCancelUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to cancel an unknown user friendship request
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/cancelfriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
@@ -704,25 +704,25 @@ public class FriendshipWSIT extends AbstractIT {
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
         User p3 = userService.readOne(userId(3));
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(3))
             .then()
             .statusCode(SC_OK);
-        whenP2().getRequestSpecification()
+        whenP2().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
-        whenP3().getRequestSpecification()
+        whenP3().getSpec()
             .post(API_USER + "/acceptfriendship/user/" + userId(1))
             .then()
             .statusCode(SC_OK);
         
         //WHEN P1 revokes friendship with P2
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/revokefriendship/user/" + userId(2))
             .then()
             .statusCode(SC_OK);
@@ -786,7 +786,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotRevokeUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to revoke an unknown friendship
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/revokefriendship/user/" + userId(2))
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipNotFoundException.class.getSimpleName()));
@@ -802,7 +802,7 @@ public class FriendshipWSIT extends AbstractIT {
     public void shouldNotRevokeUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to revoke an unknown user friendship
-        whenP1().getRequestSpecification()
+        whenP1().getSpec()
             .post(API_USER + "/revokefriendship/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipNotFoundException.class.getSimpleName()));
@@ -824,11 +824,11 @@ public class FriendshipWSIT extends AbstractIT {
         
         //WHEN P1 generates more than MAX_EVENTS_PER_USER events for P1 and P2
         for (int i = 0; i < FriendshipEvent.Validation.MAX_EVENTS_PER_USER + 5; i++) {
-            whenP1().getRequestSpecification()
+            whenP1().getSpec()
                 .post(API_USER + "/askfriendship/user/" + userId(2))
                 .then()
                 .statusCode(SC_OK);
-            whenP1().getRequestSpecification()
+            whenP1().getSpec()
                 .post(API_USER + "/cancelfriendship/user/" + userId(2))
                 .then()
                 .statusCode(SC_OK);
@@ -851,7 +851,7 @@ public class FriendshipWSIT extends AbstractIT {
         UserPublicInfo upi3 = UserPublicInfo.from(userService.readOne(userId(3)));
         
         //WHEN P1 gets friends
-        Response p1Res = whenP1().getRequestSpecification()
+        Response p1Res = whenP1().getSpec()
             .get(API_USER + "/friends");
         p1Res.then()
             .statusCode(SC_OK);
@@ -863,7 +863,7 @@ public class FriendshipWSIT extends AbstractIT {
             .containsExactly(upi3, upi2);
         
         //WHEN P2 gets friends
-        Response p2Res = whenP2().getRequestSpecification()
+        Response p2Res = whenP2().getSpec()
             .get(API_USER + "/friends");
         p2Res.then()
             .statusCode(SC_OK);
@@ -875,7 +875,7 @@ public class FriendshipWSIT extends AbstractIT {
             .containsExactly(upi1);
         
         //WHEN P3 get friends
-        Response p3Res = whenP3().getRequestSpecification()
+        Response p3Res = whenP3().getSpec()
             .get(API_USER + "/friends");
         p3Res.then()
             .statusCode(SC_OK);
@@ -899,7 +899,7 @@ public class FriendshipWSIT extends AbstractIT {
         UserPublicInfo upi3 = UserPublicInfo.from(userService.readOne(userId(3)));
         
         //WHEN P1 gets friends
-        Response p1Res = whenP1().getRequestSpecification()
+        Response p1Res = whenP1().getSpec()
             .get(API_USER + "/friends");
         p1Res.then()
             .statusCode(SC_OK);
@@ -911,7 +911,7 @@ public class FriendshipWSIT extends AbstractIT {
             .containsExactly(upi3, upi2);
         
         //WHEN P2 gets friends
-        Response p2Res = whenP2().getRequestSpecification()
+        Response p2Res = whenP2().getSpec()
             .get(API_USER + "/friends");
         p2Res.then()
             .statusCode(SC_OK);
@@ -923,7 +923,7 @@ public class FriendshipWSIT extends AbstractIT {
             .containsExactly(upi1);
         
         //WHEN P3 get friends
-        Response p3Res = whenP3().getRequestSpecification()
+        Response p3Res = whenP3().getSpec()
             .get(API_USER + "/friends");
         p3Res.then()
             .statusCode(SC_OK);

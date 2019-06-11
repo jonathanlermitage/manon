@@ -21,7 +21,7 @@ public class JobRunnerWSIT extends AbstractIT {
     
     @Test
     public void shouldStartUserSnapshotTask() {
-        Response res = whenAdmin().getRequestSpecification()
+        Response res = whenAdmin().getSpec()
             .post(API_SYS + "/batch/start/userSnapshotJob");
         res.then()
             .contentType(ContentType.JSON)
@@ -31,7 +31,7 @@ public class JobRunnerWSIT extends AbstractIT {
     
     @Test
     public void shouldNotStartUnknownTask() {
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .post(API_SYS + "/batch/start/foo")
             .then()
             .statusCode(SC_NOT_FOUND);

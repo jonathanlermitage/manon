@@ -13,7 +13,7 @@ public class JobRunnerWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyStartTask(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .pathParam("job", "foobar")
             .post(API_SYS + "/batch/start/{job}")
             .then()

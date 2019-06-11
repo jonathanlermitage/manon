@@ -13,7 +13,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyFindAll(Rs rs, Integer status) {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .get(API_USER_ADMIN + "/all")
             .then()
             .statusCode(status);
@@ -23,7 +23,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyActivate(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/activate")
             .then()
@@ -34,7 +34,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyBan(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/ban")
             .then()
@@ -45,7 +45,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifySuspend(Rs rs, Integer status) throws Exception {
-        rs.getRequestSpecification()
+        rs.getSpec()
             .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/suspend")
             .then()

@@ -56,7 +56,7 @@ public class ActuatorCtrlIT extends AbstractMockIT {
     }
     
     private ValidatableResponse call(Rs rs, HttpMethod verb, String endpoint) {
-        RequestSpecification spec = rs.getRequestSpecification();
+        RequestSpecification spec = rs.getSpec();
         switch (verb) {
             case GET:
                 return spec.get(endpoint).then();

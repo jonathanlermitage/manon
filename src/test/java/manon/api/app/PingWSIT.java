@@ -26,7 +26,7 @@ public class PingWSIT extends AbstractIT {
     public void shouldPingAccessibleUrl() throws PingException, UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .get(API_SYS + "/ping/" + urlencodedWsUrl)
             .then()
             .statusCode(SC_OK);
@@ -37,7 +37,7 @@ public class PingWSIT extends AbstractIT {
     public void shouldNotPingInaccessibleUrl() throws PingException, UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health2";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .get(API_SYS + "/ping/" + urlencodedWsUrl)
             .then()
             .statusCode(SC_BAD_REQUEST);
@@ -48,7 +48,7 @@ public class PingWSIT extends AbstractIT {
     public void shouldNotPingInvalidUrl() throws PingException, UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + 1 + "/actuator/health2";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
-        whenAdmin().getRequestSpecification()
+        whenAdmin().getSpec()
             .get(API_SYS + "/ping/" + urlencodedWsUrl)
             .then()
             .statusCode(SC_BAD_REQUEST);
