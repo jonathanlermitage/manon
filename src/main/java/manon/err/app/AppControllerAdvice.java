@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice
-public class AppControllerAdvice extends AbstractControllerAdvice {
+public class AppControllerAdvice implements AbstractControllerAdvice {
     
     @ExceptionHandler(PingException.class)
     @ResponseStatus(BAD_REQUEST)

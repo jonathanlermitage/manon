@@ -13,7 +13,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
-public class UserControllerAdvice extends AbstractControllerAdvice {
+public class UserControllerAdvice implements AbstractControllerAdvice {
     
     @ExceptionHandler(PasswordNotMatchException.class)
     @ResponseStatus(BAD_REQUEST)

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
-public class BatchControllerAdvice extends AbstractControllerAdvice {
+public class BatchControllerAdvice implements AbstractControllerAdvice {
     
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
