@@ -1,7 +1,7 @@
 package manon.api.user;
 
 import io.restassured.response.ValidatableResponse;
-import manon.model.user.form.RegistrationForm;
+import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
 import manon.util.basetest.AbstractMockIT;
@@ -49,7 +49,7 @@ public class UserWSValidIT extends AbstractMockIT {
     @MethodSource("dataProviderShouldValidateRegister")
     public void shouldValidateRegister(int statusCode, String username, String pwd, String[] errMsg) {
         ValidatableResponse response = whenAnonymous().getSpec()
-            .body(RegistrationForm.builder().username(username).password(pwd).build())
+            .body(UserLogin.builder().username(username).password(pwd).build())
             .contentType(JSON)
             .post(API_USER)
             .then()

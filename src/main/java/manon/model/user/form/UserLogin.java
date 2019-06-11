@@ -25,7 +25,7 @@ import static manon.util.Tools.shortenLog;
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
-public final class RegistrationForm {
+public final class UserLogin {
     
     @NotNull(message = USERNAME_SIZE_ERRMSG)
     @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = USERNAME_SIZE_ERRMSG)
@@ -38,7 +38,7 @@ public final class RegistrationForm {
     
     @Override
     public String toString() {
-        return "RegistrationForm{" +
+        return "UserLogin{" +
             "username='" + shortenLog(username) + '\'' +
             ", password='" + shortenAndAnonymizeLog(password) + '\'' +
             '}';

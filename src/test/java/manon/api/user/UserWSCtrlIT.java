@@ -1,7 +1,7 @@
 package manon.api.user;
 
 import manon.err.user.PasswordNotMatchException;
-import manon.model.user.form.RegistrationForm;
+import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
 import manon.util.basetest.AbstractMockIT;
@@ -27,7 +27,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
     @MethodSource("dataProviderShouldVerifyRegister")
     public void shouldVerifyRegister(Rs rs) throws Exception {
         rs.getSpec()
-            .body(RegistrationForm.builder().username("USERNAME").password("PASSWORD").build())
+            .body(UserLogin.builder().username("USERNAME").password("PASSWORD").build())
             .contentType(JSON)
             .post(API_USER)
             .then()

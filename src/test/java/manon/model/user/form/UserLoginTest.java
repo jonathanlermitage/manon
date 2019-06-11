@@ -6,21 +6,21 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationFormTest {
+public class UserLoginTest {
     
     @Test
     public void shouldVerifyToString() {
-        assertThat(RegistrationForm.builder().build().toString()).contains(
+        assertThat(UserLogin.builder().build().toString()).contains(
             "username", "password");
     }
     
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        RegistrationForm filled = RegistrationForm.builder()
+        UserLogin filled = UserLogin.builder()
             .username("u")
             .password("p")
             .build();
         return new Object[][]{
-            {RegistrationForm.builder().build(), RegistrationForm.builder().build(), true},
+            {UserLogin.builder().build(), UserLogin.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().username("updated").build(), filled, false},
             {filled.toBuilder().password("updated").build(), filled, false}
@@ -29,13 +29,13 @@ public class RegistrationFormTest {
     
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(RegistrationForm o1, RegistrationForm o2, boolean expectedEqual) {
+    public void shouldVerifyEquals(UserLogin o1, UserLogin o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
     
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(RegistrationForm o1, RegistrationForm o2, boolean expectedEqual) {
+    public void shouldVerifyHashCode(UserLogin o1, UserLogin o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 }

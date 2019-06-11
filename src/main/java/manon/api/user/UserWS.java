@@ -11,7 +11,7 @@ import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.UserSimpleDetails;
-import manon.model.user.form.RegistrationForm;
+import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
 import manon.service.user.RegistrationService;
@@ -47,10 +47,10 @@ public class UserWS {
     @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
     @JsonView(DefaultView.class)
-    public User register(@RequestBody @Validated RegistrationForm registrationForm)
+    public User register(@RequestBody @Validated UserLogin userLogin)
         throws UserExistsException {
-        log.debug("user registration with {}", registrationForm);
-        return registrationService.registerPlayer(registrationForm.getUsername(), registrationForm.getPassword());
+        log.debug("user registration with {}", userLogin);
+        return registrationService.registerPlayer(userLogin.getUsername(), userLogin.getPassword());
     }
     
     /** Unregister a user. */

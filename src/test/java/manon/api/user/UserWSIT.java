@@ -6,7 +6,7 @@ import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.err.user.UserExistsException;
 import manon.model.user.UserPublicInfo;
-import manon.model.user.form.RegistrationForm;
+import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
 import manon.model.user.form.UserUpdateForm;
 import manon.util.TestTools;
@@ -44,7 +44,7 @@ public class UserWSIT extends AbstractIT {
     @MethodSource("dataProviderShouldRegister")
     public void shouldRegister(String name, String pwd) throws Exception {
         whenAnonymous().getSpec()
-            .body(RegistrationForm.builder().username(name).password(pwd).build())
+            .body(UserLogin.builder().username(name).password(pwd).build())
             .contentType(JSON)
             .post(API_USER)
             .then()
@@ -62,13 +62,13 @@ public class UserWSIT extends AbstractIT {
     @Test
     public void shouldNotRegisterTwice() {
         whenAnonymous().getSpec()
-            .body(RegistrationForm.builder().username("DUPLICATE").password("12300").build())
+            .body(UserLogin.builder().username("DUPLICATE").password("12300").build())
             .contentType(JSON)
             .post(API_USER)
             .then()
             .statusCode(SC_CREATED);
         whenAnonymous().getSpec()
-            .body(RegistrationForm.builder().username("DUPLICATE").password("456789").build())
+            .body(UserLogin.builder().username("DUPLICATE").password("456789").build())
             .contentType(JSON)
             .post(API_USER)
             .then()
