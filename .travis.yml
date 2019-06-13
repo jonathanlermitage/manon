@@ -23,7 +23,7 @@ before_install:
   - docker-compose --version
   - docker-compose -f ./docker/docker-compose.yml up -d maria
 
-script: "./mvnw clean verify -P test-maria,coverage,ci -B"
+script: "./mvnw clean verify -P test-real,coverage,ci -B"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
