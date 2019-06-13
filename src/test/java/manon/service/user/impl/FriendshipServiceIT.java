@@ -28,7 +28,7 @@ public class FriendshipServiceIT extends AbstractIT {
     //
     
     @Test
-    public void shouldRevokeFriendship() throws Exception {
+    public void shouldRevokeFriendship() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
         friendshipService.revokeFriendship(userId(1), userId(2));
@@ -49,7 +49,7 @@ public class FriendshipServiceIT extends AbstractIT {
     //
     
     @Test
-    public void shouldFindAllForWhenUserHasFriends() throws Exception {
+    public void shouldFindAllForWhenUserHasFriends() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.askFriendship(userId(1), userId(3));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));

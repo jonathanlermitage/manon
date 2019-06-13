@@ -1,8 +1,6 @@
 package manon.service.user;
 
 import manon.document.user.Friendship;
-import manon.err.user.FriendshipNotFoundException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
 import manon.util.ExistForTesting;
 
@@ -16,7 +14,7 @@ public interface FriendshipService {
      * @param userIdFrom id of user who wants to delete friendship.
      * @param userIdTo if of friend user.
      */
-    void revokeFriendship(long userIdFrom, long userIdTo) throws UserNotFoundException, FriendshipNotFoundException;
+    void revokeFriendship(long userIdFrom, long userIdTo);
     
     /**
      * Get user's friends public information.

@@ -1,7 +1,6 @@
 package manon.api.app;
 
 import io.restassured.RestAssured;
-import manon.err.app.PingException;
 import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,7 +22,7 @@ public class PingWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldPingAccessibleUrl() throws PingException, UnsupportedEncodingException {
+    public void shouldPingAccessibleUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         whenAdmin().getSpec()
@@ -34,7 +33,7 @@ public class PingWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldNotPingInaccessibleUrl() throws PingException, UnsupportedEncodingException {
+    public void shouldNotPingInaccessibleUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health2";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         whenAdmin().getSpec()
@@ -45,7 +44,7 @@ public class PingWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldNotPingInvalidUrl() throws PingException, UnsupportedEncodingException {
+    public void shouldNotPingInvalidUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + 1 + "/actuator/health2";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         whenAdmin().getSpec()

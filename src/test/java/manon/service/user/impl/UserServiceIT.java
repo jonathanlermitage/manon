@@ -28,7 +28,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldExistOrFail() throws Exception {
+    public void shouldExistOrFail() {
         userService.existOrFail(userId(1));
     }
     
@@ -39,20 +39,20 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadOne() throws Exception {
+    public void shouldReadOne() {
         User dbUser = userService.readOne(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
     }
     
     @Test
-    public void shouldReadOneFailReadLazyDataOutsideASession() throws Exception {
+    public void shouldReadOneFailReadLazyDataOutsideASession() {
         User dbUser = userService.readOne(userId(1));
         Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
             .isInstanceOf(LazyInitializationException.class);
     }
     
     @Test
-    public void shouldReadOneWhenUserHasSnapshots() throws Exception {
+    public void shouldReadOneWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.from(user(1)),
             UserSnapshot.from(user(1))
@@ -62,7 +62,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() throws Exception {
+    public void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.from(user(1)),
             UserSnapshot.from(user(1))
@@ -73,14 +73,14 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadOneAndFetchUserSnapshots() throws Exception {
+    public void shouldReadOneAndFetchUserSnapshots() {
         User dbUser = userService.readOneAndFetchUserSnapshots(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
         Assertions.assertThat(dbUser.getUserSnapshots()).isEmpty();
     }
     
     @Test
-    public void shouldReadOneAndFetchUserSnapshotsWhenUserHasSnapshots() throws Exception {
+    public void shouldReadOneAndFetchUserSnapshotsWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.from(user(1)),
             UserSnapshot.from(user(1))
@@ -107,7 +107,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadByUsername() throws Exception {
+    public void shouldReadByUsername() {
         Assertions.assertThat(userService.readByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
@@ -118,7 +118,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadVersionById() throws Exception {
+    public void shouldReadVersionById() {
         Assertions.assertThat(userService.readVersionById(userId(2)).getVersion()).isGreaterThanOrEqualTo(0L);
     }
     
@@ -129,7 +129,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadIdByUsername() throws Exception {
+    public void shouldReadIdByUsername() {
         Assertions.assertThat(userService.readIdByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
     
@@ -140,7 +140,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldCreateAndCheckEncodedPassword() throws Exception {
+    public void shouldCreateAndCheckEncodedPassword() {
         String rawPassword = "pwd" + currentTimeMillis();
         User user = userService.create(User.builder()
             .username(name(100))
@@ -159,7 +159,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldSetAndCheckEncodedPassword() throws Exception {
+    public void shouldSetAndCheckEncodedPassword() {
         String rawPassword = "pwd" + currentTimeMillis();
         userService.encodeAndSetPassword(userId(3), rawPassword);
         Assertions.assertThat(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
@@ -171,7 +171,7 @@ public class UserServiceIT extends AbstractIT {
     
     @ParameterizedTest
     @MethodSource("dataProviderRegistrationStates")
-    public void shouldSetRegistrationState(RegistrationState registrationState) throws Exception {
+    public void shouldSetRegistrationState(RegistrationState registrationState) {
         userService.setRegistrationState(userId(4), registrationState);
         Assertions.assertThat(userService.readOne(userId(4)).getRegistrationState()).isEqualTo(registrationState);
     }
@@ -191,7 +191,7 @@ public class UserServiceIT extends AbstractIT {
     
     @ParameterizedTest
     @MethodSource("dataProviderValidPasswords")
-    public void shoudValidatePassword(String rawPassword, String passwordToEncode) throws Exception {
+    public void shoudValidatePassword(String rawPassword, String passwordToEncode) {
         userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
     }
     
@@ -211,7 +211,7 @@ public class UserServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldSave() throws Exception {
+    public void shouldSave() {
         LocalDateTime before = Tools.now();
         userService.save(User.builder()
             .username("SHOULD_SAVE_USERNAME")
@@ -223,7 +223,7 @@ public class UserServiceIT extends AbstractIT {
             .build());
         LocalDateTime after = Tools.now();
         
-        User user = userService.findByUsername("SHOULD_SAVE_USERNAME").orElseThrow(UserNotFoundException::new);
+        User user = userService.readByUsername("SHOULD_SAVE_USERNAME");
         Assertions.assertThat(user.getCreationDate()).isBetween(before, after);
         Assertions.assertThat(user.getUpdateDate()).isBetween(before, after);
         Assertions.assertThat(user.getVersion()).isGreaterThanOrEqualTo(0);

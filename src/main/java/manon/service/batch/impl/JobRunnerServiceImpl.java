@@ -38,8 +38,8 @@ public class JobRunnerServiceImpl implements InitializingBean, JobRunnerService 
     }
     
     @Override
-    public ExitStatus run(String job) throws TaskNotFoundException,
-        JobParametersInvalidException, JobExecutionAlreadyRunningException,
+    public ExitStatus run(String job)
+        throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
         JobRestartException, JobInstanceAlreadyCompleteException {
         if (jobs.containsKey(job)) {
             return launcher.run(jobs.get(job), todayDateJobParameters()).getExitStatus();

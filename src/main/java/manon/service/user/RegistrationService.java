@@ -1,8 +1,6 @@
 package manon.service.user;
 
 import manon.document.user.User;
-import manon.err.user.UserExistsException;
-import manon.err.user.UserNotFoundException;
 
 public interface RegistrationService {
     
@@ -11,27 +9,27 @@ public interface RegistrationService {
      * @param userId user id.
      * @return user.
      */
-    User activate(long userId) throws UserNotFoundException;
+    User activate(long userId);
     
     /**
      * Ban a user.
      * @param userId user id.
      * @return user.
      */
-    User ban(long userId) throws UserNotFoundException;
+    User ban(long userId);
     
     /**
      * Suspend a user.
      * @param userId user id.
      * @return user.
      */
-    User suspend(long userId) throws UserNotFoundException;
+    User suspend(long userId);
     
     /**
      * Delete a user.
      * @param userId user id.
      */
-    User delete(long userId) throws UserNotFoundException;
+    User delete(long userId);
     
     /**
      * Register a user.
@@ -40,7 +38,7 @@ public interface RegistrationService {
      * @param password password.
      * @return user.
      */
-    User registerPlayer(String username, String password) throws UserExistsException;
+    User registerPlayer(String username, String password);
     
     /**
      * Register actuator-user if absent.

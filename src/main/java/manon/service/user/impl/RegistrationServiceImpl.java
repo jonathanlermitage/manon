@@ -1,11 +1,8 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import manon.app.Cfg;
 import manon.document.user.User;
-import manon.err.user.UserExistsException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.UserRole;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
@@ -32,31 +29,31 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserService userService;
     
     @Override
-    public User activate(long userId) throws UserNotFoundException {
+    public User activate(long userId) {
         userService.setRegistrationState(userId, ACTIVE);
         return userService.readOne(userId);
     }
     
     @Override
-    public User ban(long userId) throws UserNotFoundException {
+    public User ban(long userId) {
         userService.setRegistrationState(userId, BANNED);
         return userService.readOne(userId);
     }
     
     @Override
-    public User suspend(long userId) throws UserNotFoundException {
+    public User suspend(long userId) {
         userService.setRegistrationState(userId, SUSPENDED);
         return userService.readOne(userId);
     }
     
     @Override
-    public User delete(long userId) throws UserNotFoundException {
+    public User delete(long userId) {
         userService.setRegistrationState(userId, DELETED);
         return userService.readOne(userId);
     }
     
     @Override
-    public User registerPlayer(String username, String password) throws UserExistsException {
+    public User registerPlayer(String username, String password) {
         User user = User.builder()
             .username(username.trim())
             .authorities(PLAYER.getAuthority())
@@ -76,7 +73,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         return ensureUser(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword(), UserRole.values());
     }
     
-    @SneakyThrows(UserExistsException.class)
     public User ensureUser(String username, String password, UserRole... roles) {
         Optional<User> existingUser = userService.findByUsername(username);
         if (existingUser.isPresent()) {

@@ -3,7 +3,6 @@ package manon.service.user.impl;
 import lombok.RequiredArgsConstructor;
 import manon.document.user.FriendshipEvent;
 import manon.document.user.User;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.FriendshipEventCode;
 import manon.repository.user.FriendshipEventRepository;
 import manon.service.user.FriendshipEventService;
@@ -29,8 +28,7 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
         return friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
     }
     
-    public void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo)
-        throws UserNotFoundException {
+    public void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         User userFrom = userService.readOne(userIdFrom);
         User userTo = userService.readOne(userIdTo);
         friendshipEventRepository.saveAll(Arrays.asList(

@@ -1,9 +1,9 @@
 package manon.service.user.impl;
 
+import manon.err.user.UserNotFoundException;
 import manon.model.user.UserSimpleDetails;
 import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,12 +27,12 @@ public class UserDetailsServiceIT extends AbstractIT {
     @Test
     public void shouldFailLoadUserByUnknownUsername() {
         assertThatThrownBy(() -> userDetailsService.loadUserByUsername(UNKNOWN_USER_NAME))
-            .isInstanceOf(UsernameNotFoundException.class);
+            .isInstanceOf(UserNotFoundException.class);
     }
     
     @Test
     public void shouldFailLoadUserByNullUsername() {
         assertThatThrownBy(() -> userDetailsService.loadUserByUsername(null))
-            .isInstanceOf(UsernameNotFoundException.class);
+            .isInstanceOf(UserNotFoundException.class);
     }
 }

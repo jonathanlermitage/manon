@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoderService passwordEncoderService;
     
     @Override
-    public User readOne(long id) throws UserNotFoundException {
+    public User readOne(long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public User readOneAndFetchUserSnapshots(long id) throws UserNotFoundException {
+    public User readOneAndFetchUserSnapshots(long id) {
         return userRepository.findAndFetchUserSnapshots(id).orElseThrow(UserNotFoundException::new);
     }
     
@@ -54,17 +54,17 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public User readByUsername(String username) throws UserNotFoundException {
+    public User readByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public UserVersionProjection readVersionById(long id) throws UserNotFoundException {
+    public UserVersionProjection readVersionById(long id) {
         return userRepository.findVersionById(id).orElseThrow(UserNotFoundException::new);
     }
     
     @Override
-    public User create(User user) throws UserExistsException {
+    public User create(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException();
         }
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @ExistForTesting
-    public void existOrFail(long... ids) throws UserNotFoundException {
+    public void existOrFail(long... ids) {
         for (long id : ids) {
             if (!userRepository.existsById(id)) {
                 throw new UserNotFoundException();
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @ExistForTesting
-    public UserIdProjection readIdByUsername(String username) throws UserNotFoundException {
+    public UserIdProjection readIdByUsername(String username) {
         return userRepository.findVersionByUsername(username).orElseThrow(UserNotFoundException::new);
     }
     

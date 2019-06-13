@@ -35,7 +35,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     /** Clear data before test class, not before each test method. */
     @Override
     @BeforeEach
-    public void clearData() throws Exception {
+    public void clearData() {
         if (!initialized) {
             super.clearData();
             initialized = true;
@@ -59,7 +59,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     }
     
     @Override
-    public void additionalParallelInitDb() throws Exception {
+    public void additionalParallelInitDb() {
         registrationService.ban(registrationService.registerPlayer(BANNED_USERNAME, PWD).getId());
         registrationService.delete(registrationService.registerPlayer(DELETED_USERNAME, PWD).getId());
         registrationService.suspend(registrationService.registerPlayer(SUSPENDED_USERNAME, PWD).getId());

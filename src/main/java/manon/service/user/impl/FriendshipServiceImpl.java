@@ -3,7 +3,6 @@ package manon.service.user.impl;
 import lombok.RequiredArgsConstructor;
 import manon.document.user.Friendship;
 import manon.err.user.FriendshipNotFoundException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.FriendshipEventCode;
 import manon.model.user.UserPublicInfo;
 import manon.repository.user.FriendshipRepository;
@@ -29,14 +28,12 @@ public class FriendshipServiceImpl implements FriendshipService {
     private final FriendshipEventService friendshipEventService;
     
     @Override
-    public void revokeFriendship(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipNotFoundException {
+    public void revokeFriendship(long userIdFrom, long userIdTo) {
         deleteFriendship(userIdFrom, userIdTo, YOU_REVOKED_FRIENDSHIP, TARGET_REVOKED_FRIENDSHIP);
     }
     
     @SuppressWarnings("SameParameterValue")
-    private void deleteFriendship(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo)
-        throws UserNotFoundException, FriendshipNotFoundException {
+    private void deleteFriendship(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         if (friendshipRepository.countCouple(userIdFrom, userIdTo) > 0) {
             friendshipRepository.deleteCouple(userIdFrom, userIdTo);
         } else {

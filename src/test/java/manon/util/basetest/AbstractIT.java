@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.Cfg;
 import manon.document.user.User;
-import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
 import manon.service.app.AppTraceService;
 import manon.service.app.PerformanceRecorder;
@@ -140,7 +139,7 @@ public abstract class AbstractIT {
     
     /** Clear data before each test method. */
     @BeforeEach
-    public void clearData() throws Exception {
+    public void clearData() {
         userIdCache.clear();
         initDb();
         
@@ -160,32 +159,23 @@ public abstract class AbstractIT {
         userService.deleteAll();
     }
     
-    public void initDb() throws ExecutionException, InterruptedException {
+    @SneakyThrows({ExecutionException.class, InterruptedException.class})
+    public void initDb() {
         long t1 = currentTimeMillis();
         MDC.put(KEY_ENV, "junit");
         clearDb();
         
         Executor tasksExecutor = Executors.newFixedThreadPool(3);
         CompletableFuture<Void> registerPlayerTask = CompletableFuture.runAsync(() -> {
-            try {
-                for (int idx = 0; idx < getNumberOfUsers(); idx++) {
-                    registrationService.registerPlayer(makeName(idx), makePwd(idx));
-                }
-            } catch (UserExistsException e) {
-                throw new IllegalStateException(e);
+            for (int idx = 0; idx < getNumberOfUsers(); idx++) {
+                registrationService.registerPlayer(makeName(idx), makePwd(idx));
             }
         }, tasksExecutor);
         CompletableFuture<Void> ensureUsersTask = CompletableFuture.runAsync(() -> {
             registrationService.ensureActuator();
             registrationService.ensureAdmin();
         }, tasksExecutor);
-        CompletableFuture<Void> additionalInitDbTask = CompletableFuture.runAsync(() -> {
-            try {
-                additionalParallelInitDb();
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
-        }, tasksExecutor);
+        CompletableFuture<Void> additionalInitDbTask = CompletableFuture.runAsync(this::additionalParallelInitDb, tasksExecutor);
         CompletableFuture.allOf(registerPlayerTask, ensureUsersTask, additionalInitDbTask).get();
         
         userCount = (int) userService.count();
@@ -195,7 +185,7 @@ public abstract class AbstractIT {
     }
     
     /** Override do add logic that occurs at the end of the {@link #initDb()}. */
-    public void additionalParallelInitDb() throws Exception {
+    public void additionalParallelInitDb() {
         // override if needed
     }
     
@@ -294,7 +284,7 @@ public abstract class AbstractIT {
         return findAndCacheUserIdByIdx(humanId - 1);
     }
     
-    private long findAndCacheUserIdByIdx(int idx) throws UserNotFoundException {
+    private long findAndCacheUserIdByIdx(int idx) {
         if (!userIdCache.containsKey(idx)) {
             userIdCache.put(idx, userService.readIdByUsername(makeName(idx)).getId());
         }

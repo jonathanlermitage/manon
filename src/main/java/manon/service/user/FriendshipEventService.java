@@ -1,7 +1,6 @@
 package manon.service.user;
 
 import manon.document.user.FriendshipEvent;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.FriendshipEventCode;
 import manon.util.ExistForTesting;
 
@@ -11,8 +10,7 @@ public interface FriendshipEventService {
     
     List<FriendshipEvent> findAllFriendshipEventsByUserOrderByCreationDateDesc(long userId);
     
-    void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo)
-        throws UserNotFoundException;
+    void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo);
     
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     long countAllFriendshipEventsByUser(long userId);

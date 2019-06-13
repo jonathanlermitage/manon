@@ -7,7 +7,6 @@ import manon.document.user.User;
 import manon.err.user.FriendshipExistsException;
 import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.FriendshipEventCode;
 import manon.repository.user.FriendshipRequestRepository;
 import manon.service.user.FriendshipEventService;
@@ -40,8 +39,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     private final UserService userService;
     
     @Override
-    public void askFriendship(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
+    public void askFriendship(long userIdFrom, long userIdTo) {
         if (friendshipRequestRepository.countCouple(userIdFrom, userIdTo) > 0) {
             throw new FriendshipRequestExistsException();
         }
@@ -60,8 +58,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     }
     
     @Override
-    public void acceptFriendshipRequest(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+    public void acceptFriendshipRequest(long userIdFrom, long userIdTo) {
         if (friendshipRequestRepository.countCouple(userIdFrom, userIdTo) > 0) {
             friendshipRequestRepository.deleteCouple(userIdFrom, userIdTo);
         } else {
@@ -79,19 +76,16 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     }
     
     @Override
-    public void rejectFriendshipRequest(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+    public void rejectFriendshipRequest(long userIdFrom, long userIdTo) {
         deleteFriendshipRequest(userIdFrom, userIdTo, TARGET_REJECTED_FRIEND_REQUEST, YOU_REJECTED_FRIEND_REQUEST);
     }
     
     @Override
-    public void cancelFriendshipRequest(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+    public void cancelFriendshipRequest(long userIdFrom, long userIdTo) {
         deleteFriendshipRequest(userIdFrom, userIdTo, YOU_CANCELED_FRIEND_REQUEST, TARGET_CANCELED_FRIEND_REQUEST);
     }
     
-    private void deleteFriendshipRequest(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+    private void deleteFriendshipRequest(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         if (friendshipRequestRepository.countCouple(userIdFrom, userIdTo) > 0) {
             friendshipRequestRepository.deleteCouple(userIdFrom, userIdTo);
         } else {

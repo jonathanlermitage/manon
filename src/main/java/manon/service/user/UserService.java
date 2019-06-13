@@ -4,8 +4,6 @@ import manon.document.user.User;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
 import manon.err.user.PasswordNotMatchException;
-import manon.err.user.UserExistsException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.RegistrationState;
 import manon.model.user.form.UserUpdateForm;
 import manon.util.ExistForTesting;
@@ -16,15 +14,15 @@ import java.util.Optional;
 
 public interface UserService {
     
-    User readOne(long id) throws UserNotFoundException;
+    User readOne(long id);
     
-    User readOneAndFetchUserSnapshots(long id) throws UserNotFoundException;
+    User readOneAndFetchUserSnapshots(long id);
     
-    User readByUsername(String username) throws UserNotFoundException;
+    User readByUsername(String username);
     
     Optional<User> findByUsername(String username);
     
-    UserVersionProjection readVersionById(long id) throws UserNotFoundException;
+    UserVersionProjection readVersionById(long id);
     
     /**
      * Update a user's data.
@@ -40,16 +38,16 @@ public interface UserService {
      * @param user user data.
      * @return new user.
      */
-    User create(User user) throws UserExistsException;
+    User create(User user);
     
     void encodeAndSetPassword(long id, String password);
     
     void setRegistrationState(long id, RegistrationState registrationState);
     
     /**
-     * Check if a raw password validates a (BCrypt) encoded password.
+     * Check if a raw password validates an encoded password, and throw an exception if validation failed.
      * @param rawPassword raw password.
-     * @param encodedPassword encoded password; must not be null.
+     * @param encodedPassword encoded password.
      */
     void validatePassword(String rawPassword, String encodedPassword) throws PasswordNotMatchException;
     
@@ -60,10 +58,10 @@ public interface UserService {
     User save(User user);
     
     @ExistForTesting
-    void existOrFail(long... ids) throws UserNotFoundException;
+    void existOrFail(long... ids);
     
     @ExistForTesting
-    UserIdProjection readIdByUsername(String username) throws UserNotFoundException;
+    UserIdProjection readIdByUsername(String username);
     
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();

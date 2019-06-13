@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.DefaultView;
 import manon.document.user.User;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.UserSimpleDetails;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
@@ -49,8 +48,7 @@ public class UserAdminWS {
     @ApiOperation(value = "Activate a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/activate")
     public String activate(@AuthenticationPrincipal UserSimpleDetails admin,
-                           @PathVariable("userId") long userId)
-        throws UserNotFoundException {
+                           @PathVariable("userId") long userId) {
         log.warn("admin {} activates user {}", admin.getUsername(), userId);
         return registrationService.activate(userId).getRegistrationState().name();
     }
@@ -59,8 +57,7 @@ public class UserAdminWS {
     @ApiOperation(value = "Suspend a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/suspend")
     public String suspend(@AuthenticationPrincipal UserSimpleDetails admin,
-                          @PathVariable("userId") long userId)
-        throws UserNotFoundException {
+                          @PathVariable("userId") long userId) {
         log.warn("admin {} suspends user {}", admin.getUsername(), userId);
         return registrationService.suspend(userId).getRegistrationState().name();
     }
@@ -69,8 +66,7 @@ public class UserAdminWS {
     @ApiOperation(value = "Ban a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/ban")
     public String ban(@AuthenticationPrincipal UserSimpleDetails admin,
-                      @PathVariable("userId") long userId)
-        throws UserNotFoundException {
+                      @PathVariable("userId") long userId) {
         log.warn("admin {} bans user {}", admin.getUsername(), userId);
         return registrationService.ban(userId).getRegistrationState().name();
     }

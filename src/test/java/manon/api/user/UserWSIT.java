@@ -42,7 +42,7 @@ public class UserWSIT extends AbstractIT {
     
     @ParameterizedTest
     @MethodSource("dataProviderShouldRegister")
-    public void shouldRegister(String name, String pwd) throws Exception {
+    public void shouldRegister(String name, String pwd) {
         whenAnonymous().getSpec()
             .body(UserLogin.builder().username(name).password(pwd).build())
             .contentType(JSON)
@@ -77,7 +77,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldDeleteAndLooseAuthorisations() throws Exception {
+    public void shouldDeleteAndLooseAuthorisations() {
         whenP1().getSpec()
             .get(API_USER).then()
             .statusCode(SC_OK);
@@ -91,7 +91,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldNotDeleteTwice() throws Exception {
+    public void shouldNotDeleteTwice() {
         whenP1().getSpec()
             .delete(API_USER).then()
             .statusCode(SC_OK);
@@ -102,7 +102,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldRead() throws Exception {
+    public void shouldRead() {
         Response res = whenP1().getSpec()
             .get(API_USER);
         res.then()
@@ -114,7 +114,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadWhenUserHasSnapshots() throws Exception {
+    public void shouldReadWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
@@ -130,7 +130,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadAndIncludeUserSnapshots() throws Exception {
+    public void shouldReadAndIncludeUserSnapshots() {
         Response res = whenP1().getSpec()
             .get(API_USER + "/include/usersnapshots");
         res.then()
@@ -142,7 +142,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() throws Exception {
+    public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
@@ -158,7 +158,7 @@ public class UserWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldReadVersion() throws Exception {
+    public void shouldReadVersion() {
         Response res = whenP1().getSpec()
             .get(API_USER + "/version");
         res.then()
@@ -177,7 +177,7 @@ public class UserWSIT extends AbstractIT {
     
     @ParameterizedTest
     @MethodSource("dataProviderShouldUpdate")
-    public void shouldUpdate(String nickname, String email) throws Exception {
+    public void shouldUpdate(String nickname, String email) {
         User userBefore = userService.readOne(userId(1));
         whenP1().getSpec()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())

@@ -7,9 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.DefaultView;
 import manon.document.user.User;
-import manon.err.user.PasswordNotMatchException;
-import manon.err.user.UserExistsException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
@@ -47,8 +44,7 @@ public class UserWS {
     @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
     @JsonView(DefaultView.class)
-    public User register(@RequestBody @Validated UserLogin userLogin)
-        throws UserExistsException {
+    public User register(@RequestBody @Validated UserLogin userLogin) {
         log.debug("user registration with {}", userLogin);
         return registrationService.registerPlayer(userLogin.getUsername(), userLogin.getPassword());
     }
@@ -56,8 +52,7 @@ public class UserWS {
     /** Unregister a user. */
     @ApiOperation(value = "Unregister me.")
     @DeleteMapping
-    public void delete(@AuthenticationPrincipal UserSimpleDetails user)
-        throws UserNotFoundException {
+    public void delete(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} deletes himself", user.getIdentity());
         registrationService.delete(user.getUserId());
     }
@@ -66,8 +61,7 @@ public class UserWS {
     @ApiOperation(value = "Get my user information.", produces = JSON, response = User.class)
     @GetMapping
     @JsonView(DefaultView.class)
-    public User read(@AuthenticationPrincipal UserSimpleDetails user)
-        throws UserNotFoundException {
+    public User read(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
     }
@@ -76,8 +70,7 @@ public class UserWS {
     @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = User.class)
     @GetMapping("/include/usersnapshots")
     @JsonView(User.WithUserSnapshots.class)
-    public User readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user)
-        throws UserNotFoundException {
+    public User readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOneAndFetchUserSnapshots(user.getUserId());
     }
@@ -85,8 +78,7 @@ public class UserWS {
     /** Get user's version. */
     @ApiOperation(value = "Get my user version number.", produces = JSON, response = Long.class)
     @GetMapping("/version")
-    public long readVersion(@AuthenticationPrincipal UserSimpleDetails user)
-        throws UserNotFoundException {
+    public long readVersion(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his version", user.getIdentity());
         return userService.readVersionById(user.getUserId()).getVersion();
     }
@@ -104,8 +96,7 @@ public class UserWS {
     @ApiOperation(value = "Update my user password.", consumes = JSON)
     @PutMapping(value = "/password", consumes = JSON)
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
-                               @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm)
-        throws PasswordNotMatchException {
+                               @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {
         log.debug("user {} updates his password", user.getIdentity());
         userService.validatePassword(userPasswordUpdateForm.getOldPassword(), user.getUser().getPassword());
         userService.encodeAndSetPassword(user.getUserId(), userPasswordUpdateForm.getNewPassword());

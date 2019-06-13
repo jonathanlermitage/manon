@@ -45,7 +45,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Ask 2 friendship requests. */
     @Test
-    public void shouldAskFriendshipToManyUsers() throws Exception {
+    public void shouldAskFriendshipToManyUsers() {
         //GIVEN 3 users with no friends nor friendship requests
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -108,7 +108,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Ensure we don't store the same friendship request twice. */
     @Test
-    public void shouldNotAskFriendshipTwice() throws Exception {
+    public void shouldNotAskFriendshipTwice() {
         //GIVEN 2 users with no friends nor friendship requests
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -154,7 +154,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldNotAskFriendshipToFriend() throws Exception {
+    public void shouldNotAskFriendshipToFriend() {
         //GIVEN 2 users that are friends
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -202,7 +202,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Ensure we two users send crossed friendship request. */
     @Test
-    public void shouldNotAskCrossedFriendship() throws Exception {
+    public void shouldNotAskCrossedFriendship() {
         //GIVEN 2 users with no friends nor friendship requests
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -266,7 +266,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Ask 2 friendship requests and 1 target accept it. */
     @Test
-    public void shouldAcceptPartOfFriendship() throws Exception {
+    public void shouldAcceptPartOfFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -339,7 +339,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Ask 2 friendship requests and 2 targets accept it. */
     @Test
-    public void shouldAcceptAllFriendship() throws Exception {
+    public void shouldAcceptAllFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -417,7 +417,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldNotAcceptSelfFriendshipRequest() throws Exception {
+    public void shouldNotAcceptSelfFriendshipRequest() {
         //GIVEN 2 users. P1 asks friendship to P2
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -495,7 +495,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Ask many friendship requests and targets reject them. */
     @Test
-    public void shouldRejectFriendship() throws Exception {
+    public void shouldRejectFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -597,7 +597,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Create friendship requests, then cancel one of them. */
     @Test
-    public void shouldCancelFriendshipRequest() throws Exception {
+    public void shouldCancelFriendshipRequest() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -699,7 +699,7 @@ public class FriendshipWSIT extends AbstractIT {
     
     /** Create friendship requests, accept them, then revoke one of them. */
     @Test
-    public void shouldRevokeFriendship() throws Exception {
+    public void shouldRevokeFriendship() {
         //GIVEN 3 users. P1 is friend with P2 and P3
         User p1 = userService.readOne(userId(1));
         User p2 = userService.readOne(userId(2));
@@ -840,7 +840,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldGetFriends() throws Exception {
+    public void shouldGetFriends() {
         //GIVEN a P1 user with 2 friends P2 and P3: P1 initiated friendship with P2 and P3
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.askFriendship(userId(1), userId(3));
@@ -888,7 +888,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldGetFriendsMixed() throws Exception {
+    public void shouldGetFriendsMixed() {
         //GIVEN a P1 user with 2 friends P2 and P3: P2 and P3 initiated friendship with P1
         friendshipRequestService.askFriendship(userId(2), userId(1));
         friendshipRequestService.askFriendship(userId(3), userId(1));

@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.err.batch.TaskNotFoundException;
 import manon.model.batch.TaskStatus;
 import manon.model.user.UserSimpleDetails;
 import manon.service.batch.JobRunnerService;
@@ -35,7 +34,7 @@ public class JobRunnerWS {
     @ApiOperation(value = "Start given job.", produces = JSON, response = TaskStatus.class)
     @PostMapping(value = "/batch/start/{job}")
     public TaskStatus startJob(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("job") String job)
-        throws TaskNotFoundException, JobParametersInvalidException, JobExecutionAlreadyRunningException,
+        throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
         JobRestartException, JobInstanceAlreadyCompleteException {
         log.warn("admin {} starts job {}", sys.getUsername(), job);
         ExitStatus exitStatus = jobRunnerService.run(job);

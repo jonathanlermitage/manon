@@ -4,11 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.err.user.FriendshipExistsException;
-import manon.err.user.FriendshipNotFoundException;
-import manon.err.user.FriendshipRequestExistsException;
-import manon.err.user.FriendshipRequestNotFoundException;
-import manon.err.user.UserNotFoundException;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.UserSimpleDetails;
 import manon.service.user.FriendshipRequestService;
@@ -39,8 +34,7 @@ public class FriendshipWS {
     @ApiOperation(value = "Create a friendship request to another user.")
     @PostMapping("/askfriendship/user/{id}")
     public void askFriendship(@AuthenticationPrincipal UserSimpleDetails user,
-                              @PathVariable("id") long id)
-        throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException {
+                              @PathVariable("id") long id) {
         log.debug("user {} asks friendship request to user {}", user.getIdentity(), id);
         friendshipRequestService.askFriendship(user.getUser().getId(), id);
     }
@@ -49,8 +43,7 @@ public class FriendshipWS {
     @ApiOperation(value = "Accept a friendship request from another user.")
     @PostMapping("/acceptfriendship/user/{id}")
     public void acceptFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
-                                        @PathVariable("id") long id)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+                                        @PathVariable("id") long id) {
         log.debug("user {} accepts friendship request from user {}", user.getIdentity(), id);
         friendshipRequestService.acceptFriendshipRequest(id, user.getUser().getId());
     }
@@ -59,8 +52,7 @@ public class FriendshipWS {
     @ApiOperation(value = "Reject a friendship request from another user.")
     @PostMapping("/rejectfriendship/user/{id}")
     public void rejectFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
-                                        @PathVariable("id") long id)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+                                        @PathVariable("id") long id) {
         log.debug("user {} rejects friendship request from user {}", user.getIdentity(), id);
         friendshipRequestService.rejectFriendshipRequest(id, user.getUser().getId());
     }
@@ -69,8 +61,7 @@ public class FriendshipWS {
     @ApiOperation(value = "Cancel a friendship request to another user.")
     @PostMapping("/cancelfriendship/user/{id}")
     public void cancelFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
-                                        @PathVariable("id") long id)
-        throws UserNotFoundException, FriendshipRequestNotFoundException {
+                                        @PathVariable("id") long id) {
         log.debug("user {} cancels friendship request to user {}", user.getIdentity(), id);
         friendshipRequestService.cancelFriendshipRequest(user.getUser().getId(), id);
     }
@@ -79,8 +70,7 @@ public class FriendshipWS {
     @ApiOperation(value = "Delete an existing friendship relation with another user.")
     @PostMapping("/revokefriendship/user/{id}")
     public void revokeFriendship(@AuthenticationPrincipal UserSimpleDetails user,
-                                 @PathVariable("id") long id)
-        throws UserNotFoundException, FriendshipNotFoundException {
+                                 @PathVariable("id") long id) {
         log.debug("user {} deletes friendship with user {}", user.getIdentity(), id);
         friendshipService.revokeFriendship(user.getUser().getId(), id);
     }

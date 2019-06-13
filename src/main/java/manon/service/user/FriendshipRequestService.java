@@ -1,10 +1,6 @@
 package manon.service.user;
 
 import manon.document.user.FriendshipRequest;
-import manon.err.user.FriendshipExistsException;
-import manon.err.user.FriendshipRequestExistsException;
-import manon.err.user.FriendshipRequestNotFoundException;
-import manon.err.user.UserNotFoundException;
 import manon.util.ExistForTesting;
 
 import java.util.List;
@@ -16,16 +12,14 @@ public interface FriendshipRequestService {
      * @param userIdFrom id of user that asks for friendship.
      * @param userIdTo id of user that is targeted.
      */
-    void askFriendship(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipExistsException, FriendshipRequestExistsException;
+    void askFriendship(long userIdFrom, long userIdTo);
     
     /**
      * Create a friendship request between two users.
      * @param userIdFrom id of user that asked for friendship.
      * @param userIdTo id of user that accepts friendship.
      */
-    void acceptFriendshipRequest(long userIdFrom, long userIdTo)
-        throws UserNotFoundException, FriendshipRequestNotFoundException;
+    void acceptFriendshipRequest(long userIdFrom, long userIdTo);
     
     /**
      * Reject a friendship request between two users.
@@ -33,7 +27,7 @@ public interface FriendshipRequestService {
      * @param userIdFrom id of user that asked for friendship.
      * @param userIdTo id of user that rejects friendship.
      */
-    void rejectFriendshipRequest(long userIdFrom, long userIdTo) throws UserNotFoundException, FriendshipRequestNotFoundException;
+    void rejectFriendshipRequest(long userIdFrom, long userIdTo);
     
     /**
      * Cancel a friendship request between two users.
@@ -41,7 +35,7 @@ public interface FriendshipRequestService {
      * @param userIdFrom id of user that asked for friendship.
      * @param userIdTo id of user that accepts friendship.
      */
-    void cancelFriendshipRequest(long userIdFrom, long userIdTo) throws UserNotFoundException, FriendshipRequestNotFoundException;
+    void cancelFriendshipRequest(long userIdFrom, long userIdTo);
     
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();

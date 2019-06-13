@@ -9,7 +9,6 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
@@ -22,9 +21,9 @@ public class PingServiceImpl implements PingService {
     
     @Override
     @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 50), include = PingException.class)
-    public void ping(String encodedUrl) throws PingException, UnsupportedEncodingException {
-        String url = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.name());
+    public void ping(String encodedUrl) {
         try {
+            String url = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.name());
             restTemplate.getForEntity(url, String.class);
         } catch (Exception e) {
             log.debug("ping failed due to exception: " + e.getMessage());

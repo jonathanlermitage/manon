@@ -25,7 +25,7 @@ public class FriendshipRequestServiceIT extends AbstractIT {
     //
     
     @Test
-    public void shouldAskFriendship() throws Exception {
+    public void shouldAskFriendship() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
@@ -40,7 +40,7 @@ public class FriendshipRequestServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldFailAskFriendshipWhenFriendshipRequestExists() throws Exception {
+    public void shouldFailAskFriendshipWhenFriendshipRequestExists() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         
         Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(userId(1), userId(2)))
@@ -48,7 +48,7 @@ public class FriendshipRequestServiceIT extends AbstractIT {
     }
     
     @Test
-    public void shouldFailAskFriendshipWhenFriendshipExists() throws Exception {
+    public void shouldFailAskFriendshipWhenFriendshipExists() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
         
@@ -61,7 +61,7 @@ public class FriendshipRequestServiceIT extends AbstractIT {
     //
     
     @Test
-    public void shouldAcceptFriendshipRequest() throws Exception {
+    public void shouldAcceptFriendshipRequest() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
         
@@ -81,7 +81,7 @@ public class FriendshipRequestServiceIT extends AbstractIT {
     //
     
     @Test
-    public void shouldRejectFriendshipRequest() throws Exception {
+    public void shouldRejectFriendshipRequest() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.rejectFriendshipRequest(userId(1), userId(2));
         
@@ -101,7 +101,7 @@ public class FriendshipRequestServiceIT extends AbstractIT {
     //
     
     @Test
-    public void shouldCancelFriendshipRequest() throws Exception {
+    public void shouldCancelFriendshipRequest() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.cancelFriendshipRequest(userId(1), userId(2));
         
