@@ -59,6 +59,21 @@
       "name": "info.app.version",
       "type": "java.lang.String",
       "description": "Application version, taken from pom.xml."
+    },
+    {
+      "name": "manon.security.jwt.signing-key-b64",
+      "type": "java.lang.String",
+      "description": "JWT signing key (Base64 encoded)."
+    },
+    {
+      "name": "manon.security.jwt.token-ttl",
+      "type": "java.lang.String",
+      "description": "JWT token time to live (in seconds)."
+    },
+    {
+      "name": "manon.security.jwt.issuer",
+      "type": "java.lang.String",
+      "description": "JWT issuer."
     }
   ]
 }

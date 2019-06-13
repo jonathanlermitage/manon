@@ -29,22 +29,14 @@ public class Rs {
         return username + ":" + password;
     }
     
-    /** Get a spec using preemptive authentication view. Use it for integration tests. */
+    /** Get a spec with authentication. */
     @NotNull
-    @Contract("_, _ -> new")
-    public static Rs authenticatedPreemptively(String username, String password) {
+    @Contract("_, _, _ -> new")
+    public static Rs authenticated(String username, String password, String token) {
         return new Rs(RestAssured.given()
             .header("X-Request-Id", "user-" + currentTimeMillis())
-            .auth().preemptive().basic(username, password), username, password);
-    }
-    
-    /** Get a spec with authentication. Prefer {@link #authenticatedPreemptively(String, String)} for integration tests. */
-    @NotNull
-    @Contract("_, _ -> new")
-    public static Rs authenticated(String username, String password) {
-        return new Rs(RestAssured.given()
-            .header("X-Request-Id", "user-" + currentTimeMillis())
-            .auth().basic(username, password), username, password);
+            .header("Authorization", "Bearer " + token),
+            username, password);
     }
     
     /** Get a spec with no authentication. */

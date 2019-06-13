@@ -1,6 +1,5 @@
 package manon.api.user;
 
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
@@ -85,20 +84,8 @@ public class UserWSIT extends AbstractIT {
             .delete(API_USER).then()
             .statusCode(SC_OK);
         assertThat(userService.readOne(userId(1)).getRegistrationState()).isEqualTo(DELETED);
-        whenP1().getSpec()
-            .get(API_USER).then()
-            .statusCode(SC_UNAUTHORIZED);
-    }
-    
-    @Test
-    public void shouldNotDeleteTwice() {
-        whenP1().getSpec()
-            .delete(API_USER).then()
-            .statusCode(SC_OK);
-        assertThat(userService.readOne(userId(1)).getRegistrationState()).isEqualTo(DELETED);
-        whenP1().getSpec()
-            .delete(API_USER).then()
-            .statusCode(SC_UNAUTHORIZED);
+        login(name(1), pwd(1))
+            .then().statusCode(SC_UNAUTHORIZED);
     }
     
     @Test
@@ -202,8 +189,9 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        RestAssured.given().auth().basic(name(1), "a new password")
-            .get(API_USER)
+        
+        String token = loginAndReturnToken(name(1), "a new password");
+        usingToken(token).get(API_USER)
             .then().statusCode(SC_OK);
     }
     
@@ -216,8 +204,9 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        RestAssured.given().auth().basic(name(1), newPassword)
-            .get(API_USER)
+        
+        String token = loginAndReturnToken(name(1), newPassword);
+        usingToken(token).get(API_USER)
             .then().statusCode(SC_OK);
     }
     
@@ -231,8 +220,8 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        RestAssured.given().auth().basic(name(1), newPassword.substring(0, 80))
-            .get(API_USER)
+        
+        login(name(1), newPassword.substring(0, 80))
             .then().statusCode(SC_OK);
     }
     
@@ -246,8 +235,8 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        RestAssured.given().auth().basic(name(1), newPassword.substring(0, 20))
-            .get(API_USER)
+        
+        login(name(1), newPassword.substring(0, 20))
             .then().statusCode(SC_UNAUTHORIZED);
     }
     
@@ -259,11 +248,10 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_BAD_REQUEST);
-        RestAssured.given().auth().basic(name(1), "a new password")
-            .get(API_USER)
+        
+        login(name(1), "a new password")
             .then().statusCode(SC_UNAUTHORIZED);
-        RestAssured.given().auth().basic(name(1), pwd(1))
-            .get(API_USER)
+        login(name(1), pwd(1))
             .then().statusCode(SC_OK);
     }
     
