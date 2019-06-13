@@ -5,7 +5,6 @@
 
 trigger:
   - spring5-light
-  - spring5-light-jwt-auth
   - spring5-light-ms-azure-pipeline
 
 pool:
