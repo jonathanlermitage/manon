@@ -2,13 +2,16 @@ package manon.util.basetest;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.Cfg;
 import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
+import manon.model.user.form.UserLogin;
 import manon.service.app.AppTraceService;
+import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
 import manon.service.batch.JobRunnerService;
@@ -52,8 +55,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
+import static io.restassured.http.ContentType.JSON;
 import static java.lang.System.currentTimeMillis;
 import static manon.util.Tools.Mdc.KEY_ENV;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -87,6 +92,8 @@ public abstract class AbstractIT {
     protected FriendshipRequestService friendshipRequestService;
     @SpyBean
     protected JobRunnerService jobRunnerService;
+    @SpyBean
+    protected JwtTokenService jwtTokenService;
     @SpyBean
     protected PasswordEncoderService passwordEncoderService;
     @SpyBean
@@ -225,12 +232,30 @@ public abstract class AbstractIT {
     // Helpers: get generated test users and authenticate with their credentials
     //
     
+    public final Response login(String username, String password) {
+        return whenAnonymous().getSpec()
+            .body(UserLogin.builder().username(username).password(password).build())
+            .contentType(JSON)
+            .post(API_USER + "/auth/authorize");
+    }
+    
+    public final String loginAndReturnToken(String username, String password) {
+        Response res = login(username, password);
+        res.then()
+            .statusCode(SC_OK);
+        return res.asString();
+    }
+    
+    public final RequestSpecification usingToken(String token) {
+        return Rs.authenticated("", "", token).getSpec();
+    }
+    
     public final Rs whenAnonymous() {
         return Rs.anonymous();
     }
     
     public final Rs whenAuthenticated(String username, String password) {
-        return Rs.authenticatedPreemptively(username, password);
+        return Rs.authenticated(username, password, jwtTokenService.generateToken(username));
     }
     
     public final Rs whenActuator() {

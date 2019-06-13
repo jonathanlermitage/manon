@@ -1,5 +1,6 @@
 package manon.util.basetest;
 
+import lombok.extern.slf4j.Slf4j;
 import manon.api.app.PingWS;
 import manon.api.batch.JobRunnerWS;
 import manon.api.user.FriendshipWS;
@@ -20,6 +21,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Used to mock all controllers and test access rights or input validation.
  * Application starts with some users and one admin. Data is recreated before test class.
  */
+@Slf4j
 public abstract class AbstractMockIT extends AbstractIT {
     
     private static final String BANNED_USERNAME = "BANNED";
@@ -90,7 +92,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     }
     
     private Rs whenUsername(String username) {
-        return Rs.authenticated(username, PWD);
+        return Rs.authenticated(username, PWD, jwtTokenService.generateToken(username));
     }
     
     public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";

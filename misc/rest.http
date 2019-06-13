@@ -1,18 +1,29 @@
 ### (sample requests to be played with IntelliJ IDEA HTTP client)
 
+### Get token
+### Reuse this token to play queries with Actuator user
+### Adapt this query to get token for other users
+POST http://localhost:8080/api/v1/user/auth/authorize
+Content-Type: application/json
+
+{
+    "username": "ACTUATOR",
+    "password": "woot"
+}
+
 ### ------------------------------------------------
 ### --- SPRING ACTUATOR ---
 
 ### authorized users get full health (app status and details), see management.endpoint.health.show-details: when_authorized
 GET http://localhost:8080/actuator/health
-Authorization: Basic ACTUATOR woot
+Authorization: Bearer REPLACE_BY_ACTUATOR_TOKEN
 
 ### anonymous and not authorized users get minimal health (app status only)
 GET http://localhost:8080/actuator/health
 
 ### get application info: name and version
 GET http://localhost:8080/actuator/info
-Authorization: Basic ACTUATOR woot
+Authorization: Bearer REPLACE_BY_ACTUATOR_TOKEN
 
 ### ------------------------------------------------
 ### --- USER API ---
@@ -28,24 +39,24 @@ Content-Type: application/json
 
 ### new user gets his profile
 GET http://localhost:8080/api/v1/user
-Authorization: Basic NEWUSER p4ssworD
+Authorization: Bearer REPLACE_BY_USER_TOKEN
 
 ### new user gets his profile and linked snapshots
 GET http://localhost:8080/api/v1/user/include/usersnapshots
-Authorization: Basic NEWUSER p4ssworD
+Authorization: Bearer REPLACE_BY_USER_TOKEN
 
 ### ------------------------------------------------
 ### --- USER ADMIN API ---
 
 ### list all users
 GET http://localhost:8080/api/v1/admin/user/all?offset=0&size=100&sort=creationDate,DESC
-Authorization: Basic ROOT woot
+Authorization: Bearer REPLACE_BY_ADMIN_TOKEN
 
 ### ------------------------------------------------
 ### --- BATCH API ---
 
 ### create a snapshot of all users
 POST http://localhost:8080/api/v1/sys/batch/start/userSnapshotJob
-Authorization: Basic ROOT woot
+Authorization: Bearer REPLACE_BY_ADMIN_TOKEN
 
 ###
