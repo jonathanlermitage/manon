@@ -16,12 +16,12 @@ language: java
 
 before_install:
   - chmod +x mvnw
-  - mkdir ~/manon-maria-db
   - sudo /etc/init.d/mysql stop
   - sudo /etc/init.d/postgresql stop
   - sudo netstat -antp
   - docker-compose --version
-  - docker-compose -f ./docker/docker-compose.yml up -d maria
+  - export MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
+  - docker-compose -f ./docker/docker-compose-test.yml up -d
 
 script: "./mvnw clean verify -P test-real,coverage,ci -B"
 

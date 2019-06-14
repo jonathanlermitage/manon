@@ -11,7 +11,8 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo ""
       echo  "Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")"
       echo  ""
-      echo  "t            test"
+      echo  "t            test using embedded HSQLDB"
+      echo  "td           test using dockerized MariaDB (container is started and stopped by script)"
       echo  "ut           test: run unit tests only, no integration tests"
       echo  "tc           test and generate coverage data"
       echo  "sc           compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
@@ -42,6 +43,15 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "t")
       sh ./mvnw verify
+      ;;
+
+    "td")
+      docker-compose -f ./docker/docker-compose-test.yml up -d
+      set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
+      export MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
+      sh ./mvnw verify -P test-real
+      export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
+      docker-compose -f ./docker/docker-compose-test.yml stop
       ;;
 
     "ut")

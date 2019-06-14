@@ -1,7 +1,7 @@
 @echo off
 
 if [%1] == [help] (
-  echo  t       test
+  echo  t       test using embedded HSQLDB
   echo  ut      test: run unit tests only, no integration tests
   echo  tc      test and generate coverage data
   echo  sc      compute and upload Sonar analysis to SonarCloud

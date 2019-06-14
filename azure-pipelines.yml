@@ -11,14 +11,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: mkdir ~/manon-maria-db
+  - script: echo '##vso[task.setvariable variable=MANON_TEST_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true'
   - script: sudo /etc/init.d/mysql stop
   - task: DockerCompose@0
     inputs:
       containerregistrytype: 'Container Registry'
-      dockerComposeFile: './docker/docker-compose.yml'
+      dockerComposeFile: './docker/docker-compose-test.yml'
       action: 'Run a Docker Compose command'
-      dockerComposeCommand: 'up -d maria'
+      dockerComposeCommand: 'up -d'
   - task: Maven@3 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
     inputs:
       mavenPomFile: 'pom.xml'
@@ -28,4 +28,4 @@ steps:
       publishJUnitResults: true
       testResultsFiles: '**/TEST-*.xml'
       goals: 'verify'
-      options: '-P test-maria,ci -B'
+      options: '-P test-real,coverage,ci -B'
