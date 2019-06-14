@@ -10,6 +10,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+strategy:
+  matrix:
+    run_on_jdk8:
+      CUSTOM_JDK_VERSION_OPTION: '1.8'
+    run_on_jdk11:
+      CUSTOM_JDK_VERSION_OPTION: '1.11'
+
 steps:
   - script: echo '##vso[task.setvariable variable=MANON_TEST_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true'
   - script: sudo /etc/init.d/mysql stop
@@ -23,7 +30,7 @@ steps:
     inputs:
       mavenPomFile: 'pom.xml'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
+      jdkVersionOption: $(CUSTOM_JDK_VERSION_OPTION)
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/TEST-*.xml'
