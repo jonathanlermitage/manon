@@ -44,11 +44,11 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * or via traditional `Dockerfile`: `./do docker`.
 * Edit `docker-compose.yml` if needed (e.g. to customize ports).
 * Then run application image and dependencies via Docker Compose: `./do up` (it actually does: `docker-compose -f ./docker/docker-compose.yml up -d`).
-* Application listens on port 8080 and its logs are stored in `~/manon-app-logs/`.
+* Application listens on port 8081 and its logs are stored in `~/manon-app-logs/`.
 * Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
   * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
-* Check application connectivity by visiting `http://localhost:8080/actuator/health`.
-* Replace `8080` by `8000` to access application via Nginx proxy.
+* Check application connectivity by visiting `http://localhost:8081/actuator/health`.
+* Replace `8081` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --header "Authorization: Bearer REPLACE_BY_ADMIN_TOKEN"` then check the `user_stats` and `user_snapshot` MariaDB tables.
 * Connect to MariaDB: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
