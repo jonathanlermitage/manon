@@ -21,7 +21,7 @@
         <start-class>manon.Application</start-class>
         <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
         <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
-        <surefireProfileArgLine>-Dspring.profiles.active=test-fake</surefireProfileArgLine>
+        <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
 
         <archunit.version>0.10.2</archunit.version>
         <flywaydb.version>5.2.4</flywaydb.version>
