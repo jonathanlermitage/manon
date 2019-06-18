@@ -33,4 +33,13 @@ public class Cfg {
     
     @Value("${manon.security.bcrypt.strength}")
     private Integer securityBcryptStrength;
+    
+    @Value("${manon.security.jwt.issuer}")
+    private String securityJwtIssuer;
+    
+    @Value("${manon.security.jwt.signing-key-b64}")
+    private String securityJwtSigningKeyB64;
+    
+    @Value("${manon.security.jwt.token-ttl}")
+    private Long securityJwtTokenTTL;
 }
