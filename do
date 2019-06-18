@@ -46,12 +46,17 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "td")
+      echo "remove test containers"
+      docker-compose -f ./docker/docker-compose-test.yml down
+      echo "start test containers"
       docker-compose -f ./docker/docker-compose-test.yml up -d
       set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
       export MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
+      echo "run tests"
       sh ./mvnw verify -P test-real
       export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
-      docker-compose -f ./docker/docker-compose-test.yml stop
+      echo "stop test containers"
+      docker-compose -f ./docker/docker-compose-test.yml down
       ;;
 
     "ut")
