@@ -40,10 +40,8 @@ public class AuthWSIT extends AbstractIT {
     }
     
     @Test
-    public void shouldRenewToken() throws InterruptedException {
+    public void shouldRenewToken() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
-        
-        Thread.sleep(1000); // be sure token and renewed token contains different expiration date: that's the only change
         
         Response res = whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt)
@@ -101,5 +99,44 @@ public class AuthWSIT extends AbstractIT {
             .get(API_USER)
             .then()
             .statusCode(SC_UNAUTHORIZED);
+    }
+    
+    @Test
+    public void shouldLogOutAllForCurrentUser() {
+        String jwt1a = loginAndReturnToken(name(1), pwd(1));
+        String jwt1b = loginAndReturnToken(name(1), pwd(1));
+        String jwt2 = loginAndReturnToken(name(2), pwd(2));
+        
+        Response res = whenAnonymous().getSpec()
+            .header("Authorization", "Bearer " + jwt1a)
+            .post(API_USER + "/auth/logout/all");
+        res.then()
+            .statusCode(SC_OK);
+        
+        whenAnonymous().getSpec()
+            .header("Authorization", "Bearer " + jwt1a)
+            .get(API_USER)
+            .then()
+            .statusCode(SC_UNAUTHORIZED);
+        
+        whenAnonymous().getSpec()
+            .header("Authorization", "Bearer " + jwt1b)
+            .get(API_USER)
+            .then()
+            .statusCode(SC_UNAUTHORIZED);
+        
+        whenAnonymous().getSpec()
+            .header("Authorization", "Bearer " + jwt2)
+            .get(API_USER)
+            .then()
+            .statusCode(SC_OK);
+        
+        String jwt1c = loginAndReturnToken(name(1), pwd(1));
+        
+        whenAnonymous().getSpec()
+            .header("Authorization", "Bearer " + jwt1c)
+            .get(API_USER)
+            .then()
+            .statusCode(SC_OK);
     }
 }

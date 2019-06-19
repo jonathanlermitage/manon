@@ -11,6 +11,7 @@ import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.form.UserLogin;
 import manon.service.app.AppTraceService;
+import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
@@ -82,6 +83,8 @@ public abstract class AbstractIT {
     @Autowired
     protected Cfg cfg;
     
+    @SpyBean
+    protected AuthTokenService authTokenService;
     @SpyBean
     protected AppTraceService appTraceService;
     @SpyBean

@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.function.Function;
 
+/**
+ * Tools to work with JWT.
+ */
 public interface JwtTokenService {
     
     String getUsernameFromToken(String token);
