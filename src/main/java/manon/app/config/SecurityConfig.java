@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             
             .antMatchers(POST, API_USER).permitAll() // user registration
             .antMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
+            .antMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
             .antMatchers(API_USER + "/**").hasRole(PLAYER)
             
             .antMatchers(API_BASE + "/**").authenticated()
