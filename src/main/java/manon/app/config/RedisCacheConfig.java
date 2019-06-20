@@ -34,7 +34,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             .entryTtl(Duration.ofSeconds(cfg.getCacheRedisTtl()))
             .prefixKeysWith("manon_");
         Set<String> cacheNames = new HashSet<>();
-        cacheNames.addAll(Globals.CacheNames.ALL_CACHES());
+        cacheNames.addAll(Globals.CacheNames.allCaches());
         return RedisCacheManager.builder(redisTemplate.getConnectionFactory())
             .cacheDefaults(config)
             .initialCacheNames(cacheNames)

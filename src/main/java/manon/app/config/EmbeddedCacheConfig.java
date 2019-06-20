@@ -17,10 +17,11 @@ import static manon.app.Globals.Properties.CACHE_PROVIDER_EMBEDDED;
 @EnableCaching(proxyTargetClass = true)
 public class EmbeddedCacheConfig extends CachingConfigurerSupport {
     
+    @Override
     @Bean
     public CacheManager cacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
-        cacheManager.setCacheNames(Globals.CacheNames.ALL_CACHES());
+        cacheManager.setCacheNames(Globals.CacheNames.allCaches());
         return cacheManager;
     }
 }

@@ -57,7 +57,7 @@ public class Globals {
         
         /** The list of all cache names. */
         @NotNull
-        public static Collection<String> ALL_CACHES() {
+        public static Collection<String> allCaches() {
             return unmodifiableCollection(singletonList(CACHE_TOKEN_EXISTENCE));
         }
     }
