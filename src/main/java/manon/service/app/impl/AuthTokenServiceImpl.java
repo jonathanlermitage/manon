@@ -44,10 +44,18 @@ public class AuthTokenServiceImpl implements AuthTokenService {
         authTokenRepository.deleteAllByUsername(username);
     }
     
-    /** Evict given token existence from {@link Globals.CacheNames#CACHE_TOKEN_EXISTENCE} cache via code, not via annotation: this method
+    /**
+     * Evict given token existence from {@link Globals.CacheNames#CACHE_TOKEN_EXISTENCE} cache via code, not via annotation: this method
      * can be safely called from another method of this class (when called from an other method of this class, annotation based cache eviction
-     * would not work). See https://spring.io/blog/2012/05/23/transactions-caching-and-aop-understanding-proxy-usage-in-spring for details on
-     * proxy classes.*/
+     * would not work). See <a href="https://spring.io/blog/2012/05/23/transactions-caching-and-aop-understanding-proxy-usage-in-spring">understanding proxy
+     * usage in Spring</a> and
+     * <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/integration.html#cache">Cache Abstraction</a> for details on
+     * proxy classes. TL;DR: <cite>In proxy mode (the default), only external method calls coming in through the proxy are intercepted.
+     * This means that self-invocation (in effect, a method within the target object that calls another method of the target object) does
+     * not lead to actual caching at runtime even if the invoked method is marked with <code>@Cacheable</code>. Consider using the aspectj
+     * mode in this case. Also, the proxy must be fully initialized to provide the expected behavior, so you should not rely on this feature
+     * in your initialization code (that is, <code>@PostConstruct</code>).</cite>
+     */
     @SuppressWarnings("ConstantConditions")
     private void evictTokenExistenceCache(long id) {
         cm.getCache(Globals.CacheNames.CACHE_TOKEN_EXISTENCE).evict(id);
