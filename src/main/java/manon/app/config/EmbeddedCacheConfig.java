@@ -14,7 +14,7 @@ import static manon.app.Globals.Properties.CACHE_PROVIDER_EMBEDDED;
 
 @Configuration
 @ConditionalOnProperty(name = CACHE_PROVIDER, havingValue = CACHE_PROVIDER_EMBEDDED)
-@EnableCaching(proxyTargetClass = true)
+@EnableCaching
 public class EmbeddedCacheConfig extends CachingConfigurerSupport {
     
     @Override
