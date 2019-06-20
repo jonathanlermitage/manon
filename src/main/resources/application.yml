@@ -14,10 +14,15 @@ spring:
     driver-class-name: ${MANON_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
   data:
     jpa.repositories.bootstrap-mode: deferred
+    redis.repositories.enabled: false
   jpa:
     hibernate.ddl-auto: validate
     open-in-view: false
   flyway.baseline-on-migrate: true
+  redis:
+    database: ${MANON_REDIS_DATABASE:0}
+    host: ${MANON_REDIS_HOST:""}
+    port: ${MANON_REDIS_PORT:0}
 server:
   compression.enabled: false # compression is handled by Nginx proxy
   servlet.application-display-name: manon
@@ -46,8 +51,12 @@ management:
     web:
       base-path: /actuator
       exposure.include: ["configprops", "env", "health", "info", "metrics", "scheduledtasks"]
+  health.redis.enabled: ${MANON_REDIS_MANAGEMENT:false}
 
 manon:
+  cache:
+    provider: ${MANON_CACHE_PROVIDER:embedded}
+    redis.ttl: 7200
   default-user:
     actuator:
       username: ${MANON_ACTUATOR_USERNAME:ACTUATOR}

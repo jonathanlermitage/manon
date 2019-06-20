@@ -48,4 +48,7 @@ public interface AuthTokenService {
     
     @ExistForTesting(why = "AbstractIT")
     void deleteAll();
+    
+    @ExistForTesting(why = "AbstractIT")
+    void evictAllCache();
 }

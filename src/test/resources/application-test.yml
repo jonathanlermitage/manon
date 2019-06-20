@@ -1,11 +1,19 @@
-### DEV CONFIGURATION for local unit testing with embedded HSQLDB db ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local unit testing with embedded HSQLDB db and in-memory cache ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
   batch.user-snapshot.chunk: 10
   performance-recorder.enabled: true
   security.bcrypt.strength: 4
+  cache.provider: embedded
 
 spring:
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
   flyway.enabled: false
   jpa.hibernate.ddl-auto: update
+  redis:
+    database: 0
+    host: "localhost"
+    port: 0
+
+management:
+  health.redis.enabled: false

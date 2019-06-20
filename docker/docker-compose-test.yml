@@ -10,3 +10,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: woot
       MYSQL_DATABASE: manon
+
+  redis:
+    container_name: redis-test
+    image: redis:5.0.5-alpine # see https://hub.docker.com/_/redis/
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf

@@ -103,38 +103,42 @@ public class AuthWSIT extends AbstractIT {
     
     @Test
     public void shouldLogOutAllForCurrentUser() {
+        //GIVEN user 1 gets 2 tokens, user 2 get 1 token
         String jwt1a = loginAndReturnToken(name(1), pwd(1));
         String jwt1b = loginAndReturnToken(name(1), pwd(1));
         String jwt2 = loginAndReturnToken(name(2), pwd(2));
         
-        Response res = whenAnonymous().getSpec()
+        //WHEN user 1 invalidates all his tokens
+        whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt1a)
-            .post(API_USER + "/auth/logout/all");
-        res.then()
+            .post(API_USER + "/auth/logout/all")
+            .then()
             .statusCode(SC_OK);
         
+        //THEN user 1 can't user his first token
         whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt1a)
             .get(API_USER)
             .then()
             .statusCode(SC_UNAUTHORIZED);
         
+        //THEN user 1 can't user his second token
         whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt1b)
             .get(API_USER)
             .then()
             .statusCode(SC_UNAUTHORIZED);
-        
+    
+        //THEN user 2 is not affected by token invalidation asked by user 1
         whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt2)
             .get(API_USER)
             .then()
             .statusCode(SC_OK);
         
-        String jwt1c = loginAndReturnToken(name(1), pwd(1));
-        
-        whenAnonymous().getSpec()
-            .header("Authorization", "Bearer " + jwt1c)
+        //THEN user 1 can authenticate and use new token
+        whenAuthenticated(name(1), pwd(1)).getSpec()
+            .header("Authorization", "Bearer " + jwt1b)
             .get(API_USER)
             .then()
             .statusCode(SC_OK);

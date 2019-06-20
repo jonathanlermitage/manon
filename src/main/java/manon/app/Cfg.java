@@ -42,4 +42,7 @@ public class Cfg {
     
     @Value("${manon.security.jwt.token-ttl}")
     private Long securityJwtTokenTTL;
+    
+    @Value("${manon.cache.redis.ttl}")
+    private Long cacheRedisTtl;
 }
