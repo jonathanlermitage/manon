@@ -23,6 +23,9 @@ spring:
     database: ${MANON_REDIS_DATABASE:0}
     host: ${MANON_REDIS_HOST:""}
     port: ${MANON_REDIS_PORT:0}
+  pid:
+    fail-on-write-error: true
+    file: manon.pid
 server:
   compression.enabled: false # compression is handled by Nginx proxy
   servlet.application-display-name: manon
