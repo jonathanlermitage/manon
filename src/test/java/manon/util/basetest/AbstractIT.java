@@ -11,6 +11,7 @@ import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.form.UserLogin;
 import manon.service.app.AppTraceService;
+import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
@@ -82,6 +83,8 @@ public abstract class AbstractIT {
     @Autowired
     protected Cfg cfg;
     
+    @SpyBean
+    protected AuthTokenService authTokenService;
     @SpyBean
     protected AppTraceService appTraceService;
     @SpyBean
@@ -206,6 +209,10 @@ public abstract class AbstractIT {
     
     @AfterAll
     public final void afterClass() {
+        // Clear data after test class: used to delete data should cannot be cleared before each test method or test class,
+        // like data from DataProviders (they are executed before BeforeAll).
+        authTokenService.deleteAll();
+        
         MDC.put(KEY_ENV, "junit");
         if (performanceRecorder != null && !performanceRecorder.getStats().isEmpty()) {
             log.info(performanceRecorder.getStats());

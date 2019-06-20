@@ -1,4 +1,4 @@
-### DEV CONFIGURATION for local unit testing with embedded HSQLDB ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local unit testing with embedded HSQLDB db ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
   batch.user-snapshot.chunk: 10

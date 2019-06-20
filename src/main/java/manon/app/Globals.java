@@ -11,9 +11,9 @@ public class Globals {
     /** API paths. */
     @NoArgsConstructor(access = PRIVATE)
     public static final class API {
-    
+        
         public static final String API_BASE = "/api";
-    
+        
         public static final String API_V1 = API_BASE + "/v1";
         
         /** Operations on users. */
@@ -30,7 +30,7 @@ public class Globals {
     @NoArgsConstructor(access = PRIVATE)
     public static final class Properties {
         
-        /** {@value}, enable API performance recorder. Should be used in development or test environment only.. */
+        /** {@value}, enable API performance recorder. Should be used in development or test environment only. */
         public static final String ENABLE_PERFORMANCE_RECORDER = "manon.performance-recorder.enabled";
     }
 }

@@ -3,6 +3,8 @@ package manon.util.basetest;
 import lombok.extern.slf4j.Slf4j;
 import manon.api.app.PingWS;
 import manon.api.batch.JobRunnerWS;
+import manon.api.user.AuthAdminWS;
+import manon.api.user.AuthWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
 import manon.api.user.UserWS;
@@ -10,6 +12,7 @@ import manon.util.web.Rs;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import static java.lang.System.currentTimeMillis;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
@@ -44,6 +47,11 @@ public abstract class AbstractMockIT extends AbstractIT {
         }
     }
     
+    @SpyBean // not mocked because its needed by security
+    protected AuthWS authWS;
+    
+    @MockBean
+    protected AuthAdminWS authAdminWS;
     @MockBean
     protected FriendshipWS friendshipWS;
     @MockBean
@@ -76,6 +84,8 @@ public abstract class AbstractMockIT extends AbstractIT {
     @BeforeEach
     public void setUpMocks() {
         initMocks(this);
+        Mockito.clearInvocations(authAdminWS);
+        Mockito.clearInvocations(authWS);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(jobRunnerWS);
         Mockito.clearInvocations(pingWS);
@@ -95,6 +105,30 @@ public abstract class AbstractMockIT extends AbstractIT {
         return Rs.authenticated(username, PWD, jwtTokenService.generateToken(username));
     }
     
+    public final Rs whenBannedReactivated() {
+        return whenUsername(BANNED_REACTIVATED_USERNAME);
+    }
+    
+    public final Rs whenDeletedReactivated() {
+        return whenUsername(DELETED_REACTIVATED_USERNAME);
+    }
+    
+    public final Rs whenSuspendedReactivated() {
+        return whenUsername(SUSPENDED_REACTIVATED_USERNAME);
+    }
+    
+    public final Rs whenBanned() {
+        return whenUsername(BANNED_USERNAME);
+    }
+    
+    public final Rs whenDeleted() {
+        return whenUsername(DELETED_USERNAME);
+    }
+    
+    public final Rs whenSuspended() {
+        return whenUsername(SUSPENDED_USERNAME);
+    }
+    
     public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";
     
     @SuppressWarnings("unused") // used via DP_ALLOW_ADMIN
@@ -104,12 +138,12 @@ public abstract class AbstractMockIT extends AbstractIT {
             {whenActuator(), SC_FORBIDDEN},
             {whenP1(), SC_FORBIDDEN},
             {whenAnonymous(), SC_UNAUTHORIZED},
-            {whenUsername(BANNED_REACTIVATED_USERNAME), SC_FORBIDDEN},
-            {whenUsername(DELETED_REACTIVATED_USERNAME), SC_FORBIDDEN},
-            {whenUsername(SUSPENDED_REACTIVATED_USERNAME), SC_FORBIDDEN},
-            {whenUsername(BANNED_USERNAME), SC_UNAUTHORIZED},
-            {whenUsername(DELETED_USERNAME), SC_UNAUTHORIZED},
-            {whenUsername(SUSPENDED_USERNAME), SC_UNAUTHORIZED}
+            {whenBannedReactivated(), SC_FORBIDDEN},
+            {whenDeletedReactivated(), SC_FORBIDDEN},
+            {whenSuspendedReactivated(), SC_FORBIDDEN},
+            {whenBanned(), SC_UNAUTHORIZED},
+            {whenDeleted(), SC_UNAUTHORIZED},
+            {whenSuspended(), SC_UNAUTHORIZED}
         };
     }
     
@@ -122,12 +156,12 @@ public abstract class AbstractMockIT extends AbstractIT {
             {whenActuator(), SC_OK},
             {whenP1(), SC_OK},
             {whenAnonymous(), SC_OK},
-            {whenUsername(BANNED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(DELETED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(SUSPENDED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(BANNED_USERNAME), SC_OK},
-            {whenUsername(DELETED_USERNAME), SC_OK},
-            {whenUsername(SUSPENDED_USERNAME), SC_OK}
+            {whenBannedReactivated(), SC_OK},
+            {whenDeletedReactivated(), SC_OK},
+            {whenSuspendedReactivated(), SC_OK},
+            {whenBanned(), SC_OK},
+            {whenDeleted(), SC_OK},
+            {whenSuspended(), SC_OK}
         };
     }
     
@@ -140,12 +174,12 @@ public abstract class AbstractMockIT extends AbstractIT {
             {whenActuator(), SC_OK},
             {whenP1(), SC_OK},
             {whenAnonymous(), SC_UNAUTHORIZED},
-            {whenUsername(BANNED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(DELETED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(SUSPENDED_REACTIVATED_USERNAME), SC_OK},
-            {whenUsername(BANNED_USERNAME), SC_UNAUTHORIZED},
-            {whenUsername(DELETED_USERNAME), SC_UNAUTHORIZED},
-            {whenUsername(SUSPENDED_USERNAME), SC_UNAUTHORIZED}
+            {whenBannedReactivated(), SC_OK},
+            {whenDeletedReactivated(), SC_OK},
+            {whenSuspendedReactivated(), SC_OK},
+            {whenBanned(), SC_UNAUTHORIZED},
+            {whenDeleted(), SC_UNAUTHORIZED},
+            {whenSuspended(), SC_UNAUTHORIZED}
         };
     }
 }
