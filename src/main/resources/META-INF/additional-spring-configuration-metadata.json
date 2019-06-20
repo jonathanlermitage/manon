@@ -74,6 +74,31 @@
       "name": "manon.security.jwt.issuer",
       "type": "java.lang.String",
       "description": "JWT issuer."
+    },
+    {
+      "name": "manon.cache.provider",
+      "type": "java.lang.String",
+      "description": "Cache provider. Set to <b>redis</b> or <b>embedded</b>."
+    },
+    {
+      "name": "manon.cache.redis.ttl",
+      "type": "java.lang.Integer",
+      "description": "Redis cache entries default ttl (in seconds)."
+    }
+  ],
+  "hints": [
+    {
+      "name": "manon.cache.provider",
+      "values": [
+        {
+          "value": "redis",
+          "description": "Redis cache type. Requires a running Redis server."
+        },
+        {
+          "value": "embedded",
+          "description": "Embedded cache type. Backed by a in-memory concurrent hash map."
+        }
+      ]
     }
   ]
 }

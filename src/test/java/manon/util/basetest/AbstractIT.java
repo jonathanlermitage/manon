@@ -153,6 +153,7 @@ public abstract class AbstractIT {
         userIdCache.clear();
         initDb();
     
+        Mockito.clearInvocations(authTokenService);
         Mockito.clearInvocations(appTraceService);
         Mockito.clearInvocations(friendshipService);
         Mockito.clearInvocations(friendshipEventService);
@@ -181,11 +182,16 @@ public abstract class AbstractIT {
         userService.deleteAll();
     }
     
+    private void clearCache() {
+        authTokenService.evictAllCache();
+    }
+    
     @SneakyThrows({ExecutionException.class, InterruptedException.class})
     public void initDb() {
         long t1 = currentTimeMillis();
         MDC.put(KEY_ENV, "junit");
         clearDb();
+        clearCache();
         
         Executor tasksExecutor = Executors.newFixedThreadPool(3);
         CompletableFuture<Void> registerPlayerTask = CompletableFuture.runAsync(() -> {

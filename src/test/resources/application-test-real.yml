@@ -1,9 +1,10 @@
-### DEV CONFIGURATION for local unit testing with existing fresh MariaDB db ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local unit testing with existing fresh MariaDB db and Redis cache ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
   batch.user-snapshot.chunk: 10
   performance-recorder.enabled: true
   security.bcrypt.strength: 4
+  cache.provider: ${MANON_TEST_CACHE_PROVIDER:redis}
 
 spring:
   datasource:
@@ -11,3 +12,10 @@ spring:
     password: ${MANON_TEST_SQL_PASSWORD:woot}
     url: ${MANON_TEST_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
     driver-class-name: ${MANON_TEST_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
+  redis:
+    database: ${MANON_TEST_REDIS_DATABASE:1}
+    host: ${MANON_TEST_REDIS_HOST:localhost}
+    port: ${MANON_TEST_REDIS_PORT:6379}
+
+management:
+  health.redis.enabled: ${MANON_TEST_REDIS_MANAGEMENT:true}
