@@ -152,8 +152,20 @@ public abstract class AbstractIT {
     public void clearData() {
         userIdCache.clear();
         initDb();
-        
+    
+        Mockito.clearInvocations(appTraceService);
+        Mockito.clearInvocations(friendshipService);
+        Mockito.clearInvocations(friendshipEventService);
+        Mockito.clearInvocations(friendshipRequestService);
+        Mockito.clearInvocations(jobRunnerService);
+        Mockito.clearInvocations(jwtTokenService);
+        Mockito.clearInvocations(passwordEncoderService);
         Mockito.clearInvocations(pingService);
+        Mockito.clearInvocations(registrationService);
+        Mockito.clearInvocations(userDetailsService);
+        Mockito.clearInvocations(userService);
+        Mockito.clearInvocations(userSnapshotService);
+        Mockito.clearInvocations(userStatsService);
     }
     
     private void clearDb() {
