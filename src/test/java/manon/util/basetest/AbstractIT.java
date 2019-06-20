@@ -209,6 +209,10 @@ public abstract class AbstractIT {
     
     @AfterAll
     public final void afterClass() {
+        // Clear data after test class: used to delete data should cannot be cleared before each test method or test class,
+        // like data from DataProviders (they are executed before BeforeAll).
+        authTokenService.deleteAll();
+        
         MDC.put(KEY_ENV, "junit");
         if (performanceRecorder != null && !performanceRecorder.getStats().isEmpty()) {
             log.info(performanceRecorder.getStats());
