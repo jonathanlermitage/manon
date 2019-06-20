@@ -182,6 +182,16 @@
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
             <version>${spring-retry.version}</version>
@@ -365,6 +375,9 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
+                    <!-- Generate metadata on method parameters to enable usage of @Cacheable + @Spybean. Without this, @Cacheable
+                         can't recognize named parameters. See https://github.com/spring-projects/spring-boot/issues/13945 -->
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
             <plugin>
@@ -452,7 +465,7 @@
             </properties>
         </profile>
 
-        <!-- Test with MariaDB. -->
+        <!-- Test with MariaDB and Redis. -->
         <profile>
             <id>test-real</id>
             <properties>

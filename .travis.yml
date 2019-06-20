@@ -21,6 +21,7 @@ before_install:
   - sudo netstat -antp
   - docker-compose --version
   - export MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
+  - export MANON_TEST_REDIS_PORT=6380
   - docker-compose -f ./docker/docker-compose-test.yml up -d
 
 script: "./mvnw clean verify -P test-real,coverage,ci -B"
