@@ -102,7 +102,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     }
     
     private Rs whenUsername(String username) {
-        return Rs.authenticated(username, PWD, jwtTokenService.generateToken(username));
+        return Rs.authenticated(username, PWD);
     }
     
     public final Rs whenBannedReactivated() {

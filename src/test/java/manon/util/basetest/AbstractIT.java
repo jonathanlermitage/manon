@@ -145,6 +145,7 @@ public abstract class AbstractIT {
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset(StandardCharsets.UTF_8));
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
+        Rs.tokenProvider = jwtTokenService;
     }
     
     /** Clear data before each test method. */
@@ -170,6 +171,8 @@ public abstract class AbstractIT {
     }
     
     private void clearDb() {
+        authTokenService.deleteAll();
+        
         appTraceService.deleteAll();
         
         friendshipEventService.deleteAll();
@@ -227,10 +230,6 @@ public abstract class AbstractIT {
     
     @AfterAll
     public final void afterClass() {
-        // Clear data after test class: used to delete data should cannot be cleared before each test method or test class,
-        // like data from DataProviders (they are executed before BeforeAll).
-        authTokenService.deleteAll();
-        
         MDC.put(KEY_ENV, "junit");
         if (performanceRecorder != null && !performanceRecorder.getStats().isEmpty()) {
             log.info(performanceRecorder.getStats());
@@ -272,7 +271,7 @@ public abstract class AbstractIT {
     }
     
     public final RequestSpecification usingToken(String token) {
-        return Rs.authenticated("", "", token).getSpec();
+        return Rs.usingToken(token).getSpec();
     }
     
     public final Rs whenAnonymous() {
@@ -280,7 +279,7 @@ public abstract class AbstractIT {
     }
     
     public final Rs whenAuthenticated(String username, String password) {
-        return Rs.authenticated(username, password, jwtTokenService.generateToken(username));
+        return Rs.authenticated(username, password);
     }
     
     public final Rs whenActuator() {
