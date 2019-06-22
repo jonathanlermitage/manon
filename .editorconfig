@@ -19,11 +19,5 @@ insert_final_newline = true
 [*.md]
 trim_trailing_whitespace = false
 
-[*.json]
-indent_size = 2
-
-[*.yaml]
-indent_size = 2
-
-[*.yml]
+[*.{yml, yaml, json}]
 indent_size = 2
