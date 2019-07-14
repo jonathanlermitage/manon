@@ -30,12 +30,12 @@
         <hsqldb.version>2.5.0</hsqldb.version>
         <jackson-annotations.version>2.9.9</jackson-annotations.version>
         <jackson-core.version>2.9.9</jackson-core.version>
-        <jackson-databind.version>2.9.9</jackson-databind.version>
+        <jackson-databind.version>2.9.9.1</jackson-databind.version>
         <jackson-datatype-jdk8.version>2.9.9</jackson-datatype-jdk8.version>
         <jackson-datatype-jsr310.version>2.9.9</jackson-datatype-jsr310.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
-        <junit5.version>5.4.2</junit5.version>
-        <jjwt.version>0.10.6</jjwt.version>
+        <junit5.version>5.5.0</junit5.version>
+        <jjwt.version>0.10.7</jjwt.version>
         <lombok.version>1.18.8</lombok.version>
         <mariadb.version>2.4.2</mariadb.version>
         <rest-assured.version>4.0.0</rest-assured.version>
