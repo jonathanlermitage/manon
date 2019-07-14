@@ -4,7 +4,7 @@ services:
 
   maria:
     container_name: maria-test
-    image: mariadb:10.3.15 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.3.16 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3307:3306"
     environment:
