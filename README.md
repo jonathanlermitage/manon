@@ -78,6 +78,7 @@ First, install JDK11 and Maven3+.
 You can now use the `./do` Linux Bash script:  
 ```
 do help         show this help message
+do fixgit       set executable flag on git index for required files
 do t            test
 do ut           test: run unit tests only, no integration tests
 do tc           test and generate coverage data

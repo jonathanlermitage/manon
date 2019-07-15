@@ -1,6 +1,7 @@
 @echo off
 
 if [%1] == [help] (
+  echo  fixgit  set executable flag on git index for required files
   echo  t       test using embedded HSQLDB
   echo  ut      test: run unit tests only, no integration tests
   echo  tc      test and generate coverage data
@@ -19,6 +20,12 @@ if [%1] == [help] (
   echo  jibtar  build and save Docker image to a tarball
 )
 
+if [%1] == [fixgit] (
+  git update-index --chmod=+x do
+  echo 'do' has now executable flag on git index
+  git update-index --chmod=+x mvnw
+  echo 'mvnw' has now executable flag on git index
+)
 if [%1] == [t] (
   mvnw clean verify
 )

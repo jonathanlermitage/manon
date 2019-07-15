@@ -11,6 +11,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo ""
       echo  "Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")"
       echo  ""
+      echo  "fixgit       set executable flag on git index for required files"
       echo  "t            test using embedded HSQLDB"
       echo  "td           test using dockerized MariaDB and Redis (container is started and stopped by script)"
       echo  "ut           test: run unit tests only, no integration tests"
@@ -39,6 +40,13 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "stopcerebro  stop Cerebro container via docker-compose"
       echo  "maria        connect to dockerized MariaDB by calling MySQL Client provided by container"
       echo  "mariah       connect to dockerized MariaDB by calling host MySQL Client (mysql-client package must be installed)"
+      ;;
+
+    "fixgit")
+      git update-index --chmod=+x do
+      echo "'do' has now executable flag on git index"
+      git update-index --chmod=+x mvnw
+      echo "'mvnw' has now executable flag on git index"
       ;;
 
     "t")
