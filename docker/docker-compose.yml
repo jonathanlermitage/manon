@@ -11,6 +11,7 @@ services:
     image: lermitage-manon:1.0.0-SNAPSHOT
     ports:
       - "8081:8080"
+      - "4000:4000"
     volumes:
       - ~/manon-app-logs:/logs
     environment:
