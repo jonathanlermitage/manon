@@ -74,7 +74,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Compilation and test
 
-First, install JDK11 and Maven3+.
+First, install JDK8+ and Maven3+.
   
 You can now use the `./do` Linux Bash script:  
 ```
