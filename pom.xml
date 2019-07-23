@@ -34,7 +34,7 @@
         <jackson-datatype-jdk8.version>2.9.9</jackson-datatype-jdk8.version>
         <jackson-datatype-jsr310.version>2.9.9</jackson-datatype-jsr310.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
-        <junit5.version>5.5.0</junit5.version>
+        <junit5.version>5.5.1</junit5.version>
         <jjwt.version>0.10.7</jjwt.version>
         <lombok.version>1.18.8</lombok.version>
         <mariadb.version>2.4.2</mariadb.version>
@@ -51,7 +51,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <spotbugs-maven-plugin.version>3.1.12</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>3.1.12.1</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
