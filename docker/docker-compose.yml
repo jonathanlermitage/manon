@@ -63,7 +63,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:1.17.1-alpine # see https://hub.docker.com/_/nginx/
+    image: nginx:1.17.2-alpine # see https://hub.docker.com/_/nginx/
     ports:
       - "8000:80"
     volumes:
