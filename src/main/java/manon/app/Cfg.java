@@ -5,6 +5,8 @@ import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+
 @Component
 @Getter
 @ToString(exclude = {"defaultUserActuatorPassword", "defaultUserAdminPassword"})
@@ -29,7 +31,7 @@ public class Cfg {
     private Integer batchUserSnapshotChunk;
     
     @Value("${manon.batch.user-snapshot.snapshot.max-age}")
-    private Integer batchUserSnapshotSnapshotMaxAge;
+    private Duration batchUserSnapshotSnapshotMaxAge;
     
     @Value("${manon.security.bcrypt.strength}")
     private Integer securityBcryptStrength;
@@ -41,8 +43,8 @@ public class Cfg {
     private String securityJwtSigningKeyB64;
     
     @Value("${manon.security.jwt.token-ttl}")
-    private Long securityJwtTokenTTL;
+    private Duration securityJwtTokenTtl;
     
     @Value("${manon.cache.redis.ttl}")
-    private Long cacheRedisTtl;
+    private Duration cacheRedisTtl;
 }

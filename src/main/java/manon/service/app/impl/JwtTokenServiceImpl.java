@@ -11,8 +11,8 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.Cfg;
-import manon.service.app.JwtTokenService;
 import manon.service.app.AuthTokenService;
+import manon.service.app.JwtTokenService;
 import manon.util.Tools;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,7 +67,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     
     @Override
     public String generateToken(String username) {
-        ZonedDateTime expirationDate = Tools.now().plusSeconds(cfg.getSecurityJwtTokenTTL()).atZone(Tools.ZONE_ID);
+        ZonedDateTime expirationDate = Tools.now().plus(cfg.getSecurityJwtTokenTtl()).atZone(Tools.ZONE_ID);
         return Jwts.builder()
             .setClaims(Jwts.claims().setSubject(username))
             .addClaims(Collections.singletonMap(FIELD_TOKEN_ID, authTokenService.create(username, expirationDate.toLocalDateTime()).getId()))

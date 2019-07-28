@@ -3,11 +3,13 @@ package manon.batch;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.document.user.UserStats;
+import manon.util.TestTools;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,9 +33,9 @@ public class UserSnapshotJobConfigIT extends AbstractIT {
     
     public void checkComplete(int snapshotsKept, int nbStats) throws Exception {
         int chunk = cfg.getBatchUserSnapshotChunk();
-        int maxAge = cfg.getBatchUserSnapshotSnapshotMaxAge();
+        int maxAge = TestTools.days(cfg.getBatchUserSnapshotSnapshotMaxAge());
         assertThat(chunk).isEqualTo(10);
-        assertThat(cfg.getBatchUserSnapshotSnapshotMaxAge()).isEqualTo(30);
+        assertThat(cfg.getBatchUserSnapshotSnapshotMaxAge()).isEqualTo(Duration.ofDays(30));
         User userToSnapshot = userService.readOne(userId(1));
         
         //GIVEN existing old, present, recent and future User snapshots

@@ -1,7 +1,10 @@
 package manon.util;
 
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.time.Duration;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -19,5 +22,11 @@ public class TestTools {
             sb.append(word);
         }
         return sb.length() == length ? sb.toString() : sb.toString().substring(0, length);
+    }
+    
+    /** Convert a duration to a number of days.*/
+    @Contract(pure = true)
+    public static int days(@NotNull Duration duration) {
+        return (int) (duration.getSeconds() / 86_400L);
     }
 }

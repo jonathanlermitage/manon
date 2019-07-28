@@ -9,6 +9,7 @@ import manon.util.Tools;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,8 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     }
     
     @Override
-    public void keepRecent(int maxAgeInDays) {
-        userSnapshotRepository.deleteAllByCreationDateBeforeOrCreationDateAfter(Tools.startOfDay().minusDays(maxAgeInDays), endOfDay());
+    public void keepRecent(Duration maxAge) {
+        userSnapshotRepository.deleteAllByCreationDateBeforeOrCreationDateAfter(Tools.startOfDay().minus(maxAge), endOfDay());
     }
     
     @Override

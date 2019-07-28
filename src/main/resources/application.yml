@@ -59,7 +59,7 @@ management:
 manon:
   cache:
     provider: ${MANON_CACHE_PROVIDER:embedded}
-    redis.ttl: 7200
+    redis.ttl: 7200s
   default-user:
     actuator:
       username: ${MANON_ACTUATOR_USERNAME:ACTUATOR}
@@ -70,11 +70,11 @@ manon:
   batch:
     user-snapshot:
       chunk: 1000
-      snapshot.max-age: 30
+      snapshot.max-age: 30d
   performance-recorder.enabled: false
   security:
     bcrypt.strength: 6
     jwt:
       issuer: ${MANON_JWT_ISSUER:default_issuer}
       signing-key-b64: ${MANON_JWT_SIGNINGKEYB64:NDlEM3JweG5TcFY3TXg2eSEyNkJmMmNRV2VEQXZQNWdRQU1CUlZTdURHeT9SZzUyQ0FuTnAqKl8tLTdIcw==}
-      token-ttl: ${MANON_JWT_TOKENTTL:7200}
+      token-ttl: ${MANON_JWT_TOKENTTL:7200s}

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -104,7 +105,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
             ));
         }
         
-        userSnapshotService.keepRecent(2);
+        userSnapshotService.keepRecent(Duration.ofDays(2));
         
         Assertions.assertThat(userSnapshotService.count()).isEqualTo(9);
         userSnapshotService.findAll().forEach(userSnapshot ->

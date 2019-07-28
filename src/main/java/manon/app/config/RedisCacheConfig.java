@@ -12,7 +12,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +30,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     @Bean
     public RedisCacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofSeconds(cfg.getCacheRedisTtl()))
+            .entryTtl(cfg.getCacheRedisTtl())
             .prefixKeysWith("manon_");
         Set<String> cacheNames = new HashSet<>();
         cacheNames.addAll(Globals.CacheNames.allCaches());

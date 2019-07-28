@@ -42,8 +42,8 @@
     },
     {
       "name": "manon.batch.user-snapshot.snapshot.max-age",
-      "type": "java.lang.Integer",
-      "description": "User snapshot batch: user snapshot max age in days."
+      "type": "java.time.Duration",
+      "description": "User snapshot batch: user snapshot max age."
     },
     {
       "name": "manon.performance-recorder.enabled",
@@ -67,8 +67,8 @@
     },
     {
       "name": "manon.security.jwt.token-ttl",
-      "type": "java.lang.String",
-      "description": "JWT token time to live (in seconds)."
+      "type": "java.time.Duration",
+      "description": "JWT token time to live."
     },
     {
       "name": "manon.security.jwt.issuer",
@@ -82,8 +82,8 @@
     },
     {
       "name": "manon.cache.redis.ttl",
-      "type": "java.lang.Integer",
-      "description": "Redis cache entries default ttl (in seconds)."
+      "type": "java.time.Duration",
+      "description": "Redis cache entries default ttl."
     }
   ],
   "hints": [
