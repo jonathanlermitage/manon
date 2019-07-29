@@ -20,12 +20,9 @@ public class AppTraceServiceIT extends AbstractIT {
     @Test
     public void shouldLogUptime() {
         appTraceService.deleteByCurrentAppIdAndEvent(UPTIME);
-        long nbTraces = appTraceService.count();
         for (int i = 0; i < 3; i++) {
             appTraceService.logUptime();
         }
-        assertThat(appTraceService.count()).isGreaterThanOrEqualTo(nbTraces + 1); // should use isEqualTo, but intermediate logs may occur
-        assertThat(appTraceService.countByCurrentAppId()).isGreaterThanOrEqualTo(appTraceService.count());
         assertThat(appTraceService.countByCurrentAppIdAndEvent(UPTIME)).isEqualTo(1);
         
         String appId = appTraceService.getAppId();
@@ -45,8 +42,6 @@ public class AppTraceServiceIT extends AbstractIT {
             appTraceService.log(level, APP_START, "foo");
             appTraceService.log(level, APP_START);
         }
-        assertThat(appTraceService.count()).isGreaterThanOrEqualTo(nbTraces + 6); // should use isEqualTo, but intermediate logs may occur
-        assertThat(appTraceService.countByCurrentAppId()).isGreaterThanOrEqualTo(appTraceService.count());
         assertThat(appTraceService.countByCurrentAppIdAndEvent(APP_START)).isEqualTo(6);
         
         String appId = appTraceService.getAppId();
