@@ -3,8 +3,9 @@
 if [%1] == [help] (
   echo  fixgit  set executable flag on git index for required files
   echo  t       test using embedded HSQLDB
-  echo  ut      test: run unit tests only, no integration tests
-  echo  tc      test and generate coverage data
+  echo  ut      run unit tests only, no integration tests
+  echo  tc      run unit + integration tests and generate coverage data
+  echo  itc     run integration tests only and generate coverage data
   echo  sc      compute and upload Sonar analysis to SonarCloud
   echo  tsc     similar to "do tc" then "do sc"
   echo  sb      scan with SpotBugs then show GUI
@@ -34,6 +35,9 @@ if [%1] == [ut] (
 )
 if [%1] == [tc] (
   mvnw clean verify -P coverage
+)
+if [%1] == [itc] (
+  mvnw clean verify -P coverage-it
 )
 if [%1] == [b] (
   mvnw clean compile -DskipTests -T1

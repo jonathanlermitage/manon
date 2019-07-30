@@ -80,9 +80,10 @@ You can now use the `./do` Linux Bash script:
 ```
 do help         show this help message
 do fixgit       set executable flag on git index for required files
-do t            test
-do ut           test: run unit tests only, no integration tests
-do tc           test and generate coverage data
+do t            test using embedded HSQLDB
+do ut           run unit tests only, no integration tests
+do tc           run unit + integration tests and generate coverage data
+do itc          run integration tests only and generate coverage data
 do sc           compute and upload Sonar analysis to SonarCloud
 do tsc          similar to "do tc" then "do sc"
 do sb           scan with SpotBugs then show GUI

@@ -14,8 +14,9 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "fixgit       set executable flag on git index for required files"
       echo  "t            test using embedded HSQLDB"
       echo  "td           test using dockerized MariaDB and Redis (container is started and stopped by script)"
-      echo  "ut           test: run unit tests only, no integration tests"
-      echo  "tc           test and generate coverage data"
+      echo  "ut           run unit tests only, no integration tests"
+      echo  "tc           run unit + integration tests and generate coverage data"
+      echo  "itc          run integration tests only and generate coverage data"
       echo  "sc           compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
       echo  "tsc          similar to \"do tc\" then \"do sc\""
       echo  "sb           scan with SpotBugs then show GUI"
@@ -76,6 +77,10 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "tc")
       sh ./mvnw verify -P coverage
+      ;;
+
+    "itc")
+      sh ./mvnw verify -P coverage-it
       ;;
 
     "b")

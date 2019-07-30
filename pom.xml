@@ -541,6 +541,83 @@
             </build>
         </profile>
 
+        <!-- Code coverage via JaCoCo on integration tests only. -->
+        <profile>
+            <id>coverage-it</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>pre-integration-test</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <destFile>${project.build.directory}/jacoco.exec</destFile>
+                                    <propertyName>coverageSurefireArgLine</propertyName>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>post-integration-test</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                                    <excludes>
+                                        <exclude>manon/document/**</exclude>
+                                        <exclude>manon/model/**</exclude>
+                                        <exclude>manon/Application.*</exclude>
+                                    </excludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <!--suppress MavenModelInspection -->
+                            <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine} ${coverageSurefireArgLine}</argLine>
+                            <workingDirectory>${project.build.directory}</workingDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>unit-tests</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <skipTests>true</skipTests>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>integration-tests</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <skipTests>false</skipTests>
+                                    <includes>
+                                        <include>**/*IT.*</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- Scan with SpotBugs. -->
         <profile>
             <id>spotbugs</id>
