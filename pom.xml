@@ -23,7 +23,7 @@
         <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
 
-        <archunit.version>0.10.2</archunit.version>
+        <archunit.version>0.11.0</archunit.version>
         <flywaydb.version>5.2.4</flywaydb.version>
         <guava.version>28.0-jre</guava.version>
         <hamcrest.version>2.1</hamcrest.version>
