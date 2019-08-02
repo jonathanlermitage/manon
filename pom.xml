@@ -22,6 +22,8 @@
         <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
         <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
+        <skipIT>false</skipIT>
+        <skipUT>false</skipUT>
 
         <archunit.version>0.11.0</archunit.version>
         <flywaydb.version>5.2.4</flywaydb.version>
@@ -407,7 +409,7 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>false</skipTests>
+                            <skipTests>${skipUT}</skipTests>
                             <includes>
                                 <include>**/*Test.java</include>
                             </includes>
@@ -420,7 +422,7 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>false</skipTests>
+                            <skipTests>${skipIT}</skipTests>
                             <includes>
                                 <include>**/*IT.*</include>
                             </includes>
@@ -534,7 +536,6 @@
                         <configuration>
                             <!--suppress MavenModelInspection -->
                             <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine} ${coverageSurefireArgLine}</argLine>
-                            <workingDirectory>${project.build.directory}</workingDirectory>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -586,7 +587,6 @@
                         <configuration>
                             <!--suppress MavenModelInspection -->
                             <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine} ${coverageSurefireArgLine}</argLine>
-                            <workingDirectory>${project.build.directory}</workingDirectory>
                         </configuration>
                         <executions>
                             <execution>

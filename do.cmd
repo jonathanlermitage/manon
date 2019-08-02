@@ -40,16 +40,16 @@ if [%1] == [itc] (
   mvnw clean verify -P coverage-it
 )
 if [%1] == [b] (
-  mvnw clean compile -DskipTests -T1
+  mvnw clean compile -DskipUT=true -DskipIT=true -T1
 )
 if [%1] == [c] (
   mvnw clean
 )
 if [%1] == [p] (
-  mvnw clean package -DskipTests -T1
+  mvnw clean package -DskipUT=true -DskipIT=true -T1
 )
 if [%1] == [rd] (
-  mvnw clean package -DskipTests -T1
+  mvnw clean package -DskipUT=true -DskipIT=true -T1
   cd target
   java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
   cd ..
@@ -76,8 +76,8 @@ if [%1] == [sb] (
   mvnw clean compile spotbugs:spotbugs spotbugs:gui -P spotbugs
 )
 if [%1] == [jib] (
-  mvnw clean compile jib:dockerBuild -DskipTests -P jib
+  mvnw clean compile jib:dockerBuild -DskipUT=true -DskipIT=true -P jib
 )
 if [%1] == [jibtar] (
-  mvnw clean compile jib:buildTar -DskipTests -P jib
+  mvnw clean compile jib:buildTar -DskipUT=true -DskipIT=true -P jib
 )

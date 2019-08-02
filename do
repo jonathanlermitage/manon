@@ -84,7 +84,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "b")
-      sh ./mvnw compile -DskipTests -T1
+      sh ./mvnw compile -DskipUT=true -DskipIT=true -T1
       ;;
 
     "c")
@@ -92,11 +92,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "p")
-      sh ./mvnw package -DskipTests -T1
+      sh ./mvnw package -DskipUT=true -DskipIT=true -T1
       ;;
 
     "rd")
-      sh ./mvnw package -DskipTests -T1
+      sh ./mvnw package -DskipUT=true -DskipIT=true -T1
       cd target/
       java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
       cd ..
@@ -141,16 +141,16 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "docker")
-      sh ./mvnw package -DskipTests -T1
+      sh ./mvnw package -DskipUT=true -DskipIT=true -T1
       docker build -f ./docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
       ;;
 
     "jib")
-      sh ./mvnw compile jib:dockerBuild -DskipTests -P jib
+      sh ./mvnw compile jib:dockerBuild -DskipUT=true -DskipIT=true -P jib
       ;;
 
     "jibtar")
-      sh ./mvnw compile jib:buildTar -DskipTests -P jib
+      sh ./mvnw compile jib:buildTar -DskipUT=true -DskipIT=true -P jib
       ;;
 
     "up")
