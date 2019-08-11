@@ -32,17 +32,17 @@
         <hsqldb.version>2.5.0</hsqldb.version>
         <jackson-annotations.version>2.9.9</jackson-annotations.version>
         <jackson-core.version>2.9.9</jackson-core.version>
-        <jackson-databind.version>2.9.9.1</jackson-databind.version>
+        <jackson-databind.version>2.9.9.3</jackson-databind.version>
         <jackson-datatype-jdk8.version>2.9.9</jackson-datatype-jdk8.version>
         <jackson-datatype-jsr310.version>2.9.9</jackson-datatype-jsr310.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
         <junit5.version>5.5.1</junit5.version>
         <jjwt.version>0.10.7</jjwt.version>
         <lombok.version>1.18.8</lombok.version>
-        <mariadb.version>2.4.2</mariadb.version>
+        <mariadb.version>2.4.3</mariadb.version>
         <rest-assured.version>4.0.0</rest-assured.version>
-        <slf4j.version>1.7.26</slf4j.version>
-        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+        <slf4j.version>1.7.28</slf4j.version>
+        <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
         <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
 
@@ -53,7 +53,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <spotbugs-maven-plugin.version>3.1.12.1</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
