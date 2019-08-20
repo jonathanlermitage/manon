@@ -8,7 +8,7 @@ services:
 
   elasticsearch:
     container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.2.0 # see https://hub.docker.com/_/elasticsearch/
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.3.0 # see https://hub.docker.com/_/elasticsearch/
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -24,7 +24,7 @@ services:
 
   logstash:
     container_name: logstash
-    image: docker.elastic.co/logstash/logstash-oss:7.2.0 # see https://hub.docker.com/_/logstash/
+    image: docker.elastic.co/logstash/logstash-oss:7.3.0 # see https://hub.docker.com/_/logstash/
     ports:
       - "5000:5000"
       - "9600:9600"
@@ -41,7 +41,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana-oss:7.2.0 # see https://hub.docker.com/_/kibana/
+    image: docker.elastic.co/kibana/kibana-oss:7.3.0 # see https://hub.docker.com/_/kibana/
     ports:
       - "5601:5601"
     volumes:
