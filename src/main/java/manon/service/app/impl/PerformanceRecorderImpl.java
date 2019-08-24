@@ -75,7 +75,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
             s.getTotalTime(),
             s.getTotalTime() / s.getCalls(),
             ((long) median(s.getTimes())),
-            "m." + s.getService().replaceAll("\\[", "(").replaceAll("]", ")").substring("manon.".length()))).forEach(buff::append);
+            "m." + s.getService().replace("[", "(").replace("]", ")").substring("manon.".length()))).forEach(buff::append);
         buff.append("\n calls     min     max     total     avg  median  name");
         return "Services performance (ms):" + buff.toString();
     }

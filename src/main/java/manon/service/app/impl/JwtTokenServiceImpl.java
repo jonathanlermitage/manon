@@ -79,7 +79,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
     
     @Override
-    public Boolean validateToken(String token, @NotNull UserDetails userDetails) {
+    public boolean validateToken(String token, @NotNull UserDetails userDetails) {
         String username = userDetails.getUsername();
         try {
             jwtParser.parseClaimsJws(token);
