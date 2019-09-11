@@ -53,6 +53,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <oga-maven-plugin.version>1.0.0</oga-maven-plugin.version>
         <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
@@ -439,6 +440,11 @@
                     <rulesUri>file:///${basedir}/.mvn/versions-maven-plugin-rules.xml</rulesUri>
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>biz.lermitage.oga</groupId>
+                <artifactId>oga-maven-plugin</artifactId>
+                <version>${oga-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>

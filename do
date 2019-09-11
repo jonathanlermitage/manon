@@ -12,6 +12,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")"
       echo  ""
       echo  "fixgit       set executable flag on git index for required files"
+      echo  "oga          check for deprecated groupId and artifactId couples"
       echo  "t            test using embedded HSQLDB"
       echo  "td           test using dockerized MariaDB and Redis (container is started and stopped by script)"
       echo  "ut           run unit tests only, no integration tests"
@@ -49,6 +50,10 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo "'do' has now executable flag on git index"
       git update-index --chmod=+x mvnw
       echo "'mvnw' has now executable flag on git index"
+      ;;
+
+    "oga")
+      sh ./mvnw biz.lermitage.oga:oga-maven-plugin:check
       ;;
 
     "t")
