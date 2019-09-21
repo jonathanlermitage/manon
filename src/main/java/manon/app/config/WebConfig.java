@@ -1,5 +1,8 @@
 package manon.app.config;
 
+import lombok.RequiredArgsConstructor;
+import manon.app.Cfg;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.firewall.HttpFirewall;
@@ -13,11 +16,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     
-    public WebConfig() {
-        super();
-    }
+    private final Cfg cfg;
     
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
@@ -42,7 +44,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
     
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder
+            .setConnectTimeout(cfg.getHttpclientConnectTimeout())
+            .setReadTimeout(cfg.getHttpclientReadTimeout())
+            .build();
     }
 }

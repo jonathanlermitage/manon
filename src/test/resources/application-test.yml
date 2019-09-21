@@ -5,6 +5,9 @@ manon:
   performance-recorder.enabled: true
   security.bcrypt.strength: 4
   cache.provider: embedded
+  httpclient: # speed up tests on wanted timeouts
+    connect-timeout: 250ms
+    read-timeout: 250ms
 
 spring:
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver

@@ -84,6 +84,16 @@
       "name": "manon.cache.redis.ttl",
       "type": "java.time.Duration",
       "description": "Redis cache entries default ttl."
+    },
+    {
+      "name": "manon.httpclient.connect-timeout",
+      "type": "java.time.Duration",
+      "description": "Http client connection timeout."
+    },
+    {
+      "name": "manon.httpclient.read-timeout",
+      "type": "java.time.Duration",
+      "description": "Http client read timeout."
     }
   ],
   "hints": [

@@ -72,6 +72,9 @@ manon:
     user-snapshot:
       chunk: 1000
       snapshot.max-age: 30d
+  httpclient:
+    connect-timeout: 2s
+    read-timeout: 2s
   performance-recorder.enabled: false
   security:
     bcrypt.strength: 6

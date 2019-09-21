@@ -47,4 +47,10 @@ public class Cfg {
     
     @Value("${manon.cache.redis.ttl}")
     private Duration cacheRedisTtl;
+    
+    @Value("${manon.httpclient.connect-timeout}")
+    private Duration httpclientConnectTimeout;
+    
+    @Value("${manon.httpclient.read-timeout}")
+    private Duration httpclientReadTimeout;
 }
