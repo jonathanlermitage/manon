@@ -1,5 +1,6 @@
 package manon.app.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import static manon.util.Tools.Mdc.KEY_USER;
 import static manon.util.Tools.isBlank;
 
 @Configuration
+@Slf4j
 public class FilterConfig {
     
     @Bean
@@ -52,6 +54,9 @@ public class FilterConfig {
                 MDC.put(KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
                 
                 chain.doFilter(request, response);
+            } catch (Throwable throwable) {
+                log.error("spring-mvc-error", throwable);
+                throw throwable;
             } finally {
                 MDC.clear();
             }
