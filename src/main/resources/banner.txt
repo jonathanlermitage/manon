@@ -1,8 +1,10 @@
 
- ::::    ::::      :::     ::::    :::  ::::::::  ::::    :::
- +:+:+: :+:+:+   :+: :+:   :+:+:   :+: :+:    :+: :+:+:   :+:
- +:+ +:+:+ +:+  +:+   +:+  :+:+:+  +:+ +:+    +:+ :+:+:+  +:+
- +#+  +:+  +#+ +#++:++#++: +#+ +:+ +#+ +#+    +:+ +#+ +:+ +#+
- +#+       +#+ +#+     +#+ +#+  +#+#+# +#+    +#+ +#+  +#+#+#
- #+#       #+# #+#     #+# #+#   #+#+# #+#    #+# #+#   #+#+#
- ###       ### ###     ### ###    ####  ########  ###    ####
+${AnsiColor.BRIGHT_BLUE} ${AnsiColor.BLUE}::::    ::::      :::     ::::    :::  ::::::::  ::::    :::
+${AnsiColor.BRIGHT_BLUE} +:+:+: :+:+:+ ${AnsiColor.BLUE}  :+: :+:   :+:+:   :+: :+:    :+: :+:+:   :+:
+${AnsiColor.BRIGHT_BLUE} +:+ +:+:+ +:+  +:+   +:+  ${AnsiColor.BLUE}:+:+:+  +:+ +:+    +:+ :+:+:+  +:+
+${AnsiColor.BRIGHT_BLUE} +#+  +:+  +#+ +#++:++#++: +#+ ${AnsiColor.BLUE}+:+ +#+ +#+    +:+ +#+ +:+ +#+
+${AnsiColor.BRIGHT_BLUE} +#+       +#+ +#+     +#+ +#+  +#+#+# ${AnsiColor.BLUE}+#+    +#+ +#+  +#+#+#
+${AnsiColor.BRIGHT_BLUE} #+#       #+# #+#     #+# #+#   #+#+# #+#    ${AnsiColor.BLUE}#+# #+#   #+#+#
+${AnsiColor.BRIGHT_BLUE} ###       ### ###     ### ###    ####  ########  ${AnsiColor.BLUE}###    ####${Ansi.DEFAULT}
+
+${AnsiColor.MAGENTA} Running Manon ${AnsiStyle.BOLD}${version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, Spring Boot ${AnsiStyle.BOLD}${spring-boot.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, Flyway ${AnsiStyle.BOLD}${flywaydb.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, Jackson ${AnsiStyle.BOLD}${jackson-core.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, JJWT ${AnsiStyle.BOLD}${jjwt.version} ${Ansi.DEFAULT}

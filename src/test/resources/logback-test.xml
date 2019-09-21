@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- see https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html -->
+<!-- see /org/springframework/boot/logging/logback/defaults.xml -->
 <configuration scan="false" packagingData="true">
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
 
-    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/manon-test.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/manon-test_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
@@ -10,20 +14,19 @@
             <maxFileSize>2MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %msg%n</Pattern>
+            <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %m%n%wEx</Pattern>
         </encoder>
     </appender>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!-- See http://logback.qos.ch/manual/layouts.html -->
-            <pattern>%d{HH:mm:ss} %-5p %c{30}:%L [%mdc] %m%n</pattern>
+            <Pattern>%clr(%d){faint} %clr([%thread]){magenta} %clr(%-5level) %clr(%logger{36}.%M){cyan} L.%L %clr([%mdc]){blue} %m%n%wEx</Pattern>
         </encoder>
     </appender>
 
     <root level="WARN">
+        <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="ROLLING"/>
     </root>
 
     <logger name="manon" level="TRACE"/>

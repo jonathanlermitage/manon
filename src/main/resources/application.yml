@@ -26,6 +26,7 @@ spring:
   pid:
     fail-on-write-error: true
     file: manon.pid
+  output.ansi.enabled: always
 server:
   compression.enabled: false # compression is handled by Nginx proxy
   servlet.application-display-name: manon
