@@ -6,6 +6,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -55,7 +57,9 @@ public class FilterConfig {
                 
                 chain.doFilter(request, response);
             } catch (Throwable throwable) {
-                log.error("spring-mvc-error", throwable);
+                if (!(throwable.getCause() instanceof BadCredentialsException) && !(throwable.getCause() instanceof DisabledException)) {
+                    log.error("spring-mvc-error", throwable);
+                }
                 throw throwable;
             } finally {
                 MDC.clear();
