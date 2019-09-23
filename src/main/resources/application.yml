@@ -17,7 +17,7 @@ spring:
     redis.repositories.enabled: false
   jpa:
     hibernate.ddl-auto: validate
-    open-in-view: false
+    open-in-view: false # should always be disabled. See https://github.com/spring-projects/spring-boot/issues/7107#issuecomment-271709902
   flyway.baseline-on-migrate: true
   redis:
     database: ${MANON_REDIS_DATABASE:0}
