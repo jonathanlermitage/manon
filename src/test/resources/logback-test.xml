@@ -10,8 +10,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/manon-test_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>365</maxHistory>
-            <totalSizeCap>10MB</totalSizeCap>
-            <maxFileSize>2MB</maxFileSize>
+            <totalSizeCap>50MB</totalSizeCap>
+            <maxFileSize>5MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <Pattern>%d [%thread] %-5level %logger{36}.%M L.%L [%mdc] %m%n%wEx</Pattern>
