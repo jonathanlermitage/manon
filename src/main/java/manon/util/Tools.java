@@ -1,6 +1,5 @@
 package manon.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -48,8 +47,6 @@ public final class Tools {
     public static final String ZONE_ID_NAME = "Europe/Paris";
     public static final ZoneId ZONE_ID = ZoneId.of(ZONE_ID_NAME);
     public static final Clock CLOCK = Clock.system(ZONE_ID);
-    
-    public static final ObjectMapper JSON = new ObjectMapper();
     
     /** Get current date as {@code java.time.LocalDateTime} from {@value ZONE_ID_NAME} timezone. */
     @NotNull

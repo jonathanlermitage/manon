@@ -1,5 +1,6 @@
 package manon.util.basetest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -24,7 +25,6 @@ import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
 import manon.service.user.UserSnapshotService;
 import manon.service.user.UserStatsService;
-import manon.util.Tools;
 import manon.util.web.Page;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.AfterAll;
@@ -134,6 +134,8 @@ public abstract class AbstractIT {
     protected final Map<Integer, Long> userIdCache = new HashMap<>();
     
     public int userCount;
+    
+    private final ObjectMapper jsonMapper = new ObjectMapper();
     
     public int getNumberOfUsers() {
         return 2;
@@ -347,13 +349,13 @@ public abstract class AbstractIT {
     /** Convert single object to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> T readValue(Response content, Class<T> valueType) {
-        return Tools.JSON.readValue(content.asString(), valueType);
+        return jsonMapper.readValue(content.asString(), valueType);
     }
     
     /** Convert generic paged objects to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> Page<T> readPage(Response content, Class<T> parameterClass) {
-        return Tools.JSON.readValue(content.asString(), Tools.JSON.getTypeFactory().constructParametricType(Page.class, parameterClass));
+        return jsonMapper.readValue(content.asString(), jsonMapper.getTypeFactory().constructParametricType(Page.class, parameterClass));
     }
     
     /** Compute a long string. */
