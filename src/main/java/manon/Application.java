@@ -1,8 +1,8 @@
 package manon;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import manon.app.Cfg;
-import manon.service.app.AppTraceService;
 import manon.service.user.RegistrationService;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.WebApplicationType;
@@ -18,9 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.PostConstruct;
 
-import static manon.model.app.AppTraceEvent.APP_START;
-import static manon.model.app.AppTraceLevel.WARN;
-
 @SpringBootApplication
 @EnableBatchProcessing
 @EnableJpaRepositories(basePackages = "manon.repository")
@@ -29,10 +26,10 @@ import static manon.model.app.AppTraceLevel.WARN;
 @EnableScheduling
 @EnableRetry
 @RequiredArgsConstructor
+@Slf4j
 public class Application extends SpringBootServletInitializer {
     
     private final Cfg cfg;
-    private final AppTraceService appTraceService;
     private final RegistrationService registrationService;
     
     public static void main(String[] args) {
@@ -48,8 +45,7 @@ public class Application extends SpringBootServletInitializer {
     
     @PostConstruct
     public void startupHook() {
-        String initAppEvent = String.format("jvm: [%s %s %s %s], os: [%s], file encoding: [%s], " +
-                "admin username: [%s], actuator username: [%s], Cfg: [%s]",
+        log.info("jvm: [{} {} {} {}], os: [{}], file encoding: [{}], admin username: [{}], actuator username: [{}], Cfg: [{}]",
             System.getProperty("java.version"),
             System.getProperty("java.vm.name"),
             System.getProperty("java.vm.version"),
@@ -59,6 +55,5 @@ public class Application extends SpringBootServletInitializer {
             registrationService.ensureAdmin().getUsername(),
             registrationService.ensureActuator().getUsername(),
             cfg);
-        appTraceService.log(WARN, APP_START, initAppEvent);
     }
 }

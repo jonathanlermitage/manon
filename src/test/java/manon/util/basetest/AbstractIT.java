@@ -11,7 +11,6 @@ import manon.app.Cfg;
 import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
 import manon.model.user.form.UserLogin;
-import manon.service.app.AppTraceService;
 import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
@@ -86,8 +85,6 @@ public abstract class AbstractIT {
     @SpyBean
     protected AuthTokenService authTokenService;
     @SpyBean
-    protected AppTraceService appTraceService;
-    @SpyBean
     protected FriendshipService friendshipService;
     @SpyBean
     protected FriendshipEventService friendshipEventService;
@@ -155,9 +152,8 @@ public abstract class AbstractIT {
     public void clearData() {
         userIdCache.clear();
         initDb();
-    
+        
         Mockito.clearInvocations(authTokenService);
-        Mockito.clearInvocations(appTraceService);
         Mockito.clearInvocations(friendshipService);
         Mockito.clearInvocations(friendshipEventService);
         Mockito.clearInvocations(friendshipRequestService);
@@ -174,8 +170,6 @@ public abstract class AbstractIT {
     
     private void clearDb() {
         authTokenService.deleteAll();
-        
-        appTraceService.deleteAll();
         
         friendshipEventService.deleteAll();
         friendshipRequestService.deleteAll();

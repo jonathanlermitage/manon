@@ -4,17 +4,6 @@
 -- Warning: on Unix-based systems, names are compared in a case-sensitive manner (https://mariadb.com/kb/en/library/identifier-case-sensitivity/)
 --
 
-create table app_trace
-(
-    id            bigint auto_increment
-        primary key,
-    app_id        varchar(255)  not null,
-    creation_date datetime(6)   not null,
-    event         varchar(255)  not null,
-    level         int           not null,
-    msg           varchar(2048) null
-);
-
 create table user
 (
     id                 bigint auto_increment
