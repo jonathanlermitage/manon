@@ -4,7 +4,7 @@ services:
 
   maria:
     container_name: maria-test
-    image: mariadb:10.3.17 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.3.18 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3307:3306"
     environment:
@@ -13,7 +13,7 @@ services:
 
   redis:
     container_name: redis-test
-    image: redis:5.0.5-alpine # see https://hub.docker.com/_/redis/
+    image: redis:5.0.6-alpine # see https://hub.docker.com/_/redis/
     ports:
       - "6380:6379"
     volumes:
