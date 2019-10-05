@@ -24,7 +24,7 @@ steps:
   - task: DockerCompose@0
     inputs:
       containerregistrytype: 'Container Registry'
-      dockerComposeFile: './docker/docker-compose-test.yml'
+      dockerComposeFile: './docker/docker-compose-test-azure.yml'
       action: 'Run a Docker Compose command'
       dockerComposeCommand: 'up -d'
   - task: Maven@3 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops

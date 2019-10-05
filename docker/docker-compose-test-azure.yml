@@ -1,0 +1,21 @@
+version: '3.4'
+
+# FIXME (specific to MS Azure pipeline) Can't connect to MariaDB 10.3.18, so I downgraded to 10.3.17. Still investigating this issue.
+services:
+
+  maria:
+    container_name: maria-test
+    image: mariadb:10.3.17 # see https://hub.docker.com/_/mariadb/
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: woot
+      MYSQL_DATABASE: manon
+
+  redis:
+    container_name: redis-test
+    image: redis:5.0.6-alpine # see https://hub.docker.com/_/redis/
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
