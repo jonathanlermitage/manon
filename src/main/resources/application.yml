@@ -54,6 +54,7 @@ management:
     enabled-by-default: false
     web:
       base-path: /actuator
+      # see available endpoints https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
       exposure.include: ["configprops", "env", "health", "info", "metrics", "scheduledtasks"]
   health.redis.enabled: ${MANON_REDIS_MANAGEMENT:false}
 
