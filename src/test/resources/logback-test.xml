@@ -34,6 +34,7 @@
     <logger name="org.springframework.web" level="ERROR"/>
 
     <!-- Don't care about Spring Integration Testing related INFO messages. -->
+    <logger name="org.springframework.orm" level="WARN"/>
     <logger name="org.springframework.scheduling" level="WARN"/>
     <logger name="org.springframework.boot.test" level="WARN"/>
     <logger name="org.springframework.test" level="WARN"/>
