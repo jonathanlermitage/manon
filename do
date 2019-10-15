@@ -31,7 +31,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "dt           show dependencies tree"
       echo  "rmi          stop Docker application, then remove its containers and images"
       echo  "cdi          clean up dangling Docker images"
-      echo  "dockerreset  stop and remove all containers, then remove all images"
+      echo  "dockerreset  stop and remove all containers, remove all images and prune volumes"
       echo  "docker       build Docker image with Dockerfile to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
       echo  "jib          build Docker image with Jib to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
       echo  "jibtar       build and save Docker image with Jib to a tarball"
@@ -150,6 +150,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       docker stop $(docker ps -a -q)
       docker rm $(docker ps -a -q)
       docker rmi $(docker images -a -q)
+      docker volume prune --force
       ;;
 
     "docker")

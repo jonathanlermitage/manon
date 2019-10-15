@@ -98,7 +98,7 @@ do uv           update plugins and dependencies versions
 do dt           show dependencies tree
 do rmi          stop Docker application, then remove its containers and images
 do cdi          clean up dangling Docker images
-do dockerreset  stop and remove all containers, then remove all images
+do dockerreset  stop and remove all containers, remove all images and prune volumes
 do docker       build Docker image with Dockerfile to a Docker daemon
 do jib          build Docker image with Jib to a Docker daemon
 do jibtar       build and save Docker image with Jib to a tarball
