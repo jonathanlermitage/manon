@@ -39,6 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
     public HttpFirewall httpFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowUrlEncodedSlash(true);
+        firewall.setAllowUrlEncodedDoubleSlash(true);
         firewall.setAllowUrlEncodedPercent(true);
         return firewall;
     }

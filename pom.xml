@@ -26,9 +26,9 @@
         <skipUT>false</skipUT>
 
         <archunit.version>0.11.0</archunit.version>
-        <flywaydb.version>5.2.4</flywaydb.version>
+        <flywaydb.version>6.0.7</flywaydb.version>
         <guava.version>28.1-jre</guava.version>
-        <hamcrest.version>2.1</hamcrest.version>
+        <hamcrest.version>2.2</hamcrest.version>
         <hsqldb.version>2.5.0</hsqldb.version>
         <jackson-annotations.version>2.10.0</jackson-annotations.version>
         <jackson-core.version>2.10.0</jackson-core.version>
@@ -39,10 +39,10 @@
         <junit5.version>5.5.2</junit5.version>
         <jjwt.version>0.10.7</jjwt.version>
         <lombok.version>1.18.10</lombok.version>
-        <mariadb.version>2.5.0</mariadb.version>
+        <mariadb.version>2.5.1</mariadb.version>
         <rest-assured.version>4.1.2</rest-assured.version>
         <slf4j.version>1.7.28</slf4j.version>
-        <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
+        <spring-boot.version>2.2.0.RELEASE</spring-boot.version>
         <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
 
@@ -292,6 +292,10 @@
                 <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
