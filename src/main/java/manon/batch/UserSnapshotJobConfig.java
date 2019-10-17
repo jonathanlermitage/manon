@@ -11,12 +11,12 @@ import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.service.user.UserSnapshotService;
 import manon.service.user.UserStatsService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -54,7 +54,6 @@ public class UserSnapshotJobConfig {
     private final UserStatsService userStatsService;
     
     @Bean
-    @StepScope
     public RepositoryItemReader<User> reader() {
         RepositoryItemReader<User> reader = new RepositoryItemReader<>();
         reader.setRepository(userRepository);
@@ -65,7 +64,6 @@ public class UserSnapshotJobConfig {
     }
     
     @Bean
-    @StepScope
     public RepositoryItemWriter<UserSnapshot> writer() {
         RepositoryItemWriter<UserSnapshot> writer = new RepositoryItemWriter<>();
         writer.setRepository(userSnapshotRepository);
@@ -116,7 +114,7 @@ public class UserSnapshotJobConfig {
     
     private class FlushTasklet implements Tasklet {
         @Override
-        public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
+        public RepeatStatus execute(@NotNull StepContribution contribution, @NotNull ChunkContext chunkContext) {
             userSnapshotService.deleteToday();
             userSnapshotService.keepRecent(cfg.getBatchUserSnapshotSnapshotMaxAge());
             return RepeatStatus.FINISHED;
@@ -125,7 +123,7 @@ public class UserSnapshotJobConfig {
     
     private class StatsTasklet implements Tasklet {
         @Override
-        public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
+        public RepeatStatus execute(@NotNull StepContribution contribution, @NotNull ChunkContext chunkContext) {
             userStatsService.save(UserStats.builder().nbUsers(userSnapshotService.countToday()).build());
             return RepeatStatus.FINISHED;
         }
@@ -133,7 +131,7 @@ public class UserSnapshotJobConfig {
     
     private static class UserItemProcessor implements ItemProcessor<User, UserSnapshot> {
         @Override
-        public UserSnapshot process(User item) {
+        public UserSnapshot process(@NotNull User item) {
             return UserSnapshot.from(item);
         }
     }
