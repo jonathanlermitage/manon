@@ -151,6 +151,18 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       docker rm $(docker ps -a -q)
       docker rmi $(docker images -a -q)
       docker volume prune --force
+      if [[ -d ~/manon-app-logs ]]; then
+        sudo rm -R ~/manon-app-logs
+      fi
+      if [[ -d ~/manon-maria-db ]]; then
+        sudo rm -R ~/manon-maria-db
+      fi
+      if [[ -d ~/manon-nginx-logs ]]; then
+        sudo rm -R ~/manon-nginx-logs
+      fi
+      if [[ -d ~/manon-elastic-db ]]; then
+        sudo rm -R ~/manon-elastic-db
+      fi
       ;;
 
     "docker")
