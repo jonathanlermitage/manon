@@ -41,8 +41,10 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "stopelk      stop ELK containers via docker-compose"
       echo  "upcerebro    create and start Cerebro container via docker-compose"
       echo  "stopcerebro  stop Cerebro container via docker-compose"
-      echo  "maria        connect to dockerized MariaDB by calling MySQL Client provided by container"
-      echo  "mariah       connect to dockerized MariaDB by calling host MySQL Client (mysql-client package must be installed)"
+      echo  "maria        connect to dockerized MariaDB business database by calling MySQL Client provided by container"
+      echo  "maria-batch  connect to dockerized MariaDB Spring Batch database by calling MySQL Client provided by container"
+      echo  "mariah       connect to dockerized MariaDB business database by calling host MySQL Client (mysql-client package must be installed)"
+      echo  "mariah-batch connect to dockerized MariaDB Spring Batch database by calling host MySQL Client (mysql-client package must be installed)"
       ;;
 
     "fixgit")
@@ -66,12 +68,15 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo "start test containers"
       docker-compose -f ./docker/docker-compose-test.yml up -d
       set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
+      set PREV__MANON_TEST_BATCH_SQL_JDBC_URL=$MANON_TEST_BATCH_SQL_JDBC_URL
       set PREV__MANON_TEST_REDIS_PORT=$MANON_TEST_REDIS_PORT
       export MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
+      export MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
       export MANON_TEST_REDIS_PORT=6380
       echo "run tests"
       sh ./mvnw verify -P test-real
       export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
+      export MANON_TEST_BATCH_SQL_JDBC_URL=PREV__MANON_TEST_BATCH_SQL_JDBC_URL
       export MANON_TEST_REDIS_PORT=PREV__MANON_TEST_REDIS_PORT
       echo "stop test containers"
       docker-compose -f ./docker/docker-compose-test.yml down
@@ -157,6 +162,9 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       if [[ -d ~/manon-maria-db ]]; then
         sudo rm -R ~/manon-maria-db
       fi
+      if [[ -d ~/manon-maria-db-batch ]]; then
+        sudo rm -R ~/manon-maria-db-batch
+      fi
       if [[ -d ~/manon-nginx-logs ]]; then
         sudo rm -R ~/manon-nginx-logs
       fi
@@ -189,6 +197,13 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
         echo "~/manon-maria-db directory created, starting maria and wait 15 seconds..."
         sleep 15
         echo "Done, maria should be open to connections. If manon startup fails, please restart maria"
+      fi
+      if [[ ! -d ~/manon-maria-db-batch ]]; then
+        mkdir ~/manon-maria-db-batch
+        docker-compose -f ./docker/docker-compose.yml up -d maria-batch
+        echo "~/manon-maria-db-batch directory created, starting maria and wait 15 seconds..."
+        sleep 15
+        echo "Done, maria-batch should be open to connections. If manon startup fails, please restart maria-batch"
       fi
       if [[ ! -d ~/manon-nginx-logs ]]; then
         mkdir ~/manon-nginx-logs
@@ -225,8 +240,16 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       docker exec -it maria mysql --user=root --password=woot manon
       ;;
 
+    "maria-batch")
+      docker exec -it maria-batch mysql --port 3308 --user=root --password=woot manon_batch
+      ;;
+
     "mariah")
       mysql -h $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' maria) --port 3306 --protocol=TCP --user=root --password=woot manon
+      ;;
+
+    "mariah-batch")
+      mysql -h $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' maria-batch) --port 3306 --protocol=TCP --user=root --password=woot manon_batch
       ;;
 
     esac

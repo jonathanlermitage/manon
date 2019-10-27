@@ -1,12 +1,17 @@
 ### DEV CONFIGURATION for local application with existing MariaDB db and in-memory cache ###  (warning: avoid tabs, indent with two spaces)
 
-manon.cache.provider: ${MANON_DEV_CACHE_PROVIDER:embedded}
+manon:
+  batch.datasource:
+    username: ${MANON_DEV_BATCH_SQL_USERNAME:root}
+    password: ${MANON_DEV_BATCH_SQL_PASSWORD:woot}
+    jdbcUrl: ${MANON_DEV_BATCH_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+  cache.provider: ${MANON_DEV_CACHE_PROVIDER:embedded}
 
 spring:
   datasource:
     username: ${MANON_DEV_SQL_USERNAME:root}
     password: ${MANON_DEV_SQL_PASSWORD:woot}
-    url: ${MANON_DEV_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+    jdbcUrl: ${MANON_DEV_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
   redis:
     database: ${MANON_DEV_REDIS_DATABASE:0}
     host: ${MANON_DEV_REDIS_HOST:""}

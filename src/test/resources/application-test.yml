@@ -8,9 +8,16 @@ manon:
   httpclient: # speed up tests on wanted timeouts
     connect-timeout: 250ms
     read-timeout: 250ms
+  batch:
+    datasource:
+      driver-class-name: org.hsqldb.jdbc.JDBCDriver
+      jdbcUrl: "jdbc:hsqldb:mem:manonbatch"
+    flyway:
+      enabled: false
 
 spring:
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
+  datasource.jdbcUrl: "jdbc:hsqldb:mem:manon"
   flyway.enabled: false
   jpa.hibernate.ddl-auto: update
   redis:

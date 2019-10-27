@@ -1,6 +1,11 @@
 {
   "properties": [
     {
+      "name": "spring.datasource.jdbcUrl",
+      "type": "java.lang.String",
+      "description": "JDBC URL of the main database."
+    },
+    {
       "name": "manon.default-user.actuator.username",
       "type": "java.lang.String",
       "description": "Default actuator-user name. This user is created in database if not found during start-up."
@@ -44,6 +49,41 @@
       "name": "manon.batch.user-snapshot.snapshot.max-age",
       "type": "java.time.Duration",
       "description": "User snapshot batch: user snapshot max age."
+    },
+    {
+      "name": "manon.batch.flyway.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Spring Batch datasource: use Flyway for database migration."
+    },
+    {
+      "name": "manon.batch.datasource.driver-class-name",
+      "type": "java.lang.String",
+      "description": "Spring Batch datasource: fully qualified name of the JDBC driver.."
+    },
+    {
+      "name": "manon.batch.datasource.jdbcUrl",
+      "type": "java.lang.String",
+      "description": "Spring Batch datasource: JDBC URL."
+    },
+    {
+      "name": "manon.batch.flyway.baseline-on-migrate",
+      "type": "java.lang.Boolean",
+      "description": "Spring Batch datasource: whether to automatically call baseline when migrating a non-empty schema."
+    },
+    {
+      "name": "manon.batch.flyway.location",
+      "type": "java.lang.String",
+      "description": "Spring Batch datasource: location of Flyway migration script."
+    },
+    {
+      "name": "manon.batch.datasource.username",
+      "type": "java.lang.String",
+      "description": "Spring Batch datasource: username."
+    },
+    {
+      "name": "manon.batch.datasource.password",
+      "type": "java.lang.String",
+      "description": "Spring Batch datasource: password."
     },
     {
       "name": "manon.performance-recorder.enabled",
