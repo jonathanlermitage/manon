@@ -3,9 +3,7 @@
 
 spring:
   http.converters.preferred-json-mapper: jackson
-  batch:
-    initialize-schema: always
-    job.enabled: false
+  batch.job.enabled: false
   main.banner-mode: console
   datasource:
     username: ${MANON_SQL_USERNAME:}
