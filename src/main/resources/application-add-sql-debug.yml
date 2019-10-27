@@ -1,0 +1,8 @@
+### COMPANION CONFIGURATION to enable Hibernate debug log-level and tracing of SQL queries ###  (warning: avoid tabs, indent with two spaces)
+
+logging.level.org.hibernate:
+  type.descriptor.sql: trace
+  SQL: debug
+spring.jpa:
+  properties.hibernate.format_sql: true
+  show-sql: true
