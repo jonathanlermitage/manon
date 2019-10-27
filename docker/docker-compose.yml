@@ -18,6 +18,9 @@ services:
       MANON_SQL_USERNAME: root
       MANON_SQL_PASSWORD: woot
       MANON_SQL_JDBC_URL: jdbc:mariadb://maria:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
+      MANON_BATCH_SQL_USERNAME: root
+      MANON_BATCH_SQL_PASSWORD: woot
+      MANON_BATCH_SQL_JDBC_URL: jdbc:mariadb://maria-batch:3306/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
       MANON_REDIS_DATABASE: 1
       MANON_REDIS_HOST: redis
       MANON_REDIS_PORT: 6379
@@ -42,6 +45,23 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: woot
       MYSQL_DATABASE: manon
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 1 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/3306' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  maria-batch:
+    container_name: maria-batch
+    image: mariadb:10.3.18 # see https://hub.docker.com/_/mariadb/
+    ports:
+      - "3308:3306"
+    volumes:
+      - ~/manon-maria-db-batch:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: woot
+      MYSQL_DATABASE: manon_batch
     healthcheck:
       test: ["CMD-SHELL", "timeout 1 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/3306' || exit 1"]
       interval: 30s

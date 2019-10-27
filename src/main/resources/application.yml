@@ -8,7 +8,7 @@ spring:
   datasource:
     username: ${MANON_SQL_USERNAME:}
     password: ${MANON_SQL_PASSWORD:}
-    url: ${MANON_SQL_JDBC_URL:}
+    jdbcUrl: ${MANON_SQL_JDBC_URL:}
     driver-class-name: ${MANON_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
   data:
     jpa.repositories.bootstrap-mode: deferred
@@ -16,7 +16,9 @@ spring:
   jpa:
     hibernate.ddl-auto: validate
     open-in-view: false # should always be disabled. See https://github.com/spring-projects/spring-boot/issues/7107#issuecomment-271709902
-  flyway.baseline-on-migrate: true
+  flyway:
+    baseline-on-migrate: true
+    locations: ["classpath:db/migration/main"]
   redis:
     database: ${MANON_REDIS_DATABASE:0}
     host: ${MANON_REDIS_HOST:""}
@@ -57,6 +59,19 @@ management:
   health.redis.enabled: ${MANON_REDIS_MANAGEMENT:false}
 
 manon:
+  batch:
+    datasource:
+      driver-class-name: ${MANON_BATCH_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
+      username: ${MANON_BATCH_SQL_USERNAME:}
+      password: ${MANON_BATCH_SQL_PASSWORD:}
+      jdbcUrl: ${MANON_BATCH_SQL_JDBC_URL:}
+    flyway:
+      baseline-on-migrate: true
+      enabled: true
+      location: "classpath:db/migration/batch"
+    user-snapshot:
+      chunk: 1000
+      snapshot.max-age: 30d
   cache:
     provider: ${MANON_CACHE_PROVIDER:embedded}
     redis.ttl: 7200s
@@ -67,10 +82,6 @@ manon:
     admin:
       username: ${MANON_ADMIN_USERNAME:ROOT}
       password: ${MANON_ADMIN_PASSWORD:woot}
-  batch:
-    user-snapshot:
-      chunk: 1000
-      snapshot.max-age: 30d
   httpclient:
     connect-timeout: 2s
     read-timeout: 2s

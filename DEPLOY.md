@@ -6,13 +6,13 @@ First, go to project's root and make the `./do` utility script executable if nee
 ### Manually
 
 * Install recent **JDK11**.
-* Install **MariaDB** (any reasonably recent version should work).
+* Install **MariaDB** (any reasonably recent version should work) then create `manon_dev` and `manon_dev_batch` schemas.
 * Package and run application via `./do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `./do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod manon.jar`.
 
 ### Docker Compose (application + nginx + log analysis via ELK + Cerebro)
 
-Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, [MariaDB](https://downloads.mariadb.org/) database, [Nginx](http://nginx.org/en/download.html) as HTTP proxy, and an ELK stack to parse logs. To proceed, follow these steps:
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org/) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, and an ELK stack to parse logs. To proceed, follow these steps:
 
 #### Preparation: create directories and install software
 
@@ -51,7 +51,8 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Replace `8081` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --header "Authorization: Bearer REPLACE_BY_ADMIN_TOKEN"` then check the `user_stats` and `user_snapshot` MariaDB tables.
-* Connect to MariaDB: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
+* Connect to MariaDB business database: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
+* Connect to MariaDB Spring Batch database: `./do maria-batch` (it connects to database via container's MySQL Client). You can now query tables.
 
 #### Deploy ELK stack and Cerebro
 

@@ -35,6 +35,12 @@ public class Cfg {
     @Value("${manon.batch.user-snapshot.snapshot.max-age}")
     private Duration batchUserSnapshotSnapshotMaxAge;
     
+    @Value("${manon.batch.flyway.baseline-on-migrate}")
+    private Boolean batchFlywayBaselineOnMigrate;
+    
+    @Value("${manon.batch.flyway.location}")
+    private String batchFlywayLocation;
+    
     @Value("${manon.security.bcrypt.strength}")
     private Integer securityBcryptStrength;
     

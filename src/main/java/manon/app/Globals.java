@@ -31,10 +31,24 @@ public class Globals {
         public static final String API_SYS = API_V1 + "/sys";
     }
     
+    /** Datasource names. */
+    @NoArgsConstructor(access = PRIVATE)
+    public static final class Datasources {
+    
+        /** {@value}, name of the main datasource. */
+        public static final String MAIN_DATASOURCE = "mainDatasource";
+        
+        /** {@value}, name of the datasource that handles Spring Batch tables. */
+        public static final String SPRINGBATCH_DATASOURCE = "springbatchDatasource";
+    }
+    
     /** Properties. */
     @NoArgsConstructor(access = PRIVATE)
     public static final class Properties {
-        
+    
+        /** {@value}, enable API performance recorder. Should be used in development or test environment only. */
+        public static final String ENABLE_FLYWAY_ON_BATCH_DATASOURCE = "manon.batch.flyway.enabled";
+    
         /** {@value}, enable API performance recorder. Should be used in development or test environment only. */
         public static final String ENABLE_PERFORMANCE_RECORDER = "manon.performance-recorder.enabled";
         

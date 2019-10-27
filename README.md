@@ -31,6 +31,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * **Spring Security**, to authenticate users via auth_basic and fetch authentication data from SQL database 
 * **Spring Data** to serve data from a database
 * **Spring Batch** to schedule and manage some tasks. See commit [c0e3422](https://github.com/jonathanlermitage/manon/commit/c0e3422fcce5522c3320dd1a2eed65950e321621) ([spring5-light-batch](https://github.com/jonathanlermitage/manon/tree/spring5-light-batch) branch)
+  * Use an **additional datasource to handle Spring Batch** tables (via Spring Boot 2.2 new `@BatchDataSource` annotation), and **initialize two datasources via Flyway**. See last commit of [spring5-light-extra-datasource-for-springbatch](https://github.com/jonathanlermitage/manon/tree/spring5-light-extra-datasource-for-springbatch) branch
 * **Spring [Cache](https://docs.spring.io/spring/docs/current/spring-framework-reference/integration.html#cache)** via Redis for application, and prefer an embedded cache provider during tests. See commits [a911f6a](https://github.com/jonathanlermitage/manon/commit/a911f6a08ce67b3b302f4ea3d17a73e8a0dcd6e6), [7e26822](https://github.com/jonathanlermitage/manon/commit/7e268222a745e5bbb88129d99b91379bafac7f58) and [ae6e0e6](https://github.com/jonathanlermitage/manon/commit/ae6e0e69ac37dbe44b51f449600943e09b9b149b) ([spring5-redis](https://github.com/jonathanlermitage/manon/tree/spring5-redis) branch)
 * **Spring Retry**. See last commit of [spring5-light-retry](https://github.com/jonathanlermitage/manon/tree/spring5-light-retry) branch
 * **[JWT (JSON Web Token) authentication](https://jwt.io/)** (migration from Auth Basic). See last commit of [spring5-light-jwt-auth](https://github.com/jonathanlermitage/manon/tree/spring5-light-jwt-auth) branch
@@ -108,8 +109,10 @@ do upelk        create and start ELK containers via docker-compose
 do stopelk      stop ELK containers via docker-compose
 do upcerebro    create and start Cerebro container via docker-compose
 do stopcerebro  stop Cerebro container via docker-compose
-do maria        connect to dockerized MariaDB by calling MySQL Client provided by container
-do mariah       connect to dockerized MariaDB by calling host MySQL Client (mysql-client package must be installed)
+do maria        connect to dockerized MariaDB business database by calling MySQL Client provided by container
+do maria-batch  connect to dockerized MariaDB Spring Batch database by calling MySQL Client provided by container
+do mariah       connect to dockerized MariaDB business database by calling host MySQL Client (mysql-client package must be installed)
+do mariah-batch connect to dockerized MariaDB Spring Batch database by calling host MySQL Client (mysql-client package must be installed)
 ```
 
 Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  
