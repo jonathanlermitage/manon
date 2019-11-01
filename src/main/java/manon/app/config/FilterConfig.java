@@ -56,7 +56,7 @@ public class FilterConfig {
                 MDC.put(KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
                 
                 chain.doFilter(request, response);
-            } catch (Throwable throwable) {
+            } catch (Error | Exception throwable) {
                 if (!(throwable.getCause() instanceof BadCredentialsException) && !(throwable.getCause() instanceof DisabledException)) {
                     log.error("spring-mvc-error", throwable);
                 }
