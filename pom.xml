@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress CheckTagEmptyBody -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -12,6 +13,7 @@
     <description>manon</description>
 
     <properties>
+        <coverageSurefireArgLine></coverageSurefireArgLine>
         <docker-base-image>openjdk:11.0.3-jre-slim</docker-base-image>
         <docker-target-image>lermitage-manon:${project.version}</docker-target-image>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -580,8 +582,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
-                            <!--suppress MavenModelInspection -->
-                            <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine} ${coverageSurefireArgLine}</argLine>
+                            <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}
+                                @{coverageSurefireArgLine}
+                            </argLine>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -631,8 +634,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
-                            <!--suppress MavenModelInspection -->
-                            <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine} ${coverageSurefireArgLine}</argLine>
+                            <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}
+                                @{coverageSurefireArgLine}
+                            </argLine>
                         </configuration>
                         <executions>
                             <execution>
