@@ -7,10 +7,13 @@ matrix:
       jdk: openjdk8
     - os: linux
       jdk: openjdk11
-  #allow_failures:
-    # snapshot and non-LTS jdk can fail, I won't use it in production but it's useful to prepare migration to next LTS release
-    #- os: linux
-    #  jdk: openjdk12
+    - os: linux
+      jdk: openjdk12
+    - os: linux
+      jdk: openjdk13
+  allow_failures: # snapshot and non-LTS jdk can fail, I won't use it in production but it's useful to prepare migration to next LTS release
+    - jdk: openjdk12
+    - jdk: openjdk13
 
 language: java
 
