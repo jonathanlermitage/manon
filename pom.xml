@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <start-class>manon.Application</start-class>
-        <surefireArgLine>-Xms128m -Xmx256m -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
+        <surefireArgLine>-Xms128m -Xmx1g -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
         <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
         <skipIT>false</skipIT>
