@@ -63,6 +63,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * **ELK** stack (**ElasticSearch Logstash Kibana**) via Docker plus Docker Compose to parse application and Nginx logs, and Cerebro to monitor ElasticSearch node
   * see [DEPLOY.md](DEPLOY.md) to package and run application. Also, see commits [6b76e37](https://github.com/jonathanlermitage/manon/commit/6b76e376566fd34b4b3521dc6c60eaf7c30c1c22) and [966969f](https://github.com/jonathanlermitage/manon/commit/966969fc16277be3ec8605592f5ed7ae90ba7024) ([spring5-light-elk](https://github.com/jonathanlermitage/manon/tree/spring5-light-elk) branch)
 * integration with **[SpotBugs](https://github.com/find-sec-bugs/find-sec-bugs/wiki/Maven-configuration)** ([FindBugs](http://findbugs.sourceforge.net))
+* integration with **[Maven enforcer plugin](https://maven.apache.org/enforcer/maven-enforcer-plugin/)**. See last commit of [spring5-light-maven-enforcer-plugin](https://github.com/jonathanlermitage/manon/tree/spring5-light-maven-enforcer-plugin) branch
 * Spring Boot dependency management without Spring Boot parent POM. See last commit of [spring5-light-spring-boot-dependencies](https://github.com/jonathanlermitage/manon/tree/spring5-light-spring-boot-dependencies) branch
 * use [**Glowroot**](https://glowroot.org/) monitoring tool (via regular Docker build, not Jib). Run `./do docker up` then check `http://localhost:4000`. See last commit of [spring5-light-glowroot-docker](https://github.com/jonathanlermitage/manon/tree/spring5-light-glowroot-docker) branch
 

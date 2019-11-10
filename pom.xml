@@ -56,6 +56,7 @@
         <jib-maven-plugin.version>1.6.1</jib-maven-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <oga-maven-plugin.version>1.0.0</oga-maven-plugin.version>
@@ -400,6 +401,30 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
+                <configuration>
+                    <rules>
+                        <bannedDependencies>
+                            <excludes>
+                                <!-- JUnit4 replaced by JUnit5. -->
+                                <exclude>junit:junit</exclude>
+                                <!-- Tomcat replaced by Undertow.-->
+                                <exclude>org.springframework.boot:spring-boot-starter-tomcat</exclude>
+                            </excludes>
+                        </bannedDependencies>
+                    </rules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
