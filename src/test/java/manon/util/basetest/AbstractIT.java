@@ -81,6 +81,8 @@ public abstract class AbstractIT {
     
     @Autowired
     protected Cfg cfg;
+    @Autowired
+    protected ObjectMapper objectMapper;
     
     @SpyBean
     protected AuthTokenService authTokenService;
@@ -131,8 +133,6 @@ public abstract class AbstractIT {
     protected final Map<Integer, Long> userIdCache = new HashMap<>();
     
     public int userCount;
-    
-    private final ObjectMapper jsonMapper = new ObjectMapper();
     
     public int getNumberOfUsers() {
         return 2;
@@ -343,13 +343,13 @@ public abstract class AbstractIT {
     /** Convert single object to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> T readValue(Response content, Class<T> valueType) {
-        return jsonMapper.readValue(content.asString(), valueType);
+        return objectMapper.readValue(content.asString(), valueType);
     }
     
     /** Convert generic paged objects to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> Page<T> readPage(Response content, Class<T> parameterClass) {
-        return jsonMapper.readValue(content.asString(), jsonMapper.getTypeFactory().constructParametricType(Page.class, parameterClass));
+        return objectMapper.readValue(content.asString(), objectMapper.getTypeFactory().constructParametricType(Page.class, parameterClass));
     }
     
     /** Compute a long string. */

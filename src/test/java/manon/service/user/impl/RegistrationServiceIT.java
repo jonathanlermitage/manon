@@ -1,16 +1,11 @@
 package manon.service.user.impl;
 
 import manon.document.user.User;
-import manon.util.basetest.AbstractIT;
+import manon.util.basetest.AbstractNoUserIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class RegistrationServiceIT extends AbstractIT {
-    
-    @Override
-    public int getNumberOfUsers() {
-        return 0;
-    }
+public class RegistrationServiceIT extends AbstractNoUserIT {
     
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {

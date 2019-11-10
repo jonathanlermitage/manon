@@ -1,7 +1,7 @@
 package manon.api.app;
 
 import io.restassured.RestAssured;
-import manon.util.basetest.AbstractIT;
+import manon.util.basetest.AbstractNoUserIT;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -14,12 +14,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-public class PingWSIT extends AbstractIT {
-    
-    @Override
-    public int getNumberOfUsers() {
-        return 0;
-    }
+public class PingWSIT extends AbstractNoUserIT {
     
     @Test
     public void shouldPingAccessibleUrl() throws UnsupportedEncodingException {
