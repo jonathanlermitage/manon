@@ -3,6 +3,7 @@ package manon.util;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
@@ -18,7 +19,9 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 public class ArchTest extends AbstractParallelTest {
     
-    private static final JavaClasses PROJECT = new ClassFileImporter().importPackages("manon..");
+    private static final JavaClasses PROJECT = new ClassFileImporter()
+        .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+        .importPackages("manon..");
     
     private static final ArchCondition<JavaClass> NOT_CALL_METHOD_THAT_EXISTS_FOR_TESTS =
         new ArchCondition<JavaClass>("not call methods that exist for tests") {
@@ -64,8 +67,7 @@ public class ArchTest extends AbstractParallelTest {
     
     @Test
     public void shouldVerifyProductionCodeDontUseMethodThatExistsForTests() {
-        classes().that()
-            .haveSimpleNameNotEndingWith("IT")
+        classes()
             .should(NOT_CALL_METHOD_THAT_EXISTS_FOR_TESTS)
             .check(PROJECT);
     }
