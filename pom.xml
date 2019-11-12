@@ -60,7 +60,7 @@
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <oga-maven-plugin.version>1.0.0</oga-maven-plugin.version>
-        <owasp-dependency-check-maven.version>5.2.2</owasp-dependency-check-maven.version>
+        <owasp-dependency-check-plugin.version>5.2.2</owasp-dependency-check-plugin.version>
         <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
@@ -429,7 +429,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>${owasp-dependency-check-maven.version}</version>
+                <version>${owasp-dependency-check-plugin.version}</version>
                 <!-- https://jeremylong.github.io/DependencyCheck/dependency-check-maven/configuration.html -->
                 <configuration>
                     <suppressionFiles>
