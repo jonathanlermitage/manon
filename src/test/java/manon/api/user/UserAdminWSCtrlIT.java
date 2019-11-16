@@ -52,4 +52,24 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userAdminWS, status).suspend(any(), eq(UNKNOWN_ID));
     }
+    
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_ADMIN)
+    public void shouldVerifySearch(Rs rs, Integer status) {
+        rs.getSpec()
+            .post(API_USER_ADMIN + "/search")
+            .then()
+            .statusCode(status);
+        verify(userAdminWS, status).search(any(), any(), any());
+    }
+    
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_ADMIN)
+    public void shouldVerifySearchByIdentity(Rs rs, Integer status) {
+        rs.getSpec()
+            .post(API_USER_ADMIN + "/search/identity")
+            .then()
+            .statusCode(status);
+        verify(userAdminWS, status).searchByIdentity(any(), any(), any(), any(), any());
+    }
 }
