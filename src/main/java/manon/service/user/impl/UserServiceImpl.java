@@ -1,6 +1,9 @@
 package manon.service.user.impl;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import manon.document.user.QUser;
 import manon.document.user.User;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
@@ -17,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -88,6 +92,30 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoderService.matches(rawPassword, encodedPassword)) {
             throw new PasswordNotMatchException();
         }
+    }
+    
+    @Override
+    public Page<User> search(Predicate predicate, Pageable pageable) {
+        if (predicate == null) {
+            return findAll(pageable);
+        } else {
+            return userRepository.findAll(predicate, pageable);
+        }
+    }
+    
+    @Override
+    public Page<User> searchByIdentity(String username, String nickname, String email, Pageable pageable) {
+        BooleanBuilder predicate = new BooleanBuilder();
+        if (!StringUtils.isEmpty(username)) {
+            predicate.or(QUser.user.username.equalsIgnoreCase(username));
+        }
+        if (!StringUtils.isEmpty(nickname)) {
+            predicate.or(QUser.user.nickname.equalsIgnoreCase(nickname));
+        }
+        if (!StringUtils.isEmpty(email)) {
+            predicate.or(QUser.user.email.equalsIgnoreCase(email));
+        }
+        return search(predicate.getValue(), pageable);
     }
     
     @Override

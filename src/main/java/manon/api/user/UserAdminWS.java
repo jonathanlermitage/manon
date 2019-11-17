@@ -1,6 +1,7 @@
 package manon.api.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,13 @@ import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_USER_ADMIN;
@@ -69,5 +72,29 @@ public class UserAdminWS {
                       @PathVariable("userId") long userId) {
         log.warn("admin {} bans user {}", admin.getUsername(), userId);
         return registrationService.ban(userId).getRegistrationState().name();
+    }
+    
+    @ApiOperation(value = "Search users via Querydsl.", produces = JSON, response = Page.class)
+    @PostMapping(value = "/search")
+    @JsonView(DefaultView.class)
+    public Page<User> search(@AuthenticationPrincipal UserSimpleDetails admin,
+                             @QuerydslPredicate(root = User.class) Predicate predicate,
+                             Pageable pageable) {
+        log.debug("admin {} uses Querydsl to search users with predicate {}, page {}",
+            admin.getUsername(), predicate, pageable);
+        return userService.search(predicate, pageable);
+    }
+    
+    @ApiOperation(value = "Search users via username, nickname or email.", produces = JSON, response = Page.class)
+    @PostMapping(value = "/search/identity")
+    @JsonView(DefaultView.class)
+    public Page<User> searchByIdentity(@AuthenticationPrincipal UserSimpleDetails admin,
+                                       @RequestParam(name = "username", required = false) String username,
+                                       @RequestParam(name = "nickname", required = false) String nickname,
+                                       @RequestParam(name = "email", required = false) String email,
+                                       Pageable pageable) {
+        log.debug("admin {} uses Querydsl to search users with username {}, nickname {}, email {}, page {}",
+            admin.getUsername(), username, nickname, email, pageable);
+        return userService.searchByIdentity(username, nickname, email, pageable);
     }
 }

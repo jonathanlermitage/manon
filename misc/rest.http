@@ -52,6 +52,14 @@ Authorization: Bearer REPLACE_BY_USER_TOKEN
 GET http://localhost:8080/api/v1/admin/user/all?offset=0&size=100&sort=creationDate,DESC
 Authorization: Bearer REPLACE_BY_ADMIN_TOKEN
 
+### search users via Querydsl
+POST http://localhost:8080/api/v1/admin/user/search?offset=0&size=100&sort=creationDate,DESC&registrationState=ACTIVE&username=ACTUATOR
+Authorization: Bearer REPLACE_BY_ADMIN_TOKEN
+
+### search users via Querydsl (criteria union)
+POST http://localhost:8080/api/v1/admin/user/search/identity?offset=0&size=100&sort=creationDate,DESC&username=ACTUATOR&nickname=somebody
+Authorization: Bearer REPLACE_BY_ADMIN_TOKEN
+
 ### ------------------------------------------------
 ### --- BATCH API ---
 

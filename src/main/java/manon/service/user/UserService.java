@@ -1,5 +1,6 @@
 package manon.service.user;
 
+import com.querydsl.core.types.Predicate;
 import manon.document.user.User;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
@@ -50,6 +51,24 @@ public interface UserService {
      * @param encodedPassword encoded password.
      */
     void validatePassword(String rawPassword, String encodedPassword) throws PasswordNotMatchException;
+    
+    /**
+     * Use Querydsl to search users.
+     * @param predicate query.
+     * @param pageable pagination.
+     * @return users.
+     */
+    Page<User> search(Predicate predicate, Pageable pageable);
+    
+    /**
+     * Use Querydsl to search users by the union of some filters: username, nickname or email.
+     * @param username username filter.
+     * @param nickname nickname filter.
+     * @param email email filter.
+     * @param pageable pagination.
+     * @return users.
+     */
+    Page<User> searchByIdentity(String username, String nickname, String email, Pageable pageable);
     
     @ExistForTesting
     long count();

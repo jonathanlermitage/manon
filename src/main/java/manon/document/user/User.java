@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.querydsl.core.annotations.QueryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -51,6 +52,7 @@ import static manon.document.user.User.Validation.USERNAME_PATTERN_ERRMSG;
 import static manon.document.user.User.Validation.USERNAME_SIZE_ERRMSG;
 
 @Entity
+@QueryEntity
 @Getter
 @ToString(exclude = "userSnapshots")
 @EqualsAndHashCode(exclude = {"userSnapshots", "version", "creationDate", "updateDate"})
