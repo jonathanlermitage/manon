@@ -37,7 +37,7 @@ services:
 
   maria:
     container_name: maria
-    image: mariadb:10.3.20 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.3.18 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3306:3306"
     volumes:
@@ -54,7 +54,7 @@ services:
 
   maria-batch:
     container_name: maria-batch
-    image: mariadb:10.3.20 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.3.18 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3308:3306"
     volumes:
