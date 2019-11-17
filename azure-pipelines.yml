@@ -31,6 +31,7 @@ steps:
       dockerComposeCommand: 'up -d'
   - script: sleep 15
   - script: sudo netstat -antp
+  - script: cd docker && docker-compose ps && cd ..
   - script: mysql --user=root --password=woot --host=127.0.0.1 --port=3307 --execute="show databases;"
   - script: mysql --user=root --password=woot --host=127.0.0.1 --port=3308 --execute="show databases;"
   - task: Maven@3 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
