@@ -29,6 +29,7 @@ steps:
       dockerComposeFile: './docker/docker-compose-test.yml'
       action: 'Run a Docker Compose command'
       dockerComposeCommand: 'up -d'
+  - script: sleep 15
   - script: sudo netstat -antp
   - task: Maven@3 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
     inputs:
