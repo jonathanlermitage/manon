@@ -27,7 +27,7 @@ steps:
   - task: DockerCompose@0
     inputs:
       containerregistrytype: 'Container Registry'
-      dockerComposeFile: './docker/docker-compose-test.yml'
+      dockerComposeFile: './docker/docker-compose-test-azure.yml'
       action: 'Run a Docker Compose command'
       dockerComposeCommand: 'up -d'
   - script: sleep 15
