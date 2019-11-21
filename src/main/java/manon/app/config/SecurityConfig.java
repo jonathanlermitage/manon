@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,6 +28,7 @@ import static manon.app.Globals.API.API_USER;
 import static manon.app.Globals.API.API_USER_ADMIN;
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -52,42 +54,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
         http
-            .csrf().disable()
-            .cors()
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(withDefaults())
             
-        .and()
-            .sessionManagement().sessionCreationPolicy(STATELESS)
+            .sessionManagement(httpSecurity -> httpSecurity.sessionCreationPolicy(STATELESS))
             
-        .and()
-            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPointConfig)
+            .exceptionHandling(httpSecurity -> httpSecurity.authenticationEntryPoint(jwtAuthenticationEntryPointConfig))
             
-        .and()
             .addFilterBefore(jwtAuthenticationFilterConfig, UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()
             
-            .antMatchers(API_SYS + "/**").hasRole(ADMIN)
-            
-            .antMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
-            
-            .antMatchers(POST, API_USER).permitAll() // user registration
-            .antMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
-            .antMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
-            .antMatchers(API_USER + "/**").hasRole(PLAYER)
-            
-            .antMatchers(API_BASE + "/**").authenticated()
-            
-            .antMatchers("/actuator/health").permitAll()
-            .antMatchers("/actuator").hasRole(ACTUATOR)
-            .antMatchers("/actuator/**").hasRole(ACTUATOR)
-            .antMatchers("/swagger-resources",
-                "/swagger-resources/configuration/ui",
-                "/swagger-resources/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**",
-                "/v2/api-docs").permitAll();
-        // @formatter:on
+            .authorizeRequests(a -> a
+                .antMatchers(API_SYS + "/**").hasRole(ADMIN)
+                
+                .antMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
+                
+                .antMatchers(POST, API_USER).permitAll() // user registration
+                .antMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
+                .antMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
+                .antMatchers(API_USER + "/**").hasRole(PLAYER)
+                
+                .antMatchers(API_BASE + "/**").authenticated()
+                
+                .antMatchers("/actuator/health").permitAll()
+                .antMatchers("/actuator").hasRole(ACTUATOR)
+                .antMatchers("/actuator/**").hasRole(ACTUATOR)
+                .antMatchers("/swagger-resources",
+                    "/swagger-resources/configuration/ui",
+                    "/swagger-resources/configuration/security",
+                    "/swagger-ui.html",
+                    "/webjars/**",
+                    "/v2/api-docs").permitAll()
+            );
     }
     
     @Bean
