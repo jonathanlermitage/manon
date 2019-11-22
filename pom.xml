@@ -67,6 +67,13 @@
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
 
         <dependencies>
@@ -828,4 +835,5 @@
             </activation>
         </profile-->
     </profiles>
+
 </project>
