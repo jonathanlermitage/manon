@@ -1,0 +1,714 @@
+{
+	"info": {
+		"_postman_id": "2e01610e-2a36-433b-b1bf-53606efda8c8",
+		"name": "manon-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "login as ACTUATOR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "34a27d53-33bd-488d-96df-650feb0668b5",
+								"exec": [
+									"pm.environment.unset(\"JWT_TOKEN\");",
+									"pm.test(\"Authenticated\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.environment.set(\"JWT_TOKEN\", pm.response.text());",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"ACTUATOR\",\r\n    \"password\": \"woot\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/user/auth/authorize",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"auth",
+								"authorize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login as ROOT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									"pm.environment.unset(\"JWT_TOKEN\");",
+									"pm.test(\"Authenticated\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.environment.set(\"JWT_TOKEN\", pm.response.text());",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"ROOT\",\n    \"password\": \"woot\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/user/auth/authorize",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"auth",
+								"authorize"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "SPRING ACTUATOR",
+			"item": [
+				{
+					"name": "get actuator health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/actuator/health",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get actuator health (anonymous)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/actuator/health",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get actuator info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/actuator/info",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"actuator",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "USER API",
+			"item": [
+				{
+					"name": "register a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"NEWUSER\",\r\n    \"password\": \"p4ssworD\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/user",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login as new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									"pm.environment.unset(\"USER_JWT_TOKEN\");",
+									"pm.test(\"Authenticated\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.environment.set(\"USER_JWT_TOKEN\", pm.response.text());",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"NEWUSER\",\r\n    \"password\": \"p4ssworD\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/user/auth/authorize",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"auth",
+								"authorize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new user gets his profile and linked snapshots",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/user/include/usersnapshots",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"include",
+								"usersnapshots"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "USER ADMIN API",
+			"item": [
+				{
+					"name": "list all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/admin/user/all?offset=0&size=100&sort=creationDate,DESC",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user",
+								"all"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								},
+								{
+									"key": "sort",
+									"value": "creationDate,DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search users via Querydsl",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/admin/user/search?offset=0&size=100&sort=creationDate,DESC&registrationState=ACTIVE&username=ACTUATOR",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user",
+								"search"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								},
+								{
+									"key": "sort",
+									"value": "creationDate,DESC"
+								},
+								{
+									"key": "registrationState",
+									"value": "ACTIVE"
+								},
+								{
+									"key": "username",
+									"value": "ACTUATOR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search users via Querydsl (criteria union)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/admin/user/search/identity?offset=0&size=100&sort=creationDate,DESC&username=ACTUATOR&nickname=somebody",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"user",
+								"search",
+								"identity"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								},
+								{
+									"key": "sort",
+									"value": "creationDate,DESC"
+								},
+								{
+									"key": "username",
+									"value": "ACTUATOR"
+								},
+								{
+									"key": "nickname",
+									"value": "somebody"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "BATCH API",
+			"item": [
+				{
+					"name": "create a snapshot of all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c2b5c88-c347-42ad-94f9-54a61fdbafbe",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE}}/api/v1/sys/batch/start/userSnapshotJob",
+							"host": [
+								"{{BASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sys",
+								"batch",
+								"start",
+								"userSnapshotJob"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
