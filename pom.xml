@@ -28,6 +28,7 @@
         <skipUT>false</skipUT>
 
         <archunit.version>0.12.0</archunit.version>
+        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <flywaydb.version>6.0.8</flywaydb.version>
         <guava.version>28.1-jre</guava.version>
         <hamcrest.version>2.2</hamcrest.version>
@@ -39,7 +40,8 @@
         <jackson-datatype-jdk8.version>2.10.1</jackson-datatype-jdk8.version>
         <jackson-datatype-jsr310.version>2.10.1</jackson-datatype-jsr310.version>
         <jackson-module-afterburner.version>2.10.1</jackson-module-afterburner.version>
-        <jaxb.version>2.3.1</jaxb.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
         <jetbrains-annotations.version>18.0.0</jetbrains-annotations.version>
         <junit5.version>5.5.2</junit5.version>
         <jjwt.version>0.10.7</jjwt.version>
@@ -77,6 +79,37 @@
     <dependencyManagement>
 
         <dependencies>
+            <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            <!-- Fix dependency convergence -->
+            <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured-common</artifactId>
+                <version>${rest-assured.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${rest-assured.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>xml-path</artifactId>
+                <version>${rest-assured.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${findbugs-jsr305.version}</version>
+            </dependency>
+
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
             <!-- Overrides to force usage of latest version.        -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -166,12 +199,12 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>${jaxb.version}</version>
+            <version>${jaxb-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb.version}</version>
+            <version>${jaxb-runtime.version}</version>
             <scope>runtime</scope>
         </dependency>
 
