@@ -84,6 +84,7 @@ You can now use the `./do` Linux Bash script:
 ```
 do help         show this help message
 do fixgit       set executable flag on git index for required files
+do conv         generate a Dependency Convergence report in target/site/dependency-convergence.html
 do oga          check for deprecated groupId and artifactId couples
 do t            test using embedded HSQLDB
 do ut           run unit tests only, no integration tests

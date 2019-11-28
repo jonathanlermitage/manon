@@ -2,6 +2,7 @@
 
 if [%1] == [help] (
   echo  fixgit  set executable flag on git index for required files
+  echo  conv    generate a Dependency Convergence report in target/site/dependency-convergence.html
   echo  oga     check for deprecated groupId and artifactId couples
   echo  t       test using embedded HSQLDB
   echo  ut      run unit tests only, no integration tests
@@ -27,6 +28,9 @@ if [%1] == [fixgit] (
   echo 'do' has now executable flag on git index
   git update-index --chmod=+x mvnw
   echo 'mvnw' has now executable flag on git index
+)
+if [%1] == [conv] (
+  mvnw project-info-reports:dependency-convergence
 )
 if [%1] == [oga] (
   mvnw biz.lermitage.oga:oga-maven-plugin:check
