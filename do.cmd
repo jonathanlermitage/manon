@@ -4,6 +4,7 @@ if [%1] == [help] (
   echo  fixgit  set executable flag on git index for required files
   echo  conv    generate a Dependency Convergence report in target/site/dependency-convergence.html
   echo  oga     check for deprecated groupId and artifactId couples
+  echo  owasp   generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html
   echo  t       test using embedded HSQLDB
   echo  ut      run unit tests only, no integration tests
   echo  tc      run unit + integration tests and generate coverage data
@@ -34,6 +35,9 @@ if [%1] == [conv] (
 )
 if [%1] == [oga] (
   mvnw biz.lermitage.oga:oga-maven-plugin:check
+)
+if [%1] == [owasp] (
+  mvnw org.owasp:dependency-check-maven:check -P owasp
 )
 if [%1] == [t] (
   mvnw clean verify

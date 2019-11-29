@@ -14,6 +14,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "fixgit       set executable flag on git index for required files"
       echo  "conv         generate a Dependency Convergence report in target/site/dependency-convergence.html"
       echo  "oga          check for deprecated groupId and artifactId couples"
+      echo  "owasp        generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html"
       echo  "t            test using embedded HSQLDB"
       echo  "td           test using dockerized MariaDB and Redis (container is started and stopped by script)"
       echo  "ut           run unit tests only, no integration tests"
@@ -61,6 +62,10 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "oga")
       sh ./mvnw biz.lermitage.oga:oga-maven-plugin:check
+      ;;
+
+    "owasp")
+      sh ./mvnw org.owasp:dependency-check-maven:check -P owasp
       ;;
 
     "t")

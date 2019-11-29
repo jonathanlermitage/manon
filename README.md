@@ -86,6 +86,7 @@ do help         show this help message
 do fixgit       set executable flag on git index for required files
 do conv         generate a Dependency Convergence report in target/site/dependency-convergence.html
 do oga          check for deprecated groupId and artifactId couples
+do owasp        generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html
 do t            test using embedded HSQLDB
 do ut           run unit tests only, no integration tests
 do tc           run unit + integration tests and generate coverage data
