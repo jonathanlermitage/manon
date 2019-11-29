@@ -29,7 +29,7 @@
 
         <archunit.version>0.12.0</archunit.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <flywaydb.version>6.0.8</flywaydb.version>
+        <flywaydb.version>6.1.0</flywaydb.version>
         <guava.version>28.1-jre</guava.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hsqldb.version>2.5.0</hsqldb.version>
@@ -47,7 +47,7 @@
         <jjwt.version>0.10.7</jjwt.version>
         <lombok.version>1.18.10</lombok.version>
         <mariadb.version>2.5.2</mariadb.version>
-        <querydsl.version>4.2.1</querydsl.version>
+        <querydsl.version>4.2.2</querydsl.version>
         <rest-assured.version>4.1.2</rest-assured.version>
         <slf4j.version>1.7.29</slf4j.version>
         <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
