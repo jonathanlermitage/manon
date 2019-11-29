@@ -72,18 +72,18 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, MockitoTestExecutionListener.class})
 public abstract class AbstractIT {
-    
+
     @LocalServerPort
     private int port;
-    
+
     @Autowired(required = false)
     protected PerformanceRecorder performanceRecorder;
-    
+
     @Autowired
     protected Cfg cfg;
     @Autowired
     protected ObjectMapper objectMapper;
-    
+
     @SpyBean
     protected AuthTokenService authTokenService;
     @SpyBean
@@ -110,49 +110,48 @@ public abstract class AbstractIT {
     protected UserSnapshotService userSnapshotService;
     @SpyBean
     protected UserStatsService userStatsService;
-    
+
     private final String API_V1 = "/api/v1";
     public final String API_USER = API_V1 + "/user";
     public final String API_USER_ADMIN = API_V1 + "/admin/user";
     public final String API_SYS = API_V1 + "/sys";
-    
+
     public static final String MANAGED_ERROR_TYPE = "errorType";
     public static final String VALIDATION_ERRORS_MSG = "errors.defaultMessage";
-    
+
     /** Simply a new unique objectId. */
     public final long UNKNOWN_ID = Long.MAX_VALUE;
-    
+
     public final String UNKNOWN_USER_NAME = "u" + UNKNOWN_ID;
-    
+
     /** Number of times to start a batch to ensure its repeatability. */
     public final int NB_TESTS_TO_ENSURE_BATCH_REPEATABILITY = 3;
-    
+
     /** Number of batch chunks to process to ensure its reliability. */
     public final int NB_BATCH_CHUNKS_TO_ENSURE_RELIABILITY = 3;
-    
+
     protected final Map<Integer, Long> userIdCache = new HashMap<>();
-    
+
     public int userCount;
-    
+
     public int getNumberOfUsers() {
         return 2;
     }
     
-    /** Clear data before test class. Do NOT override it in non-abstract test classes. */
     @BeforeAll
-    public final void beforeClass() {
+    public final void initRestAssured() {
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset(StandardCharsets.UTF_8));
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
         Rs.tokenProvider = jwtTokenService;
     }
-    
-    /** Clear data before each test method. */
+
+    /** Clear data before each test method. Do NOT override it in non-abstract test classes. */
     @BeforeEach
     public void clearData() {
         userIdCache.clear();
         initDb();
-        
+
         Mockito.clearInvocations(authTokenService);
         Mockito.clearInvocations(friendshipService);
         Mockito.clearInvocations(friendshipEventService);
@@ -167,31 +166,31 @@ public abstract class AbstractIT {
         Mockito.clearInvocations(userSnapshotService);
         Mockito.clearInvocations(userStatsService);
     }
-    
+
     private void clearDb() {
         authTokenService.deleteAll();
-        
+
         friendshipEventService.deleteAll();
         friendshipRequestService.deleteAll();
         friendshipService.deleteAll();
-        
+
         userSnapshotService.deleteAll();
         userStatsService.deleteAll();
-        
+
         userService.deleteAll();
     }
-    
+
     private void clearCache() {
         authTokenService.evictAllCache();
     }
-    
+
     @SneakyThrows({ExecutionException.class, InterruptedException.class})
     public void initDb() {
         long t1 = currentTimeMillis();
         MDC.put(KEY_ENV, "junit");
         clearDb();
         clearCache();
-        
+
         Executor tasksExecutor = Executors.newFixedThreadPool(3);
         CompletableFuture<Void> registerPlayerTask = CompletableFuture.runAsync(() -> {
             for (int idx = 0; idx < getNumberOfUsers(); idx++) {
@@ -204,26 +203,26 @@ public abstract class AbstractIT {
         }, tasksExecutor);
         CompletableFuture<Void> additionalInitDbTask = CompletableFuture.runAsync(this::additionalParallelInitDb, tasksExecutor);
         CompletableFuture.allOf(registerPlayerTask, ensureUsersTask, additionalInitDbTask).get();
-        
+
         userCount = (int) userService.count();
-        
+
         log.debug("initDb from class {} took {} ms", this.getClass().getSimpleName(), currentTimeMillis() - t1);
         MDC.clear();
     }
-    
+
     /** Override do add logic that occurs at the end of the {@link #initDb()}. */
     public void additionalParallelInitDb() {
         // override if needed
     }
-    
+
     private String makeName(int idx) {
         return "USERNAME" + idx;
     }
-    
+
     private String makePwd(int idx) {
         return "p4ssw0rd" + idx;
     }
-    
+
     @AfterAll
     public final void afterClass() {
         MDC.put(KEY_ENV, "junit");
@@ -233,7 +232,7 @@ public abstract class AbstractIT {
         logGCStats();
         MDC.clear();
     }
-    
+
     private void logGCStats() {
         long totalGarbageCollections = 0;
         long garbageCollectionTime = 0;
@@ -247,111 +246,111 @@ public abstract class AbstractIT {
             totalGarbageCollections, garbageCollectionTime, gcActivityRatio, uptime);
         assertThat(gcActivityRatio).as("GC pressure should be low (less than 10% execution time)").isLessThan(10);
     }
-    
+
     //
     // Helpers: get generated test users and authenticate with their credentials
     //
-    
+
     public final Response login(String username, String password) {
         return whenAnonymous().getSpec()
             .body(UserLogin.builder().username(username).password(password).build())
             .contentType(JSON)
             .post(API_USER + "/auth/authorize");
     }
-    
+
     public final String loginAndReturnToken(String username, String password) {
         Response res = login(username, password);
         res.then()
             .statusCode(SC_OK);
         return res.asString();
     }
-    
+
     public final RequestSpecification usingToken(String token) {
         return Rs.usingToken(token).getSpec();
     }
-    
+
     public final Rs whenAnonymous() {
         return Rs.anonymous();
     }
-    
+
     public final Rs whenAuthenticated(String username, String password) {
         return Rs.authenticated(username, password);
     }
-    
+
     public final Rs whenActuator() {
         return whenAuthenticated(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword());
     }
-    
+
     public final Rs whenAdmin() {
         return whenAuthenticated(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword());
     }
-    
+
     /** When player n°humanId, where humanId is an index starting at 1. */
     public final Rs whenPX(int humanId) {
         int idx = humanId - 1;
         return whenAuthenticated(makeName(idx), makePwd(idx));
     }
-    
+
     /** When player 1. */
     public final Rs whenP1() {
         return whenPX(1);
     }
-    
+
     /** When player 2. */
     public final Rs whenP2() {
         return whenPX(2);
     }
-    
+
     /** When player 3. */
     public final Rs whenP3() {
         return whenPX(3);
     }
-    
+
     @SuppressWarnings("SameParameterValue")
     public final String pwd(int humanId) {
         return makePwd(humanId - 1);
     }
-    
+
     @SuppressWarnings("SameParameterValue")
     public final String name(int humanId) {
         return makeName(humanId - 1);
     }
-    
+
     @SneakyThrows(UserNotFoundException.class)
     public final User user(int humanId) {
         return userService.readByUsername(name(humanId));
     }
-    
+
     /** Get user id of player n°humanId, where humanId is an index starting at 1. */
     @SuppressWarnings("SameParameterValue")
     @SneakyThrows(UserNotFoundException.class)
     public final long userId(int humanId) {
         return findAndCacheUserIdByIdx(humanId - 1);
     }
-    
+
     private long findAndCacheUserIdByIdx(int idx) {
         if (!userIdCache.containsKey(idx)) {
             userIdCache.put(idx, userService.readIdByUsername(makeName(idx)).getId());
         }
         return userIdCache.get(idx);
     }
-    
+
     //
     // Utils
     //
-    
+
     /** Convert single object to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> T readValue(Response content, Class<T> valueType) {
         return objectMapper.readValue(content.asString(), valueType);
     }
-    
+
     /** Convert generic paged objects to JSON. */
     @SneakyThrows(IOException.class)
     public final <T> Page<T> readPage(Response content, Class<T> parameterClass) {
         return objectMapper.readValue(content.asString(), objectMapper.getTypeFactory().constructParametricType(Page.class, parameterClass));
     }
-    
+
     /** Compute a long string. */
     public final String verylongString(String base) {
         StringBuilder sb = new StringBuilder();
