@@ -31,7 +31,7 @@ public class JobRunnerWSIT extends AbstractIT {
             .contentType(ContentType.JSON)
             .statusCode(SC_OK);
 
-        greenMail.waitForIncomingEmail(1000, 1);
+        greenMail.waitForIncomingEmail(8000 /* first email can be slow (GreenMail issue?) */, 1);
         assertThat(readValue(res, TaskStatus.class)).isEqualTo(TASK_STATUS_COMPLETED);
         MimeMessage[] messages = greenMail.getReceivedMessages();
         assertThat(messages).hasSize(1);
