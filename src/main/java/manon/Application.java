@@ -13,12 +13,14 @@ import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
+@EnableAsync
 @EnableBatchProcessing
 @EnableJpaRepositories(basePackages = "manon.repository")
 @EntityScan(basePackages = "manon.document")
@@ -28,21 +30,21 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 @Slf4j
 public class Application extends SpringBootServletInitializer {
-    
+
     private final Cfg cfg;
     private final RegistrationService registrationService;
-    
+
     public static void main(String[] args) {
         SpringApplicationBuilder app = new SpringApplicationBuilder(Application.class);
         app.build().addListeners(new ApplicationPidFileWriter());
         app.run(args);
     }
-    
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.web(WebApplicationType.SERVLET).sources(Application.class);
     }
-    
+
     @PostConstruct
     public void startupHook() {
         log.info("jvm: [{} {} {} {}], os: [{}], file encoding: [{}], admin username: [{}], actuator username: [{}], Cfg: [{}]",
