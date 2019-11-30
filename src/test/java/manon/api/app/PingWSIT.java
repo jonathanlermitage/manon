@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 public class PingWSIT extends AbstractNoUserIT {
-    
+
     @Test
     public void shouldPingAccessibleUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health";
@@ -26,7 +26,7 @@ public class PingWSIT extends AbstractNoUserIT {
             .statusCode(SC_OK);
         verify(pingService, Mockito.times(1)).ping(any());
     }
-    
+
     @Test
     public void shouldNotPingInaccessibleUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health2";
@@ -37,7 +37,7 @@ public class PingWSIT extends AbstractNoUserIT {
             .statusCode(SC_BAD_REQUEST);
         verify(pingService, Mockito.times(2)).ping(any());
     }
-    
+
     @Test
     public void shouldNotPingInvalidUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + 1 + "/actuator/health2";

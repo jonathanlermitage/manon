@@ -25,9 +25,15 @@ services:
       MANON_REDIS_HOST: redis
       MANON_REDIS_PORT: 6379
       MANON_REDIS_MANAGEMENT: "true"
+      MANON_MAIL_HOST: "greenmail"
+      MANON_MAIL_PORT: 3025
+      MANON_MAIL_USERNAME: "sender"
+      MANON_MAIL_PASSWORD: "woot"
+      MANON_MAIL_TEST_CONNECTION: "true"
     depends_on:
       - maria
       - redis
+      - greenmail
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/actuator/health || exit 1"]
       interval: 30s
@@ -76,6 +82,16 @@ services:
       - "6379:6379"
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+
+  greenmail:
+    container_name: greenmail
+    image: greenmail/standalone:1.5.11 # see https://hub.docker.com/r/greenmail/standalone
+    ports:
+      - "3025:3025"
+    environment:
+      # see config http://www.icegreen.com/greenmail/index.html#deploy_docker_standalone
+      GREENMAIL_OPTS: "-Dgreenmail.setup.test.smtp -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.users=sender:woot"
+      JAVA_OPTS: "-Djava.net.preferIPv4Stack=true -Xms32m -Xmx512m"
 
   # ----------------------------------------
   # --- Frontend proxy

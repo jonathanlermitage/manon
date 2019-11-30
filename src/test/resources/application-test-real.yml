@@ -17,10 +17,19 @@ spring:
     password: ${MANON_TEST_SQL_PASSWORD:woot}
     jdbcUrl: ${MANON_TEST_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
     driver-class-name: ${MANON_TEST_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
+  mail:
+    host: "127.0.0.1"
+    port: 10025
+    username: sender
+    password: woot
+    properties.mail.smtp.auth: true
+    test-connection: false # fake mail server is started AFTER test
   redis:
     database: ${MANON_TEST_REDIS_DATABASE:1}
     host: ${MANON_TEST_REDIS_HOST:localhost}
     port: ${MANON_TEST_REDIS_PORT:6379}
 
 management:
-  health.redis.enabled: ${MANON_TEST_REDIS_MANAGEMENT:true}
+  health:
+    mail.enabled: false
+    redis.enabled: ${MANON_TEST_REDIS_MANAGEMENT:true}
