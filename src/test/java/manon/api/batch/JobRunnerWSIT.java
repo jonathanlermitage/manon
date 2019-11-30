@@ -31,6 +31,7 @@ public class JobRunnerWSIT extends AbstractIT {
             .contentType(ContentType.JSON)
             .statusCode(SC_OK);
 
+        greenMail.waitForIncomingEmail(1000, 1);
         assertThat(readValue(res, TaskStatus.class)).isEqualTo(TASK_STATUS_COMPLETED);
         MimeMessage[] messages = greenMail.getReceivedMessages();
         assertThat(messages).hasSize(1);
@@ -48,6 +49,7 @@ public class JobRunnerWSIT extends AbstractIT {
             .then()
             .statusCode(SC_NOT_FOUND);
 
+        greenMail.waitForIncomingEmail(1000, 1);
         MimeMessage[] messages = greenMail.getReceivedMessages();
         assertThat(messages).isEmpty();
     }

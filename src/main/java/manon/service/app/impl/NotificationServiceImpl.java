@@ -8,6 +8,7 @@ import manon.util.Tools;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final JavaMailSender mailSender;
 
     @Override
+    @Async
     public void notifyBatchExecution(String batchName, String status) {
         String notificationTarget = cfg.getBatchNotificationEmailTo();
         SimpleMailMessage message = new SimpleMailMessage();
