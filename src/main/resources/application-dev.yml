@@ -12,10 +12,18 @@ spring:
     username: ${MANON_DEV_SQL_USERNAME:root}
     password: ${MANON_DEV_SQL_PASSWORD:woot}
     jdbcUrl: ${MANON_DEV_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+  mail:
+    host: ${MANON_DEV_MAIL_HOST:}
+    port: ${MANON_DEV_MAIL_PORT:}
+    username: ${MANON_DEV_MAIL_USERNAME:}
+    password: ${MANON_DEV_MAIL_PASSWORD:}
+    test-connection: ${MANON_DEV_MAIL_TEST_CONNECTION:false}
   redis:
     database: ${MANON_DEV_REDIS_DATABASE:0}
     host: ${MANON_DEV_REDIS_HOST:""}
     port: ${MANON_DEV_REDIS_PORT:0}
 
 management:
-  health.redis.enabled: ${MANON_DEV_REDIS_MANAGEMENT:false}
+  health:
+    mail.enabled: ${MANON_DEV_MAIL_MANAGEMENT:false}
+    redis.enabled: ${MANON_DEV_REDIS_MANAGEMENT:false}

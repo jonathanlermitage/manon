@@ -1,6 +1,9 @@
 package manon.util.basetest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.icegreen.greenmail.store.FolderException;
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetup;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -111,6 +114,7 @@ public abstract class AbstractIT {
     @SpyBean
     protected UserStatsService userStatsService;
 
+    private final String ENV = "junit";
     private final String API_V1 = "/api/v1";
     public final String API_USER = API_V1 + "/user";
     public final String API_USER_ADMIN = API_V1 + "/admin/user";
@@ -132,12 +136,14 @@ public abstract class AbstractIT {
 
     protected final Map<Integer, Long> userIdCache = new HashMap<>();
 
+    public GreenMail greenMail;
+
     public int userCount;
 
     public int getNumberOfUsers() {
         return 2;
     }
-    
+
     @BeforeAll
     public final void initRestAssured() {
         RestAssured.config.encoderConfig(encoderConfig().defaultContentCharset(StandardCharsets.UTF_8));
@@ -187,7 +193,7 @@ public abstract class AbstractIT {
     @SneakyThrows({ExecutionException.class, InterruptedException.class})
     public void initDb() {
         long t1 = currentTimeMillis();
-        MDC.put(KEY_ENV, "junit");
+        MDC.put(KEY_ENV, ENV);
         clearDb();
         clearCache();
 
@@ -210,6 +216,37 @@ public abstract class AbstractIT {
         MDC.clear();
     }
 
+
+    @BeforeAll
+    public final void startFakeMailServer() {
+        MDC.put(KEY_ENV, ENV);
+        log.debug("starting GreenMail server...");
+        ServerSetup serverSetup = new ServerSetup(cfg.getMailPort(), cfg.getMailHost(), ServerSetup.PROTOCOL_SMTP);
+        serverSetup.setVerbose(true);
+        greenMail = new GreenMail(serverSetup);
+        greenMail.setUser(cfg.getMailUsername(), cfg.getMailPassword());
+        if (log.isDebugEnabled()) {
+            log.debug("GreenMail config: " + greenMail.getSmtp().getServerSetup().toString());
+        }
+        greenMail.start();
+        log.debug("started GreenMail server");
+        MDC.clear();
+    }
+
+    @AfterAll
+    public final void stopFakeMailServer() {
+        MDC.put(KEY_ENV, ENV);
+        log.debug("stopping GreenMail server...");
+        greenMail.stop();
+        log.debug("stopped GreenMail server");
+        MDC.clear();
+    }
+
+    @BeforeEach
+    public void resetFakeMailServer() throws FolderException {
+        greenMail.purgeEmailFromAllMailboxes();
+    }
+
     /** Override do add logic that occurs at the end of the {@link #initDb()}. */
     public void additionalParallelInitDb() {
         // override if needed
@@ -225,7 +262,7 @@ public abstract class AbstractIT {
 
     @AfterAll
     public final void afterClass() {
-        MDC.put(KEY_ENV, "junit");
+        MDC.put(KEY_ENV, ENV);
         if (performanceRecorder != null && !performanceRecorder.getStats().isEmpty()) {
             log.info(performanceRecorder.getStats());
         }

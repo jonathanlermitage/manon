@@ -134,6 +134,11 @@
       "name": "manon.httpclient.read-timeout",
       "type": "java.time.Duration",
       "description": "Http client read timeout."
+    },
+    {
+      "name": "manon.batch.notification-email-to",
+      "type": "java.lang.String",
+      "description": "Send a notification to this email every time a batch is executed."
     }
   ],
   "hints": [

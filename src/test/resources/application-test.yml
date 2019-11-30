@@ -20,10 +20,19 @@ spring:
   datasource.jdbcUrl: "jdbc:hsqldb:mem:manon"
   flyway.enabled: false
   jpa.hibernate.ddl-auto: update
+  mail:
+    host: "127.0.0.1"
+    port: 10025
+    username: sender
+    password: woot
+    properties.mail.smtp.auth: true
+    test-connection: false # fake mail server is started AFTER test
   redis:
     database: 0
     host: "localhost"
     port: 0
 
 management:
-  health.redis.enabled: false
+  health:
+    mail.enabled: false
+    redis.enabled: false

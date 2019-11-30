@@ -1,7 +1,6 @@
 package manon.api.app;
 
 import io.restassured.response.ValidatableResponse;
-import lombok.extern.slf4j.Slf4j;
 import manon.model.user.UserRole;
 import manon.util.basetest.AbstractIT;
 import manon.util.web.Rs;
@@ -13,7 +12,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToCompressingWhiteSpace;
 
-@Slf4j
 public class ActuatorIT extends AbstractIT {
 
     @Override

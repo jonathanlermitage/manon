@@ -30,6 +30,7 @@
         <archunit.version>0.12.0</archunit.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <flywaydb.version>6.1.0</flywaydb.version>
+        <greenmail.version>1.5.11</greenmail.version>
         <guava.version>28.1-jre</guava.version>
         <hamcrest.version>2.2</hamcrest.version>
         <hsqldb.version>2.5.0</hsqldb.version>
@@ -40,6 +41,7 @@
         <jackson-datatype-jdk8.version>2.10.1</jackson-datatype-jdk8.version>
         <jackson-datatype-jsr310.version>2.10.1</jackson-datatype-jsr310.version>
         <jackson-module-afterburner.version>2.10.1</jackson-module-afterburner.version>
+        <javax-activation.version>1.1.1</javax-activation.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
         <jetbrains-annotations.version>18.0.0</jetbrains-annotations.version>
@@ -108,6 +110,11 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>${findbugs-jsr305.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${javax-activation.version}</version>
             </dependency>
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -283,6 +290,11 @@
             <artifactId>spring-retry</artifactId>
             <version>${spring-retry.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- SQL. -->
@@ -426,6 +438,18 @@
             <artifactId>junit-jupiter-params</artifactId>
             <version>${junit5.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>${greenmail.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->

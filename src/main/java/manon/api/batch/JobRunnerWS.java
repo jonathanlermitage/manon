@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.model.batch.TaskStatus;
 import manon.model.user.UserSimpleDetails;
+import manon.service.app.NotificationService;
 import manon.service.batch.JobRunnerService;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -28,9 +29,10 @@ import static manon.util.Tools.Media.JSON;
 @RequiredArgsConstructor
 @Slf4j
 public class JobRunnerWS {
-    
+
     private final JobRunnerService jobRunnerService;
-    
+    private final NotificationService notificationService;
+
     @ApiOperation(value = "Start given job.", produces = JSON, response = TaskStatus.class)
     @PostMapping(value = "/batch/start/{job}")
     public TaskStatus startJob(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("job") String job)
@@ -38,10 +40,12 @@ public class JobRunnerWS {
         JobRestartException, JobInstanceAlreadyCompleteException {
         log.warn("admin {} starts job {}", sys.getUsername(), job);
         ExitStatus exitStatus = jobRunnerService.run(job);
-        return TaskStatus.builder()
+        TaskStatus build = TaskStatus.builder()
             .running(exitStatus.isRunning())
             .exitCode(exitStatus.getExitCode())
             .exitDescription(exitStatus.getExitDescription())
             .build();
+        notificationService.notifyBatchExecution(job, exitStatus.getExitCode());
+        return build;
     }
 }
