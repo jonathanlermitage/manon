@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && r
 
 ## install Glowroot
 # - download and copy Glowroot distribution
-RUN curl -L https://github.com/glowroot/glowroot/releases/download/v0.13.4/glowroot-0.13.4-dist.zip > glowroot-dist.zip \
+RUN curl -L https://github.com/glowroot/glowroot/releases/download/v0.13.5/glowroot-0.13.5-dist.zip > glowroot-dist.zip \
   && unzip glowroot-dist.zip \
   && rm glowroot-dist.zip \
   && apt-get -y purge --auto-remove unzip \
