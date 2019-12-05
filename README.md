@@ -48,6 +48,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
   * Java **architecture tests** via [**ArchUnit**](https://github.com/TNG/ArchUnit). See last commit of [spring5-light-archunit](https://github.com/jonathanlermitage/manon/tree/spring5-light-archunit) branch
   * use dockerized MariaDB on **[Travis](https://travis-ci.org/jonathanlermitage/manon)** CI instead of embedded HSQLDB. See last commit of [spring5-light-travis-with-mariadb](https://github.com/jonathanlermitage/manon/tree/spring5-light-travis-with-mariadb) branch
   * **split Unit and Integration Tests**: run Unit Tests first and, if they don't fail, run Integration Tests. See last commit of [spring5-light-separate-integ-unit](https://github.com/jonathanlermitage/manon/tree/spring5-light-separate-integ-unit) branch. Due to JDK11+JUnit5+Failsafe issues ([that may be fixed in Failsafe 3.0.0](https://maven.apache.org/surefire/maven-failsafe-plugin/)), I run both Integration and Unit tests via Surefire Maven plugin
+* **[Gatling](https://gatling.io) benchmark**. See last commit of [spring5-light-gatling](https://github.com/jonathanlermitage/manon/tree/spring5-light-gatling) branch and dedicated [README.md](docker/gatling/README.md) file
 * **migration from MongoDB** (used to store regular and authentication data) to **MariaDB**. See last commit of [spring5-light-mongo-to-sql](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo-to-sql) branch
   * tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project
     * use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7) ([spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo) branch)
@@ -93,6 +94,7 @@ do t            test using embedded HSQLDB
 do ut           run unit tests only, no integration tests
 do tc           run unit + integration tests and generate coverage data
 do itc          run integration tests only and generate coverage data
+do gatling      benchmark application via a Gatling container (run './do up' first to start application)
 do sc           compute and upload Sonar analysis to SonarCloud
 do tsc          similar to "do tc" then "do sc"
 do sb           scan with SpotBugs then show GUI
@@ -123,7 +125,7 @@ do mariah-batch connect to dockerized MariaDB Spring Batch database by calling h
 ```
 
 Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  
-Nota: a Windows `do.cmd` script exists, but it's limited to some basic features (`do t` to `do dt`, no Docker support).
+Nota: a Windows `do.cmd` script exists, but it's limited to some basic features. Run `do.cmd help` for details.
 
 ## License
 
