@@ -20,6 +20,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "ut           run unit tests only, no integration tests"
       echo  "tc           run unit + integration tests and generate coverage data"
       echo  "itc          run integration tests only and generate coverage data"
+      echo  "gatling      benchmark application via a Gatling container (run './do up' first to start application)"
       echo  "sc           compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
       echo  "tsc          similar to \"do tc\" then \"do sc\""
       echo  "sb           scan with SpotBugs then show GUI"
@@ -244,6 +245,10 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "stopcerebro")
       docker-compose -f ./docker/docker-compose-cerebro.yml down
+      ;;
+
+    "gatling")
+      docker-compose -f ./docker/docker-compose-gatling.yml up --force-recreate
       ;;
 
     "maria")

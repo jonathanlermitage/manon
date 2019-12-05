@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  # ----------------------------------------
+  # --- Gatling benchmark
+  # --- TODO extend with Grafana https://github.com/pedroxs/gatling-docker
+  # ----------------------------------------
+  gatling:
+    container_name: gatling
+    image: denvazh/gatling:3.2.1 # see https://hub.docker.com/r/denvazh/gatling
+    volumes:
+      - ./gatling/user-files:/opt/gatling/user-files
+      - ./gatling/conf:/opt/gatling/conf
+      - ~/manon-gatling-results:/opt/gatling/results
+    command: [-s, manon.ActuatorSimulation]
