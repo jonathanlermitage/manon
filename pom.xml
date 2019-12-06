@@ -52,7 +52,7 @@
         <querydsl.version>4.2.2</querydsl.version>
         <rest-assured.version>4.1.2</rest-assured.version>
         <slf4j.version>1.7.29</slf4j.version>
-        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-retry.version>1.2.4.RELEASE</spring-retry.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
 
