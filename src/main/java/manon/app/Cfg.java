@@ -10,7 +10,7 @@ import java.time.Duration;
 
 @Component
 @Getter
-@ToString(exclude = {"defaultUserActuatorPassword", "defaultUserAdminPassword", "securityJwtSigningKeyB64"})
+@ToString(exclude = {"defaultUserActuatorPassword", "defaultUserAdminPassword", "securityJwtSigningKeyB64", "mailPassword"})
 @Validated
 public class Cfg {
 
