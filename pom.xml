@@ -645,6 +645,14 @@
             </properties>
         </profile>
 
+        <!-- Test with embedded HSQLDB db (schema is automatically created by Hibernate) and in-memory cache. -->
+        <profile>
+            <id>test-ddl-create</id>
+            <properties>
+                <surefireProfileArgLine>-Dspring.profiles.active=test-ddl-create</surefireProfileArgLine>
+            </properties>
+        </profile>
+
         <!-- Code coverage via JaCoCo. -->
         <profile>
             <id>coverage</id>
