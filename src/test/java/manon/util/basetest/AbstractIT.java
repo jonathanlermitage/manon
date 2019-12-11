@@ -222,7 +222,7 @@ public abstract class AbstractIT {
         MDC.put(KEY_ENV, ENV);
         log.debug("starting GreenMail server...");
         ServerSetup serverSetup = new ServerSetup(cfg.getMailPort(), cfg.getMailHost(), ServerSetup.PROTOCOL_SMTP);
-        serverSetup.setVerbose(true);
+        serverSetup.setVerbose(false);
         greenMail = new GreenMail(serverSetup);
         greenMail.setUser(cfg.getMailUsername(), cfg.getMailPassword());
         if (log.isDebugEnabled()) {

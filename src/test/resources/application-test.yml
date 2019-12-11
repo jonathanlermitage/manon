@@ -1,25 +1,23 @@
 ### DEV CONFIGURATION for local unit testing with embedded HSQLDB db and in-memory cache ###  (warning: avoid tabs, indent with two spaces)
 
 manon:
-  batch.user-snapshot.chunk: 10
+  batch:
+    datasource:
+      driver-class-name: org.hsqldb.jdbc.JDBCDriver
+      jdbcUrl: "jdbc:hsqldb:mem:manonbatch"
+    flyway.location: "classpath:db/migration/hsqldb/batch"
+    user-snapshot.chunk: 10
   performance-recorder.enabled: true
   security.bcrypt.strength: 4
   cache.provider: embedded
   httpclient: # speed up tests on wanted timeouts
     connect-timeout: 250ms
     read-timeout: 250ms
-  batch:
-    datasource:
-      driver-class-name: org.hsqldb.jdbc.JDBCDriver
-      jdbcUrl: "jdbc:hsqldb:mem:manonbatch"
-    flyway:
-      enabled: false
 
 spring:
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
   datasource.jdbcUrl: "jdbc:hsqldb:mem:manon"
-  flyway.enabled: false
-  jpa.hibernate.ddl-auto: update
+  flyway.locations: ["classpath:db/migration/hsqldb/main"]
   mail:
     host: "127.0.0.1"
     port: 10025

@@ -18,7 +18,7 @@ spring:
     open-in-view: false # should always be disabled. See https://github.com/spring-projects/spring-boot/issues/7107#issuecomment-271709902
   flyway:
     baseline-on-migrate: true
-    locations: ["classpath:db/migration/main"]
+    locations: ["classpath:db/migration/mariadb/main"]
   mail:
     host: ${MANON_MAIL_HOST:}
     port: ${MANON_MAIL_PORT:}
@@ -79,7 +79,7 @@ manon:
     flyway:
       baseline-on-migrate: true
       enabled: true
-      location: "classpath:db/migration/batch"
+      location: "classpath:db/migration/mariadb/batch"
     user-snapshot:
       chunk: 1000
       snapshot.max-age: 30d
