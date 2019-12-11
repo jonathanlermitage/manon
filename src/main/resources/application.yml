@@ -1,5 +1,6 @@
-### MAIN CONFIGURATION ###  (warning: avoid tabs, indent with two spaces)
+### MAIN CONFIGURATION
 # see https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+### (warning: avoid tabs, indent with two spaces)
 
 spring:
   http.converters.preferred-json-mapper: jackson

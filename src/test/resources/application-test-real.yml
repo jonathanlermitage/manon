@@ -1,4 +1,7 @@
-### DEV CONFIGURATION for local unit testing with existing fresh MariaDB db and Redis cache ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local unit testing
+# Existing fresh MariaDB db (schema is managed by Flyway)
+# Redis cache
+### (warning: avoid tabs, indent with two spaces)
 
 manon:
   batch:

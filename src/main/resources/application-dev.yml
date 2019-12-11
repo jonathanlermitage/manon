@@ -1,4 +1,7 @@
-### DEV CONFIGURATION for local application with existing MariaDB db and in-memory cache ###  (warning: avoid tabs, indent with two spaces)
+### DEV CONFIGURATION for local application
+# Existing MariaDB db (schema is managed by Flyway)
+# In-memory cache
+### (warning: avoid tabs, indent with two spaces)
 
 manon:
   batch.datasource:
