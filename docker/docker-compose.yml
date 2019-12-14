@@ -43,7 +43,7 @@ services:
 
   maria:
     container_name: maria
-    image: mariadb:10.3.20 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.4.11 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3306:3306"
     volumes:
@@ -60,7 +60,7 @@ services:
 
   maria-batch:
     container_name: maria-batch
-    image: mariadb:10.3.20 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.4.11 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3308:3306"
     volumes:
@@ -77,7 +77,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis:5.0.6-alpine # see https://hub.docker.com/_/redis/
+    image: redis:5.0.7-alpine # see https://hub.docker.com/_/redis/
     ports:
       - "6379:6379"
     volumes:
@@ -99,7 +99,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:1.17.5-alpine # see https://hub.docker.com/_/nginx/
+    image: nginx:1.17.6-alpine # see https://hub.docker.com/_/nginx/
     ports:
       - "8000:80"
     volumes:
