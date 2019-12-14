@@ -110,6 +110,7 @@ do rmi          stop Docker application, then remove its containers and images
 do cdi          clean up dangling Docker images
 do dockerreset  stop and remove all containers, remove all images and prune volumes
 do docker       build Docker image with Dockerfile to a Docker daemon
+do dockerpull   pull 3rd party Docker containers
 do jib          build Docker image with Jib to a Docker daemon
 do jibtar       build and save Docker image with Jib to a tarball
 do up           create and start containers via docker-compose

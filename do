@@ -36,6 +36,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "cdi          clean up dangling Docker images"
       echo  "dockerreset  stop and remove all containers, remove all images and prune volumes"
       echo  "docker       build Docker image with Dockerfile to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
+      echo  "dockerpull   pull 3rd party Docker containers"
       echo  "jib          build Docker image with Jib to a Docker daemon as lermitage-manon:1.0.0-SNAPSHOT"
       echo  "jibtar       build and save Docker image with Jib to a tarball"
       echo  "up           create and start containers via docker-compose"
@@ -187,6 +188,14 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
     "docker")
       sh ./mvnw package -DskipUT=true -DskipIT=true -T1
       docker build -f ./docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
+      ;;
+
+    "dockerpull")
+      docker-compose -f ./docker/docker-compose.yml pull
+      docker-compose -f ./docker/docker-compose-cerebro.yml pull
+      docker-compose -f ./docker/docker-compose-elk.yml pull
+      docker-compose -f ./docker/docker-compose-gatling.yml pull
+      docker-compose -f ./docker/docker-compose-test.yml pull
       ;;
 
     "jib")
