@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.DefaultView;
 import manon.document.user.User;
+import manon.dto.user.UserWithSnapshotsResponseDto;
 import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
@@ -35,10 +36,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 @Slf4j
 public class UserWS {
-    
+
     private final RegistrationService registrationService;
     private final UserService userService;
-    
+
     /** Register a new user. */
     @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = User.class)
     @PostMapping(consumes = JSON)
@@ -48,7 +49,7 @@ public class UserWS {
         log.debug("user registration with {}", userLogin);
         return registrationService.registerPlayer(userLogin.getUsername(), userLogin.getPassword());
     }
-    
+
     /** Unregister a user. */
     @ApiOperation(value = "Unregister me.")
     @DeleteMapping
@@ -56,7 +57,7 @@ public class UserWS {
         log.debug("user {} deletes himself", user.getIdentity());
         registrationService.delete(user.getUserId());
     }
-    
+
     /** Get user. */
     @ApiOperation(value = "Get my user information.", produces = JSON, response = User.class)
     @GetMapping
@@ -65,16 +66,15 @@ public class UserWS {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
     }
-    
+
     /** Get user and linked user snapshots. */
-    @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = User.class)
+    @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = UserWithSnapshotsResponseDto.class)
     @GetMapping("/include/usersnapshots")
-    @JsonView(User.WithUserSnapshots.class)
-    public User readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user) {
+    public UserWithSnapshotsResponseDto readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
-        return userService.readOneAndFetchUserSnapshots(user.getUserId());
+        return userService.readOneAndFetchUserSnapshotDtos(user.getUserId());
     }
-    
+
     /** Get user's version. */
     @ApiOperation(value = "Get my user version number.", produces = JSON, response = Long.class)
     @GetMapping("/version")
@@ -82,7 +82,7 @@ public class UserWS {
         log.debug("user {} reads his version", user.getIdentity());
         return userService.readVersionById(user.getUserId()).getVersion();
     }
-    
+
     /** Update one user's user field. */
     @ApiOperation(value = "Update my user data.", consumes = JSON)
     @PutMapping(value = "/field", consumes = JSON)
@@ -91,7 +91,7 @@ public class UserWS {
         log.debug("user {} updates his user with {}", user.getIdentity(), userUpdateForm);
         userService.update(user.getUserId(), userUpdateForm);
     }
-    
+
     /** Update current user's password. */
     @ApiOperation(value = "Update my user password.", consumes = JSON)
     @PutMapping(value = "/password", consumes = JSON)
