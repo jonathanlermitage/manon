@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 )
 public abstract class UserMapper {
 
-    public static UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
+    public static final UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
     public abstract UserWithSnapshotsResponseDto userToUserWithSnapshotsResponseDto(User from);
 }
