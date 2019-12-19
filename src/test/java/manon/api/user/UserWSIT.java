@@ -3,6 +3,7 @@ package manon.api.user;
 import io.restassured.response.Response;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
+import manon.dto.user.UserWithSnapshotsResponseDto;
 import manon.err.user.UserExistsException;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.form.UserLogin;
@@ -30,7 +31,7 @@ import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserWSIT extends AbstractIT {
-    
+
     public Object[][] dataProviderShouldRegister() {
         return new Object[][]{
             {"JOHN", "12300"},
@@ -38,7 +39,7 @@ public class UserWSIT extends AbstractIT {
             {"A B CX_Y-Z", "secret  p4ssword!"}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldRegister")
     public void shouldRegister(String name, String pwd) {
@@ -57,7 +58,7 @@ public class UserWSIT extends AbstractIT {
             .isNotEqualTo(user.getPassword())
             .doesNotContain(user.getPassword());
     }
-    
+
     @Test
     public void shouldNotRegisterTwice() {
         whenAnonymous().getSpec()
@@ -74,7 +75,7 @@ public class UserWSIT extends AbstractIT {
             .statusCode(SC_CONFLICT).contentType(JSON)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(UserExistsException.class.getSimpleName()));
     }
-    
+
     @Test
     public void shouldDeleteAndLooseAuthorisations() {
         whenP1().getSpec()
@@ -87,7 +88,7 @@ public class UserWSIT extends AbstractIT {
         login(name(1), pwd(1))
             .then().statusCode(SC_UNAUTHORIZED);
     }
-    
+
     @Test
     public void shouldRead() {
         Response res = whenP1().getSpec()
@@ -99,7 +100,7 @@ public class UserWSIT extends AbstractIT {
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isNull();
     }
-    
+
     @Test
     public void shouldReadWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
@@ -115,19 +116,19 @@ public class UserWSIT extends AbstractIT {
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isNull();
     }
-    
+
     @Test
     public void shouldReadAndIncludeUserSnapshots() {
         Response res = whenP1().getSpec()
             .get(API_USER + "/include/usersnapshots");
         res.then()
             .statusCode(SC_OK);
-        User webUser = readValue(res, User.class);
-        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        UserWithSnapshotsResponseDto webUser = readValue(res, UserWithSnapshotsResponseDto.class);
+        UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isEmpty();
     }
-    
+
     @Test
     public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
@@ -138,12 +139,12 @@ public class UserWSIT extends AbstractIT {
             .get(API_USER + "/include/usersnapshots");
         res.then()
             .statusCode(SC_OK);
-        User webUser = readValue(res, User.class);
-        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        UserWithSnapshotsResponseDto webUser = readValue(res, UserWithSnapshotsResponseDto.class);
+        UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).hasSize(2).isEqualTo(dbUser.getUserSnapshots());
     }
-    
+
     @Test
     public void shouldReadVersion() {
         Response res = whenP1().getSpec()
@@ -154,14 +155,14 @@ public class UserWSIT extends AbstractIT {
         Long dbUserVersion = userService.readOne(userId(1)).getVersion();
         assertThat(webUserVersion).isEqualTo(dbUserVersion);
     }
-    
+
     public Object[][] dataProviderShouldUpdate() {
         return new Object[][]{
             {"", ""},
             {"nickname", "test.foo@bar.com"}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldUpdate")
     public void shouldUpdate(String nickname, String email) {
@@ -180,7 +181,7 @@ public class UserWSIT extends AbstractIT {
             .build();
         assertThat(userAfter).isEqualTo(userExpected);
     }
-    
+
     @Test
     public void shouldUpdatePassword() {
         whenP1().getSpec()
@@ -189,12 +190,12 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        
+
         String token = loginAndReturnToken(name(1), "a new password");
         usingToken(token).get(API_USER)
             .then().statusCode(SC_OK);
     }
-    
+
     @Test
     public void shouldUpdateWithLongestPassword() {
         String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
@@ -204,12 +205,12 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        
+
         String token = loginAndReturnToken(name(1), newPassword);
         usingToken(token).get(API_USER)
             .then().statusCode(SC_OK);
     }
-    
+
     @Test
     public void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
         // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
@@ -220,11 +221,11 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        
+
         login(name(1), newPassword.substring(0, 80))
             .then().statusCode(SC_OK);
     }
-    
+
     @Test
     public void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
         // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
@@ -235,11 +236,11 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_OK);
-        
+
         login(name(1), newPassword.substring(0, 20))
             .then().statusCode(SC_UNAUTHORIZED);
     }
-    
+
     @Test
     public void shouldNotUpdateBadPassword() {
         whenP1().getSpec()
@@ -248,24 +249,24 @@ public class UserWSIT extends AbstractIT {
             .put(API_USER + "/password")
             .then()
             .statusCode(SC_BAD_REQUEST);
-        
+
         login(name(1), "a new password")
             .then().statusCode(SC_UNAUTHORIZED);
         login(name(1), pwd(1))
             .then().statusCode(SC_OK);
     }
-    
+
     @Test
     public void shouldGetZeroFriends() {
         //GIVEN a user with no friend
-        
+
         //WHEN he gets friends
         Response res = whenP1().getSpec()
             .get(API_USER + "/friends");
         res.then()
             .statusCode(SC_OK);
         List<UserPublicInfo> friends = Arrays.asList(res.getBody().as(UserPublicInfo[].class));
-        
+
         //THEN he gets nothing
         assertThat(friends).isEmpty();
     }
