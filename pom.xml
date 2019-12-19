@@ -116,6 +116,11 @@
                 <artifactId>activation</artifactId>
                 <version>${javax-activation.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>${spring-retry.version}</version>
+            </dependency>
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
             <!-- Overrides to force usage of latest version.        -->
@@ -277,7 +282,6 @@
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
-            <version>${spring-retry.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
