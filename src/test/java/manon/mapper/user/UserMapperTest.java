@@ -3,7 +3,7 @@ package manon.mapper.user;
 import manon.document.user.User;
 import manon.document.user.UserSnapshot;
 import manon.dto.user.UserResponseDto;
-import manon.dto.user.UserSnapshotResponsetDto;
+import manon.dto.user.UserSnapshotResponseDto;
 import manon.dto.user.UserWithSnapshotsResponseDto;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
@@ -68,7 +68,7 @@ public class UserMapperTest {
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setId(nestedUser.getId());
 
-        UserSnapshotResponsetDto userSnapshotResponsetDto1 = new UserSnapshotResponsetDto();
+        UserSnapshotResponseDto userSnapshotResponsetDto1 = new UserSnapshotResponseDto();
         userSnapshotResponsetDto1.setId(userSnapshot1.getId());
         userSnapshotResponsetDto1.setUser(userResponseDto);
         userSnapshotResponsetDto1.setUserUsername(userSnapshot1.getUserUsername());
@@ -78,7 +78,7 @@ public class UserMapperTest {
         userSnapshotResponsetDto1.setUserEmail(userSnapshot1.getUserEmail());
         userSnapshotResponsetDto1.setCreationDate(userSnapshot1.getCreationDate());
 
-        UserSnapshotResponsetDto userSnapshotResponsetDto2 = new UserSnapshotResponsetDto();
+        UserSnapshotResponseDto userSnapshotResponsetDto2 = new UserSnapshotResponseDto();
         userSnapshotResponsetDto2.setId(userSnapshot2.getId());
         userSnapshotResponsetDto2.setUser(userResponseDto);
         userSnapshotResponsetDto2.setUserUsername(userSnapshot2.getUserUsername());

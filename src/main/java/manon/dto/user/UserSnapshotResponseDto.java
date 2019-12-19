@@ -8,7 +8,7 @@ import manon.model.user.RegistrationState;
 import java.time.LocalDateTime;
 
 @Data
-public class UserSnapshotResponsetDto {
+public class UserSnapshotResponseDto {
 
     private long id;
 
