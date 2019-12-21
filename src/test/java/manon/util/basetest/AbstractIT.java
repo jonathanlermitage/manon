@@ -18,6 +18,7 @@ import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
+import manon.service.app.TrxDemoService;
 import manon.service.batch.JobRunnerService;
 import manon.service.user.FriendshipEventService;
 import manon.service.user.FriendshipRequestService;
@@ -106,6 +107,8 @@ public abstract class AbstractIT {
     @SpyBean
     protected RegistrationService registrationService;
     @SpyBean
+    protected TrxDemoService trxDemoService;
+    @SpyBean
     protected UserDetailsService userDetailsService;
     @SpyBean
     protected UserService userService;
@@ -167,6 +170,7 @@ public abstract class AbstractIT {
         Mockito.clearInvocations(passwordEncoderService);
         Mockito.clearInvocations(pingService);
         Mockito.clearInvocations(registrationService);
+        Mockito.clearInvocations(trxDemoService);
         Mockito.clearInvocations(userDetailsService);
         Mockito.clearInvocations(userService);
         Mockito.clearInvocations(userSnapshotService);

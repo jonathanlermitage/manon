@@ -7,7 +7,7 @@ package manon.err;
  * <br><br>
  * To understand why default (currently used here) Spring configuration makes these exceptions to rollback transactions, see
  * <a href="https://docs.spring.io/spring/docs/5.1.7.RELEASE/spring-framework-reference/data-access.html#transaction-declarative-rolling-back">Spring 5.1.7 documentation
- * - <i>Rolling Back a Declarative Transaction</i></a> (aso, link to the
+ * - <i>Rolling Back a Declarative Transaction</i></a> (also, link to the
  * <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/data-access.html#transaction-declarative-rolling-back"><i>latest</i> version</a>).
  * TL;DR:<cite>
  * In its default configuration, the Spring Framework’s transaction infrastructure code
@@ -19,7 +19,7 @@ package manon.err;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractManagedException extends RuntimeException {
-    
+
     public String getErrorType() {
         return this.getClass().getSimpleName();
     }
