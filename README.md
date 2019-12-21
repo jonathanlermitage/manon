@@ -30,6 +30,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
 * **Spring Web** with a **REST API**
 * **Spring Security**, to authenticate users via auth_basic and fetch authentication data from SQL database 
 * **Spring Data** to serve data from a database
+  * simple test to show when a transaction rollback occurs (tip: Error and RuntimeException trigger rollback, Exception doesn't!). See last commit of [spring5-light-trx-rollback](https://github.com/jonathanlermitage/manon/tree/spring5-light-trx-rollback) branch. See also [`AbstractManagedException` javadoc](https://github.com/jonathanlermitage/manon/blob/spring5-light/src/main/java/manon/err/AbstractManagedException.java) for details.
 * use [**MapStruct**](https://mapstruct.org) to map entity to DTO (this is a short introduction only, mapping can be done in both directions and extended to all entities). See last commit of [spring5-light-mapstruct-mapper](https://github.com/jonathanlermitage/manon/tree/spring5-light-mapstruct-mapper) branch
 * [**Querydsl**](http://www.querydsl.com) support for dynamic SQL querying and pagination with Spring Data JPA and Spring Web. See last commit of [spring5-light-querydsl-jpa](https://github.com/jonathanlermitage/manon/tree/spring5-light-querydsl-jpa) branch
 * **Spring Batch** to schedule and manage some tasks. See commit [c0e3422](https://github.com/jonathanlermitage/manon/commit/c0e3422fcce5522c3320dd1a2eed65950e321621) ([spring5-light-batch](https://github.com/jonathanlermitage/manon/tree/spring5-light-batch) branch)
