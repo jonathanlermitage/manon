@@ -130,6 +130,27 @@ do mariah-batch connect to dockerized MariaDB Spring Batch database by calling h
 Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  
 Nota: a Windows `do.cmd` script exists, but it's limited to some basic features. Run `do.cmd help` for details.
 
+## Tips
+
+Some usefull git alias to put into your `.gitconfig` file:
+
+```bash
+# Show a pretty commit log
+ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%C(cyan)\\ [%cn]" --decorate --date=relative
+
+# Checkout a merge request, example: git mr upstream 6
+mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+
+# Credit an author on the latest commit
+credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+
+# Interactive rebase with the given number of latest commits
+reb = "!r() { git rebase -i HEAD~$1; }; r"
+
+# Show the diff between the latest commit and the current state
+d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
+```
+
 ## License
 
 MIT License. In other words, you can do what you want: this project is entirely OpenSource, Free and Gratis.
