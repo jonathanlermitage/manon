@@ -45,6 +45,8 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "stopelk      stop ELK containers via docker-compose"
       echo  "upcerebro    create and start Cerebro container via docker-compose"
       echo  "stopcerebro  stop Cerebro container via docker-compose"
+      echo  "upjenkins    create and start Jenkins container via docker-compose"
+      echo  "stopjenkins  stop Jenkins container via docker-compose"
       echo  "maria        connect to dockerized MariaDB business database by calling MySQL Client provided by container"
       echo  "maria-batch  connect to dockerized MariaDB Spring Batch database by calling MySQL Client provided by container"
       echo  "mariah       connect to dockerized MariaDB business database by calling host MySQL Client (mysql-client package must be installed)"
@@ -254,6 +256,18 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
 
     "stopcerebro")
       docker-compose -f ./docker/docker-compose-cerebro.yml down
+      ;;
+
+    "upjenkins")
+      if [[ ! -d ~/manon-jenkins ]]; then
+        mkdir ~/manon-jenkins
+        echo "~/manon-jenkins directory created"
+      fi
+      docker-compose -f ./docker/docker-compose-jenkins.yml up -d
+      ;;
+
+    "stopjenkins")
+      docker-compose -f ./docker/docker-compose-jenkins.yml down
       ;;
 
     "gatling")

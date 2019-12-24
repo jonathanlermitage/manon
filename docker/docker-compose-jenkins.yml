@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:2.210-alpine # see https://hub.docker.com/r/jenkins/jenkins
+    ports:
+      - "49001:8080"
+    volumes:
+      - ~/manon-jenkins:/var/jenkins_home
