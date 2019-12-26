@@ -61,7 +61,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * log in with `admin`/`admin`
   * go to `Configuration`, `Data Sources`, `Add data source`, choose `Prometheus`, name: `Prometheus` (case is important), url: `http://prometheus:9090`, `Save & Test`
   * go to `Dashboards`, `Manage`, `Import`, past content of [manon-dashboard.json](docker/grafana/manon-dashboard.json) file, `Load`, `Import`
-  * go to `Dashboards`, `Home`, open the `manon` dahsboard: you should see JDBC and CPU metrics
+  * go to `Dashboards`, `Home`, open the `manon` dashboard: you should see JDBC and CPU metrics
 
 #### Deploy ELK stack and Cerebro
 
