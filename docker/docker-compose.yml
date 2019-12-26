@@ -119,3 +119,13 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:6.5.2 # see https://hub.docker.com/r/grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      # see default paths https://grafana.com/docs/grafana/latest/installation/docker/#default-paths
+      - ~/manon-grafana-data:/var/lib/grafana
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini

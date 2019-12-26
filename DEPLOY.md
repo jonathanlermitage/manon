@@ -57,6 +57,11 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Connect to MariaDB business database: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
 * Connect to MariaDB Spring Batch database: `./do maria-batch` (it connects to database via container's MySQL Client). You can now query tables.
 * Play with Prometheus by visiting `http://localhost:9090` (go to Alerts or Graph, then use auto-completion to fetch some data, e.g. "system_cpu_usage"). Check `http://localhost:9090/targets` to ensure both `prometheus` and `spring-actuator` endpoints are UP.
+* Play with Grafana by visiting `http://localhost:3000`
+  * log in with `admin`/`admin`
+  * go to `Configuration`, `Data Sources`, `Add data source`, choose `Prometheus`, name: `Prometheus` (case is important), url: `http://prometheus:9090`, `Save & Test`
+  * go to `Dashboards`, `Manage`, `Import`, past content of [manon-dashboard.json](docker/grafana/manon-dashboard.json) file, `Load`, `Import`
+  * go to `Dashboards`, `Home`, open the `manon` dahsboard: you should see JDBC and CPU metrics
 
 #### Deploy ELK stack and Cerebro
 

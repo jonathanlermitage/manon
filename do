@@ -183,6 +183,9 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       if [[ -d ~/manon-elastic-db ]]; then
         sudo rm -R ~/manon-elastic-db
       fi
+      if [[ -d ~/manon-grafana-data ]]; then
+        sudo rm -R ~/manon-grafana-data
+      fi
       ;;
 
     "docker")
@@ -228,6 +231,15 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       if [[ ! -d ~/manon-nginx-logs ]]; then
         mkdir ~/manon-nginx-logs
         echo "~/manon-nginx-logs directory created"
+      fi
+      if [[ ! -d ~/manon-grafana-data ]]; then
+        if ! getent passwd grafana > /dev/null 2>&1; then
+            sudo groupadd grafana -g 472
+            sudo useradd grafana -u 472 -g grafana
+        fi
+        mkdir ~/manon-grafana-data
+        sudo chown -R grafana ~/manon-grafana-data
+        echo "~/manon-grafana-data directory created"
       fi
       docker-compose -f ./docker/docker-compose.yml up -d
       ;;
