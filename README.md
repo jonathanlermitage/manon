@@ -1,15 +1,15 @@
 <p align="center">
-    <a href="https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory"><img src="https://dev.azure.com/jonathanlermitage/manon/_apis/build/status/jonathanlermitage.manon?branchName=spring5-light"/></a>
-    <a href="https://ci.appveyor.com/project/jonathanlermitage/manon"><img src="https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true"/></a>
-    <a href="https://travis-ci.org/jonathanlermitage/manon"><img src="https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5-light"/></a>
-    <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light"/></a>
-    <a href="https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg"/></a>
+    <a href="https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory"><img src="https://dev.azure.com/jonathanlermitage/manon/_apis/build/status/jonathanlermitage.manon?branchName=spring5-light" alt="Azure CI"/></a>
+    <a href="https://ci.appveyor.com/project/jonathanlermitage/manon"><img src="https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true" alt="Appveyor CI"/></a>
+    <a href="https://travis-ci.org/jonathanlermitage/manon"><img src="https://travis-ci.org/jonathanlermitage/manon.svg?branch=spring5-light" alt="Trais CI"/></a>
+    <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light" alt="Cirrus CI"/></a>
+    <a href="https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg" alt="License"/></a>
     <br/>
-    <a href="https://sonarcloud.io/dashboard?id=nanon%3Amanon-light"><img src="https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status"/></a>
-    <a href="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light"><img src="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light/graph/badge.svg"/></a>
-    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18"/></a>
-    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18"/></a>
-    <a href="https://bettercodehub.com/results/jonathanlermitage/manon"><img src="https://bettercodehub.com/edge/badge/jonathanlermitage/manon?branch=spring5-light"></a>
+    <a href="https://sonarcloud.io/dashboard?id=nanon%3Amanon-light"><img src="https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status" alt="SonarCloud"/></a>
+    <a href="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light"><img src="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light/graph/badge.svg" alt="Codecov"/></a>
+    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18" alt="LGTM alerts"/></a>
+    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18" alt="LGTM grade"/></a>
+    <a href="https://bettercodehub.com/results/jonathanlermitage/manon"><img src="https://bettercodehub.com/edge/badge/jonathanlermitage/manon?branch=spring5-light" alt="Bettercodehub"></a>
 </p>
 
 1. [Project](https://github.com/jonathanlermitage/manon#project)  
