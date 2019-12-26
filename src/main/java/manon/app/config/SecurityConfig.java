@@ -36,47 +36,47 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableGlobalMethodSecurity(prePostEnabled = true, order = HIGHEST_PRECEDENCE)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     private static final String ACTUATOR = UserRole.ACTUATOR.name();
     private static final String ADMIN = UserRole.ADMIN.name();
     private static final String PLAYER = UserRole.PLAYER.name();
-    
+
     private final PasswordEncoderService passwordEncoderService;
     private final JwtAuthenticationEntryPointConfig jwtAuthenticationEntryPointConfig;
     private final JwtAuthenticationFilterConfig jwtAuthenticationFilterConfig;
     private final UserDetailsService userDetailsService;
-    
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .cors(withDefaults())
-            
+
             .sessionManagement(httpSecurity -> httpSecurity.sessionCreationPolicy(STATELESS))
-            
+
             .exceptionHandling(httpSecurity -> httpSecurity.authenticationEntryPoint(jwtAuthenticationEntryPointConfig))
-            
+
             .addFilterBefore(jwtAuthenticationFilterConfig, UsernamePasswordAuthenticationFilter.class)
-            
+
             .authorizeRequests(a -> a
                 .antMatchers(API_SYS + "/**").hasRole(ADMIN)
-                
+
                 .antMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
-                
+
                 .antMatchers(POST, API_USER).permitAll() // user registration
                 .antMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
                 .antMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
                 .antMatchers(API_USER + "/**").hasRole(PLAYER)
-                
+
                 .antMatchers(API_BASE + "/**").authenticated()
-                
-                .antMatchers("/actuator/health").permitAll()
+
+                .antMatchers("/actuator/health", "/actuator/prometheus").permitAll()
                 .antMatchers("/actuator").hasRole(ACTUATOR)
                 .antMatchers("/actuator/**").hasRole(ACTUATOR)
                 .antMatchers("/swagger-resources",
@@ -85,11 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/swagger-ui.html",
                     "/webjars/**",
                     "/v2/api-docs").permitAll()
-                
+
                 .anyRequest().denyAll()
             );
     }
-    
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderService.getEncoder());

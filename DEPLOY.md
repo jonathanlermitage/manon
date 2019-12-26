@@ -12,10 +12,10 @@ First, go to project's root and make the `./do` utility script executable if nee
 
 ### Docker Compose 
 
-* application + Nginx + MariaDB + Redis + Greenmail
+* application + Nginx + MariaDB + Redis + Greenmail + Prometheus
 * log analysis via ELK + Cerebro
 
-Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org/) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, [Redis](https://redis.io/) cache, [Greenmail](https://github.com/greenmail-mail-test/greenmail) server to fake email messaging, and an ELK stack to parse logs. To proceed, follow these steps:
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, [Redis](https://redis.io) cache, [Greenmail](https://github.com/greenmail-mail-test/greenmail) server to fake email messaging, an ELK stack to parse logs, and [Prometheus](https://prometheus.io) to monitor metrics provided by Spring Boot Actuator. To proceed, follow these steps:
 
 #### Preparation: create directories and install software
 
@@ -56,6 +56,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --header "Authorization: Bearer REPLACE_BY_ADMIN_TOKEN"` then check the `user_stats` and `user_snapshot` MariaDB tables.
 * Connect to MariaDB business database: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
 * Connect to MariaDB Spring Batch database: `./do maria-batch` (it connects to database via container's MySQL Client). You can now query tables.
+* Play with Prometheus by visiting `http://localhost:9090` (go to Alerts or Graph, then use auto-completion to fetch some data, e.g. "system_cpu_usage"). Check `http://localhost:9090/targets` to ensure both `prometheus` and `spring-actuator` endpoints are UP.
 
 #### Deploy ELK stack and Cerebro
 
