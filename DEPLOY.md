@@ -10,9 +10,12 @@ First, go to project's root and make the `./do` utility script executable if nee
 * Package and run application via `./do rd`. Application will start on port 8080 with `dev` Spring profile.
   * To run with another Spring profile (e.g. `prod`), package application via `./do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod manon.jar`.
 
-### Docker Compose (application + nginx + log analysis via ELK + Cerebro)
+### Docker Compose 
 
-Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org/) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, and an ELK stack to parse logs. To proceed, follow these steps:
+* application + Nginx + MariaDB + Redis + Greenmail
+* log analysis via ELK + Cerebro
+
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org/) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, [Redis](https://redis.io/) cache, [Greenmail](https://github.com/greenmail-mail-test/greenmail) server to fake email messaging, and an ELK stack to parse logs. To proceed, follow these steps:
 
 #### Preparation: create directories and install software
 
