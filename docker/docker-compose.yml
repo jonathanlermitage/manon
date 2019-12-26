@@ -107,3 +107,15 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - manon # to proxy app
+
+  # ----------------------------------------
+  # --- Metrics collection
+  # ----------------------------------------
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.15.1 # see https://hub.docker.com/r/prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
