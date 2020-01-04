@@ -189,6 +189,8 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "docker")
+      docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
+      docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
       sh ./mvnw package -DskipUT=true -DskipIT=true -T1
       docker build -f ./docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
       ;;
@@ -202,6 +204,8 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       ;;
 
     "jib")
+      docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
+      docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
       sh ./mvnw compile jib:dockerBuild -DskipUT=true -DskipIT=true -P jib
       ;;
 
