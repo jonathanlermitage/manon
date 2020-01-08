@@ -8,6 +8,7 @@ import manon.api.user.AuthWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
 import manon.api.user.UserWS;
+import manon.util.web.AuthMode;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
@@ -26,7 +27,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 @Slf4j
 public abstract class AbstractMockIT extends AbstractIT {
-    
+
     private static final String BANNED_USERNAME = "BANNED";
     private static final String DELETED_USERNAME = "DELETED";
     private static final String SUSPENDED_USERNAME = "SUSPENDED";
@@ -34,9 +35,9 @@ public abstract class AbstractMockIT extends AbstractIT {
     private static final String DELETED_REACTIVATED_USERNAME = "DELETED_REACTIVATED";
     private static final String SUSPENDED_REACTIVATED_USERNAME = "SUSPENDED_REACTIVATED";
     private static final String PWD = "password" + currentTimeMillis();
-    
+
     private boolean initialized = false;
-    
+
     /** Clear data before test class, not before each test method. */
     @Override
     @BeforeEach
@@ -46,10 +47,10 @@ public abstract class AbstractMockIT extends AbstractIT {
             initialized = true;
         }
     }
-    
+
     @SpyBean // not mocked because its needed by security
     protected AuthWS authWS;
-    
+
     @MockBean
     protected AuthAdminWS authAdminWS;
     @MockBean
@@ -62,12 +63,17 @@ public abstract class AbstractMockIT extends AbstractIT {
     protected UserAdminWS userAdminWS;
     @MockBean
     protected UserWS userWs;
-    
+
     @Override
     public int getNumberOfUsers() {
         return 1;
     }
-    
+
+    @Override
+    public AuthMode getAuthMode() {
+        return AuthMode.FORCED_VIA_SERVICE;
+    }
+
     @Override
     public void additionalParallelInitDb() {
         registrationService.ban(registrationService.registerPlayer(BANNED_USERNAME, PWD).getId());
@@ -80,7 +86,7 @@ public abstract class AbstractMockIT extends AbstractIT {
         registrationService.activate(
             registrationService.suspend(registrationService.registerPlayer(SUSPENDED_REACTIVATED_USERNAME, PWD).getId()).getId());
     }
-    
+
     @BeforeEach
     public void setUpMocks() {
         initMocks(this);
@@ -92,45 +98,45 @@ public abstract class AbstractMockIT extends AbstractIT {
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
     }
-    
+
     public <T> T verify(T mock, int status) {
         return verify(mock, status, 1);
     }
-    
+
     public <T> T verify(T mock, int status, int times) {
         return Mockito.verify(mock, status > 199 && status < 300 ? Mockito.times(times) : Mockito.never());
     }
-    
+
     private Rs whenUsername(String username) {
-        return Rs.authenticated(username, PWD);
+        return Rs.authenticated(username, PWD, getAuthMode());
     }
-    
+
     public final Rs whenBannedReactivated() {
         return whenUsername(BANNED_REACTIVATED_USERNAME);
     }
-    
+
     public final Rs whenDeletedReactivated() {
         return whenUsername(DELETED_REACTIVATED_USERNAME);
     }
-    
+
     public final Rs whenSuspendedReactivated() {
         return whenUsername(SUSPENDED_REACTIVATED_USERNAME);
     }
-    
+
     public final Rs whenBanned() {
         return whenUsername(BANNED_USERNAME);
     }
-    
+
     public final Rs whenDeleted() {
         return whenUsername(DELETED_USERNAME);
     }
-    
+
     public final Rs whenSuspended() {
         return whenUsername(SUSPENDED_USERNAME);
     }
-    
+
     public final String DP_ALLOW_ADMIN = "dataProviderAllowAdmin";
-    
+
     @SuppressWarnings("unused") // used via DP_ALLOW_ADMIN
     public Object[][] dataProviderAllowAdmin() {
         return new Object[][]{
@@ -146,9 +152,9 @@ public abstract class AbstractMockIT extends AbstractIT {
             {whenSuspended(), SC_UNAUTHORIZED}
         };
     }
-    
+
     public final String DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS = "dataProviderAllowAuthenticateAndAnonymous";
-    
+
     @SuppressWarnings("unused") // used via DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS
     public Object[][] dataProviderAllowAuthenticateAndAnonymous() {
         return new Object[][]{
@@ -164,9 +170,9 @@ public abstract class AbstractMockIT extends AbstractIT {
             {whenSuspended(), SC_OK}
         };
     }
-    
+
     public final String DP_ALLOW_AUTHENTICATED = "dataProviderAllowAuthenticated";
-    
+
     @SuppressWarnings("unused") // used via DP_ALLOW_AUTHENTICATED
     public Object[][] dataProviderAllowAuthenticated() {
         return new Object[][]{

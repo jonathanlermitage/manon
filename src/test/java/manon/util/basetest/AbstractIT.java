@@ -13,7 +13,6 @@ import manon.Application;
 import manon.app.Cfg;
 import manon.document.user.User;
 import manon.err.user.UserNotFoundException;
-import manon.model.user.form.UserLogin;
 import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
@@ -28,6 +27,7 @@ import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
 import manon.service.user.UserSnapshotService;
 import manon.service.user.UserStatsService;
+import manon.util.web.AuthMode;
 import manon.util.web.Page;
 import manon.util.web.Rs;
 import org.junit.jupiter.api.AfterAll;
@@ -59,10 +59,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
-import static io.restassured.http.ContentType.JSON;
 import static java.lang.System.currentTimeMillis;
 import static manon.util.Tools.Mdc.KEY_ENV;
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -145,6 +143,10 @@ public abstract class AbstractIT {
 
     public int getNumberOfUsers() {
         return 2;
+    }
+
+    public AuthMode getAuthMode() {
+        return AuthMode.REGULAR_VIA_API;
     }
 
     @BeforeAll
@@ -293,21 +295,15 @@ public abstract class AbstractIT {
     //
 
     public final Response login(String username, String password) {
-        return whenAnonymous().getSpec()
-            .body(UserLogin.builder().username(username).password(password).build())
-            .contentType(JSON)
-            .post(API_USER + "/auth/authorize");
+        return Rs.login(username, password);
     }
 
     public final String loginAndReturnToken(String username, String password) {
-        Response res = login(username, password);
-        res.then()
-            .statusCode(SC_OK);
-        return res.asString();
+        return Rs.loginAndReturnToken(username, password);
     }
 
     public final RequestSpecification usingToken(String token) {
-        return Rs.usingToken(token).getSpec();
+        return Rs.usingToken(token, getAuthMode()).getSpec();
     }
 
     public final Rs whenAnonymous() {
@@ -315,7 +311,7 @@ public abstract class AbstractIT {
     }
 
     public final Rs whenAuthenticated(String username, String password) {
-        return Rs.authenticated(username, password);
+        return Rs.authenticated(username, password, getAuthMode());
     }
 
     public final Rs whenActuator() {
