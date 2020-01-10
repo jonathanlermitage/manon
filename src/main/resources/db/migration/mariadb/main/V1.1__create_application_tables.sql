@@ -4,7 +4,7 @@
 -- Warning: on Unix-based systems, names are compared in a case-sensitive manner (https://mariadb.com/kb/en/library/identifier-case-sensitivity/)
 --
 
-create table user
+create table user_
 (
     id                 bigint auto_increment
         primary key,
@@ -31,9 +31,9 @@ create table friendship
     request_from_id bigint      not null,
     request_to_id   bigint      not null,
     constraint fk__friendship__request_to_id
-        foreign key (request_to_id) references user (id),
+        foreign key (request_to_id) references user_ (id),
     constraint fk__friendship__request_from_id
-        foreign key (request_from_id) references user (id)
+        foreign key (request_from_id) references user_ (id)
 );
 
 create table friendship_event
@@ -45,9 +45,9 @@ create table friendship_event
     friend_id     bigint       not null,
     user_id       bigint       not null,
     constraint fk__friendship_event__friend_id
-        foreign key (friend_id) references user (id),
+        foreign key (friend_id) references user_ (id),
     constraint fk__friendship_event__user_id
-        foreign key (user_id) references user (id)
+        foreign key (user_id) references user_ (id)
 );
 
 create table friendship_request
@@ -58,9 +58,9 @@ create table friendship_request
     request_from_id bigint      not null,
     request_to_id   bigint      not null,
     constraint fk__friendship_request__request_to_id
-        foreign key (request_to_id) references user (id),
+        foreign key (request_to_id) references user_ (id),
     constraint fk__friendship_request__request_from_id
-        foreign key (request_from_id) references user (id)
+        foreign key (request_from_id) references user_ (id)
 );
 
 create table user_snapshot
@@ -77,7 +77,7 @@ create table user_snapshot
     user_version            bigint       null,
     user_id                 bigint       null,
     constraint fk__user_snapshot__user_id
-        foreign key (user_id) references user (id)
+        foreign key (user_id) references user_ (id)
 );
 
 create table user_stats
