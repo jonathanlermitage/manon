@@ -19,7 +19,7 @@
 
 ## Project
 
-Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, Docker, ELK stack, etc. It demonstrates usage of:
+Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL (HSQLDB, MariaDB, PostgreSQL), NoSQL (Redis, MongoDB), Docker, ELK stack, etc. It demonstrates usage of:
 
 * **Maven** (latest version) and **Gradle** build tools
   * migration from **Maven to Gradle** (but I'll stick to Maven). Stable and functional, but still needs some improvements. See commit [cf79b9c](https://github.com/jonathanlermitage/manon/commit/cf79b9c1f0a7eee7ffcd8a1fd0b1e05e11f1de75) ([spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle) branch)
@@ -48,14 +48,15 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL, NoSQL, 
   * **migration from [TestNG](https://testng.org) to [JUnit5](https://junit.org/junit5/)** (with Spring Boot, dataproviders, expected exceptions, beforeClass and afterClass annotations). See last commit of [spring5-light-testng-to-junit5](https://github.com/jonathanlermitage/manon/tree/spring5-light-testng-to-junit5) branch
   * some **test parallelization with JUnit5**. See last commit of [spring5-light-junit5-parallel-execution](https://github.com/jonathanlermitage/manon/tree/spring5-light-junit5-parallel-execution) branch
   * Java **architecture tests** via [**ArchUnit**](https://github.com/TNG/ArchUnit). See last commit of [spring5-light-archunit](https://github.com/jonathanlermitage/manon/tree/spring5-light-archunit) branch
-  * use dockerized MariaDB on **[Travis](https://travis-ci.org/jonathanlermitage/manon)** CI instead of embedded HSQLDB. See last commit of [spring5-light-travis-with-mariadb](https://github.com/jonathanlermitage/manon/tree/spring5-light-travis-with-mariadb) branch
+  * use dockerized **MariaDB** on **[Travis](https://travis-ci.org/jonathanlermitage/manon)** CI instead of embedded HSQLDB. See last commit of [spring5-light-travis-with-mariadb](https://github.com/jonathanlermitage/manon/tree/spring5-light-travis-with-mariadb) branch
+  * use dockerized **PostgreSQL** on **[Travis](https://travis-ci.org/jonathanlermitage/manon)** CI. See last commit of [postgres](https://github.com/jonathanlermitage/manon/tree/postgres) branch
   * **split Unit and Integration Tests**: run Unit Tests first and, if they don't fail, run Integration Tests. See last commit of [spring5-light-separate-integ-unit](https://github.com/jonathanlermitage/manon/tree/spring5-light-separate-integ-unit) branch. Due to JDK11+JUnit5+Failsafe issues ([that may be fixed in Failsafe 3.0.0](https://maven.apache.org/surefire/maven-failsafe-plugin/)), I run both Integration and Unit tests via Surefire Maven plugin
 * **[Gatling](https://gatling.io) benchmark**. See last commit of [spring5-light-gatling](https://github.com/jonathanlermitage/manon/tree/spring5-light-gatling) branch and dedicated [README.md](docker/gatling/README.md) file
 * **migration from MongoDB** (used to store regular and authentication data) to **MariaDB**. See last commit of [spring5-light-mongo-to-sql](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo-to-sql) branch
   * tests work with an **embedded MongoDB** instance (for data) and HSQLDB (for Spring Batch internals only), that means you don't have to install any database to test project
     * use **embedded MongoDB** during tests. See commits [37e1be5](https://github.com/jonathanlermitage/manon/commit/37e1be5f01c3ffa6ecf4d9c3e558b4ffb297227f) and [161d321](https://github.com/jonathanlermitage/manon/commit/161d3214ab72e76a2f041bbe8914077137513fb7) ([spring5-embedmongo](https://github.com/jonathanlermitage/manon/tree/spring5-embedmongo) branch)
     * make embedded MongoDB work with version from 3.6 to 4.0: see commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2) ([spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x) branch)
-    * replace **HSQLDB** by **H2**. See commit [ae4701e](https://github.com/jonathanlermitage/manon/commit/ae4701e6b0ed490aed32c5b07c84c5b52711188b) ([spring5-light-hsqldb-to-h2](https://github.com/jonathanlermitage/manon/tree/spring5-light-hsqldb-to-h2) branch)
+* replace **HSQLDB** by **H2**. See commit [ae4701e](https://github.com/jonathanlermitage/manon/commit/ae4701e6b0ed490aed32c5b07c84c5b52711188b) ([spring5-light-hsqldb-to-h2](https://github.com/jonathanlermitage/manon/tree/spring5-light-hsqldb-to-h2) branch)
 * migration to **Java 8 new [Date and Time API](https://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html) ([JSR-310](https://jcp.org/en/jsr/detail?id=310))**. See last commit of [spring5-light-java8-datetime-api](https://github.com/jonathanlermitage/manon/tree/spring5-light-java8-datetime-api) branch
 * integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Travis](https://travis-ci.org/jonathanlermitage/manon)** (Linux and MacOS CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[MS Azure DevOps Pipelines](https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory)** (CI), **[CodeCov](https://codecov.io/gh/jonathanlermitage/manon)** (code coverage), **[SonarCloud](https://sonarcloud.io/dashboard?id=nanon:manon)** (code quality), **[LGTM](https://lgtm.com/)** (code quality), **[Better Code Hub](https://bettercodehub.com)** (code quality)  
 * [Maven](https://github.com/takari/maven-wrapper) and Gradle wrappers, and a `do` Bash script that helps you to launch some usefull commands
@@ -95,6 +96,8 @@ do conv         generate a Dependency Convergence report in target/site/dependen
 do oga          check for deprecated groupId and artifactId couples
 do owasp        generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html
 do t            test using embedded HSQLDB
+do td           test using dockerized MariaDB and Redis (container is started and stopped by script)
+do td-postgres  test using dockerized PostgreSQL and Redis (container is started and stopped by script)
 do ut           run unit tests only, no integration tests
 do tc           run unit + integration tests and generate coverage data
 do itc          run integration tests only and generate coverage data
@@ -105,7 +108,7 @@ do sb           scan with SpotBugs then show GUI
 do b            build without testing
 do c            clean
 do p            package application to manon.jar
-do rd           package and run application with dev profile 
+do rd           package and run application with dev-mariadb profile 
 do w 3.5.2      set or upgrade Maven wrapper to 3.5.2
 do cv           check plugins and dependencies versions
 do uv           update plugins and dependencies versions

@@ -50,6 +50,7 @@
         <lombok.version>1.18.10</lombok.version>
         <mariadb.version>2.5.3</mariadb.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
+        <postgresql.version>42.2.9</postgresql.version>
         <querydsl.version>4.2.2</querydsl.version>
         <rest-assured.version>4.1.2</rest-assured.version>
         <slf4j.version>1.7.30</slf4j.version>
@@ -318,6 +319,11 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>${mariadb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>com.querydsl</groupId>
@@ -678,9 +684,17 @@
 
         <!-- Test with MariaDB and Redis. -->
         <profile>
-            <id>test-real</id>
+            <id>test-mariadb</id>
             <properties>
-                <surefireProfileArgLine>-Dspring.profiles.active=test-real</surefireProfileArgLine>
+                <surefireProfileArgLine>-Dspring.profiles.active=test-mariadb</surefireProfileArgLine>
+            </properties>
+        </profile>
+
+        <!-- Test with PostgreSQL and Redis. -->
+        <profile>
+            <id>test-postgres</id>
+            <properties>
+                <surefireProfileArgLine>-Dspring.profiles.active=test-postgres</surefireProfileArgLine>
             </properties>
         </profile>
 

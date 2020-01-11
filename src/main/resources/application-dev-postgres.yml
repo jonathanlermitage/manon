@@ -1,0 +1,36 @@
+### DEV CONFIGURATION for local application
+# Existing PostgreSQL db (schema is managed by Flyway)
+# In-memory cache
+### (warning: avoid tabs, indent with two spaces)
+
+manon:
+  batch.datasource:
+    username: ${MANON_DEV_BATCH_SQL_USERNAME:postgres}
+    password: ${MANON_DEV_BATCH_SQL_PASSWORD:woot}
+    jdbcUrl: ${MANON_DEV_BATCH_SQL_JDBC_URL:jdbc:postgresql://127.0.0.1:5432/manon_dev_batch}
+    driver-class-name: ${MANON_BATCH_SQL_DRIVER_CLASSNAME:org.postgresql.Driver}
+  batch.flyway.location: "classpath:db/migration/postgres/batch"
+  cache.provider: ${MANON_DEV_CACHE_PROVIDER:embedded}
+
+spring:
+  datasource:
+    username: ${MANON_DEV_SQL_USERNAME:postgres}
+    password: ${MANON_DEV_SQL_PASSWORD:woot}
+    jdbcUrl: ${MANON_DEV_SQL_JDBC_URL:jdbc:postgresql://127.0.0.1:5432/manon_dev}
+    driver-class-name: ${MANON_TEST_SQL_DRIVER_CLASSNAME:org.postgresql.Driver}
+  flyway.locations: ["classpath:db/migration/postgres/main"]
+  mail:
+    host: ${MANON_DEV_MAIL_HOST:}
+    port: ${MANON_DEV_MAIL_PORT:}
+    username: ${MANON_DEV_MAIL_USERNAME:}
+    password: ${MANON_DEV_MAIL_PASSWORD:}
+    test-connection: ${MANON_DEV_MAIL_TEST_CONNECTION:false}
+  redis:
+    database: ${MANON_DEV_REDIS_DATABASE:0}
+    host: ${MANON_DEV_REDIS_HOST:""}
+    port: ${MANON_DEV_REDIS_PORT:0}
+
+management:
+  health:
+    mail.enabled: ${MANON_DEV_MAIL_MANAGEMENT:false}
+    redis.enabled: ${MANON_DEV_REDIS_MANAGEMENT:false}
