@@ -27,7 +27,7 @@
         <skipIT>false</skipIT>
         <skipUT>false</skipUT>
 
-        <archunit.version>0.12.0</archunit.version>
+        <archunit.version>0.13.0</archunit.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <flywaydb.version>6.1.4</flywaydb.version>
         <greenmail.version>1.5.11</greenmail.version>
