@@ -8,7 +8,7 @@ First, go to project's root and make the `./do` utility script executable if nee
 * Install recent **JDK11**.
 * Install **MariaDB** (any reasonably recent version should work) then create `manon_dev` and `manon_dev_batch` schemas.
 * Package and run application via `./do rd`. Application will start on port 8080 with `dev` Spring profile.
-  * To run with another Spring profile (e.g. `prod`), package application via `./do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=prod manon.jar`.
+  * To run with another Spring profile (e.g. `prod`), package application via `./do p`, go to `target/` directory and run `java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev manon.jar`.
 
 ### Docker Compose 
 

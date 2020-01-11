@@ -17,6 +17,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "owasp        generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html"
       echo  "t            test using embedded HSQLDB"
       echo  "td           test using dockerized MariaDB and Redis (container is started and stopped by script)"
+      echo  "td-postgres  test using dockerized PostgreSQL and Redis (container is started and stopped by script)"
       echo  "ut           run unit tests only, no integration tests"
       echo  "tc           run unit + integration tests and generate coverage data"
       echo  "itc          run integration tests only and generate coverage data"
@@ -27,7 +28,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo  "b            compile"
       echo  "c            clean"
       echo  "p            package"
-      echo  "rd           package and run application with dev profile"
+      echo  "rd           package and run application with dev-mariadb profile"
       echo  "w \$V         set or upgrade Maven wrapper to version \$V"
       echo  "cv           check plugins and dependencies versions"
       echo  "uv           update plugins and dependencies versions"
@@ -78,7 +79,9 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       echo "remove test containers"
       docker-compose -f ./docker/docker-compose-test.yml down
       echo "start test containers"
-      docker-compose -f ./docker/docker-compose-test.yml up -d
+      docker-compose -f ./docker/docker-compose-test.yml up -d maria-test
+      docker-compose -f ./docker/docker-compose-test.yml up -d maria-batch-test
+      docker-compose -f ./docker/docker-compose-test.yml up -d redis-test
       set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
       set PREV__MANON_TEST_BATCH_SQL_JDBC_URL=$MANON_TEST_BATCH_SQL_JDBC_URL
       set PREV__MANON_TEST_REDIS_PORT=$MANON_TEST_REDIS_PORT
@@ -86,7 +89,29 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       export MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
       export MANON_TEST_REDIS_PORT=6380
       echo "run tests"
-      sh ./mvnw verify -P test-real
+      sh ./mvnw verify -P test-mariadb
+      export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
+      export MANON_TEST_BATCH_SQL_JDBC_URL=PREV__MANON_TEST_BATCH_SQL_JDBC_URL
+      export MANON_TEST_REDIS_PORT=PREV__MANON_TEST_REDIS_PORT
+      echo "stop test containers"
+      docker-compose -f ./docker/docker-compose-test.yml down
+      ;;
+
+    "td-postgres")
+      echo "remove test containers"
+      docker-compose -f ./docker/docker-compose-test.yml down
+      echo "start test containers"
+      docker-compose -f ./docker/docker-compose-test.yml up -d postgres-test
+      docker-compose -f ./docker/docker-compose-test.yml up -d postgres-batch-test
+      docker-compose -f ./docker/docker-compose-test.yml up -d redis-test
+      set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
+      set PREV__MANON_TEST_BATCH_SQL_JDBC_URL=$MANON_TEST_BATCH_SQL_JDBC_URL
+      set PREV__MANON_TEST_REDIS_PORT=$MANON_TEST_REDIS_PORT
+      export MANON_TEST_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5440/manon"
+      export MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5441/manon_batch"
+      export MANON_TEST_REDIS_PORT=6380
+      echo "run tests"
+      sh ./mvnw verify -P test-postgres
       export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
       export MANON_TEST_BATCH_SQL_JDBC_URL=PREV__MANON_TEST_BATCH_SQL_JDBC_URL
       export MANON_TEST_REDIS_PORT=PREV__MANON_TEST_REDIS_PORT
@@ -121,7 +146,7 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
     "rd")
       sh ./mvnw package -DskipUT=true -DskipIT=true -T1
       cd target/
-      java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+      java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
       cd ..
       ;;
 

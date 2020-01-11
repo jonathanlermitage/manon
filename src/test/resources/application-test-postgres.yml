@@ -1,0 +1,41 @@
+### DEV CONFIGURATION for local unit testing
+# Existing fresh PostgreSQL db (schema is managed by Flyway)
+# Redis cache
+### (warning: avoid tabs, indent with two spaces)
+
+manon:
+  batch:
+    datasource:
+      username: ${MANON_TEST_BATCH_SQL_USERNAME:postgres}
+      password: ${MANON_TEST_BATCH_SQL_PASSWORD:woot}
+      jdbcUrl: ${MANON_TEST_BATCH_SQL_JDBC_URL:jdbc:postgresql://127.0.0.1:5440/manon_batch}
+      driver-class-name: ${MANON_BATCH_SQL_DRIVER_CLASSNAME:org.postgresql.Driver}
+    flyway.location: "classpath:db/migration/postgres/batch"
+    user-snapshot.chunk: 10
+  performance-recorder.enabled: true
+  security.bcrypt.strength: 4
+  cache.provider: ${MANON_TEST_CACHE_PROVIDER:redis}
+
+spring:
+  datasource:
+    username: ${MANON_TEST_SQL_USERNAME:postgres}
+    password: ${MANON_TEST_SQL_PASSWORD:woot}
+    jdbcUrl: ${MANON_TEST_SQL_JDBC_URL:jdbc:postgresql://127.0.0.1:5440/manon}
+    driver-class-name: ${MANON_TEST_SQL_DRIVER_CLASSNAME:org.postgresql.Driver}
+  flyway.locations: ["classpath:db/migration/postgres/main"]
+  mail:
+    host: "127.0.0.1"
+    port: 10025
+    username: sender
+    password: woot
+    properties.mail.smtp.auth: true
+    test-connection: false # fake mail server is started AFTER test
+  redis:
+    database: ${MANON_TEST_REDIS_DATABASE:1}
+    host: ${MANON_TEST_REDIS_HOST:localhost}
+    port: ${MANON_TEST_REDIS_PORT:6379}
+
+management:
+  health:
+    mail.enabled: false
+    redis.enabled: ${MANON_TEST_REDIS_MANAGEMENT:true}

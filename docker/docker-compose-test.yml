@@ -20,6 +20,24 @@ services:
       MYSQL_ROOT_PASSWORD: woot
       MYSQL_DATABASE: manon_batch
 
+  postgres-test:
+    container_name: postgres-test
+    image: postgres:12.1 # see https://hub.docker.com/_/postgres/
+    ports:
+      - "5440:5432"
+    environment:
+      POSTGRES_PASSWORD: woot
+      POSTGRES_DB: manon
+
+  postgres-batch-test:
+    container_name: postgres-batch-test
+    image: postgres:12.1 # see https://hub.docker.com/_/postgres/
+    ports:
+      - "5441:5432"
+    environment:
+      POSTGRES_PASSWORD: woot
+      POSTGRES_DB: manon_batch
+
   redis-test:
     container_name: redis-test
     image: redis:5.0.7-alpine # see https://hub.docker.com/_/redis/
