@@ -82,17 +82,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       docker-compose -f ./docker/docker-compose-test.yml up -d maria-test
       docker-compose -f ./docker/docker-compose-test.yml up -d maria-batch-test
       docker-compose -f ./docker/docker-compose-test.yml up -d redis-test
-      set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
-      set PREV__MANON_TEST_BATCH_SQL_JDBC_URL=$MANON_TEST_BATCH_SQL_JDBC_URL
-      set PREV__MANON_TEST_REDIS_PORT=$MANON_TEST_REDIS_PORT
-      export MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
-      export MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
-      export MANON_TEST_REDIS_PORT=6380
       echo "run tests"
-      sh ./mvnw verify -P test-mariadb
-      export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
-      export MANON_TEST_BATCH_SQL_JDBC_URL=PREV__MANON_TEST_BATCH_SQL_JDBC_URL
-      export MANON_TEST_REDIS_PORT=PREV__MANON_TEST_REDIS_PORT
+      sh ./mvnw verify -P test-mariadb \
+      -DMANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true" \
+      -DMANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true" \
+      -DMANON_TEST_REDIS_PORT=6380
       echo "stop test containers"
       docker-compose -f ./docker/docker-compose-test.yml down
       ;;
@@ -104,17 +98,11 @@ for ((cmd = 1; cmd <= $#; cmd++)) do
       docker-compose -f ./docker/docker-compose-test.yml up -d postgres-test
       docker-compose -f ./docker/docker-compose-test.yml up -d postgres-batch-test
       docker-compose -f ./docker/docker-compose-test.yml up -d redis-test
-      set PREV__MANON_TEST_SQL_JDBC_URL=$MANON_TEST_SQL_JDBC_URL
-      set PREV__MANON_TEST_BATCH_SQL_JDBC_URL=$MANON_TEST_BATCH_SQL_JDBC_URL
-      set PREV__MANON_TEST_REDIS_PORT=$MANON_TEST_REDIS_PORT
-      export MANON_TEST_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5440/manon"
-      export MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5441/manon_batch"
-      export MANON_TEST_REDIS_PORT=6380
       echo "run tests"
-      sh ./mvnw verify -P test-postgres
-      export MANON_TEST_SQL_JDBC_URL=PREV__MANON_TEST_SQL_JDBC_URL
-      export MANON_TEST_BATCH_SQL_JDBC_URL=PREV__MANON_TEST_BATCH_SQL_JDBC_URL
-      export MANON_TEST_REDIS_PORT=PREV__MANON_TEST_REDIS_PORT
+      sh ./mvnw verify -P test-postgres \
+      -DMANON_TEST_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5440/manon" \
+      -DMANON_TEST_BATCH_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5441/manon_batch" \
+      -DMANON_TEST_REDIS_PORT=6380
       echo "stop test containers"
       docker-compose -f ./docker/docker-compose-test.yml down
       ;;
