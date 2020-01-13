@@ -99,7 +99,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:1.17.6-alpine # see https://hub.docker.com/_/nginx/
+    image: nginx:1.17.7-alpine # see https://hub.docker.com/_/nginx/
     ports:
       - "8000:80"
     volumes:
@@ -114,7 +114,7 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus:v2.15.1 # see https://hub.docker.com/r/prom/prometheus
+    image: prom/prometheus:v2.15.2 # see https://hub.docker.com/r/prom/prometheus
     ports:
       - "9090:9090"
     volumes:
