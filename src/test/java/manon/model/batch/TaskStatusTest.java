@@ -7,13 +7,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TaskStatusTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         assertThat(TaskStatus.builder().build().toString()).contains(
             "running", "exitCode", "exitDescription");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         TaskStatus filled = TaskStatus.builder()
             .running(true)
@@ -28,13 +28,13 @@ public class TaskStatusTest {
             {filled.toBuilder().exitDescription("updated").build(), filled, false}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(TaskStatus o1, TaskStatus o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(TaskStatus o1, TaskStatus o2, boolean expectedEqual) {

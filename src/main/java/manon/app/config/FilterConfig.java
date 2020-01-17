@@ -27,7 +27,7 @@ import static manon.util.Tools.isBlank;
 @Configuration
 @Slf4j
 public class FilterConfig {
-    
+
     @Bean
     @Primary
     public FilterRegistrationBean getFilterRegistrationBean() {
@@ -37,9 +37,9 @@ public class FilterConfig {
         registration.setOrder(1);
         return registration;
     }
-    
+
     private static class LoggingFilter implements Filter {
-        
+
         @Override
         public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
             try {
@@ -54,7 +54,7 @@ public class FilterConfig {
                     MDC.put(KEY_URI, ((HttpServletRequest) request).getRequestURI());
                 }
                 MDC.put(KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
-                
+
                 chain.doFilter(request, response);
             } catch (Error | Exception throwable) {
                 if (!(throwable.getCause() instanceof BadCredentialsException) && !(throwable.getCause() instanceof DisabledException)) {
@@ -65,12 +65,12 @@ public class FilterConfig {
                 MDC.clear();
             }
         }
-        
+
         @Override
         public void init(javax.servlet.FilterConfig arg) {
             // nothing to do
         }
-        
+
         @Override
         public void destroy() {
             // nothing to do

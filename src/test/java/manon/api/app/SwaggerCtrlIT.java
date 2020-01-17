@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class SwaggerCtrlIT extends AbstractMockIT {
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerIndex(Rs rs, Integer status) {
@@ -15,7 +15,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerApiDocs(Rs rs, Integer status) {
@@ -24,7 +24,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerResourcesConfigurationUi(Rs rs, Integer status) {
@@ -33,7 +33,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerResourcesConfigurationSecurity(Rs rs, Integer status) {
@@ -42,7 +42,7 @@ public class SwaggerCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     public void shouldGetSwaggerWebjars(Rs rs, Integer status) {

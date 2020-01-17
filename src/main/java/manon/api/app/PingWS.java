@@ -16,9 +16,9 @@ import static manon.app.Globals.API.API_SYS;
 @RequestMapping(value = API_SYS)
 @RequiredArgsConstructor
 public class PingWS {
-    
+
     private final PingService pingService;
-    
+
     @ApiOperation(value = "Check that an URL can be reached.")
     @GetMapping("/ping/{encodedUrl}")
     public void ping(@PathVariable("encodedUrl") String encodedUrl) {

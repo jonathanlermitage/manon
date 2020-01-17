@@ -13,9 +13,9 @@ import java.util.Collection;
 @Getter
 @AllArgsConstructor
 public class UserSimpleDetails implements UserDetails, Serializable {
-    
+
     private static final long serialVersionUID = -7532767239139493489L;
-    
+
     private String username;
     private String password;
     private boolean accountNonExpired;
@@ -24,14 +24,14 @@ public class UserSimpleDetails implements UserDetails, Serializable {
     private boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
     private User user;
-    
+
     // Accelerators.
-    
+
     @JsonIgnore
     public long getUserId() {
         return getUser().getId();
     }
-    
+
     @JsonIgnore
     public String getIdentity() {
         return getUsername() + " (id " + getUserId() + ")";

@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice
 public class AppControllerAdvice implements AbstractControllerAdvice {
-    
+
     @ExceptionHandler(PingException.class)
     @ResponseStatus(BAD_REQUEST)
     @ResponseBody

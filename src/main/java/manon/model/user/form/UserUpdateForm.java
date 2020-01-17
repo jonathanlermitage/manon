@@ -22,15 +22,15 @@ import static manon.util.Tools.shortenLog;
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public final class UserUpdateForm {
-    
+
     @Size(max = NICKNAME_MAX_LENGTH, message = NICKNAME_SIZE_ERRMSG)
     @Pattern(regexp = NICKNAME_PATTERN, message = NICKNAME_PATTERN_ERRMSG)
     private String nickname;
-    
+
     @Size(max = EMAIL_MAX_LENGTH, message = EMAIL_SIZE_ERRMSG)
     private String email;
-    
-    
+
+
     @Override
     public String toString() {
         return "UserUpdateForm{" +

@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class PingCtrlIT extends AbstractMockIT {
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyPing(Rs rs, Integer status) throws UnsupportedEncodingException {

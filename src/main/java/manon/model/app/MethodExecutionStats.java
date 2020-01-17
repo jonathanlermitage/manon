@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class MethodExecutionStats {
-    
+
     private String service;
     private long calls;
     private long minTime;

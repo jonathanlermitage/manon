@@ -16,11 +16,11 @@ import manon.document.user.User;
 @ToString
 @Builder(toBuilder = true)
 public class UserPublicInfo {
-    
+
     private long id;
     private String username;
     private String nickname;
-    
+
     /** Populate a {@link UserPublicInfo} from a {@link User}. */
     public static UserPublicInfo from(User user) {
         return UserPublicInfo.builder()

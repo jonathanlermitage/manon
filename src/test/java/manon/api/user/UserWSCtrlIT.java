@@ -13,7 +13,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 
 public class UserWSCtrlIT extends AbstractMockIT {
-    
+
     public Object[] dataProviderShouldVerifyRegister() {
         return new Object[]{
             whenAdmin(),
@@ -21,7 +21,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             whenAnonymous()
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyRegister")
     public void shouldVerifyRegister(Rs rs) {
@@ -33,7 +33,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             .statusCode(SC_CREATED);
         verify(userWs, SC_CREATED).register(any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyDelete(Rs rs, Integer status) {
@@ -44,7 +44,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userWs, status).delete(any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRead(Rs rs, Integer status) {
@@ -54,7 +54,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userWs, status).read(any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadAndIncludeUserSnapshots(Rs rs, Integer status) {
@@ -64,7 +64,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userWs, status).readAndIncludeUserSnapshots(any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyReadVersion(Rs rs, Integer status) {
@@ -74,7 +74,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userWs, status).readVersion(any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdateField(Rs rs, Integer status) {
@@ -86,7 +86,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userWs, status).update(any(), any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyUpdatePassword(Rs rs, Integer status) {

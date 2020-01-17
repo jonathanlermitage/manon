@@ -8,13 +8,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static java.util.Collections.singletonList;
 
 public class MethodExecutionStatsTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         Assertions.assertThat(sample().toString()).contains(
             "service", "calls", "minTime", "maxTime", "totalTime", "times");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         MethodExecutionStats sample = sample();
         MethodExecutionStats newService = sample();
@@ -39,19 +39,19 @@ public class MethodExecutionStatsTest {
             {newTimes, sample, false}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
-    
+
     private static MethodExecutionStats sample() {
         return new MethodExecutionStats("s", 0, 0, 0, 0, singletonList(0L));
     }

@@ -10,7 +10,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 public class FriendshipWSCtrlIT extends AbstractMockIT {
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyAskFriendship(Rs rs, Integer status) {
@@ -21,7 +21,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(friendshipWS, status).askFriendship(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyAcceptFriendship(Rs rs, Integer status) {
@@ -32,7 +32,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(friendshipWS, status).acceptFriendshipRequest(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRejectFriendship(Rs rs, Integer status) {
@@ -43,7 +43,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(friendshipWS, status).rejectFriendshipRequest(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyCancelFriendship(Rs rs, Integer status) {
@@ -54,7 +54,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(friendshipWS, status).cancelFriendshipRequest(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyRevokeFriendship(Rs rs, Integer status) {
@@ -65,7 +65,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(friendshipWS, status).revokeFriendship(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
     public void shouldVerifyGetFriends(Rs rs, Integer status) {

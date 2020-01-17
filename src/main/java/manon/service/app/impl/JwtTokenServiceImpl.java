@@ -27,15 +27,15 @@ import java.util.function.Function;
 @Service
 @Slf4j
 public class JwtTokenServiceImpl implements JwtTokenService {
-    
+
     private static final String FIELD_TOKEN_ID = "tokenId";
-    
+
     private final Cfg cfg;
     private final String jwtIssuer;
     private final Key jwtSigningKey;
     private final JwtParser jwtParser;
     private final AuthTokenService authTokenService;
-    
+
     public JwtTokenServiceImpl(@NotNull Cfg cfg, AuthTokenService authTokenService) {
         this.cfg = cfg;
         this.jwtIssuer = cfg.getSecurityJwtIssuer();
@@ -43,28 +43,28 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         this.jwtParser = Jwts.parser().setSigningKey(jwtSigningKey);
         this.authTokenService = authTokenService;
     }
-    
+
     @Override
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
-    
+
     private long getAuthTokenIdFromToken(String token) {
         return getClaimFromToken(token, claims -> Long.parseLong(claims.get(FIELD_TOKEN_ID).toString()));
     }
-    
+
     @Override
     public <T> T getClaimFromToken(String token, @NotNull Function<Claims, T> claimsResolver) {
         return claimsResolver.apply(getAllClaimsFromToken(token));
     }
-    
+
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
             .setSigningKey(cfg.getSecurityJwtSigningKeyB64())
             .parseClaimsJws(token)
             .getBody();
     }
-    
+
     @Override
     public String generateToken(String username) {
         ZonedDateTime expirationDate = Tools.now().plus(cfg.getSecurityJwtTokenTtl()).atZone(Tools.ZONE_ID);
@@ -77,7 +77,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             .signWith(jwtSigningKey)
             .compact();
     }
-    
+
     @Override
     public boolean validateToken(String token, @NotNull UserDetails userDetails) {
         String username = userDetails.getUsername();

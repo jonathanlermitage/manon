@@ -18,13 +18,13 @@ import static manon.model.user.RegistrationState.ACTIVE;
 @Primary
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    
+
     private final UserService userService;
-    
+
     @Override
     public UserSimpleDetails loadUserByUsername(final String username) {
         User user = userService.readByUsername(username);
-        
+
         return new UserSimpleDetails(
             user.getUsername(),
             user.getPassword(),

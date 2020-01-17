@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDateTime;
 
 public class UserSnapshotTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         Assertions.assertThat(UserSnapshot.builder().build().toString()).contains(
@@ -20,7 +20,7 @@ public class UserSnapshotTest {
             "userNickname", "userEmail",
             "userVersion", "creationDate");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserSnapshot filled = UserSnapshot.builder()
             .id(1)
@@ -49,32 +49,32 @@ public class UserSnapshotTest {
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true},
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(Object o1, Object o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(Object o1, Object o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnNew() {
         UserSnapshot o = UserSnapshot.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnExisting() {
         UserSnapshot o = UserSnapshot.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
-        
+
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isEqualTo(creationDate);
     }

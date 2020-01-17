@@ -14,14 +14,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 public class UserControllerAdvice implements AbstractControllerAdvice {
-    
+
     @ExceptionHandler(PasswordNotMatchException.class)
     @ResponseStatus(BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleBadRequest(AbstractManagedException error) {
         return error(error);
     }
-    
+
     @ExceptionHandler({
         FriendshipExistsException.class,
         FriendshipRequestExistsException.class,
@@ -31,7 +31,7 @@ public class UserControllerAdvice implements AbstractControllerAdvice {
     public ErrorResponse handleConflict(AbstractManagedException error) {
         return error(error);
     }
-    
+
     @ExceptionHandler({
         FriendshipNotFoundException.class,
         FriendshipRequestNotFoundException.class,

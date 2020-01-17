@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static io.restassured.http.ContentType.JSON;
 
 public class AuthAdminWSCtrlIT extends AbstractMockIT {
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyRemoveAllExpiredTokens(Rs rs, Integer status) {

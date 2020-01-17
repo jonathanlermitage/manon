@@ -9,14 +9,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDateTime;
 
 public class AuthTokenTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         Assertions.assertThat(AuthToken.builder().build().toString()).contains(
             "id", "username",
             "expirationDate", "creationDate");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         AuthToken filled = AuthToken.builder()
             .id(1)
@@ -33,32 +33,32 @@ public class AuthTokenTest {
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(AuthToken o1, AuthToken o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(AuthToken o1, AuthToken o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnNew() {
         AuthToken o = AuthToken.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnExisting() {
         AuthToken o = AuthToken.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
-        
+
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isEqualTo(creationDate);
     }

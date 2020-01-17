@@ -15,9 +15,9 @@ import java.util.List;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Page<T> {
-    
+
     private List<T> content;
-    
+
     private long totalElements;
     private long totalPages;
     private boolean last;

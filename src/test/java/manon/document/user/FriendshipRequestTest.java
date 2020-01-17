@@ -9,13 +9,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDateTime;
 
 public class FriendshipRequestTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         Assertions.assertThat(FriendshipRequest.builder().build().toString()).contains(
             "id", "requestFrom", "requestTo", "creationDate");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         FriendshipRequest filled = FriendshipRequest.builder()
             .id(1)
@@ -32,32 +32,32 @@ public class FriendshipRequestTest {
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(FriendshipRequest o1, FriendshipRequest o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(FriendshipRequest o1, FriendshipRequest o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnNew() {
         FriendshipRequest o = FriendshipRequest.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnExisting() {
         FriendshipRequest o = FriendshipRequest.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
-        
+
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isEqualTo(creationDate);
     }

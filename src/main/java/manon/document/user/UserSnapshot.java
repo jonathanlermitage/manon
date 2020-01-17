@@ -35,51 +35,51 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSnapshot implements Serializable {
-    
+
     private static final long serialVersionUID = -4321502988403908385L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @JsonView(WithLUserView.class)
     @ManyToOne(fetch = LAZY)
     private User user;
-    
+
     @Column(updatable = false)
     private String userUsername;
-    
+
     @Column(updatable = false)
     private String userAuthorities;
-    
+
     @JsonIgnore
     @Column(updatable = false)
     private String userPassword;
-    
+
     @Column(updatable = false)
     private RegistrationState userRegistrationState;
-    
+
     @Column(updatable = false)
     private String userNickname;
-    
+
     @Column(updatable = false)
     private String userEmail;
-    
+
     @Column(updatable = false)
     private long userVersion;
-    
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime creationDate;
-    
+
     @PrePersist
     public void prePersist() {
         if (creationDate == null) {
             creationDate = Tools.now();
         }
     }
-    
+
     /** Populate a {@link UserSnapshot} from a {@link User}. */
     public static UserSnapshot from(User user) {
         return UserSnapshot.builder()
@@ -93,7 +93,7 @@ public class UserSnapshot implements Serializable {
             .userVersion(user.getVersion())
             .build();
     }
-    
+
     public interface WithLUserView {
     }
 }

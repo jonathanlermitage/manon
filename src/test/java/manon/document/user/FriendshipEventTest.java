@@ -12,13 +12,13 @@ import static manon.model.user.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
 import static manon.model.user.FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST;
 
 public class FriendshipEventTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         Assertions.assertThat(FriendshipEvent.builder().build().toString()).contains(
             "id", "user", "friend", "code", "creationDate");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         FriendshipEvent filled = FriendshipEvent.builder()
             .id(1)
@@ -37,32 +37,32 @@ public class FriendshipEventTest {
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnNew() {
         FriendshipEvent o = FriendshipEvent.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
-    
+
     @Test
     public void shouldVerifyPrePersistOnExisting() {
         FriendshipEvent o = FriendshipEvent.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
-        
+
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isEqualTo(creationDate);
     }

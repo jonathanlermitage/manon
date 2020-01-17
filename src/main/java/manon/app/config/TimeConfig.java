@@ -8,7 +8,7 @@ import java.time.Clock;
 
 @Configuration
 public class TimeConfig {
-    
+
     @Bean
     public Clock clock() {
         return Tools.CLOCK;

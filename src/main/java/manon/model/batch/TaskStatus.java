@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 @Builder(toBuilder = true)
 public class TaskStatus {
-    
+
     private boolean running;
     private String exitCode;
     private String exitDescription;

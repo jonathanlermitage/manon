@@ -19,13 +19,13 @@ import static manon.util.Tools.shortenAndAnonymizeLog;
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public final class UserPasswordUpdateForm {
-    
+
     private String oldPassword;
-    
+
     @NotNull(message = PASSWORD_SIZE_ERRMSG)
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = PASSWORD_SIZE_ERRMSG)
     private String newPassword;
-    
+
     @Override
     public String toString() {
         return "UserPasswordUpdateForm{" +

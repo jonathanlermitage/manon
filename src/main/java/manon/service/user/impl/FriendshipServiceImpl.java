@@ -23,15 +23,15 @@ import static manon.model.user.FriendshipEventCode.YOU_REVOKED_FRIENDSHIP;
 @RequiredArgsConstructor
 @Transactional
 public class FriendshipServiceImpl implements FriendshipService {
-    
+
     private final FriendshipRepository friendshipRepository;
     private final FriendshipEventService friendshipEventService;
-    
+
     @Override
     public void revokeFriendship(long userIdFrom, long userIdTo) {
         deleteFriendship(userIdFrom, userIdTo, YOU_REVOKED_FRIENDSHIP, TARGET_REVOKED_FRIENDSHIP);
     }
-    
+
     @SuppressWarnings("SameParameterValue")
     private void deleteFriendship(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         if (friendshipRepository.countCouple(userIdFrom, userIdTo) > 0) {
@@ -41,7 +41,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         }
         friendshipEventService.registerEvents(userIdFrom, userIdTo, eventCodeFrom, eventCodeTo);
     }
-    
+
     @Override
     public List<UserPublicInfo> findAllPublicInfoFor(long userId) {
         try (Stream<Friendship> stream = friendshipRepository.streamAllFor(userId)) {
@@ -49,23 +49,23 @@ public class FriendshipServiceImpl implements FriendshipService {
                 .collect(Collectors.toList());
         }
     }
-    
+
     @Override
     public long countCouple(long userId1, long userId2) {
         return friendshipRepository.countCouple(userId1, userId2);
     }
-    
+
     @Override
     public Friendship save(Friendship entity) {
         return friendshipRepository.save(entity);
     }
-    
+
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     public void deleteAll() {
         friendshipRepository.deleteAll();
     }
-    
+
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     public List<Friendship> findAllFor(long userId) {

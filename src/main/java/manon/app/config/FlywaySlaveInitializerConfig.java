@@ -15,15 +15,15 @@ import static manon.app.Globals.Properties.ENABLE_FLYWAY_ON_BATCH_DATASOURCE;
 @ConditionalOnProperty(name = ENABLE_FLYWAY_ON_BATCH_DATASOURCE)
 @Configuration
 public class FlywaySlaveInitializerConfig {
-    
+
     private final Cfg cfg;
     private final DataSource sprinbatchDatasource;
-    
+
     public FlywaySlaveInitializerConfig(Cfg cfg, @Qualifier(SPRINGBATCH_DATASOURCE) DataSource sprinbatchDatasource) {
         this.cfg = cfg;
         this.sprinbatchDatasource = sprinbatchDatasource;
     }
-    
+
     @PostConstruct
     public void migrateFlyway() {
         Flyway.configure()

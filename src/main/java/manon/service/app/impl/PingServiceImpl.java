@@ -16,9 +16,9 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 @Slf4j
 public class PingServiceImpl implements PingService {
-    
+
     private final RestTemplate restTemplate;
-    
+
     @Override
     @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 50), include = PingException.class)
     public void ping(String encodedUrl) {

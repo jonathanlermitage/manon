@@ -17,9 +17,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @RequiredArgsConstructor
 public class SwaggerConfig {
-    
+
     private final Cfg cfg;
-    
+
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -28,7 +28,7 @@ public class SwaggerConfig {
             .paths(PathSelectors.any())
             .build().apiInfo(metaData());
     }
-    
+
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
             .title("Manon REST API")

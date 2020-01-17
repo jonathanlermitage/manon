@@ -21,7 +21,7 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class UserWSValidIT extends AbstractMockIT {
-    
+
     public Object[][] dataProviderShouldValidateRegister() {
         return new Object[][]{
             {SC_CREATED, "VALID_USERNAME", "a valid password", null},
@@ -44,7 +44,7 @@ public class UserWSValidIT extends AbstractMockIT {
             {SC_BAD_REQUEST, "USERNAME", verylongString("1"), new String[]{PASSWORD_SIZE_ERRMSG}}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateRegister")
     public void shouldValidateRegister(int statusCode, String username, String pwd, String[] errMsg) {
@@ -59,7 +59,7 @@ public class UserWSValidIT extends AbstractMockIT {
                 VALIDATION_ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
         }
     }
-    
+
     public Object[][] dataProviderShouldValidateUpdate() {
         return new Object[][]{
             {SC_OK, null, null, null},
@@ -72,7 +72,7 @@ public class UserWSValidIT extends AbstractMockIT {
             {SC_BAD_REQUEST, verylongString("averylongnickname"), "", NICKNAME_SIZE_ERRMSG}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateUpdate")
     public void shouldValidateUpdate(int statusCode, String nickname, String email, String errMsg) {
@@ -87,7 +87,7 @@ public class UserWSValidIT extends AbstractMockIT {
                 VALIDATION_ERRORS_MSG, Matchers.containsInAnyOrder(errMsg));
         }
     }
-    
+
     public Object[][] dataProviderShouldValidateUpdatePassword() {
         return new Object[][]{
             {SC_OK, pwd(1), "a new valid password", null},
@@ -96,7 +96,7 @@ public class UserWSValidIT extends AbstractMockIT {
             {SC_BAD_REQUEST, pwd(1), verylongString("averylongpassword"), PASSWORD_SIZE_ERRMSG}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateUpdatePassword")
     public void shouldValidateUpdatePassword(int statusCode, String oldPwd, String newPwd, String errMsg) {

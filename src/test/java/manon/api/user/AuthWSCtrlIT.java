@@ -10,7 +10,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public class AuthWSCtrlIT extends AbstractMockIT {
-    
+
     public Object[][] dataProviderAllowActiveUsersWithCredentials() {
         return new Object[][]{
             {whenAdmin(), SC_OK},
@@ -24,7 +24,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
             {whenSuspended(), SC_UNAUTHORIZED}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderAllowActiveUsersWithCredentials")
     public void shouldVerifyCreateAuthToken(Rs rs, Integer status) {
@@ -32,14 +32,14 @@ public class AuthWSCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @Test
     public void shouldVerifyCreateAuthTokenWhenAnonymous() {
         whenAnonymous().getSpec()
             .then()
             .statusCode(SC_UNAUTHORIZED);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderAllowActiveUsersWithCredentials")
     public void shouldVerifyRenewAuthToken(Rs rs, Integer status) {
@@ -50,7 +50,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @Test
     public void shouldVerifyRenewAuthTokenWhenAnonymous() {
         whenAnonymous().getSpec()
@@ -58,7 +58,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(SC_UNAUTHORIZED);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderAllowActiveUsersWithCredentials")
     public void shouldVerifyLogoutAll(Rs rs, Integer status) {
@@ -69,7 +69,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
             .then()
             .statusCode(status);
     }
-    
+
     @Test
     public void shouldVerifyLogoutAllWhenAnonymous() {
         whenAnonymous().getSpec()

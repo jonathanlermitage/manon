@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface UserSnapshotRepository extends JpaRepository<UserSnapshot, Long> {
-    
+
     long countAllByCreationDateBetween(LocalDateTime start, LocalDateTime end);
-    
+
     void deleteAllByCreationDateBetween(LocalDateTime start, LocalDateTime end);
-    
+
     void deleteAllByCreationDateBeforeOrCreationDateAfter(LocalDateTime start, LocalDateTime end);
 }

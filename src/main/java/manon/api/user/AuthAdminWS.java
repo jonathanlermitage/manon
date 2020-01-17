@@ -18,9 +18,9 @@ import static manon.app.Globals.API.API_USER_ADMIN;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthAdminWS {
-    
+
     private final AuthTokenService authTokenService;
-    
+
     @ApiOperation(value = "Maintenance: remove all expired authentication token references from database.")
     @DeleteMapping(value = "/auth/expired/all")
     public void removeAllExpiredTokens() {

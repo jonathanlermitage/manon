@@ -9,7 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 public class UserAdminWSCtrlIT extends AbstractMockIT {
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyFindAll(Rs rs, Integer status) {
@@ -19,7 +19,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userAdminWS, status).findAll(any(), any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyActivate(Rs rs, Integer status) {
@@ -30,7 +30,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userAdminWS, status).activate(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifyBan(Rs rs, Integer status) {
@@ -41,7 +41,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userAdminWS, status).ban(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifySuspend(Rs rs, Integer status) {
@@ -52,7 +52,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userAdminWS, status).suspend(any(), eq(UNKNOWN_ID));
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifySearch(Rs rs, Integer status) {
@@ -62,7 +62,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(userAdminWS, status).search(any(), any(), any());
     }
-    
+
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
     public void shouldVerifySearchByIdentity(Rs rs, Integer status) {

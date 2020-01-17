@@ -14,26 +14,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class UserStatsServiceImpl implements UserStatsService {
-    
+
     private final UserStatsRepository userStatsRepository;
-    
+
     @Override
     public void save(UserStats entity) {
         userStatsRepository.save(entity);
     }
-    
+
     @Override
     @ExistForTesting(why = {"UserSnapshotJobConfigIntegrationTest", "UserStatsServiceIntegrationTest"})
     public List<UserStats> findAll() {
         return userStatsRepository.findAll();
     }
-    
+
     @Override
     @ExistForTesting(why = "UserStatsServiceIntegrationTest")
     public void saveAll(Iterable<UserStats> entities) {
         userStatsRepository.saveAll(entities);
     }
-    
+
     @Override
     @ExistForTesting(why = "AbstractIntegrationTest")
     public void deleteAll() {

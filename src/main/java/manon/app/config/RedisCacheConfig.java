@@ -23,9 +23,9 @@ import static manon.app.Globals.Properties.CACHE_PROVIDER_REDIS;
 @ConditionalOnProperty(name = CACHE_PROVIDER, havingValue = CACHE_PROVIDER_REDIS)
 @RequiredArgsConstructor
 public class RedisCacheConfig extends CachingConfigurerSupport {
-    
+
     private final Cfg cfg;
-    
+
     @SuppressWarnings({"CollectionAddAllCanBeReplacedWithConstructor", "ConstantConditions"})
     @Bean
     public RedisCacheManager cacheManager(RedisTemplate redisTemplate) {

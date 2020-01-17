@@ -15,6 +15,6 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 @Target({TYPE, FIELD, METHOD})
 @Retention(CLASS)
 public @interface ExistForTesting {
-    
+
     String[] why() default {};
 }

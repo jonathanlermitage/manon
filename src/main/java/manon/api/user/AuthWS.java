@@ -28,11 +28,11 @@ import static manon.app.Globals.API.API_USER;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthWS {
-    
+
     private final AuthenticationManager authenticationManager;
     private final AuthTokenService authTokenService;
     private final JwtTokenService jwtTokenService;
-    
+
     @ApiOperation(value = "Authenticate and get a JWT token for me.")
     @PostMapping(value = "/auth/authorize")
     public String createAuthToken(@RequestBody @Validated UserLogin userLogin) {
@@ -44,13 +44,13 @@ public class AuthWS {
         }
         return jwtTokenService.generateToken(userLogin.getUsername());
     }
-    
+
     @ApiOperation(value = "Generate a new JWT token for me.")
     @PostMapping(value = "/auth/renew")
     public String renewAuthToken(@AuthenticationPrincipal UserSimpleDetails user) {
         return jwtTokenService.generateToken(user.getUsername());
     }
-    
+
     @ApiOperation(value = "Invaldate all my JWT tokens.")
     @PostMapping(value = "/auth/logout/all")
     public void logoutAll(@AuthenticationPrincipal UserSimpleDetails user) {

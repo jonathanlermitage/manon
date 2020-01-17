@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JacksonConfigIT extends AbstractNoUserIT {
-    
+
     @Test
     public void shouldRegisterExpectedJacksonModules() {
         List<String> registeredModules = objectMapper.getRegisteredModuleIds()
             .stream()
             .map(Object::toString)
             .collect(Collectors.toList());
-        
+
         assertThat(registeredModules).containsExactlyInAnyOrder(
             AfterburnerModule.class.getCanonicalName(),
             GeoModule.class.getCanonicalName(),

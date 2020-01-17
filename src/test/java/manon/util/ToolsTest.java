@@ -7,7 +7,7 @@ import static manon.util.Tools.repeat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ToolsTest {
-    
+
     private static Object[][] dataProviderShouldVerifyIsBlank() {
         return new Object[][]{
             {null, true},
@@ -16,13 +16,13 @@ public class ToolsTest {
             {"a", false}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyIsBlank")
     public void shouldVerifyIsBlank(String input, Object expected) {
         assertThat(Tools.isBlank(input)).isEqualTo(expected);
     }
-    
+
     public static Object[][] dataProviderShouldVerifyShortenLog() {
         return new Object[][]{
             {"abc", "abc"},
@@ -35,13 +35,13 @@ public class ToolsTest {
             {1000.1, "1000.1"}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyShortenLog")
     public void shouldVerifyShortenLog(Object input, Object expected) {
         assertThat(Tools.shortenLog(input)).isEqualTo(expected);
     }
-    
+
     public static Object[][] dataProviderShouldVerifyShortenAndAnonymizeLog() {
         return new Object[][]{
             {"abc", "***"},
@@ -54,13 +54,13 @@ public class ToolsTest {
             {1000.1, "******"}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyShortenAndAnonymizeLog")
     public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
         assertThat(Tools.shortenAndAnonymizeLog(input)).isEqualTo(expected);
     }
-    
+
     public static Object[][] dataProviderShouldVerifyRepeat() {
         return new Object[][]{
             {null, -1, null},
@@ -85,7 +85,7 @@ public class ToolsTest {
             {" a b c ", 2, " a b c  a b c "}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyRepeat")
     public void shouldVerifyRepeat(String str, Integer repeat, String expected) {

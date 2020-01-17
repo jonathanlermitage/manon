@@ -35,11 +35,11 @@ import static manon.app.Globals.Properties.ENABLE_PERFORMANCE_RECORDER;
 @Slf4j
 @ConditionalOnProperty(name = ENABLE_PERFORMANCE_RECORDER)
 public class PerformanceRecorderImpl implements PerformanceRecorder {
-    
+
     private final Clock clock;
-    
+
     private final Map<String, MethodExecutionStats> stats = new HashMap<>();
-    
+
     /**
      * Collect execution time on every WS class methods.
      */
@@ -57,7 +57,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
         saveTime(signature, execTime);
         return result;
     }
-    
+
     @Override
     @Synchronized
     public String getStats() {
@@ -79,7 +79,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
         buff.append("\n calls     min     max     total     avg  median  name");
         return "Services performance (ms):" + buff.toString();
     }
-    
+
     /**
      * Collect statistics.
      * @param signature class and method signature.
@@ -105,7 +105,7 @@ public class PerformanceRecorderImpl implements PerformanceRecorder {
         }
         stats.put(signature, stat);
     }
-    
+
     private double median(List<Long> v) {
         sort(v);
         int middle = v.size() / 2;

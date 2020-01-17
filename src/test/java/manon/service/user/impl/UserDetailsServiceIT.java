@@ -9,12 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class UserDetailsServiceIT extends AbstractIT {
-    
+
     @Override
     public int getNumberOfUsers() {
         return 1;
     }
-    
+
     @Test
     public void shouldLoadUserByUsername() {
         String username = name(1);
@@ -23,13 +23,13 @@ public class UserDetailsServiceIT extends AbstractIT {
         assertThat(userSimpleDetailsFound.getUsername()).isEqualTo(username);
         assertThat(userSimpleDetailsFound.getUser().getUsername()).isEqualTo(username);
     }
-    
+
     @Test
     public void shouldFailLoadUserByUnknownUsername() {
         assertThatThrownBy(() -> userDetailsService.loadUserByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UserNotFoundException.class);
     }
-    
+
     @Test
     public void shouldFailLoadUserByNullUsername() {
         assertThatThrownBy(() -> userDetailsService.loadUserByUsername(null))

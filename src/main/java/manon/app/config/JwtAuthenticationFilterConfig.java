@@ -21,13 +21,13 @@ import java.io.IOException;
 @Configuration
 @RequiredArgsConstructor
 public class JwtAuthenticationFilterConfig extends OncePerRequestFilter {
-    
+
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String HEADER_STRING = "Authorization";
-    
+
     private final JwtTokenService jwtTokenService;
     private final UserDetailsService userDetailsService;
-    
+
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest req, @NotNull HttpServletResponse res, @NotNull FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);

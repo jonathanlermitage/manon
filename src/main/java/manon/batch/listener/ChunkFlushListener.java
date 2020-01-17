@@ -15,10 +15,10 @@ import javax.persistence.PersistenceContext;
 @Transactional
 @Slf4j
 public class ChunkFlushListener extends ChunkListenerSupport {
-    
+
     @PersistenceContext
     private final EntityManager em;
-    
+
     @Override
     public void afterChunk(ChunkContext context) {
         super.afterChunk(context);

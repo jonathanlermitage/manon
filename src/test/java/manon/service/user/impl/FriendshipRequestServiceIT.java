@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class FriendshipRequestServiceIT extends AbstractIT {
-    
+
     public Object[] dataProviderUnknownUserInCouple() {
         return new Object[][]{
             {UNKNOWN_ID, userId(2)},
@@ -19,96 +19,96 @@ public class FriendshipRequestServiceIT extends AbstractIT {
             {UNKNOWN_ID, UNKNOWN_ID}
         };
     }
-    
+
     //
     // askFriendship
     //
-    
+
     @Test
     public void shouldAskFriendship() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
-        
+
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
         Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(1);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderUnknownUserInCouple")
     public void shouldFailAskFriendshipWhenUserNotFound(long userId1, long userId2) {
         Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(userId1, userId2))
             .isInstanceOf(UserNotFoundException.class);
     }
-    
+
     @Test
     public void shouldFailAskFriendshipWhenFriendshipRequestExists() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
-        
+
         Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(userId(1), userId(2)))
             .isInstanceOf(FriendshipRequestExistsException.class);
     }
-    
+
     @Test
     public void shouldFailAskFriendshipWhenFriendshipExists() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
-        
+
         Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(userId(1), userId(2)))
             .isInstanceOf(FriendshipExistsException.class);
     }
-    
+
     //
     // acceptFriendshipRequest
     //
-    
+
     @Test
     public void shouldAcceptFriendshipRequest() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
-        
+
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).hasSize(1);
         Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderUnknownUserInCouple")
     public void shouldFailAcceptFriendshipRequestWhenUserNotFound(long userId1, long userId2) {
         Assertions.assertThatThrownBy(() -> friendshipRequestService.acceptFriendshipRequest(userId1, userId2))
             .isInstanceOf(FriendshipRequestNotFoundException.class);
     }
-    
+
     //
     // rejectFriendshipRequest
     //
-    
+
     @Test
     public void shouldRejectFriendshipRequest() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.rejectFriendshipRequest(userId(1), userId(2));
-        
+
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
         Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderUnknownUserInCouple")
     public void shouldFailRejectFriendshipRequestWhenUserNotFound(long userId1, long userId2) {
         Assertions.assertThatThrownBy(() -> friendshipRequestService.rejectFriendshipRequest(userId1, userId2))
             .isInstanceOf(FriendshipRequestNotFoundException.class);
     }
-    
+
     //
     // cancelFriendshipRequest
     //
-    
+
     @Test
     public void shouldCancelFriendshipRequest() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.cancelFriendshipRequest(userId(1), userId(2));
-        
+
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
         Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderUnknownUserInCouple")
     public void shouldFailCancelFriendshipRequestWhenUserNotFound(long userId1, long userId2) {

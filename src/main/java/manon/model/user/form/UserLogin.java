@@ -26,16 +26,16 @@ import static manon.util.Tools.shortenLog;
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor(access = PRIVATE)
 public final class UserLogin {
-    
+
     @NotNull(message = USERNAME_SIZE_ERRMSG)
     @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = USERNAME_SIZE_ERRMSG)
     @Pattern(regexp = USERNAME_PATTERN, message = USERNAME_PATTERN_ERRMSG)
     private String username;
-    
+
     @NotNull(message = PASSWORD_SIZE_ERRMSG)
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = PASSWORD_SIZE_ERRMSG)
     private String password;
-    
+
     @Override
     public String toString() {
         return "UserLogin{" +

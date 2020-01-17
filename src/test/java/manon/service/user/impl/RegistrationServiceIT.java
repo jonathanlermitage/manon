@@ -6,14 +6,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class RegistrationServiceIT extends AbstractNoUserIT {
-    
+
     @Test
     public void shouldEnsureExistingAdmin() throws Exception {
         User existingAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);
         User ensuredAdmin = registrationService.ensureAdmin();
         Assertions.assertThat(ensuredAdmin).isEqualTo(existingAdmin);
     }
-    
+
     @Test
     public void shouldEnsureNewAdminIfAbsent() throws Exception {
         User previousAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);

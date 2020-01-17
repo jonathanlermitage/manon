@@ -14,7 +14,7 @@ import static manon.app.Globals.Datasources.SPRINGBATCH_DATASOURCE;
 
 @Configuration
 public class DatasourceConfig {
-    
+
     /**
      * Main datasource.
      */
@@ -24,7 +24,7 @@ public class DatasourceConfig {
     public DataSource metierDataSource() {
         return DataSourceBuilder.create().build();
     }
-    
+
     /**
      * Datasource used by Spring Batch.
      */

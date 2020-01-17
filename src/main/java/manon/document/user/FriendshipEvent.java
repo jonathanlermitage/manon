@@ -36,35 +36,35 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FriendshipEvent implements Serializable {
-    
+
     private static final long serialVersionUID = 5177929765264927516L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User friend;
-    
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private FriendshipEventCode code;
-    
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime creationDate;
-    
+
     @PrePersist
     public void prePersist() {
         if (creationDate == null) {
             creationDate = Tools.now();
         }
     }
-    
+
     @NoArgsConstructor(access = PRIVATE)
     public static final class Validation {
         public static final int MAX_EVENTS_PER_USER = 30;

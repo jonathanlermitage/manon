@@ -7,13 +7,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserPublicInfoTest {
-    
+
     @Test
     public void shouldVerifyToString() {
         assertThat(UserPublicInfo.builder().build().toString()).contains(
             "id", "username", "nickname");
     }
-    
+
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserPublicInfo filled = UserPublicInfo.builder()
             .id(1)
@@ -28,13 +28,13 @@ public class UserPublicInfoTest {
             {filled.toBuilder().nickname("updated").build(), filled, false}
         };
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyEquals(UserPublicInfo o1, UserPublicInfo o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
-    
+
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
     public void shouldVerifyHashCode(UserPublicInfo o1, UserPublicInfo o2, boolean expectedEqual) {

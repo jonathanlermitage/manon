@@ -33,10 +33,10 @@ import static manon.util.Tools.Media.TEXT;
 @RequiredArgsConstructor
 @Slf4j
 public class UserAdminWS {
-    
+
     private final RegistrationService registrationService;
     private final UserService userService;
-    
+
     /** Get all users. */
     @ApiOperation(value = "Get all users. Result is paginated.", produces = JSON, response = Page.class)
     @GetMapping(value = "/all")
@@ -46,7 +46,7 @@ public class UserAdminWS {
         log.debug("admin {} finds all users pageable {}", admin.getUsername(), pageable);
         return userService.findAll(pageable);
     }
-    
+
     /** Activate a user. */
     @ApiOperation(value = "Activate a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/activate")
@@ -55,7 +55,7 @@ public class UserAdminWS {
         log.warn("admin {} activates user {}", admin.getUsername(), userId);
         return registrationService.activate(userId).getRegistrationState().name();
     }
-    
+
     /** Suspend a user. */
     @ApiOperation(value = "Suspend a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/suspend")
@@ -64,7 +64,7 @@ public class UserAdminWS {
         log.warn("admin {} suspends user {}", admin.getUsername(), userId);
         return registrationService.suspend(userId).getRegistrationState().name();
     }
-    
+
     /** Ban a user. */
     @ApiOperation(value = "Ban a user. Returns registration state name.", produces = TEXT)
     @PostMapping(value = "/{userId}/ban")
@@ -73,7 +73,7 @@ public class UserAdminWS {
         log.warn("admin {} bans user {}", admin.getUsername(), userId);
         return registrationService.ban(userId).getRegistrationState().name();
     }
-    
+
     @ApiOperation(value = "Search users via Querydsl.", produces = JSON, response = Page.class)
     @PostMapping(value = "/search")
     @JsonView(DefaultView.class)
@@ -84,7 +84,7 @@ public class UserAdminWS {
             admin.getUsername(), predicate, pageable);
         return userService.search(predicate, pageable);
     }
-    
+
     @ApiOperation(value = "Search users via username, nickname or email.", produces = JSON, response = Page.class)
     @PostMapping(value = "/search/identity")
     @JsonView(DefaultView.class)

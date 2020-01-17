@@ -35,14 +35,14 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 public class UserSnapshotJobConfig {
-    
+
     public static final String JOB_NAME = "userSnapshotJob";
     public static final String JOB_STEP0_KEEP_RECENT_NAME = "userSnapshotJobStepKeepRecent";
     public static final String JOB_STEP1_SNAPSHOT_NAME = "userSnapshotJobStepSnapshot";
     public static final String JOB_STEP2_STATS_NAME = "userSnapshotJobStepStats";
-    
+
     private static final Map<String, Sort.Direction> SORT = Collections.singletonMap("id", Sort.Direction.ASC);
-    
+
     private final Cfg cfg;
     private final JobBuilderFactory jbf;
     private final StepBuilderFactory sbf;
@@ -52,7 +52,7 @@ public class UserSnapshotJobConfig {
     private final UserSnapshotRepository userSnapshotRepository;
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
-    
+
     @Bean
     @StepScope
     public RepositoryItemReader<User> reader() {
@@ -63,7 +63,7 @@ public class UserSnapshotJobConfig {
         reader.setPageSize(cfg.getBatchUserSnapshotChunk());
         return reader;
     }
-    
+
     @Bean
     @StepScope
     public RepositoryItemWriter<UserSnapshot> writer() {
@@ -72,19 +72,19 @@ public class UserSnapshotJobConfig {
         writer.setMethodName("save");
         return writer;
     }
-    
+
     @Bean
     public ItemProcessor<User, UserSnapshot> processor() {
         return new UserItemProcessor();
     }
-    
+
     @Bean(JOB_STEP0_KEEP_RECENT_NAME)
     public Step userSnapshotJobStepKeepRecent() {
         return sbf.get(JOB_STEP0_KEEP_RECENT_NAME)
             .tasklet(new FlushTasklet())
             .build();
     }
-    
+
     @Bean(JOB_STEP1_SNAPSHOT_NAME)
     public Step userSnapshotJobStepSnapshot() {
         return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
@@ -95,14 +95,14 @@ public class UserSnapshotJobConfig {
             .listener(chunkFlushListener)
             .build();
     }
-    
+
     @Bean(JOB_STEP2_STATS_NAME)
     public Step userSnapshotJobStepStats() {
         return sbf.get(JOB_STEP2_STATS_NAME)
             .tasklet(new StatsTasklet())
             .build();
     }
-    
+
     @Bean(JOB_NAME)
     Job userSnapshotJob() {
         return jbf.get(JOB_NAME)
@@ -113,7 +113,7 @@ public class UserSnapshotJobConfig {
             .next(userSnapshotJobStepStats())
             .build();
     }
-    
+
     private class FlushTasklet implements Tasklet {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
@@ -122,7 +122,7 @@ public class UserSnapshotJobConfig {
             return RepeatStatus.FINISHED;
         }
     }
-    
+
     private class StatsTasklet implements Tasklet {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
@@ -130,7 +130,7 @@ public class UserSnapshotJobConfig {
             return RepeatStatus.FINISHED;
         }
     }
-    
+
     private static class UserItemProcessor implements ItemProcessor<User, UserSnapshot> {
         @Override
         public UserSnapshot process(User item) {

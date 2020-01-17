@@ -31,24 +31,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FriendshipRequest implements Serializable {
-    
+
     private static final long serialVersionUID = -872698933222705031L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User requestFrom;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User requestTo;
-    
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime creationDate;
-    
+
     @PrePersist
     public void prePersist() {
         if (creationDate == null) {

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Configuration
 public class JwtAuthenticationEntryPointConfig implements AuthenticationEntryPoint {
-    
+
     @Override
     public void commence(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull AuthenticationException authException) throws IOException {
         response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());

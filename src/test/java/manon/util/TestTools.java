@@ -10,7 +10,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 public class TestTools {
-    
+
     /**
      * Append {@code word} many times in order to create a {@code length} characters string; last {@code word} may be
      * truncated to fit {@code length}.
@@ -23,7 +23,7 @@ public class TestTools {
         }
         return sb.length() == length ? sb.toString() : sb.toString().substring(0, length);
     }
-    
+
     /** Convert a duration to a number of days.*/
     @Contract(pure = true)
     public static int days(@NotNull Duration duration) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class JobListener extends JobExecutionListenerSupport {
-    
+
     @Override
     public void afterJob(JobExecution jobExecution) {
         super.afterJob(jobExecution);

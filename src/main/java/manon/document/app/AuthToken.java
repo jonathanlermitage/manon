@@ -31,26 +31,26 @@ import static manon.document.user.User.Validation.USERNAME_MAX_LENGTH;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthToken implements Serializable {
-    
+
     private static final long serialVersionUID = -2786555151682984356L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @Column(nullable = false, length = USERNAME_MAX_LENGTH)
     private String username;
-    
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime expirationDate;
-    
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime creationDate;
-    
+
     @PrePersist
     public void prePersist() {
         if (creationDate == null) {

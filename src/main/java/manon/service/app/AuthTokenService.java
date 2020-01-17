@@ -13,7 +13,7 @@ import java.util.List;
  * To invalidate a non-expired JWT instance, remove its reference from database.
  */
 public interface AuthTokenService {
-    
+
     /**
      * Create a token reference in database.
      * @param username authenticated user's username.
@@ -21,34 +21,34 @@ public interface AuthTokenService {
      * @return token created in database.
      */
     AuthToken create(String username, LocalDateTime expirationDate);
-    
+
     /**
      * Check if a token reference exists in database.
      * @param id token id.
      * @return {@code true} if exists, otherwise {@code false}.
      */
     boolean exists(long id);
-    
+
     /**
      * Remove all tokens  from database for given user.
      * @param username user's username.
      */
     void removeUserTokens(String username);
-    
+
     /**
      * Remove all expired tokens from database, for every user.
      */
     void removeAllExpired();
-    
+
     @ExistForTesting(why = "AuthAdminWSIT")
     List<AuthToken> findAll();
-    
+
     @ExistForTesting(why = "AuthAdminWSIT")
     long count();
-    
+
     @ExistForTesting(why = "AbstractIT")
     void deleteAll();
-    
+
     @ExistForTesting(why = "AbstractIT")
     void evictAllCache();
 }

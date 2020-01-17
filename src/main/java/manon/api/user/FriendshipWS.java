@@ -26,10 +26,10 @@ import static manon.util.Tools.Media.JSON;
 @RequiredArgsConstructor
 @Slf4j
 public class FriendshipWS {
-    
+
     private final FriendshipService friendshipService;
     private final FriendshipRequestService friendshipRequestService;
-    
+
     /** Create a friendship request to another user. */
     @ApiOperation(value = "Create a friendship request to another user.")
     @PostMapping("/askfriendship/user/{id}")
@@ -38,7 +38,7 @@ public class FriendshipWS {
         log.debug("user {} asks friendship request to user {}", user.getIdentity(), id);
         friendshipRequestService.askFriendship(user.getUser().getId(), id);
     }
-    
+
     /** Accept a friendship request from another user. */
     @ApiOperation(value = "Accept a friendship request from another user.")
     @PostMapping("/acceptfriendship/user/{id}")
@@ -47,7 +47,7 @@ public class FriendshipWS {
         log.debug("user {} accepts friendship request from user {}", user.getIdentity(), id);
         friendshipRequestService.acceptFriendshipRequest(id, user.getUser().getId());
     }
-    
+
     /** Reject a friendship request from another user. */
     @ApiOperation(value = "Reject a friendship request from another user.")
     @PostMapping("/rejectfriendship/user/{id}")
@@ -56,7 +56,7 @@ public class FriendshipWS {
         log.debug("user {} rejects friendship request from user {}", user.getIdentity(), id);
         friendshipRequestService.rejectFriendshipRequest(id, user.getUser().getId());
     }
-    
+
     /** Cancel a friendship request to another user. */
     @ApiOperation(value = "Cancel a friendship request to another user.")
     @PostMapping("/cancelfriendship/user/{id}")
@@ -65,7 +65,7 @@ public class FriendshipWS {
         log.debug("user {} cancels friendship request to user {}", user.getIdentity(), id);
         friendshipRequestService.cancelFriendshipRequest(user.getUser().getId(), id);
     }
-    
+
     /** Delete an existing friendship relation with another user. */
     @ApiOperation(value = "Delete an existing friendship relation with another user.")
     @PostMapping("/revokefriendship/user/{id}")
@@ -74,7 +74,7 @@ public class FriendshipWS {
         log.debug("user {} deletes friendship with user {}", user.getIdentity(), id);
         friendshipService.revokeFriendship(user.getUser().getId(), id);
     }
-    
+
     /** Get friends public information. */
     @ApiOperation(value = "Get friends public information. Returns complete list of friends.", produces = JSON, response = List.class)
     @GetMapping("/friends")

@@ -16,9 +16,9 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class ConverterConfig implements WebMvcConfigurer {
-    
+
     private final AfterburnerModule afterburnerModule;
-    
+
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream().filter(converter -> converter instanceof AbstractJackson2HttpMessageConverter).forEach(converter -> {

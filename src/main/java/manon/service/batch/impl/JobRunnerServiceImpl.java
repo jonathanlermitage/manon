@@ -24,19 +24,19 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class JobRunnerServiceImpl implements InitializingBean, JobRunnerService {
-    
+
     private final JobLauncher launcher;
-    
+
     @Qualifier(UserSnapshotJobConfig.JOB_NAME)
     private final Job userSnapshotJob;
-    
+
     private Map<String, Job> jobs;
-    
+
     @Override
     public void afterPropertiesSet() {
         this.jobs = Collections.singletonMap(UserSnapshotJobConfig.JOB_NAME, userSnapshotJob);
     }
-    
+
     @Override
     public ExitStatus run(String job)
         throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
@@ -46,7 +46,7 @@ public class JobRunnerServiceImpl implements InitializingBean, JobRunnerService 
         }
         throw new TaskNotFoundException();
     }
-    
+
     private JobParameters todayDateJobParameters() {
         return new JobParametersBuilder().addDate("START_DATE", Tools.nowAsDate()).toJobParameters();
     }

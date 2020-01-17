@@ -22,12 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class UserAdminWSIT extends AbstractIT {
-    
+
     @Override
     public int getNumberOfUsers() {
         return 4;
     }
-    
+
     @Test
     public void shouldFindAllDesc() {
         Response res = whenAdmin().getSpec()
@@ -45,7 +45,7 @@ public class UserAdminWSIT extends AbstractIT {
             assertThat(top).as("order").isAfterOrEqualTo(bottom);
         }
     }
-    
+
     @Test
     public void shouldFindAllAsc() {
         Response res = whenAdmin().getSpec()
@@ -63,7 +63,7 @@ public class UserAdminWSIT extends AbstractIT {
             assertThat(top).as("order").isBeforeOrEqualTo(bottom);
         }
     }
-    
+
     @Test
     public void shouldFindAllSmallPageStartPart() {
         Response res = whenAdmin().getSpec()
@@ -76,7 +76,7 @@ public class UserAdminWSIT extends AbstractIT {
         assertThat(users).hasSize(userCount - 1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
-    
+
     @Test
     public void shouldFindAllPageEndPart() {
         Response res = whenAdmin().getSpec()
@@ -89,7 +89,7 @@ public class UserAdminWSIT extends AbstractIT {
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
-    
+
     @Test
     public void shouldFindAllSmallPageMiddlePart() {
         Response res = whenAdmin().getSpec()
@@ -102,7 +102,7 @@ public class UserAdminWSIT extends AbstractIT {
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
-    
+
     @Test
     public void shouldCycleRegistrationState() {
         List<Long> uids = Arrays.asList(userId(1), userId(2));
@@ -127,7 +127,7 @@ public class UserAdminWSIT extends AbstractIT {
                 .body(equalTo(ACTIVE.name()));
         }
     }
-    
+
     @Test
     public void shouldNotActivateUnknown() {
         whenAdmin().getSpec()
@@ -137,7 +137,7 @@ public class UserAdminWSIT extends AbstractIT {
             .contentType(JSON)
             .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
-    
+
     @Test
     public void shouldNotBanUnknown() {
         whenAdmin().getSpec()
@@ -147,7 +147,7 @@ public class UserAdminWSIT extends AbstractIT {
             .contentType(JSON)
             .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
-    
+
     @Test
     public void shouldNotSuspendUnknown() {
         whenAdmin().getSpec()
@@ -157,7 +157,7 @@ public class UserAdminWSIT extends AbstractIT {
             .contentType(JSON)
             .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
-    
+
     @Test
     public void shouldSearchWithPredicateOnRegistrationState() {
         Response res = whenAdmin().getSpec()
@@ -175,7 +175,7 @@ public class UserAdminWSIT extends AbstractIT {
             assertThat(top).as("order").isAfterOrEqualTo(bottom);
         }
     }
-    
+
     @Test
     public void shouldSearchWithPredicateOnUsername() {
         Response res = whenAdmin().getSpec()
@@ -189,7 +189,7 @@ public class UserAdminWSIT extends AbstractIT {
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(users.get(0).getUsername()).isEqualTo(name(1));
     }
-    
+
     @Test
     public void shouldSearchWithoutPredicate() {
         Response res = whenAdmin().getSpec()
@@ -207,7 +207,7 @@ public class UserAdminWSIT extends AbstractIT {
             assertThat(top).as("order").isAfterOrEqualTo(bottom);
         }
     }
-    
+
     @Test
     public void shouldSearchByIdentityWithPredicate() {
         Response res = whenAdmin().getSpec()
@@ -222,7 +222,7 @@ public class UserAdminWSIT extends AbstractIT {
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(users.get(0).getUsername()).isEqualTo(name(1));
     }
-    
+
     @Test
     public void shouldSearchByIdentityWithoutPredicate() {
         Response res = whenAdmin().getSpec()

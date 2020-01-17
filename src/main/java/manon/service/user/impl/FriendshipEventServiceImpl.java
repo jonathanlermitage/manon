@@ -19,15 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class FriendshipEventServiceImpl implements FriendshipEventService {
-    
+
     private final FriendshipEventRepository friendshipEventRepository;
     private final UserService userService;
-    
+
     @Override
     public List<FriendshipEvent> findAllFriendshipEventsByUserOrderByCreationDateDesc(long userId) {
         return friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
     }
-    
+
     public void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         User userFrom = userService.readOne(userIdFrom);
         User userTo = userService.readOne(userIdTo);
@@ -45,7 +45,7 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
         ));
         keepEvents(userIdFrom, userIdTo);
     }
-    
+
     /** Keep only {@link FriendshipEvent.Validation#MAX_EVENTS_PER_USER} recent friendshipEvents on users. */
     private void keepEvents(@NotNull long... userIds) {
         for (long userId : userIds) {
@@ -55,13 +55,13 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
             }
         }
     }
-    
+
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     public long countAllFriendshipEventsByUser(long userId) {
         return friendshipEventRepository.countAllByUser(userId);
     }
-    
+
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     public void deleteAll() {

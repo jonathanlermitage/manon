@@ -24,34 +24,34 @@ import static manon.model.user.UserRole.PLAYER;
 @RequiredArgsConstructor
 @Transactional
 public class RegistrationServiceImpl implements RegistrationService {
-    
+
     private final Cfg cfg;
     private final UserService userService;
-    
+
     @Override
     public User activate(long userId) {
         userService.setRegistrationState(userId, ACTIVE);
         return userService.readOne(userId);
     }
-    
+
     @Override
     public User ban(long userId) {
         userService.setRegistrationState(userId, BANNED);
         return userService.readOne(userId);
     }
-    
+
     @Override
     public User suspend(long userId) {
         userService.setRegistrationState(userId, SUSPENDED);
         return userService.readOne(userId);
     }
-    
+
     @Override
     public User delete(long userId) {
         userService.setRegistrationState(userId, DELETED);
         return userService.readOne(userId);
     }
-    
+
     @Override
     public User registerPlayer(String username, String password) {
         User user = User.builder()
@@ -62,17 +62,17 @@ public class RegistrationServiceImpl implements RegistrationService {
             .build();
         return userService.create(user);
     }
-    
+
     @Override
     public User ensureActuator() {
         return ensureUser(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword(), ACTUATOR, PLAYER);
     }
-    
+
     @Override
     public User ensureAdmin() {
         return ensureUser(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword(), UserRole.values());
     }
-    
+
     public User ensureUser(String username, String password, UserRole... roles) {
         Optional<User> existingUser = userService.findByUsername(username);
         if (existingUser.isPresent()) {
