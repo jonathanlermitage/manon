@@ -47,6 +47,9 @@ server:
 info.app:
   name: manon
   version: @project.version@
+  flyway.version: @flyway.version@
+  jackson.version: @jackson.version@
+  jjwt.version: @jjwt.version@
 
 management:
   endpoint:

@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.equalToCompressingWhiteSpace;
+import static org.hamcrest.Matchers.startsWithIgnoringCase;
 
 public class ActuatorIT extends AbstractIT {
 
@@ -50,7 +50,7 @@ public class ActuatorIT extends AbstractIT {
     @Test
     public void shouldGetInfoActuatorWhenAdmin() {
         whenAdmin().getSpec().get("/actuator/info").then().body(
-            equalToCompressingWhiteSpace("{\"app\":{\"name\":\"manon\",\"version\":\"" + cfg.getVersion() + "\"}}")
+            startsWithIgnoringCase("{\"app\":{\"name\":\"manon\",\"version\":\"" + cfg.getVersion() + "\"")
         );
     }
 }
