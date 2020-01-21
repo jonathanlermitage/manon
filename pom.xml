@@ -3,14 +3,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>manon-light</artifactId>
     <groupId>nanon</groupId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>${project.artifactId}</name>
     <description>manon</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/>
+    </parent>
 
     <properties>
         <coverageSurefireArgLine></coverageSurefireArgLine>
@@ -22,51 +27,38 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <start-class>manon.Application</start-class>
         <surefireArgLine>-Xms128m -Xmx1g -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
-        <surefirePerformanceArgLine>-Dspring.jmx.enabled=false -XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
+        <surefirePerformanceArgLine>-XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
         <skipIT>false</skipIT>
         <skipUT>false</skipUT>
+
+        <!-- Override spring-boot-dependencies versions: -->
+        <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
+        <rest-assured.version>4.2.0</rest-assured.version>
+        <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
+        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
 
         <archunit.version>0.13.0</archunit.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <greenmail.version>1.5.11</greenmail.version>
         <guava.version>28.2-jre</guava.version>
-        <jackson-annotations.version>2.10.2</jackson-annotations.version>
-        <jackson-core.version>2.10.2</jackson-core.version>
-        <jackson-databind.version>2.10.2</jackson-databind.version>
-        <jackson-datatype-hibernate5.version>2.10.2</jackson-datatype-hibernate5.version>
-        <jackson-datatype-jdk8.version>2.10.2</jackson-datatype-jdk8.version>
-        <jackson-datatype-jsr310.version>2.10.2</jackson-datatype-jsr310.version>
-        <jackson-module-afterburner.version>2.10.2</jackson-module-afterburner.version>
-        <javax-activation.version>1.1.1</javax-activation.version>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
-        <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
+        <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>18.0.0</jetbrains-annotations.version>
-        <junit5.version>5.5.2</junit5.version>
         <jjwt.version>0.10.7</jjwt.version>
-        <lombok.version>1.18.10</lombok.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
-        <querydsl.version>4.2.2</querydsl.version>
-        <rest-assured.version>4.2.0</rest-assured.version>
-        <spring-boot.version>2.2.3.RELEASE</spring-boot.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
 
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <jib-maven-plugin.version>1.8.0</jib-maven-plugin.version>
-        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
-        <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <oga-maven-plugin.version>1.0.0</oga-maven-plugin.version>
         <owasp-dependency-check-plugin.version>5.3.0</owasp-dependency-check-plugin.version>
         <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
-        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
     </properties>
 
     <repositories>
+        <!-- Jcenter isn't mandatory but it integrates some artefacts faster than Central. -->
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
@@ -80,36 +72,14 @@
             <!-- Fix dependency convergence -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>rest-assured-common</artifactId>
-                <version>${rest-assured.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>json-path</artifactId>
-                <version>${rest-assured.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>xml-path</artifactId>
-                <version>${rest-assured.version}</version>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${javax.activation-activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>${findbugs-jsr305.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>${javax-activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -118,37 +88,12 @@
             </dependency>
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-            <!-- Overrides to force usage of latest version.        -->
+            <!-- Overrides to force usage of latest version. -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson-annotations.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson-databind.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jdk8</artifactId>
-                <version>${jackson-datatype-jdk8.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-datatype-jsr310.version}</version>
             </dependency>
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -191,12 +136,10 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>${jaxb-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb-runtime.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -206,6 +149,8 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}
+            </version> <!-- Keep this line to let versions-maven-plugin handle version. -->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -293,7 +238,6 @@
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -346,12 +290,10 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
-            <version>${jackson-datatype-hibernate5.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-afterburner</artifactId>
-            <version>${jackson-module-afterburner.version}</version>
         </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -371,7 +313,8 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>${rest-assured.version}</version>
+            <version>${rest-assured.version}
+            </version> <!-- Keep this line to let versions-maven-plugin handle version. -->
             <scope>test</scope>
             <exclusions>
                 <!--
@@ -393,19 +336,16 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -431,7 +371,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -454,7 +393,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>${maven-enforcer-plugin.version}</version>
                 <configuration>
                     <rules>
                         <bannedDependencies>
@@ -478,7 +416,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
                 <configuration>
                     <finalName>manon</finalName>
                     <excludes>
@@ -523,7 +460,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven-clean-plugin.version}</version>
                 <configuration>
                     <failOnError>true</failOnError>
                 </configuration>
@@ -531,7 +467,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
                     <annotationProcessorPaths>
@@ -559,7 +494,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>${maven-install-plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -567,7 +501,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <skipTests>true</skipTests>
                     <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}</argLine>
@@ -607,7 +540,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>${versions-maven-plugin.version}</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
                     <rulesUri>file:///${basedir}/.mvn/versions-maven-plugin-rules.xml</rulesUri>
@@ -632,7 +564,6 @@
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-properties-migrator</artifactId>
-                    <version>${spring-boot.version}</version>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>
@@ -642,7 +573,7 @@
         <profile>
             <id>ci</id>
             <properties>
-                <surefirePerformanceArgLine>-Dspring.jmx.enabled=false</surefirePerformanceArgLine>
+                <surefirePerformanceArgLine></surefirePerformanceArgLine>
             </properties>
         </profile>
 
@@ -727,7 +658,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}
                                 @{coverageSurefireArgLine}
@@ -779,7 +709,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <argLine>${surefireArgLine} ${surefireProfileArgLine} ${surefirePerformanceArgLine}
                                 @{coverageSurefireArgLine}
