@@ -116,7 +116,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "itc")
-        sh ./mvnw verify -P coverage-it
+        sh ./mvnw verify -P coverage -DskipUT=true
         ;;
 
     "b")

@@ -49,7 +49,7 @@ if [%1] == [tc] (
   mvnw clean verify -P coverage
 )
 if [%1] == [itc] (
-  mvnw clean verify -P coverage-it
+  mvnw clean verify -P coverage -DskipUT=true
 )
 if [%1] == [b] (
   mvnw clean compile -DskipUT=true -DskipIT=true -T1
