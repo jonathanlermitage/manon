@@ -19,7 +19,7 @@
 
     <properties>
         <coverageSurefireArgLine></coverageSurefireArgLine>
-        <docker-base-image>openjdk:11.0.5-jre-slim</docker-base-image>
+        <docker-base-image>openjdk:11.0.6-jre-slim</docker-base-image>
         <docker-target-image>lermitage-manon:${project.version}</docker-target-image>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
