@@ -133,13 +133,21 @@ do mariah-batch connect to dockerized MariaDB Spring Batch database by calling h
 ```
 
 Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  
-Nota: a Windows `do.cmd` script exists, but it's limited to some basic features. Run `do.cmd help` for details.
+Nota: a Windows `do.cmd` script exists, but it's limited to some basic features. Run `do.cmd help` for details.  
 
 ## Tips
+
+### Proxy
+
+You may experience **connection issues** with many `do` commands that use **Maven Wrapper** if you are behind a **proxy**. Maven Wrapper doesn't pick proxy configuration from Maven's settings, so you should give some proxy parameters to JVM. See this excellent [Stack Overflow answer](https://stackoverflow.com/questions/41187743/jhipster-configure-maven-wrapper-proxy/44500269#44500269).
+
+### Git
 
 Some usefull git alias to put into your `.gitconfig` file:
 
 ```bash
+[alias]
+
 # Show a pretty commit log
 ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%C(cyan)\\ [%cn]" --decorate --date=relative
 
