@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.DefaultView;
 import manon.document.user.UserEntity;
-import manon.dto.user.UserWithSnapshotsResponseDto;
+import manon.dto.user.UserWithSnapshotsDto;
 import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
@@ -68,9 +68,9 @@ public class UserWS {
     }
 
     /** Get user and linked user snapshots. */
-    @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = UserWithSnapshotsResponseDto.class)
+    @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = UserWithSnapshotsDto.class)
     @GetMapping("/include/usersnapshots")
-    public UserWithSnapshotsResponseDto readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user) {
+    public UserWithSnapshotsDto readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOneAndFetchUserSnapshotDtos(user.getUserId());
     }

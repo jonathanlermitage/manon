@@ -4,7 +4,7 @@ import com.querydsl.core.types.Predicate;
 import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
-import manon.dto.user.UserWithSnapshotsResponseDto;
+import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.model.user.RegistrationState;
 import manon.model.user.form.UserUpdateForm;
@@ -18,7 +18,7 @@ public interface UserService {
 
     UserEntity readOne(long id);
 
-    UserWithSnapshotsResponseDto readOneAndFetchUserSnapshotDtos(long id);
+    UserWithSnapshotsDto readOneAndFetchUserSnapshotDtos(long id);
 
     UserEntity readByUsername(String username);
 

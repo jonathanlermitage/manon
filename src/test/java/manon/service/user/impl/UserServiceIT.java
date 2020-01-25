@@ -2,7 +2,7 @@ package manon.service.user.impl;
 
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
-import manon.dto.user.UserWithSnapshotsResponseDto;
+import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
@@ -75,7 +75,7 @@ public class UserServiceIT extends AbstractIT {
 
     @Test
     public void shouldReadOneAndFetchUserSnapshotDtos() {
-        UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
+        UserWithSnapshotsDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
         Assertions.assertThat(dbUser.getUserSnapshots()).isEmpty();
     }
@@ -86,7 +86,7 @@ public class UserServiceIT extends AbstractIT {
             UserSnapshotEntity.from(user(1)),
             UserSnapshotEntity.from(user(1))
         ));
-        UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
+        UserWithSnapshotsDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
         Assertions.assertThat(dbUser.getUserSnapshots()).hasSize(2);
     }

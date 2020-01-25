@@ -2,9 +2,9 @@ package manon.mapper.user;
 
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
-import manon.dto.user.UserResponseDto;
-import manon.dto.user.UserSnapshotResponseDto;
-import manon.dto.user.UserWithSnapshotsResponseDto;
+import manon.dto.user.UserDto;
+import manon.dto.user.UserSnapshotDto;
+import manon.dto.user.UserWithSnapshotsDto;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
 import manon.util.Tools;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserMapperTest {
 
-    public static Object[][] dataProviderShouldMapUserToUserWithSnapshotsResponseDto() {
+    public static Object[][] dataProviderShouldMapUserToUserWithSnapshotsDto() {
 
         //<editor-fold defaultstate="collapsed" desc="user with data">
         UserEntity nestedUser = UserEntity.builder().id(1).build();
@@ -65,55 +65,55 @@ public class UserMapperTest {
             ))
             .build();
 
-        UserResponseDto userResponseDto = new UserResponseDto();
-        userResponseDto.setId(nestedUser.getId());
+        UserDto userDto = new UserDto();
+        userDto.setId(nestedUser.getId());
 
-        UserSnapshotResponseDto userSnapshotResponsetDto1 = new UserSnapshotResponseDto();
-        userSnapshotResponsetDto1.setId(userSnapshot1.getId());
-        userSnapshotResponsetDto1.setUser(userResponseDto);
-        userSnapshotResponsetDto1.setUserUsername(userSnapshot1.getUserUsername());
-        userSnapshotResponsetDto1.setUserAuthorities(userSnapshot1.getUserAuthorities());
-        userSnapshotResponsetDto1.setUserRegistrationState(userSnapshot1.getUserRegistrationState());
-        userSnapshotResponsetDto1.setUserNickname(userSnapshot1.getUserNickname());
-        userSnapshotResponsetDto1.setUserEmail(userSnapshot1.getUserEmail());
-        userSnapshotResponsetDto1.setCreationDate(userSnapshot1.getCreationDate());
+        UserSnapshotDto userSnapshotDto1 = new UserSnapshotDto();
+        userSnapshotDto1.setId(userSnapshot1.getId());
+        userSnapshotDto1.setUser(userDto);
+        userSnapshotDto1.setUserUsername(userSnapshot1.getUserUsername());
+        userSnapshotDto1.setUserAuthorities(userSnapshot1.getUserAuthorities());
+        userSnapshotDto1.setUserRegistrationState(userSnapshot1.getUserRegistrationState());
+        userSnapshotDto1.setUserNickname(userSnapshot1.getUserNickname());
+        userSnapshotDto1.setUserEmail(userSnapshot1.getUserEmail());
+        userSnapshotDto1.setCreationDate(userSnapshot1.getCreationDate());
 
-        UserSnapshotResponseDto userSnapshotResponsetDto2 = new UserSnapshotResponseDto();
-        userSnapshotResponsetDto2.setId(userSnapshot2.getId());
-        userSnapshotResponsetDto2.setUser(userResponseDto);
-        userSnapshotResponsetDto2.setUserUsername(userSnapshot2.getUserUsername());
-        userSnapshotResponsetDto2.setUserAuthorities(userSnapshot2.getUserAuthorities());
-        userSnapshotResponsetDto2.setUserRegistrationState(userSnapshot2.getUserRegistrationState());
-        userSnapshotResponsetDto2.setUserNickname(userSnapshot2.getUserNickname());
-        userSnapshotResponsetDto2.setUserEmail(userSnapshot2.getUserEmail());
-        userSnapshotResponsetDto2.setCreationDate(userSnapshot2.getCreationDate());
+        UserSnapshotDto userSnapshotDto2 = new UserSnapshotDto();
+        userSnapshotDto2.setId(userSnapshot2.getId());
+        userSnapshotDto2.setUser(userDto);
+        userSnapshotDto2.setUserUsername(userSnapshot2.getUserUsername());
+        userSnapshotDto2.setUserAuthorities(userSnapshot2.getUserAuthorities());
+        userSnapshotDto2.setUserRegistrationState(userSnapshot2.getUserRegistrationState());
+        userSnapshotDto2.setUserNickname(userSnapshot2.getUserNickname());
+        userSnapshotDto2.setUserEmail(userSnapshot2.getUserEmail());
+        userSnapshotDto2.setCreationDate(userSnapshot2.getCreationDate());
 
-        UserWithSnapshotsResponseDto userWithSnapshotsResponseDto = new UserWithSnapshotsResponseDto();
-        userWithSnapshotsResponseDto.setId(user.getId());
-        userWithSnapshotsResponseDto.setUsername(user.getUsername());
-        userWithSnapshotsResponseDto.setAuthorities(user.getAuthorities());
-        userWithSnapshotsResponseDto.setRegistrationState(user.getRegistrationState());
-        userWithSnapshotsResponseDto.setNickname(user.getNickname());
-        userWithSnapshotsResponseDto.setEmail(user.getEmail());
-        userWithSnapshotsResponseDto.setCreationDate(user.getCreationDate());
-        userWithSnapshotsResponseDto.setUpdateDate(user.getUpdateDate());
-        userWithSnapshotsResponseDto.setUserSnapshots(Arrays.asList(
-            userSnapshotResponsetDto1,
-            userSnapshotResponsetDto2
+        UserWithSnapshotsDto userWithSnapshotsDto = new UserWithSnapshotsDto();
+        userWithSnapshotsDto.setId(user.getId());
+        userWithSnapshotsDto.setUsername(user.getUsername());
+        userWithSnapshotsDto.setAuthorities(user.getAuthorities());
+        userWithSnapshotsDto.setRegistrationState(user.getRegistrationState());
+        userWithSnapshotsDto.setNickname(user.getNickname());
+        userWithSnapshotsDto.setEmail(user.getEmail());
+        userWithSnapshotsDto.setCreationDate(user.getCreationDate());
+        userWithSnapshotsDto.setUpdateDate(user.getUpdateDate());
+        userWithSnapshotsDto.setUserSnapshots(Arrays.asList(
+            userSnapshotDto1,
+            userSnapshotDto2
         ));
         //</editor-fold>
 
         return new Object[][]{
             {null, null},
-            {new UserEntity(), new UserWithSnapshotsResponseDto()},
-            {user, userWithSnapshotsResponseDto}
+            {new UserEntity(), new UserWithSnapshotsDto()},
+            {user, userWithSnapshotsDto}
         };
     }
 
     @ParameterizedTest
-    @MethodSource("dataProviderShouldMapUserToUserWithSnapshotsResponseDto")
-    public void shouldMapUserToUserWithSnapshotsResponseDto(UserEntity user, UserWithSnapshotsResponseDto userWithSnapshotsResponseDto) {
-        assertThat(UserMapper.MAPPER.userToUserWithSnapshotsResponseDto(user))
-            .isEqualTo(userWithSnapshotsResponseDto);
+    @MethodSource("dataProviderShouldMapUserToUserWithSnapshotsDto")
+    public void shouldMapUserToUserWithSnapshotsDto(UserEntity user, UserWithSnapshotsDto userWithSnapshotsDto) {
+        assertThat(UserMapper.MAPPER.userToUserWithSnapshotsDto(user))
+            .isEqualTo(userWithSnapshotsDto);
     }
 }

@@ -3,7 +3,7 @@ package manon.api.user;
 import io.restassured.response.Response;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
-import manon.dto.user.UserWithSnapshotsResponseDto;
+import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.UserExistsException;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.form.UserLogin;
@@ -123,8 +123,8 @@ public class UserWSIT extends AbstractIT {
             .get(API_USER + "/include/usersnapshots");
         res.then()
             .statusCode(SC_OK);
-        UserWithSnapshotsResponseDto webUser = readValue(res, UserWithSnapshotsResponseDto.class);
-        UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
+        UserWithSnapshotsDto webUser = readValue(res, UserWithSnapshotsDto.class);
+        UserWithSnapshotsDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isEmpty();
     }
@@ -139,8 +139,8 @@ public class UserWSIT extends AbstractIT {
             .get(API_USER + "/include/usersnapshots");
         res.then()
             .statusCode(SC_OK);
-        UserWithSnapshotsResponseDto webUser = readValue(res, UserWithSnapshotsResponseDto.class);
-        UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
+        UserWithSnapshotsDto webUser = readValue(res, UserWithSnapshotsDto.class);
+        UserWithSnapshotsDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).hasSize(2).isEqualTo(dbUser.getUserSnapshots());
     }

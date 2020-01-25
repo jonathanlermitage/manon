@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 /**
  * Workaround for issue <a href="https://github.com/mapstruct/mapstruct/issues/131">mapstruct/issues/131</a>.
  * <p>
- * {@link UserWithSnapshotsResponseDto} should inherit from {@link UserResponseDto} (and {@link UserResponseDto}
- * inherit from nothing and declare fields below), but since {@link UserWithSnapshotsResponseDto} contains a list
- * of {@link UserSnapshotResponseDto} elements, which contain {@link UserResponseDto} items too,
- * {@link UserMapper#userToUserWithSnapshotsResponseDto(UserEntity)} fails to populate it.
+ * {@link UserWithSnapshotsDto} should inherit from {@link UserDto} (and {@link UserDto}
+ * inherit from nothing and declare fields below), but since {@link UserWithSnapshotsDto} contains a list
+ * of {@link UserSnapshotDto} elements, which contain {@link UserDto} items too,
+ * {@link UserMapper#userToUserWithSnapshotsDto(UserEntity)} fails to populate it.
  * <p>
  * A solution is to write a custom mapper, but I don't want to do MapStruct's job.<br/>
  * An other solution, chosen here, is to play with class names and create a common ancestor for both
- * {@link UserWithSnapshotsResponseDto} and {@link UserResponseDto} classes. {@link UserResponseDto} won't
+ * {@link UserWithSnapshotsDto} and {@link UserDto} classes. {@link UserDto} won't
  * declare any field because everything comes from the ancestor: this is not perfect, but it works.
  */
 @Data

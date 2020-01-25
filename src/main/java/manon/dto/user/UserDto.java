@@ -5,5 +5,5 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserResponseDto extends AbstractUserDto {
+public class UserDto extends AbstractUserDto {
 }

@@ -8,11 +8,11 @@ import manon.model.user.RegistrationState;
 import java.time.LocalDateTime;
 
 @Data
-public class UserSnapshotResponseDto {
+public class UserSnapshotDto {
 
     private long id;
 
-    private UserResponseDto user;
+    private UserDto user;
 
     private String userUsername;
 

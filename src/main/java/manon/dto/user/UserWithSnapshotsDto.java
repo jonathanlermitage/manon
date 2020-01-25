@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserWithSnapshotsResponseDto extends AbstractUserDto {
+public class UserWithSnapshotsDto extends AbstractUserDto {
 
-    private List<UserSnapshotResponseDto> userSnapshots;
+    private List<UserSnapshotDto> userSnapshots;
 }

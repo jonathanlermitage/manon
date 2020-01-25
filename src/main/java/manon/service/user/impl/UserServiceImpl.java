@@ -7,7 +7,7 @@ import manon.document.user.QUserEntity;
 import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
-import manon.dto.user.UserWithSnapshotsResponseDto;
+import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserWithSnapshotsResponseDto readOneAndFetchUserSnapshotDtos(long id) {
-        return UserMapper.MAPPER.userToUserWithSnapshotsResponseDto(
+    public UserWithSnapshotsDto readOneAndFetchUserSnapshotDtos(long id) {
+        return UserMapper.MAPPER.userToUserWithSnapshotsDto(
             userRepository.findAndFetchUserSnapshots(id).orElseThrow(UserNotFoundException::new));
     }
 
