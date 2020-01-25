@@ -1,8 +1,8 @@
 package manon.service.user.impl;
 
 import lombok.SneakyThrows;
-import manon.document.user.User;
-import manon.document.user.UserSnapshot;
+import manon.document.user.UserEntity;
+import manon.document.user.UserSnapshotEntity;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
@@ -20,7 +20,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
     @Test
     public void shouldFindOne() throws Exception {
         saveUserSnapshot();
-        UserSnapshot us = saveUserSnapshot();
+        UserSnapshotEntity us = saveUserSnapshot();
         saveUserSnapshot();
 
         Assertions.assertThat(userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new)).isEqualTo(us);
@@ -29,7 +29,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void shouldFindOneFailReadLazyDataOutsideASession() {
-        UserSnapshot us = saveUserSnapshot();
+        UserSnapshotEntity us = saveUserSnapshot();
 
         Assertions.assertThatThrownBy(() -> userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new).getUser().hashCode())
             .isInstanceOf(LazyInitializationException.class);
@@ -128,12 +128,12 @@ public class UserSnapshotServiceIT extends AbstractIT {
     }
 
     @SneakyThrows
-    private UserSnapshot makeUserSnapshot() {
-        User user = userService.findByUsername(name(1)).orElseThrow(Exception::new);
-        return UserSnapshot.from(user);
+    private UserSnapshotEntity makeUserSnapshot() {
+        UserEntity user = userService.findByUsername(name(1)).orElseThrow(Exception::new);
+        return UserSnapshotEntity.from(user);
     }
 
-    private UserSnapshot saveUserSnapshot() {
+    private UserSnapshotEntity saveUserSnapshot() {
         return userSnapshotService.save(makeUserSnapshot());
     }
 }

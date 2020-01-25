@@ -1,7 +1,7 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.document.user.UserSnapshot;
+import manon.document.user.UserSnapshotEntity;
 import manon.repository.user.UserSnapshotRepository;
 import manon.service.user.UserSnapshotService;
 import manon.util.ExistForTesting;
@@ -46,24 +46,24 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
 
     @Override
     @ExistForTesting
-    public Optional<UserSnapshot> findOne(long id) {
+    public Optional<UserSnapshotEntity> findOne(long id) {
         return userSnapshotRepository.findById(id);
     }
 
     @Override
     @ExistForTesting(why = "AbstractIntegrationTest")
-    public List<UserSnapshot> findAll() {
+    public List<UserSnapshotEntity> findAll() {
         return userSnapshotRepository.findAll();
     }
 
     @Override
-    public UserSnapshot save(UserSnapshot entity) {
+    public UserSnapshotEntity save(UserSnapshotEntity entity) {
         return userSnapshotRepository.save(entity);
     }
 
     @Override
     @ExistForTesting
-    public void saveAll(Iterable<UserSnapshot> entities) {
+    public void saveAll(Iterable<UserSnapshotEntity> entities) {
         userSnapshotRepository.saveAll(entities);
     }
 

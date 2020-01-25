@@ -8,58 +8,53 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-import static manon.model.user.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
-import static manon.model.user.FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST;
-
-public class FriendshipEventTest {
+public class FriendshipRequestEntityTest {
 
     @Test
     public void shouldVerifyToString() {
-        Assertions.assertThat(FriendshipEvent.builder().build().toString()).contains(
-            "id", "user", "friend", "code", "creationDate");
+        Assertions.assertThat(FriendshipRequestEntity.builder().build().toString()).contains(
+            "id", "requestFrom", "requestTo", "creationDate");
     }
 
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        FriendshipEvent filled = FriendshipEvent.builder()
+        FriendshipRequestEntity filled = FriendshipRequestEntity.builder()
             .id(1)
-            .code(TARGET_SENT_FRIEND_REQUEST)
-            .user(User.builder().username("u").build())
-            .friend(User.builder().username("f").build())
             .creationDate(Tools.now())
+            .requestFrom(UserEntity.builder().id(10).build())
+            .requestTo(UserEntity.builder().id(11).build())
             .build();
         return new Object[][]{
-            {FriendshipEvent.builder().build(), FriendshipEvent.builder().build(), true},
+            {FriendshipRequestEntity.builder().build(), FriendshipRequestEntity.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
-            {filled.toBuilder().code(YOU_ACCEPTED_FRIEND_REQUEST).build(), filled, false},
-            {filled.toBuilder().user(User.builder().username("new u").build()).build(), filled, false},
-            {filled.toBuilder().friend(User.builder().username("new f").build()).build(), filled, false},
+            {filled.toBuilder().requestFrom(UserEntity.builder().id(20).build()).build(), filled, false},
+            {filled.toBuilder().requestTo(UserEntity.builder().id(21).build()).build(), filled, false},
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
+    public void shouldVerifyEquals(FriendshipRequestEntity o1, FriendshipRequestEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(FriendshipEvent o1, FriendshipEvent o2, boolean expectedEqual) {
+    public void shouldVerifyHashCode(FriendshipRequestEntity o1, FriendshipRequestEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
     public void shouldVerifyPrePersistOnNew() {
-        FriendshipEvent o = FriendshipEvent.builder().build();
+        FriendshipRequestEntity o = FriendshipRequestEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
     public void shouldVerifyPrePersistOnExisting() {
-        FriendshipEvent o = FriendshipEvent.builder().build();
+        FriendshipRequestEntity o = FriendshipRequestEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
 

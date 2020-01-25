@@ -20,29 +20,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "FriendshipRequest")
+@Table(name = "friendship_request")
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Friendship implements Serializable {
+public class FriendshipRequestEntity implements Serializable {
 
-    private static final long serialVersionUID = 2315870622793768055L;
+    private static final long serialVersionUID = -872698933222705031L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User requestFrom;
+    private UserEntity requestFrom;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User requestTo;
+    private UserEntity requestTo;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

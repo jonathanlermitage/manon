@@ -1,10 +1,10 @@
 package manon.api.user;
 
 import io.restassured.response.Response;
-import manon.document.user.Friendship;
-import manon.document.user.FriendshipEvent;
-import manon.document.user.FriendshipRequest;
-import manon.document.user.User;
+import manon.document.user.FriendshipEntity;
+import manon.document.user.FriendshipEventEntity;
+import manon.document.user.FriendshipRequestEntity;
+import manon.document.user.UserEntity;
 import manon.err.user.FriendshipNotFoundException;
 import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
@@ -47,9 +47,9 @@ public class FriendshipWSIT extends AbstractIT {
     @Test
     public void shouldAskFriendshipToManyUsers() {
         //GIVEN 3 users with no friends nor friendship requests
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
-        User p3 = userService.readOne(userId(3));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
+        UserEntity p3 = userService.readOne(userId(3));
 
         //WHEN P1 sends friendship requests to P2 and P3
         whenP1().getSpec()
@@ -62,56 +62,56 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_OK);
 
         //THEN P1 has 2 requests
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).isNotNull().isEmpty();
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom(userId(1));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom(userId(1));
         assertThat(p1FriendshipRequests).hasSize(2);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1), userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3), userId(2));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(2);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 1 request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isNotNull().isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).hasSize(1);
         assertThat(p2FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p2FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(1);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
 
         //THEN P3 has 1 request
-        List<Friendship> p3Friends = friendshipService.findAllFor(userId(3));
+        List<FriendshipEntity> p3Friends = friendshipService.findAllFor(userId(3));
         assertThat(p3Friends).isNotNull().isEmpty();
 
-        List<FriendshipRequest> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p3FriendshipRequests).hasSize(1);
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
+        List<FriendshipEventEntity> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
         assertThat(p3FriendshipEvents).hasSize(1);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     /** Ensure we don't store the same friendship request twice. */
     @Test
     public void shouldNotAskFriendshipTwice() {
         //GIVEN 2 users with no friends nor friendship requests
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
 
         //WHEN P1 asks friendship to P2 twice
         whenP1().getSpec()
@@ -125,39 +125,39 @@ public class FriendshipWSIT extends AbstractIT {
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()));
 
         //THEN P1 has 0 friend and 1 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).isEmpty();
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom(userId(1));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom(userId(1));
         assertThat(p1FriendshipRequests).hasSize(1);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(1);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 0 friend and 1 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).hasSize(1);
         assertThat(p2FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p2FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(1);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
     public void shouldNotAskFriendshipToFriend() {
         //GIVEN 2 users that are friends
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
 
@@ -168,44 +168,44 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_CONFLICT);
 
         //THEN P1 still has 1 friend and 0 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).hasSize(1);
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(2);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 still has 1 friend and 0 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).hasSize(1);
         assertThat(p2Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p2Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(2);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     /** Ensure we two users send crossed friendship request. */
     @Test
     public void shouldNotAskCrossedFriendship() {
         //GIVEN 2 users with no friends nor friendship requests
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
 
         //WHEN P1 asks friendship then P2 asks friendship to P1
         whenP1().getSpec()
@@ -219,32 +219,32 @@ public class FriendshipWSIT extends AbstractIT {
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestExistsException.class.getSimpleName()));
 
         //THEN P1 has 0 friend and 1 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).isEmpty();
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom(userId(1));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom(userId(1));
         assertThat(p1FriendshipRequests).hasSize(1);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(1);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 0 friend and 1 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).hasSize(1);
         assertThat(p2FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p2FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(1);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
@@ -268,9 +268,9 @@ public class FriendshipWSIT extends AbstractIT {
     @Test
     public void shouldAcceptPartOfFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
-        User p3 = userService.readOne(userId(3));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
+        UserEntity p3 = userService.readOne(userId(3));
         whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -287,63 +287,63 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_OK);
 
         //THEN P1 has 1 friend and 1 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).hasSize(1);
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).hasSize(1);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(3);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(2)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 1 friend and 0 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).hasSize(1);
         assertThat(p2Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p2Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(2);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
 
         //THEN P3 has 0 friend and 1 remaining request
-        List<Friendship> p3Friends = friendshipService.findAllFor(userId(3));
+        List<FriendshipEntity> p3Friends = friendshipService.findAllFor(userId(3));
         assertThat(p3Friends).isEmpty();
 
-        List<FriendshipRequest> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
+        List<FriendshipRequestEntity> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
         assertThat(p3FriendshipRequests).hasSize(1);
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipEvent> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
+        List<FriendshipEventEntity> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
         assertThat(p3FriendshipEvents).hasSize(1);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     /** Ask 2 friendship requests and 2 targets accept it. */
     @Test
     public void shouldAcceptAllFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
-        User p3 = userService.readOne(userId(3));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
+        UserEntity p3 = userService.readOne(userId(3));
         whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -364,63 +364,63 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_OK);
 
         //THEN P1 has 2 friends and 0 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).hasSize(2);
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1), userId(1));
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3), userId(2));
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(4);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(2)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(3)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 still has 1 friend and 0 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).hasSize(1);
         assertThat(p2Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p2Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(2);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
 
         //THEN P3 has 1 friend and 0 remaining request
-        List<Friendship> p3Friends = friendshipService.findAllFor(userId(3));
+        List<FriendshipEntity> p3Friends = friendshipService.findAllFor(userId(3));
         assertThat(p3Friends).hasSize(1);
         assertThat(p3Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p3Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipRequest> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
+        List<FriendshipRequestEntity> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
         assertThat(p3FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
+        List<FriendshipEventEntity> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
         assertThat(p3FriendshipEvents).hasSize(2);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p3FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
     public void shouldNotAcceptSelfFriendshipRequest() {
         //GIVEN 2 users. P1 asks friendship to P2
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
         whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -434,30 +434,30 @@ public class FriendshipWSIT extends AbstractIT {
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
 
         //THEN nothing changed for P1
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).isEmpty();
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).hasSize(1);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(2));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(1);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN nothing changed for P2
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(2)));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(2)));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(1);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
@@ -497,9 +497,9 @@ public class FriendshipWSIT extends AbstractIT {
     @Test
     public void shouldRejectFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
-        User p3 = userService.readOne(userId(3));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
+        UserEntity p3 = userService.readOne(userId(3));
         whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -516,50 +516,50 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_OK);
 
         //THEN P1 has 0 friend and 1 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).isEmpty();
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).hasSize(1);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(3);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_REJECTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_REJECTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(2)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 0 friend and 0 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(2);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_REJECTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_REJECTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
 
         //THEN P3 has 0 friend and 1 remaining request
-        List<Friendship> p3Friends = friendshipService.findAllFor(userId(3));
+        List<FriendshipEntity> p3Friends = friendshipService.findAllFor(userId(3));
         assertThat(p3Friends).isEmpty();
 
-        List<FriendshipRequest> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
+        List<FriendshipRequestEntity> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
         assertThat(p3FriendshipRequests).hasSize(1);
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipEvent> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
+        List<FriendshipEventEntity> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
         assertThat(p3FriendshipEvents).hasSize(1);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
@@ -599,9 +599,9 @@ public class FriendshipWSIT extends AbstractIT {
     @Test
     public void shouldCancelFriendshipRequest() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
-        User p3 = userService.readOne(userId(3));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
+        UserEntity p3 = userService.readOne(userId(3));
         whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -618,50 +618,50 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_OK);
 
         //THEN P1 has 0 friend and 1 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).isEmpty();
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).hasSize(1);
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(3);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_CANCELED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_CANCELED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(2)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 0 friend and 0 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(2));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(2);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_CANCELED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_CANCELED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
 
         //THEN P3 has 0 friend and 1 remaining request
-        List<Friendship> p3Friends = friendshipService.findAllFor(userId(3));
+        List<FriendshipEntity> p3Friends = friendshipService.findAllFor(userId(3));
         assertThat(p3Friends).isEmpty();
 
-        List<FriendshipRequest> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
+        List<FriendshipRequestEntity> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestTo(userId(3));
         assertThat(p3FriendshipRequests).hasSize(1);
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p3FriendshipRequests).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipEvent> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
+        List<FriendshipEventEntity> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
         assertThat(p3FriendshipEvents).hasSize(1);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
@@ -701,9 +701,9 @@ public class FriendshipWSIT extends AbstractIT {
     @Test
     public void shouldRevokeFriendship() {
         //GIVEN 3 users. P1 is friend with P2 and P3
-        User p1 = userService.readOne(userId(1));
-        User p2 = userService.readOne(userId(2));
-        User p3 = userService.readOne(userId(3));
+        UserEntity p1 = userService.readOne(userId(1));
+        UserEntity p2 = userService.readOne(userId(2));
+        UserEntity p3 = userService.readOne(userId(3));
         whenP1().getSpec()
             .post(API_USER + "/askfriendship/user/" + userId(2))
             .then()
@@ -728,58 +728,58 @@ public class FriendshipWSIT extends AbstractIT {
             .statusCode(SC_OK);
 
         //THEN P1 has 1 friend and 0 remaining request
-        List<Friendship> p1Friends = friendshipService.findAllFor(userId(1));
+        List<FriendshipEntity> p1Friends = friendshipService.findAllFor(userId(1));
         assertThat(p1Friends).hasSize(1);
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p1Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipRequest> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
+        List<FriendshipRequestEntity> p1FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(1)));
         assertThat(p1FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
+        List<FriendshipEventEntity> p1FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(1));
         assertThat(p1FriendshipEvents).hasSize(5);
         assertThat(p1FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_REVOKED_FRIENDSHIP).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_REVOKED_FRIENDSHIP).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(2)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_ACCEPTED_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(3)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p3).build(), "code", "friend");
         assertThat(p1FriendshipEvents.get(4)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_SENT_FRIEND_REQUEST).friend(p2).build(), "code", "friend");
 
         //THEN P2 has 1 friend and 0 remaining request
-        List<Friendship> p2Friends = friendshipService.findAllFor(userId(2));
+        List<FriendshipEntity> p2Friends = friendshipService.findAllFor(userId(2));
         assertThat(p2Friends).isEmpty();
 
-        List<FriendshipRequest> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(2)));
+        List<FriendshipRequestEntity> p2FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(2)));
         assertThat(p2FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
+        List<FriendshipEventEntity> p2FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(2));
         assertThat(p2FriendshipEvents).hasSize(3);
         assertThat(p2FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_REVOKED_FRIENDSHIP).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_REVOKED_FRIENDSHIP).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p2FriendshipEvents.get(2)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
 
         //THEN P3 has 1 friend and 0 remaining request
-        List<Friendship> p3Friends = friendshipService.findAllFor(userId(3));
+        List<FriendshipEntity> p3Friends = friendshipService.findAllFor(userId(3));
         assertThat(p3Friends).hasSize(1);
         assertThat(p3Friends).extracting(friendshipRequest -> friendshipRequest.getRequestFrom().getId()).contains(userId(1));
         assertThat(p3Friends).extracting(friendshipRequest -> friendshipRequest.getRequestTo().getId()).contains(userId(3));
 
-        List<FriendshipRequest> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(3)));
+        List<FriendshipRequestEntity> p3FriendshipRequests = friendshipRequestService.findAllFriendshipRequestsByRequestFrom((userId(3)));
         assertThat(p3FriendshipRequests).isEmpty();
 
-        List<FriendshipEvent> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
+        List<FriendshipEventEntity> p3FriendshipEvents = friendshipEventService.findAllFriendshipEventsByUserOrderByCreationDateDesc(userId(3));
         assertThat(p3FriendshipEvents).hasSize(2);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(YOU_ACCEPTED_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
         assertThat(p3FriendshipEvents.get(1)).isEqualToComparingOnlyGivenFields(
-            FriendshipEvent.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
+            FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
     @Test
@@ -815,7 +815,7 @@ public class FriendshipWSIT extends AbstractIT {
     // others
     //
 
-    /** Only {@link FriendshipEvent.Validation#MAX_EVENTS_PER_USER} most recent user's friendshipEvents should be kept. */
+    /** Only {@link FriendshipEventEntity.Validation#MAX_EVENTS_PER_USER} most recent user's friendshipEvents should be kept. */
     @Test
     public void shouldCheckEventsMaintenance() {
         //GIVEN two users with no event
@@ -823,7 +823,7 @@ public class FriendshipWSIT extends AbstractIT {
         assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(2))).isEqualTo(0);
 
         //WHEN P1 generates more than MAX_EVENTS_PER_USER events for P1 and P2
-        for (int i = 0; i < FriendshipEvent.Validation.MAX_EVENTS_PER_USER + 5; i++) {
+        for (int i = 0; i < FriendshipEventEntity.Validation.MAX_EVENTS_PER_USER + 5; i++) {
             whenP1().getSpec()
                 .post(API_USER + "/askfriendship/user/" + userId(2))
                 .then()
@@ -835,8 +835,8 @@ public class FriendshipWSIT extends AbstractIT {
         }
 
         //THEN only last MAX_EVENTS_PER_USER events stay in database for each user
-        assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(1))).isEqualTo(FriendshipEvent.Validation.MAX_EVENTS_PER_USER);
-        assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(2))).isEqualTo(FriendshipEvent.Validation.MAX_EVENTS_PER_USER);
+        assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(1))).isEqualTo(FriendshipEventEntity.Validation.MAX_EVENTS_PER_USER);
+        assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(2))).isEqualTo(FriendshipEventEntity.Validation.MAX_EVENTS_PER_USER);
     }
 
     @Test

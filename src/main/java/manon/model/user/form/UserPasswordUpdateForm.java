@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import static lombok.AccessLevel.PRIVATE;
-import static manon.document.user.User.Validation.PASSWORD_MAX_LENGTH;
-import static manon.document.user.User.Validation.PASSWORD_MIN_LENGTH;
-import static manon.document.user.User.Validation.PASSWORD_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.PASSWORD_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.PASSWORD_MIN_LENGTH;
+import static manon.document.user.UserEntity.Validation.PASSWORD_SIZE_ERRMSG;
 import static manon.util.Tools.shortenAndAnonymizeLog;
 
 @Data

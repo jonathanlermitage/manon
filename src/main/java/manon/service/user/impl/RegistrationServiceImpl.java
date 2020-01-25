@@ -2,7 +2,7 @@ package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.model.user.UserRole;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
@@ -29,32 +29,32 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserService userService;
 
     @Override
-    public User activate(long userId) {
+    public UserEntity activate(long userId) {
         userService.setRegistrationState(userId, ACTIVE);
         return userService.readOne(userId);
     }
 
     @Override
-    public User ban(long userId) {
+    public UserEntity ban(long userId) {
         userService.setRegistrationState(userId, BANNED);
         return userService.readOne(userId);
     }
 
     @Override
-    public User suspend(long userId) {
+    public UserEntity suspend(long userId) {
         userService.setRegistrationState(userId, SUSPENDED);
         return userService.readOne(userId);
     }
 
     @Override
-    public User delete(long userId) {
+    public UserEntity delete(long userId) {
         userService.setRegistrationState(userId, DELETED);
         return userService.readOne(userId);
     }
 
     @Override
-    public User registerPlayer(String username, String password) {
-        User user = User.builder()
+    public UserEntity registerPlayer(String username, String password) {
+        UserEntity user = UserEntity.builder()
             .username(username.trim())
             .authorities(PLAYER.getAuthority())
             .password(password)
@@ -64,21 +64,21 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public User ensureActuator() {
+    public UserEntity ensureActuator() {
         return ensureUser(cfg.getDefaultUserActuatorUsername(), cfg.getDefaultUserActuatorPassword(), ACTUATOR, PLAYER);
     }
 
     @Override
-    public User ensureAdmin() {
+    public UserEntity ensureAdmin() {
         return ensureUser(cfg.getDefaultUserAdminUsername(), cfg.getDefaultUserAdminPassword(), UserRole.values());
     }
 
-    public User ensureUser(String username, String password, UserRole... roles) {
-        Optional<User> existingUser = userService.findByUsername(username);
+    public UserEntity ensureUser(String username, String password, UserRole... roles) {
+        Optional<UserEntity> existingUser = userService.findByUsername(username);
         if (existingUser.isPresent()) {
             return existingUser.get();
         }
-        User user = User.builder()
+        UserEntity user = UserEntity.builder()
             .username(username)
             .authorities(Stream.of(roles).map(UserRole::getAuthority).collect(Collectors.joining(",")))
             .password(password)

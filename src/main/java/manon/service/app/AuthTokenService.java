@@ -1,6 +1,6 @@
 package manon.service.app;
 
-import manon.document.app.AuthToken;
+import manon.document.app.AuthTokenEntity;
 import manon.util.ExistForTesting;
 
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public interface AuthTokenService {
      * @param expirationDate authenticated user's token expiration date.
      * @return token created in database.
      */
-    AuthToken create(String username, LocalDateTime expirationDate);
+    AuthTokenEntity create(String username, LocalDateTime expirationDate);
 
     /**
      * Check if a token reference exists in database.
@@ -41,7 +41,7 @@ public interface AuthTokenService {
     void removeAllExpired();
 
     @ExistForTesting(why = "AuthAdminWSIT")
-    List<AuthToken> findAll();
+    List<AuthTokenEntity> findAll();
 
     @ExistForTesting(why = "AuthAdminWSIT")
     long count();

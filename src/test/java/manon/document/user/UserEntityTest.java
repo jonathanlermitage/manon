@@ -10,11 +10,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class UserTest {
+public class UserEntityTest {
 
     @Test
     public void shouldVerifyToString() {
-        Assertions.assertThat(User.builder().build().toString()).contains(
+        Assertions.assertThat(UserEntity.builder().build().toString()).contains(
             "id", "username",
             "authorities", "password", "registrationState",
             "nickname", "email",
@@ -22,7 +22,7 @@ public class UserTest {
     }
 
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        User filled = User.builder()
+        UserEntity filled = UserEntity.builder()
             .id(1)
             .username("u")
             .authorities(UserRole.PLAYER.name())
@@ -35,7 +35,7 @@ public class UserTest {
             .updateDate(Tools.now())
             .build();
         return new Object[][]{
-            {User.builder().build(), User.builder().build(), true},
+            {UserEntity.builder().build(), UserEntity.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
             {filled.toBuilder().username("updated").build(), filled, false},
@@ -52,19 +52,19 @@ public class UserTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(User o1, User o2, boolean expectedEqual) {
+    public void shouldVerifyEquals(UserEntity o1, UserEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(User o1, User o2, boolean expectedEqual) {
+    public void shouldVerifyHashCode(UserEntity o1, UserEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
     public void shouldVerifyPrePersistOnNew() {
-        User o = User.builder().build();
+        UserEntity o = UserEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
         Assertions.assertThat(o.getUpdateDate()).isEqualTo(o.getCreationDate());
@@ -72,7 +72,7 @@ public class UserTest {
 
     @Test
     public void shouldVerifyPrePersistOnExisting() {
-        User o = User.builder().build();
+        UserEntity o = UserEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
 

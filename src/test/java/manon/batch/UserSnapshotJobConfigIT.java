@@ -1,8 +1,8 @@
 package manon.batch;
 
-import manon.document.user.User;
-import manon.document.user.UserSnapshot;
-import manon.document.user.UserStats;
+import manon.document.user.UserEntity;
+import manon.document.user.UserSnapshotEntity;
+import manon.document.user.UserStatsEntity;
 import manon.util.TestTools;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
@@ -36,15 +36,15 @@ public class UserSnapshotJobConfigIT extends AbstractIT {
         int maxAge = TestTools.days(cfg.getBatchUserSnapshotSnapshotMaxAge());
         assertThat(chunk).isEqualTo(10);
         assertThat(cfg.getBatchUserSnapshotSnapshotMaxAge()).isEqualTo(Duration.ofDays(30));
-        User userToSnapshot = userService.readOne(userId(1));
+        UserEntity userToSnapshot = userService.readOne(userId(1));
 
         //GIVEN existing old, present, recent and future User snapshots
         List<Integer> delays = Arrays.asList(-1 - maxAge, 0 - maxAge, 1 - maxAge, 0, 1);
-        List<UserSnapshot> userSnapshots = new ArrayList<>();
+        List<UserSnapshotEntity> userSnapshots = new ArrayList<>();
 
         // workaround: can't save custom creationDate at creation, do it at update
         for (int i = 0; i < delays.size(); i++) {
-            userSnapshots.add(UserSnapshot.from(userToSnapshot));
+            userSnapshots.add(UserSnapshotEntity.from(userToSnapshot));
         }
         userSnapshotService.saveAll(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {
@@ -68,7 +68,7 @@ public class UserSnapshotJobConfigIT extends AbstractIT {
         }
 
         //THEN statistics are written
-        List<UserStats> userStats = userStatsService.findAll();
+        List<UserStatsEntity> userStats = userStatsService.findAll();
         assertThat(userStats).isNotNull().hasSize(nbStats);
         userStats.forEach(ps -> assertThat(ps.getNbUsers()).isEqualTo(expectedTodayUserSnapshots));
     }

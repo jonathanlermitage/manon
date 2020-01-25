@@ -1,6 +1,6 @@
 package manon.service.user;
 
-import manon.document.user.UserSnapshot;
+import manon.document.user.UserSnapshotEntity;
 import manon.util.ExistForTesting;
 
 import java.time.Duration;
@@ -23,16 +23,16 @@ public interface UserSnapshotService {
     long count();
 
     @ExistForTesting
-    Optional<UserSnapshot> findOne(long id);
+    Optional<UserSnapshotEntity> findOne(long id);
 
     @ExistForTesting
-    List<UserSnapshot> findAll();
+    List<UserSnapshotEntity> findAll();
 
     @ExistForTesting
-    UserSnapshot save(UserSnapshot entity);
+    UserSnapshotEntity save(UserSnapshotEntity entity);
 
     @ExistForTesting
-    void saveAll(Iterable<UserSnapshot> entities);
+    void saveAll(Iterable<UserSnapshotEntity> entities);
 
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();

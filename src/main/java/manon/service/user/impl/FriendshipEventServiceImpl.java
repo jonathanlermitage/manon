@@ -1,8 +1,8 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.document.user.FriendshipEvent;
-import manon.document.user.User;
+import manon.document.user.FriendshipEventEntity;
+import manon.document.user.UserEntity;
 import manon.model.user.FriendshipEventCode;
 import manon.repository.user.FriendshipEventRepository;
 import manon.service.user.FriendshipEventService;
@@ -24,20 +24,20 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
     private final UserService userService;
 
     @Override
-    public List<FriendshipEvent> findAllFriendshipEventsByUserOrderByCreationDateDesc(long userId) {
+    public List<FriendshipEventEntity> findAllFriendshipEventsByUserOrderByCreationDateDesc(long userId) {
         return friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
     }
 
     public void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
-        User userFrom = userService.readOne(userIdFrom);
-        User userTo = userService.readOne(userIdTo);
+        UserEntity userFrom = userService.readOne(userIdFrom);
+        UserEntity userTo = userService.readOne(userIdTo);
         friendshipEventRepository.saveAll(Arrays.asList(
-            FriendshipEvent.builder()
+            FriendshipEventEntity.builder()
                 .user(userFrom)
                 .friend(userTo)
                 .code(eventCodeFrom)
                 .build(),
-            FriendshipEvent.builder()
+            FriendshipEventEntity.builder()
                 .user(userTo)
                 .friend(userFrom)
                 .code(eventCodeTo)
@@ -46,12 +46,12 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
         keepEvents(userIdFrom, userIdTo);
     }
 
-    /** Keep only {@link FriendshipEvent.Validation#MAX_EVENTS_PER_USER} recent friendshipEvents on users. */
+    /** Keep only {@link FriendshipEventEntity.Validation#MAX_EVENTS_PER_USER} recent friendshipEvents on users. */
     private void keepEvents(@NotNull long... userIds) {
         for (long userId : userIds) {
-            List<FriendshipEvent> events = friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
-            if (events.size() > FriendshipEvent.Validation.MAX_EVENTS_PER_USER) {
-                friendshipEventRepository.deleteAll(events.subList(FriendshipEvent.Validation.MAX_EVENTS_PER_USER, events.size()));
+            List<FriendshipEventEntity> events = friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
+            if (events.size() > FriendshipEventEntity.Validation.MAX_EVENTS_PER_USER) {
+                friendshipEventRepository.deleteAll(events.subList(FriendshipEventEntity.Validation.MAX_EVENTS_PER_USER, events.size()));
             }
         }
     }

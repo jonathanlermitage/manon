@@ -8,22 +8,22 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class UserStatsTest {
+public class UserStatsEntityTest {
 
     @Test
     public void shouldVerifyToString() {
-        Assertions.assertThat(UserStats.builder().build().toString()).contains(
+        Assertions.assertThat(UserStatsEntity.builder().build().toString()).contains(
             "id", "nbUsers", "creationDate");
     }
 
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        UserStats filled = UserStats.builder()
+        UserStatsEntity filled = UserStatsEntity.builder()
             .id(1L)
             .nbUsers(2)
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
-            {UserStats.builder().build(), UserStats.builder().build(), true},
+            {UserStatsEntity.builder().build(), UserStatsEntity.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99L).build(), filled, false},
             {filled.toBuilder().nbUsers(99).build(), filled, false},
@@ -45,14 +45,14 @@ public class UserStatsTest {
 
     @Test
     public void shouldVerifyPrePersistOnNew() {
-        UserStats o = UserStats.builder().build();
+        UserStatsEntity o = UserStatsEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
     public void shouldVerifyPrePersistOnExisting() {
-        UserStats o = UserStats.builder().build();
+        UserStatsEntity o = UserStatsEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
 

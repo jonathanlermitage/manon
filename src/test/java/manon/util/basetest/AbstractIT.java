@@ -11,7 +11,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import manon.Application;
 import manon.app.Cfg;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.err.user.UserNotFoundException;
 import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
@@ -354,7 +354,7 @@ public abstract class AbstractIT {
     }
 
     @SneakyThrows(UserNotFoundException.class)
-    public final User user(int humanId) {
+    public final UserEntity user(int humanId) {
         return userService.readByUsername(name(humanId));
     }
 

@@ -1,4 +1,4 @@
-package manon.document.user;
+package manon.document.app;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,35 +14,39 @@ import manon.util.Tools;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
+import static manon.document.user.UserEntity.Validation.USERNAME_MAX_LENGTH;
+
+@Entity(name = "AuthToken")
+@Table(name = "auth_token")
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class FriendshipRequest implements Serializable {
+public class AuthTokenEntity implements Serializable {
 
-    private static final long serialVersionUID = -872698933222705031L;
+    private static final long serialVersionUID = -2786555151682984356L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User requestFrom;
+    @Column(nullable = false, length = USERNAME_MAX_LENGTH)
+    private String username;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User requestTo;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Column(nullable = false)
+    private LocalDateTime expirationDate;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

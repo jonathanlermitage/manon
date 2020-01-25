@@ -9,12 +9,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import static lombok.AccessLevel.PRIVATE;
-import static manon.document.user.User.Validation.EMAIL_MAX_LENGTH;
-import static manon.document.user.User.Validation.EMAIL_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.NICKNAME_MAX_LENGTH;
-import static manon.document.user.User.Validation.NICKNAME_PATTERN;
-import static manon.document.user.User.Validation.NICKNAME_PATTERN_ERRMSG;
-import static manon.document.user.User.Validation.NICKNAME_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.EMAIL_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.EMAIL_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.NICKNAME_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.NICKNAME_PATTERN;
+import static manon.document.user.UserEntity.Validation.NICKNAME_PATTERN_ERRMSG;
+import static manon.document.user.UserEntity.Validation.NICKNAME_SIZE_ERRMSG;
 import static manon.util.Tools.shortenLog;
 
 @Data

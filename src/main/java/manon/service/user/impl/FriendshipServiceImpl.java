@@ -1,7 +1,7 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.document.user.Friendship;
+import manon.document.user.FriendshipEntity;
 import manon.err.user.FriendshipNotFoundException;
 import manon.model.user.FriendshipEventCode;
 import manon.model.user.UserPublicInfo;
@@ -44,7 +44,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public List<UserPublicInfo> findAllPublicInfoFor(long userId) {
-        try (Stream<Friendship> stream = friendshipRepository.streamAllFor(userId)) {
+        try (Stream<FriendshipEntity> stream = friendshipRepository.streamAllFor(userId)) {
             return stream.map(friendship -> UserPublicInfo.from(friendship.getRequestFrom().getId() == userId ? friendship.getRequestTo() : friendship.getRequestFrom()))
                 .collect(Collectors.toList());
         }
@@ -56,7 +56,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public Friendship save(Friendship entity) {
+    public FriendshipEntity save(FriendshipEntity entity) {
         return friendshipRepository.save(entity);
     }
 
@@ -68,7 +68,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
-    public List<Friendship> findAllFor(long userId) {
+    public List<FriendshipEntity> findAllFor(long userId) {
         return friendshipRepository.findAllFor(userId);
     }
 }

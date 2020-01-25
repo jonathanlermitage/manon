@@ -1,9 +1,9 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.document.user.Friendship;
-import manon.document.user.FriendshipRequest;
-import manon.document.user.User;
+import manon.document.user.FriendshipEntity;
+import manon.document.user.FriendshipRequestEntity;
+import manon.document.user.UserEntity;
 import manon.err.user.FriendshipExistsException;
 import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
@@ -47,9 +47,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
             throw new FriendshipExistsException();
         }
 
-        User userFrom = userService.readOne(userIdFrom);
-        User userTo = userService.readOne(userIdTo);
-        friendshipRequestRepository.save(FriendshipRequest.builder()
+        UserEntity userFrom = userService.readOne(userIdFrom);
+        UserEntity userTo = userService.readOne(userIdTo);
+        friendshipRequestRepository.save(FriendshipRequestEntity.builder()
             .requestFrom(userFrom)
             .requestTo(userTo)
             .build());
@@ -65,9 +65,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
             throw new FriendshipRequestNotFoundException();
         }
 
-        User userFrom = userService.readOne(userIdFrom);
-        User userTo = userService.readOne(userIdTo);
-        friendshipService.save(Friendship.builder()
+        UserEntity userFrom = userService.readOne(userIdFrom);
+        UserEntity userTo = userService.readOne(userIdTo);
+        friendshipService.save(FriendshipEntity.builder()
             .requestFrom(userFrom)
             .requestTo(userTo)
             .build());
@@ -108,13 +108,13 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
-    public List<FriendshipRequest> findAllFriendshipRequestsByRequestFrom(long userId) {
+    public List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestFrom(long userId) {
         return friendshipRequestRepository.findAllByRequestFrom(userId);
     }
 
     @Override
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
-    public List<FriendshipRequest> findAllFriendshipRequestsByRequestTo(long userId) {
+    public List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestTo(long userId) {
         return friendshipRequestRepository.findAllByRequestTo(userId);
     }
 }

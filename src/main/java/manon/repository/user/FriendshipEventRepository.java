@@ -1,6 +1,6 @@
 package manon.repository.user;
 
-import manon.document.user.FriendshipEvent;
+import manon.document.user.FriendshipEventEntity;
 import manon.util.ExistForTesting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FriendshipEventRepository extends JpaRepository<FriendshipEvent, Long> {
+public interface FriendshipEventRepository extends JpaRepository<FriendshipEventEntity, Long> {
 
     @Query("select f from FriendshipEvent f where f.user.id = :userId order by f.creationDate desc, f.id desc")
-    List<FriendshipEvent> findAllByUserOrderByCreationDateDesc(@Param("userId") long userId);
+    List<FriendshipEventEntity> findAllByUserOrderByCreationDateDesc(@Param("userId") long userId);
 
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select count(f) from FriendshipEvent f where f.user.id = :userId")

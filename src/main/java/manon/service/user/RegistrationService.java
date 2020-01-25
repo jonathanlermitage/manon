@@ -1,6 +1,6 @@
 package manon.service.user;
 
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 
 public interface RegistrationService {
 
@@ -9,27 +9,27 @@ public interface RegistrationService {
      * @param userId user id.
      * @return user.
      */
-    User activate(long userId);
+    UserEntity activate(long userId);
 
     /**
      * Ban a user.
      * @param userId user id.
      * @return user.
      */
-    User ban(long userId);
+    UserEntity ban(long userId);
 
     /**
      * Suspend a user.
      * @param userId user id.
      * @return user.
      */
-    User suspend(long userId);
+    UserEntity suspend(long userId);
 
     /**
      * Delete a user.
      * @param userId user id.
      */
-    User delete(long userId);
+    UserEntity delete(long userId);
 
     /**
      * Register a user.
@@ -38,17 +38,17 @@ public interface RegistrationService {
      * @param password password.
      * @return user.
      */
-    User registerPlayer(String username, String password);
+    UserEntity registerPlayer(String username, String password);
 
     /**
      * Register actuator-user if absent.
      * @return existing actuator-user, otherwise newly registered user.
      */
-    User ensureActuator();
+    UserEntity ensureActuator();
 
     /**
      * Register admin-user if absent.
      * @return existing admin-user, otherwise newly registered user.
      */
-    User ensureAdmin();
+    UserEntity ensureAdmin();
 }

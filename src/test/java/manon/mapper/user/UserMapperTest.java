@@ -1,7 +1,7 @@
 package manon.mapper.user;
 
-import manon.document.user.User;
-import manon.document.user.UserSnapshot;
+import manon.document.user.UserEntity;
+import manon.document.user.UserSnapshotEntity;
 import manon.dto.user.UserResponseDto;
 import manon.dto.user.UserSnapshotResponseDto;
 import manon.dto.user.UserWithSnapshotsResponseDto;
@@ -20,9 +20,9 @@ public class UserMapperTest {
     public static Object[][] dataProviderShouldMapUserToUserWithSnapshotsResponseDto() {
 
         //<editor-fold defaultstate="collapsed" desc="user with data">
-        User nestedUser = User.builder().id(1).build();
+        UserEntity nestedUser = UserEntity.builder().id(1).build();
 
-        UserSnapshot userSnapshot1 = UserSnapshot.builder()
+        UserSnapshotEntity userSnapshot1 = UserSnapshotEntity.builder()
             .id(1)
             .user(nestedUser)
             .userUsername("u1")
@@ -35,7 +35,7 @@ public class UserMapperTest {
             .creationDate(Tools.now())
             .build();
 
-        UserSnapshot userSnapshot2 = UserSnapshot.builder()
+        UserSnapshotEntity userSnapshot2 = UserSnapshotEntity.builder()
             .id(1)
             .user(nestedUser)
             .userUsername("u2")
@@ -48,7 +48,7 @@ public class UserMapperTest {
             .creationDate(Tools.now())
             .build();
 
-        User user = User.builder()
+        UserEntity user = UserEntity.builder()
             .id(1)
             .username("u")
             .authorities(UserRole.PLAYER.name())
@@ -105,14 +105,14 @@ public class UserMapperTest {
 
         return new Object[][]{
             {null, null},
-            {new User(), new UserWithSnapshotsResponseDto()},
+            {new UserEntity(), new UserWithSnapshotsResponseDto()},
             {user, userWithSnapshotsResponseDto}
         };
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldMapUserToUserWithSnapshotsResponseDto")
-    public void shouldMapUserToUserWithSnapshotsResponseDto(User user, UserWithSnapshotsResponseDto userWithSnapshotsResponseDto) {
+    public void shouldMapUserToUserWithSnapshotsResponseDto(UserEntity user, UserWithSnapshotsResponseDto userWithSnapshotsResponseDto) {
         assertThat(UserMapper.MAPPER.userToUserWithSnapshotsResponseDto(user))
             .isEqualTo(userWithSnapshotsResponseDto);
     }

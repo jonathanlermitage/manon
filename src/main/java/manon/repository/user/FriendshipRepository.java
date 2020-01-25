@@ -1,6 +1,6 @@
 package manon.repository.user;
 
-import manon.document.user.Friendship;
+import manon.document.user.FriendshipEntity;
 import manon.util.ExistForTesting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Repository
-public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
+public interface FriendshipRepository extends JpaRepository<FriendshipEntity, Long> {
 
     /** Find a friendship between two users. */
     @Query("select count(f) from Friendship f " +
@@ -28,11 +28,11 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     /** Find all friends for given user. */
     @Query("select f from Friendship f " +
         "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
-    Stream<Friendship> streamAllFor(@Param("userId") long userId);
+    Stream<FriendshipEntity> streamAllFor(@Param("userId") long userId);
 
     /** Find all friends for given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from Friendship f " +
         "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
-    List<Friendship> findAllFor(@Param("userId") long userId);
+    List<FriendshipEntity> findAllFor(@Param("userId") long userId);
 }

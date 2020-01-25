@@ -1,7 +1,7 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.document.user.UserStats;
+import manon.document.user.UserStatsEntity;
 import manon.repository.user.UserStatsRepository;
 import manon.service.user.UserStatsService;
 import manon.util.ExistForTesting;
@@ -18,19 +18,19 @@ public class UserStatsServiceImpl implements UserStatsService {
     private final UserStatsRepository userStatsRepository;
 
     @Override
-    public void save(UserStats entity) {
+    public void save(UserStatsEntity entity) {
         userStatsRepository.save(entity);
     }
 
     @Override
     @ExistForTesting(why = {"UserSnapshotJobConfigIntegrationTest", "UserStatsServiceIntegrationTest"})
-    public List<UserStats> findAll() {
+    public List<UserStatsEntity> findAll() {
         return userStatsRepository.findAll();
     }
 
     @Override
     @ExistForTesting(why = "UserStatsServiceIntegrationTest")
-    public void saveAll(Iterable<UserStats> entities) {
+    public void saveAll(Iterable<UserStatsEntity> entities) {
         userStatsRepository.saveAll(entities);
     }
 

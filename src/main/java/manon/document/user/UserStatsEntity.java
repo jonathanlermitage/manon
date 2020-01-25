@@ -18,18 +18,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /** Statistics on all users. */
-@Entity
+@Entity(name = "UserStats")
+@Table(name = "user_stats")
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserStats implements Serializable {
+public class UserStatsEntity implements Serializable {
 
     private static final long serialVersionUID = -6351299219725037369L;
 

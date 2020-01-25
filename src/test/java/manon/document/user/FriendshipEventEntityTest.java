@@ -1,4 +1,4 @@
-package manon.document.app;
+package manon.document.user;
 
 import manon.util.Tools;
 import org.assertj.core.api.Assertions;
@@ -8,54 +8,58 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class AuthTokenTest {
+import static manon.model.user.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
+import static manon.model.user.FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST;
+
+public class FriendshipEventEntityTest {
 
     @Test
     public void shouldVerifyToString() {
-        Assertions.assertThat(AuthToken.builder().build().toString()).contains(
-            "id", "username",
-            "expirationDate", "creationDate");
+        Assertions.assertThat(FriendshipEventEntity.builder().build().toString()).contains(
+            "id", "user", "friend", "code", "creationDate");
     }
 
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        AuthToken filled = AuthToken.builder()
+        FriendshipEventEntity filled = FriendshipEventEntity.builder()
             .id(1)
-            .username("u")
-            .expirationDate(Tools.now())
+            .code(TARGET_SENT_FRIEND_REQUEST)
+            .user(UserEntity.builder().username("u").build())
+            .friend(UserEntity.builder().username("f").build())
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
-            {AuthToken.builder().build(), AuthToken.builder().build(), true},
+            {FriendshipEventEntity.builder().build(), FriendshipEventEntity.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
-            {filled.toBuilder().username("updated").build(), filled, false},
-            {filled.toBuilder().expirationDate(Tools.yesterday()).build(), filled, false},
+            {filled.toBuilder().code(YOU_ACCEPTED_FRIEND_REQUEST).build(), filled, false},
+            {filled.toBuilder().user(UserEntity.builder().username("new u").build()).build(), filled, false},
+            {filled.toBuilder().friend(UserEntity.builder().username("new f").build()).build(), filled, false},
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(AuthToken o1, AuthToken o2, boolean expectedEqual) {
+    public void shouldVerifyEquals(FriendshipEventEntity o1, FriendshipEventEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(AuthToken o1, AuthToken o2, boolean expectedEqual) {
+    public void shouldVerifyHashCode(FriendshipEventEntity o1, FriendshipEventEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
     public void shouldVerifyPrePersistOnNew() {
-        AuthToken o = AuthToken.builder().build();
+        FriendshipEventEntity o = FriendshipEventEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
     public void shouldVerifyPrePersistOnExisting() {
-        AuthToken o = AuthToken.builder().build();
+        FriendshipEventEntity o = FriendshipEventEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
 

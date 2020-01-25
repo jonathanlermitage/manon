@@ -1,6 +1,6 @@
 package manon.repository.user;
 
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
 import manon.model.user.RegistrationState;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
+public interface UserRepository extends JpaRepository<UserEntity, Long>, QuerydslPredicateExecutor<UserEntity> {
 
-    Optional<User> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
     @Query("select u from User u where u.id = :id")
     Optional<UserVersionProjection> findVersionById(@Param("id") long id);
@@ -39,5 +39,5 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
     void setRegistrationState(@Param("id") long id, @Param("registrationState") RegistrationState registrationState);
 
     @Query("select u from User u left join fetch u.userSnapshots where u.id = :id")
-    Optional<User> findAndFetchUserSnapshots(@Param("id") long id);
+    Optional<UserEntity> findAndFetchUserSnapshots(@Param("id") long id);
 }

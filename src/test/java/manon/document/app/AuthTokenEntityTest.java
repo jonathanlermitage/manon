@@ -1,4 +1,4 @@
-package manon.document.user;
+package manon.document.app;
 
 import manon.util.Tools;
 import org.assertj.core.api.Assertions;
@@ -8,53 +8,54 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class FriendshipRequestTest {
+public class AuthTokenEntityTest {
 
     @Test
     public void shouldVerifyToString() {
-        Assertions.assertThat(FriendshipRequest.builder().build().toString()).contains(
-            "id", "requestFrom", "requestTo", "creationDate");
+        Assertions.assertThat(AuthTokenEntity.builder().build().toString()).contains(
+            "id", "username",
+            "expirationDate", "creationDate");
     }
 
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        FriendshipRequest filled = FriendshipRequest.builder()
+        AuthTokenEntity filled = AuthTokenEntity.builder()
             .id(1)
+            .username("u")
+            .expirationDate(Tools.now())
             .creationDate(Tools.now())
-            .requestFrom(User.builder().id(10).build())
-            .requestTo(User.builder().id(11).build())
             .build();
         return new Object[][]{
-            {FriendshipRequest.builder().build(), FriendshipRequest.builder().build(), true},
+            {AuthTokenEntity.builder().build(), AuthTokenEntity.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
-            {filled.toBuilder().requestFrom(User.builder().id(20).build()).build(), filled, false},
-            {filled.toBuilder().requestTo(User.builder().id(21).build()).build(), filled, false},
+            {filled.toBuilder().username("updated").build(), filled, false},
+            {filled.toBuilder().expirationDate(Tools.yesterday()).build(), filled, false},
             {filled.toBuilder().creationDate(Tools.yesterday()).build(), filled, true}
         };
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(FriendshipRequest o1, FriendshipRequest o2, boolean expectedEqual) {
+    public void shouldVerifyEquals(AuthTokenEntity o1, AuthTokenEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(FriendshipRequest o1, FriendshipRequest o2, boolean expectedEqual) {
+    public void shouldVerifyHashCode(AuthTokenEntity o1, AuthTokenEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
     public void shouldVerifyPrePersistOnNew() {
-        FriendshipRequest o = FriendshipRequest.builder().build();
+        AuthTokenEntity o = AuthTokenEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
     public void shouldVerifyPrePersistOnExisting() {
-        FriendshipRequest o = FriendshipRequest.builder().build();
+        AuthTokenEntity o = AuthTokenEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
 

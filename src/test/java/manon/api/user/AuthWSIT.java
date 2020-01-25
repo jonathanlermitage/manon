@@ -1,7 +1,7 @@
 package manon.api.user;
 
 import io.restassured.response.Response;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.model.user.form.UserLogin;
 import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
@@ -33,8 +33,8 @@ public class AuthWSIT extends AbstractIT {
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
-        User webUser = readValue(res, User.class);
-        User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
+        UserEntity webUser = readValue(res, UserEntity.class);
+        UserEntity dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isNull();
     }
@@ -43,14 +43,14 @@ public class AuthWSIT extends AbstractIT {
     public void shouldReuseToken() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
-        User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
+        UserEntity dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
         for (int i = 0; i < 3; i++) {
             Response res = whenAnonymous().getSpec()
                 .header("Authorization", "Bearer " + jwt)
                 .get(API_USER);
             res.then()
                 .statusCode(SC_OK);
-            User webUser = readValue(res, User.class);
+            UserEntity webUser = readValue(res, UserEntity.class);
             assertThat(webUser).isEqualTo(dbUser);
             assertThat(webUser.getUserSnapshots()).isNull();
         }
@@ -73,8 +73,8 @@ public class AuthWSIT extends AbstractIT {
             .get(API_USER);
         newRes.then()
             .statusCode(SC_OK);
-        User webUser = readValue(newRes, User.class);
-        User dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
+        UserEntity webUser = readValue(newRes, UserEntity.class);
+        UserEntity dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isNull();
     }

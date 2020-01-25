@@ -22,19 +22,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Entity
+@Entity(name = "UserSnapshot")
+@Table(name = "user_snapshot")
 @Getter
 @ToString(exclude = "user")
 @EqualsAndHashCode(exclude = {"user", "creationDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSnapshot implements Serializable {
+public class UserSnapshotEntity implements Serializable {
 
     private static final long serialVersionUID = -4321502988403908385L;
 
@@ -44,7 +46,7 @@ public class UserSnapshot implements Serializable {
 
     @JsonView(WithLUserView.class)
     @ManyToOne(fetch = LAZY)
-    private User user;
+    private UserEntity user;
 
     @Column(updatable = false)
     private String userUsername;
@@ -80,9 +82,9 @@ public class UserSnapshot implements Serializable {
         }
     }
 
-    /** Populate a {@link UserSnapshot} from a {@link User}. */
-    public static UserSnapshot from(User user) {
-        return UserSnapshot.builder()
+    /** Populate a {@link UserSnapshotEntity} from a {@link UserEntity}. */
+    public static UserSnapshotEntity from(UserEntity user) {
+        return UserSnapshotEntity.builder()
             .user(user)
             .userUsername(user.getUsername())
             .userAuthorities(user.getAuthorities())

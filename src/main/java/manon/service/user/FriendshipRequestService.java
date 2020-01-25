@@ -1,6 +1,6 @@
 package manon.service.user;
 
-import manon.document.user.FriendshipRequest;
+import manon.document.user.FriendshipRequestEntity;
 import manon.util.ExistForTesting;
 
 import java.util.List;
@@ -45,9 +45,9 @@ public interface FriendshipRequestService {
 
     /** Find all friendship requests from given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
-    List<FriendshipRequest> findAllFriendshipRequestsByRequestFrom(long userId);
+    List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestFrom(long userId);
 
     /** Find all friendship requests to given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
-    List<FriendshipRequest> findAllFriendshipRequestsByRequestTo(long userId);
+    List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestTo(long userId);
 }

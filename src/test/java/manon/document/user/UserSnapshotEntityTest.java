@@ -10,11 +10,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class UserSnapshotTest {
+public class UserSnapshotEntityTest {
 
     @Test
     public void shouldVerifyToString() {
-        Assertions.assertThat(UserSnapshot.builder().build().toString()).contains(
+        Assertions.assertThat(UserSnapshotEntity.builder().build().toString()).contains(
             "id", "userUsername",
             "userAuthorities", "userPassword", "userRegistrationState",
             "userNickname", "userEmail",
@@ -22,9 +22,9 @@ public class UserSnapshotTest {
     }
 
     public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        UserSnapshot filled = UserSnapshot.builder()
+        UserSnapshotEntity filled = UserSnapshotEntity.builder()
             .id(1)
-            .user(User.builder().id(2).build())
+            .user(UserEntity.builder().id(2).build())
             .userUsername("u")
             .userAuthorities(UserRole.PLAYER.name())
             .userPassword("apassword")
@@ -35,10 +35,10 @@ public class UserSnapshotTest {
             .creationDate(Tools.now())
             .build();
         return new Object[][]{
-            {UserSnapshot.builder().build(), UserSnapshot.builder().build(), true},
+            {UserSnapshotEntity.builder().build(), UserSnapshotEntity.builder().build(), true},
             {filled.toBuilder().build(), filled, true},
             {filled.toBuilder().id(99).build(), filled, false},
-            {filled.toBuilder().user(User.builder().id(100).build()).build(), filled, true},
+            {filled.toBuilder().user(UserEntity.builder().id(100).build()).build(), filled, true},
             {filled.toBuilder().userUsername("updated").build(), filled, false},
             {filled.toBuilder().userAuthorities(UserRole.ADMIN.name()).build(), filled, false},
             {filled.toBuilder().userPassword("newpassword").build(), filled, false},
@@ -64,14 +64,14 @@ public class UserSnapshotTest {
 
     @Test
     public void shouldVerifyPrePersistOnNew() {
-        UserSnapshot o = UserSnapshot.builder().build();
+        UserSnapshotEntity o = UserSnapshotEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
     public void shouldVerifyPrePersistOnExisting() {
-        UserSnapshot o = UserSnapshot.builder().build();
+        UserSnapshotEntity o = UserSnapshotEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
 

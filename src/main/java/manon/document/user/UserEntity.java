@@ -37,22 +37,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
-import static manon.document.user.User.Validation.EMAIL_MAX_LENGTH;
-import static manon.document.user.User.Validation.EMAIL_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.NICKNAME_MAX_LENGTH;
-import static manon.document.user.User.Validation.NICKNAME_PATTERN;
-import static manon.document.user.User.Validation.NICKNAME_PATTERN_ERRMSG;
-import static manon.document.user.User.Validation.NICKNAME_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.PASSWORD_MAX_LENGTH;
-import static manon.document.user.User.Validation.PASSWORD_MIN_LENGTH;
-import static manon.document.user.User.Validation.PASSWORD_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.USERNAME_MAX_LENGTH;
-import static manon.document.user.User.Validation.USERNAME_MIN_LENGTH;
-import static manon.document.user.User.Validation.USERNAME_PATTERN;
-import static manon.document.user.User.Validation.USERNAME_PATTERN_ERRMSG;
-import static manon.document.user.User.Validation.USERNAME_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.EMAIL_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.EMAIL_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.NICKNAME_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.NICKNAME_PATTERN;
+import static manon.document.user.UserEntity.Validation.NICKNAME_PATTERN_ERRMSG;
+import static manon.document.user.UserEntity.Validation.NICKNAME_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.PASSWORD_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.PASSWORD_MIN_LENGTH;
+import static manon.document.user.UserEntity.Validation.PASSWORD_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.USERNAME_MAX_LENGTH;
+import static manon.document.user.UserEntity.Validation.USERNAME_MIN_LENGTH;
+import static manon.document.user.UserEntity.Validation.USERNAME_PATTERN;
+import static manon.document.user.UserEntity.Validation.USERNAME_PATTERN_ERRMSG;
+import static manon.document.user.UserEntity.Validation.USERNAME_SIZE_ERRMSG;
 
-@Entity
+@Entity(name = "User")
 @Table(name = "user_") // 'user' is a reserved keyword in some db, like PostgreSQL
 @QueryEntity
 @Getter
@@ -61,7 +61,7 @@ import static manon.document.user.User.Validation.USERNAME_SIZE_ERRMSG;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable, UserVersionProjection {
+public class UserEntity implements Serializable, UserVersionProjection {
 
     private static final long serialVersionUID = 443313310250932570L;
 
@@ -103,7 +103,7 @@ public class User implements Serializable, UserVersionProjection {
 
     @JsonView(WithUserSnapshots.class)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<UserSnapshot> userSnapshots;
+    private List<UserSnapshotEntity> userSnapshots;
 
     @Version
     @Column(nullable = false)
@@ -128,7 +128,7 @@ public class User implements Serializable, UserVersionProjection {
         updateDate = now;
     }
 
-    /** {@link User} fields validation rules. */
+    /** {@link UserEntity} fields validation rules. */
     @NoArgsConstructor(access = PRIVATE)
     public static final class Validation {
         public static final String USERNAME_PATTERN = "^[A-Z0-9_\\-\\u0020]*$";

@@ -1,8 +1,8 @@
 package manon.api.user;
 
 import io.restassured.response.Response;
-import manon.document.user.User;
-import manon.document.user.UserSnapshot;
+import manon.document.user.UserEntity;
+import manon.document.user.UserSnapshotEntity;
 import manon.dto.user.UserWithSnapshotsResponseDto;
 import manon.err.user.UserExistsException;
 import manon.model.user.UserPublicInfo;
@@ -49,7 +49,7 @@ public class UserWSIT extends AbstractIT {
             .post(API_USER)
             .then()
             .statusCode(SC_CREATED);
-        User user = userService.readByUsername(name);
+        UserEntity user = userService.readByUsername(name);
         assertThat(user.getUsername()).isEqualTo(name);
         assertThat(user.getAuthorities()).isEqualTo(PLAYER.getAuthority());
         assertThat(user.getVersion()).isGreaterThanOrEqualTo(0L);
@@ -95,8 +95,8 @@ public class UserWSIT extends AbstractIT {
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
-        User webUser = readValue(res, User.class);
-        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        UserEntity webUser = readValue(res, UserEntity.class);
+        UserEntity dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isNull();
     }
@@ -104,15 +104,15 @@ public class UserWSIT extends AbstractIT {
     @Test
     public void shouldReadWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
-            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
+            UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
+            UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));
         Response res = whenP1().getSpec()
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
-        User webUser = readValue(res, User.class);
-        User dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
+        UserEntity webUser = readValue(res, UserEntity.class);
+        UserEntity dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
         assertThat(webUser).isEqualTo(dbUser);
         assertThat(webUser.getUserSnapshots()).isNull();
     }
@@ -132,8 +132,8 @@ public class UserWSIT extends AbstractIT {
     @Test
     public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
-            UserSnapshot.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
+            UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
+            UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));
         Response res = whenP1().getSpec()
             .get(API_USER + "/include/usersnapshots");
@@ -166,15 +166,15 @@ public class UserWSIT extends AbstractIT {
     @ParameterizedTest
     @MethodSource("dataProviderShouldUpdate")
     public void shouldUpdate(String nickname, String email) {
-        User userBefore = userService.readOne(userId(1));
+        UserEntity userBefore = userService.readOne(userId(1));
         whenP1().getSpec()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
             .contentType(JSON)
             .put(API_USER + "/field")
             .then()
             .statusCode(SC_OK);
-        User userAfter = userService.readOne(userId(1));
-        User userExpected = userBefore.toBuilder()
+        UserEntity userAfter = userService.readOne(userId(1));
+        UserEntity userExpected = userBefore.toBuilder()
             .email(email)
             .nickname(nickname)
             .version(userBefore.getVersion() + 1)
@@ -198,7 +198,7 @@ public class UserWSIT extends AbstractIT {
 
     @Test
     public void shouldUpdateWithLongestPassword() {
-        String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
@@ -214,7 +214,7 @@ public class UserWSIT extends AbstractIT {
     @Test
     public void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
         // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
-        String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)
@@ -229,7 +229,7 @@ public class UserWSIT extends AbstractIT {
     @Test
     public void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
         // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
-        String newPassword = TestTools.fill("anewpassword", User.Validation.PASSWORD_MAX_LENGTH);
+        String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
             .contentType(JSON)

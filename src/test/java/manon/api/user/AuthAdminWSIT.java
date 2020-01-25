@@ -1,6 +1,6 @@
 package manon.api.user;
 
-import manon.document.app.AuthToken;
+import manon.document.app.AuthTokenEntity;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class AuthAdminWSIT extends AbstractIT {
 
         long expectedTokensKept = currentNbOfTokens + 4; // the 3 created tokens + the token used by admin to call API
         assertThat(authTokenService.count()).isEqualTo(expectedTokensKept);
-        assertThat(authTokenService.findAll()).extracting(AuthToken::getExpirationDate)
+        assertThat(authTokenService.findAll()).extracting(AuthTokenEntity::getExpirationDate)
             .as("only non-expired tokens are kept")
             .filteredOn(localDateTime -> localDateTime.isAfter(now))
             .hasSize((int) expectedTokensKept);

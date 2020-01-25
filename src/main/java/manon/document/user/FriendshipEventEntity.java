@@ -23,19 +23,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@Entity
+@Entity(name = "FriendshipEvent")
+@Table(name = "friendship_event")
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = "creationDate")
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class FriendshipEvent implements Serializable {
+public class FriendshipEventEntity implements Serializable {
 
     private static final long serialVersionUID = 5177929765264927516L;
 
@@ -44,10 +46,10 @@ public class FriendshipEvent implements Serializable {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User user;
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User friend;
+    private UserEntity friend;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

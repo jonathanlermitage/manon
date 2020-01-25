@@ -1,6 +1,6 @@
 package manon.service.user;
 
-import manon.document.user.Friendship;
+import manon.document.user.FriendshipEntity;
 import manon.model.user.UserPublicInfo;
 import manon.util.ExistForTesting;
 
@@ -25,12 +25,12 @@ public interface FriendshipService {
 
     long countCouple(long userId1, long userId2);
 
-    Friendship save(Friendship entity);
+    FriendshipEntity save(FriendshipEntity entity);
 
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();
 
     /** Find all friends for given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
-    List<Friendship> findAllFor(long userId);
+    List<FriendshipEntity> findAllFor(long userId);
 }

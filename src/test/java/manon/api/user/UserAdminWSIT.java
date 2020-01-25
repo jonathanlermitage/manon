@@ -1,7 +1,7 @@
 package manon.api.user;
 
 import io.restassured.response.Response;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.err.user.UserNotFoundException;
 import manon.util.basetest.AbstractIT;
 import manon.util.web.Page;
@@ -35,8 +35,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
@@ -53,8 +53,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
@@ -71,8 +71,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(userCount - 1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
@@ -84,8 +84,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
@@ -97,8 +97,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
     }
@@ -165,8 +165,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
@@ -183,8 +183,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(users.get(0).getUsername()).isEqualTo(name(1));
@@ -197,8 +197,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {
@@ -216,8 +216,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(users.get(0).getUsername()).isEqualTo(name(1));
@@ -230,8 +230,8 @@ public class UserAdminWSIT extends AbstractIT {
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
-        Page<User> result = readPage(res, User.class);
-        List<User> users = result.getContent();
+        Page<UserEntity> result = readPage(res, UserEntity.class);
+        List<UserEntity> users = result.getContent();
         assertThat(users).hasSize(userCount);
         assertThat(result.getTotalElements()).isEqualTo(userCount);
         for (int i = 1; i < users.size(); i++) {

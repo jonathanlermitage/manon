@@ -10,12 +10,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static io.restassured.http.ContentType.JSON;
-import static manon.document.user.User.Validation.EMAIL_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.NICKNAME_PATTERN_ERRMSG;
-import static manon.document.user.User.Validation.NICKNAME_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.PASSWORD_SIZE_ERRMSG;
-import static manon.document.user.User.Validation.USERNAME_PATTERN_ERRMSG;
-import static manon.document.user.User.Validation.USERNAME_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.EMAIL_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.NICKNAME_PATTERN_ERRMSG;
+import static manon.document.user.UserEntity.Validation.NICKNAME_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.PASSWORD_SIZE_ERRMSG;
+import static manon.document.user.UserEntity.Validation.USERNAME_PATTERN_ERRMSG;
+import static manon.document.user.UserEntity.Validation.USERNAME_SIZE_ERRMSG;
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;

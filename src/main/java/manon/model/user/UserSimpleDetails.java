@@ -3,7 +3,7 @@ package manon.model.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,7 +23,7 @@ public class UserSimpleDetails implements UserDetails, Serializable {
     private boolean credentialsNonExpired;
     private boolean enabled;
     private Collection<? extends GrantedAuthority> authorities;
-    private User user;
+    private UserEntity user;
 
     // Accelerators.
 

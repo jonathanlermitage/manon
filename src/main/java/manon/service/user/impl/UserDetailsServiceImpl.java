@@ -1,7 +1,7 @@
 package manon.service.user.impl;
 
 import lombok.RequiredArgsConstructor;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.model.user.UserSimpleDetails;
 import manon.service.user.UserService;
 import org.springframework.context.annotation.Primary;
@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserSimpleDetails loadUserByUsername(final String username) {
-        User user = userService.readByUsername(username);
+        UserEntity user = userService.readByUsername(username);
 
         return new UserSimpleDetails(
             user.getUsername(),

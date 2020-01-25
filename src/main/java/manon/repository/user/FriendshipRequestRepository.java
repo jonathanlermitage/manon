@@ -1,6 +1,6 @@
 package manon.repository.user;
 
-import manon.document.user.FriendshipRequest;
+import manon.document.user.FriendshipRequestEntity;
 import manon.util.ExistForTesting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FriendshipRequestRepository extends JpaRepository<FriendshipRequest, Long> {
+public interface FriendshipRequestRepository extends JpaRepository<FriendshipRequestEntity, Long> {
 
     /** Find a friendship request between two users. */
     @Query("select count(f) from FriendshipRequest f " +
@@ -28,11 +28,11 @@ public interface FriendshipRequestRepository extends JpaRepository<FriendshipReq
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from FriendshipRequest f " +
         "where f.requestFrom.id = :userId order by f.creationDate desc, f.id desc")
-    List<FriendshipRequest> findAllByRequestFrom(@Param("userId") long userId);
+    List<FriendshipRequestEntity> findAllByRequestFrom(@Param("userId") long userId);
 
     /** Find all friendship requests to given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     @Query("select f from FriendshipRequest f " +
         "where f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
-    List<FriendshipRequest> findAllByRequestTo(@Param("userId") long userId);
+    List<FriendshipRequestEntity> findAllByRequestTo(@Param("userId") long userId);
 }

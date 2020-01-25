@@ -1,7 +1,7 @@
 package manon.service.user;
 
 import com.querydsl.core.types.Predicate;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
 import manon.dto.user.UserWithSnapshotsResponseDto;
@@ -16,13 +16,13 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User readOne(long id);
+    UserEntity readOne(long id);
 
     UserWithSnapshotsResponseDto readOneAndFetchUserSnapshotDtos(long id);
 
-    User readByUsername(String username);
+    UserEntity readByUsername(String username);
 
-    Optional<User> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
     UserVersionProjection readVersionById(long id);
 
@@ -33,14 +33,14 @@ public interface UserService {
      */
     void update(long userId, UserUpdateForm userUpdateForm);
 
-    Page<User> findAll(Pageable pageable);
+    Page<UserEntity> findAll(Pageable pageable);
 
     /**
      * Create a new user and its user.
      * @param user user data.
      * @return new user.
      */
-    User create(User user);
+    UserEntity create(UserEntity user);
 
     void encodeAndSetPassword(long id, String password);
 
@@ -59,7 +59,7 @@ public interface UserService {
      * @param pageable pagination.
      * @return users.
      */
-    Page<User> search(Predicate predicate, Pageable pageable);
+    Page<UserEntity> search(Predicate predicate, Pageable pageable);
 
     /**
      * Use Querydsl to search users by the union of some filters: username, nickname or email.
@@ -69,16 +69,16 @@ public interface UserService {
      * @param pageable pagination.
      * @return users.
      */
-    Page<User> searchByIdentity(String username, String nickname, String email, Pageable pageable);
+    Page<UserEntity> searchByIdentity(String username, String nickname, String email, Pageable pageable);
 
     @ExistForTesting
-    User readOneAndFetchUserSnapshots(long id);
+    UserEntity readOneAndFetchUserSnapshots(long id);
 
     @ExistForTesting
     long count();
 
     @ExistForTesting
-    User save(User user);
+    UserEntity save(UserEntity user);
 
     @ExistForTesting
     void existOrFail(long... ids);

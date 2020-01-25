@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.DefaultView;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.dto.user.UserWithSnapshotsResponseDto;
 import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserLogin;
@@ -41,11 +41,11 @@ public class UserWS {
     private final UserService userService;
 
     /** Register a new user. */
-    @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = User.class)
+    @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = UserEntity.class)
     @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
     @JsonView(DefaultView.class)
-    public User register(@RequestBody @Validated UserLogin userLogin) {
+    public UserEntity register(@RequestBody @Validated UserLogin userLogin) {
         log.debug("user registration with {}", userLogin);
         return registrationService.registerPlayer(userLogin.getUsername(), userLogin.getPassword());
     }
@@ -59,10 +59,10 @@ public class UserWS {
     }
 
     /** Get user. */
-    @ApiOperation(value = "Get my user information.", produces = JSON, response = User.class)
+    @ApiOperation(value = "Get my user information.", produces = JSON, response = UserEntity.class)
     @GetMapping
     @JsonView(DefaultView.class)
-    public User read(@AuthenticationPrincipal UserSimpleDetails user) {
+    public UserEntity read(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
         return userService.readOne(user.getUserId());
     }

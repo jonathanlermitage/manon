@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
 import manon.batch.listener.ChunkFlushListener;
 import manon.batch.listener.JobListener;
-import manon.document.user.User;
-import manon.document.user.UserSnapshot;
-import manon.document.user.UserStats;
+import manon.document.user.UserEntity;
+import manon.document.user.UserSnapshotEntity;
+import manon.document.user.UserStatsEntity;
 import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.service.user.UserSnapshotService;
@@ -55,8 +55,8 @@ public class UserSnapshotJobConfig {
 
     @Bean
     @StepScope
-    public RepositoryItemReader<User> reader() {
-        RepositoryItemReader<User> reader = new RepositoryItemReader<>();
+    public RepositoryItemReader<UserEntity> reader() {
+        RepositoryItemReader<UserEntity> reader = new RepositoryItemReader<>();
         reader.setRepository(userRepository);
         reader.setSort(SORT);
         reader.setMethodName("findAll");
@@ -66,15 +66,15 @@ public class UserSnapshotJobConfig {
 
     @Bean
     @StepScope
-    public RepositoryItemWriter<UserSnapshot> writer() {
-        RepositoryItemWriter<UserSnapshot> writer = new RepositoryItemWriter<>();
+    public RepositoryItemWriter<UserSnapshotEntity> writer() {
+        RepositoryItemWriter<UserSnapshotEntity> writer = new RepositoryItemWriter<>();
         writer.setRepository(userSnapshotRepository);
         writer.setMethodName("save");
         return writer;
     }
 
     @Bean
-    public ItemProcessor<User, UserSnapshot> processor() {
+    public ItemProcessor<UserEntity, UserSnapshotEntity> processor() {
         return new UserItemProcessor();
     }
 
@@ -88,7 +88,7 @@ public class UserSnapshotJobConfig {
     @Bean(JOB_STEP1_SNAPSHOT_NAME)
     public Step userSnapshotJobStepSnapshot() {
         return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
-            .<User, UserSnapshot>chunk(cfg.getBatchUserSnapshotChunk())
+            .<UserEntity, UserSnapshotEntity>chunk(cfg.getBatchUserSnapshotChunk())
             .reader(reader())
             .processor(processor())
             .writer(writer())
@@ -126,15 +126,15 @@ public class UserSnapshotJobConfig {
     private class StatsTasklet implements Tasklet {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
-            userStatsService.save(UserStats.builder().nbUsers(userSnapshotService.countToday()).build());
+            userStatsService.save(UserStatsEntity.builder().nbUsers(userSnapshotService.countToday()).build());
             return RepeatStatus.FINISHED;
         }
     }
 
-    private static class UserItemProcessor implements ItemProcessor<User, UserSnapshot> {
+    private static class UserItemProcessor implements ItemProcessor<UserEntity, UserSnapshotEntity> {
         @Override
-        public UserSnapshot process(User item) {
-            return UserSnapshot.from(item);
+        public UserSnapshotEntity process(UserEntity item) {
+            return UserSnapshotEntity.from(item);
         }
     }
 }

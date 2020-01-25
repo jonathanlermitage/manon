@@ -1,7 +1,7 @@
 package manon.service.user.impl;
 
-import manon.document.user.User;
-import manon.document.user.UserSnapshot;
+import manon.document.user.UserEntity;
+import manon.document.user.UserSnapshotEntity;
 import manon.dto.user.UserWithSnapshotsResponseDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
@@ -41,13 +41,13 @@ public class UserServiceIT extends AbstractIT {
 
     @Test
     public void shouldReadOne() {
-        User dbUser = userService.readOne(userId(1));
+        UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
     }
 
     @Test
     public void shouldReadOneFailReadLazyDataOutsideASession() {
-        User dbUser = userService.readOne(userId(1));
+        UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
             .isInstanceOf(LazyInitializationException.class);
     }
@@ -55,20 +55,20 @@ public class UserServiceIT extends AbstractIT {
     @Test
     public void shouldReadOneWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshot.from(user(1)),
-            UserSnapshot.from(user(1))
+            UserSnapshotEntity.from(user(1)),
+            UserSnapshotEntity.from(user(1))
         ));
-        User dbUser = userService.readOne(userId(1));
+        UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
     }
 
     @Test
     public void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshot.from(user(1)),
-            UserSnapshot.from(user(1))
+            UserSnapshotEntity.from(user(1)),
+            UserSnapshotEntity.from(user(1))
         ));
-        User dbUser = userService.readOne(userId(1));
+        UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
             .isInstanceOf(LazyInitializationException.class);
     }
@@ -83,8 +83,8 @@ public class UserServiceIT extends AbstractIT {
     @Test
     public void shouldReadOneAndFetchUserSnapshotDtosWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshot.from(user(1)),
-            UserSnapshot.from(user(1))
+            UserSnapshotEntity.from(user(1)),
+            UserSnapshotEntity.from(user(1))
         ));
         UserWithSnapshotsResponseDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
@@ -143,7 +143,7 @@ public class UserServiceIT extends AbstractIT {
     @Test
     public void shouldCreateAndCheckEncodedPassword() {
         String rawPassword = "pwd" + currentTimeMillis();
-        User user = userService.create(User.builder()
+        UserEntity user = userService.create(UserEntity.builder()
             .username(name(100))
             .authorities("")
             .password(rawPassword)
@@ -214,7 +214,7 @@ public class UserServiceIT extends AbstractIT {
     @Test
     public void shouldSave() {
         LocalDateTime before = Tools.now();
-        userService.save(User.builder()
+        userService.save(UserEntity.builder()
             .username("SHOULD_SAVE_USERNAME")
             .password("password")
             .registrationState(RegistrationState.ACTIVE)
@@ -224,7 +224,7 @@ public class UserServiceIT extends AbstractIT {
             .build());
         LocalDateTime after = Tools.now();
 
-        User user = userService.readByUsername("SHOULD_SAVE_USERNAME");
+        UserEntity user = userService.readByUsername("SHOULD_SAVE_USERNAME");
         Assertions.assertThat(user.getCreationDate()).isBetween(before, after);
         Assertions.assertThat(user.getUpdateDate()).isBetween(before, after);
         Assertions.assertThat(user.getVersion()).isGreaterThanOrEqualTo(0);

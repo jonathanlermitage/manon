@@ -3,7 +3,7 @@ package manon.dto.user;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
-import manon.document.user.User;
+import manon.document.user.UserEntity;
 import manon.mapper.user.UserMapper;
 import manon.model.user.RegistrationState;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * {@link UserWithSnapshotsResponseDto} should inherit from {@link UserResponseDto} (and {@link UserResponseDto}
  * inherit from nothing and declare fields below), but since {@link UserWithSnapshotsResponseDto} contains a list
  * of {@link UserSnapshotResponseDto} elements, which contain {@link UserResponseDto} items too,
- * {@link UserMapper#userToUserWithSnapshotsResponseDto(User)} fails to populate it.
+ * {@link UserMapper#userToUserWithSnapshotsResponseDto(UserEntity)} fails to populate it.
  * <p>
  * A solution is to write a custom mapper, but I don't want to do MapStruct's job.<br/>
  * An other solution, chosen here, is to play with class names and create a common ancestor for both

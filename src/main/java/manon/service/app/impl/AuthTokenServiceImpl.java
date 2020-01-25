@@ -2,7 +2,7 @@ package manon.service.app.impl;
 
 import lombok.RequiredArgsConstructor;
 import manon.app.Globals;
-import manon.document.app.AuthToken;
+import manon.document.app.AuthTokenEntity;
 import manon.repository.app.AuthTokenRepository;
 import manon.service.app.AuthTokenService;
 import manon.util.ExistForTesting;
@@ -25,8 +25,8 @@ public class AuthTokenServiceImpl implements AuthTokenService {
     private final CacheManager cm;
 
     @Override
-    public AuthToken create(String username, LocalDateTime expirationDate) {
-        return authTokenRepository.save(AuthToken.builder()
+    public AuthTokenEntity create(String username, LocalDateTime expirationDate) {
+        return authTokenRepository.save(AuthTokenEntity.builder()
             .username(username)
             .expirationDate(expirationDate)
             .build());
@@ -70,7 +70,7 @@ public class AuthTokenServiceImpl implements AuthTokenService {
 
     @Override
     @ExistForTesting(why = "AuthAdminWSIT")
-    public List<AuthToken> findAll() {
+    public List<AuthTokenEntity> findAll() {
         return authTokenRepository.findAll();
     }
 

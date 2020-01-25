@@ -3,8 +3,8 @@ package manon.service.user.impl;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
-import manon.document.user.QUser;
-import manon.document.user.User;
+import manon.document.user.QUserEntity;
+import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
 import manon.dto.user.UserWithSnapshotsResponseDto;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoderService passwordEncoderService;
 
     @Override
-    public User readOne(long id) {
+    public UserEntity readOne(long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
@@ -51,17 +51,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
+    public Page<UserEntity> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Optional<UserEntity> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    public User readByUsername(String username) {
+    public UserEntity readByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
     }
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
+    public UserEntity create(UserEntity user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException();
         }
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> search(Predicate predicate, Pageable pageable) {
+    public Page<UserEntity> search(Predicate predicate, Pageable pageable) {
         if (predicate == null) {
             return findAll(pageable);
         } else {
@@ -107,23 +107,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> searchByIdentity(String username, String nickname, String email, Pageable pageable) {
+    public Page<UserEntity> searchByIdentity(String username, String nickname, String email, Pageable pageable) {
         BooleanBuilder predicate = new BooleanBuilder();
         if (!StringUtils.isEmpty(username)) {
-            predicate.or(QUser.user.username.equalsIgnoreCase(username));
+            predicate.or(QUserEntity.userEntity.username.equalsIgnoreCase(username));
         }
         if (!StringUtils.isEmpty(nickname)) {
-            predicate.or(QUser.user.nickname.equalsIgnoreCase(nickname));
+            predicate.or(QUserEntity.userEntity.nickname.equalsIgnoreCase(nickname));
         }
         if (!StringUtils.isEmpty(email)) {
-            predicate.or(QUser.user.email.equalsIgnoreCase(email));
+            predicate.or(QUserEntity.userEntity.email.equalsIgnoreCase(email));
         }
         return search(predicate.getValue(), pageable);
     }
 
     @Override
     @ExistForTesting
-    public User readOneAndFetchUserSnapshots(long id) {
+    public UserEntity readOneAndFetchUserSnapshots(long id) {
         return userRepository.findAndFetchUserSnapshots(id).orElseThrow(UserNotFoundException::new);
     }
 
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @ExistForTesting
-    public User save(User user) {
+    public UserEntity save(UserEntity user) {
         return userRepository.save(user);
     }
 
