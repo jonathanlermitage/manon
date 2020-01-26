@@ -63,6 +63,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL (HSQLDB,
 * **code coverage** thanks to **JaCoCo** Maven and Gradle plugin
 * some **AOP** to capture performance of API endpoints
 * **Spring Actuator** web endpoints configured
+  * show **Git information** (branch, commit...) into Actuator's `info` endpoint. See last commit of [actuator-git-info](https://github.com/jonathanlermitage/manon/tree/actuator-git-info) branch 
 * **Swagger UI** to provide documentation about REST API endpoints
   * run application and check `http://localhost:8080/swagger-ui.html`. See commit [834852c](https://github.com/jonathanlermitage/manon/commit/834852cd5ce8bbb869a189aecdd90097c9168152) ([spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger) branch)
 * **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support

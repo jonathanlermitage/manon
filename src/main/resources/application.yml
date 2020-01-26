@@ -73,6 +73,7 @@ management:
   health:
     mail.enabled: ${MANON_MAIL_MANAGEMENT:true}
     redis.enabled: ${MANON_REDIS_MANAGEMENT:false}
+  info.git.mode: simple
 
 manon:
   batch:

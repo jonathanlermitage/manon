@@ -528,6 +528,10 @@
                 <artifactId>oga-maven-plugin</artifactId>
                 <version>${oga-maven-plugin.version}</version>
             </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
