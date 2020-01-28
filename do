@@ -1,6 +1,6 @@
 #!/bin/bash
 
-let "nextParam = 1"
+((nextParam = 1))
 for ((cmd = 1; cmd <= $#; cmd++)); do
 
     ((nextParam++))
@@ -53,9 +53,9 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "fixgit")
-        git update-index --chmod=+x do
+        git update-index --chmod=+x "do"
         echo "'do' has now executable flag on git index"
-        git update-index --chmod=+x mvnw
+        git update-index --chmod=+x "mvnw"
         echo "'mvnw' has now executable flag on git index"
         ;;
 
@@ -133,13 +133,14 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
 
     "rd")
         sh ./mvnw package -DskipUT=true -DskipIT=true -T1
-        cd target/
-        java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
-        cd ..
+        (
+            cd target/ || exit
+            java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+        )
         ;;
 
     "w")
-        mvn -N io.takari:maven:wrapper -Dmaven=${!nextParam}
+        mvn -N io.takari:maven:wrapper -Dmaven="${!nextParam}"
         ;;
 
     "cv")
@@ -155,11 +156,11 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "sc")
-        sh ./mvnw sonar:sonar -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+        sh ./mvnw sonar:sonar -Dsonar.organization="$TK1_MANON_SONAR_ORGA" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="$TK1_MANON_SONAR_LOGIN"
         ;;
 
     "tsc")
-        sh ./mvnw verify sonar:sonar -P coverage -Dsonar.organization=$TK1_MANON_SONAR_ORGA -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$TK1_MANON_SONAR_LOGIN
+        sh ./mvnw verify sonar:sonar -P coverage -Dsonar.organization="$TK1_MANON_SONAR_ORGA" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="$TK1_MANON_SONAR_LOGIN"
         ;;
 
     "sb")
@@ -229,25 +230,25 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
     "up")
         if [[ ! -d ~/manon-app-logs ]]; then
             mkdir ~/manon-app-logs
-            echo "~/manon-app-logs directory created"
+            echo "$HOME/manon-app-logs directory created"
         fi
         if [[ ! -d ~/manon-maria-db ]]; then
             mkdir ~/manon-maria-db
             docker-compose -f ./docker/docker-compose.yml up -d maria
-            echo "~/manon-maria-db directory created, starting maria and wait 15 seconds..."
+            echo "$HOME/manon-maria-db directory created, starting maria and wait 15 seconds..."
             sleep 15
             echo "Done, maria should be open to connections. If manon startup fails, please restart maria"
         fi
         if [[ ! -d ~/manon-maria-db-batch ]]; then
             mkdir ~/manon-maria-db-batch
             docker-compose -f ./docker/docker-compose.yml up -d maria-batch
-            echo "~/manon-maria-db-batch directory created, starting maria and wait 15 seconds..."
+            echo "$HOME/manon-maria-db-batch directory created, starting maria and wait 15 seconds..."
             sleep 15
             echo "Done, maria-batch should be open to connections. If manon startup fails, please restart maria-batch"
         fi
         if [[ ! -d ~/manon-nginx-logs ]]; then
             mkdir ~/manon-nginx-logs
-            echo "~/manon-nginx-logs directory created"
+            echo "$HOME/manon-nginx-logs directory created"
         fi
         if [[ ! -d ~/manon-grafana-data ]]; then
             if ! getent passwd grafana >/dev/null 2>&1; then
@@ -256,7 +257,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
             fi
             mkdir ~/manon-grafana-data
             sudo chown -R grafana ~/manon-grafana-data
-            echo "~/manon-grafana-data directory created"
+            echo "$HOME/manon-grafana-data directory created"
         fi
         docker-compose -f ./docker/docker-compose.yml up -d
         ;;
@@ -268,7 +269,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
     "upelk")
         if [[ ! -d ~/manon-elastic-db ]]; then
             mkdir ~/manon-elastic-db
-            echo "~/manon-elastic-db directory created"
+            echo "$HOME/manon-elastic-db directory created"
         fi
         docker-compose -f ./docker/docker-compose-elk.yml up -d
         ;;
