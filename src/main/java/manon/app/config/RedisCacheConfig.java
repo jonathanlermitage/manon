@@ -13,6 +13,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static manon.app.Globals.Properties.CACHE_PROVIDER;
@@ -26,15 +27,13 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 
     private final Cfg cfg;
 
-    @SuppressWarnings({"CollectionAddAllCanBeReplacedWithConstructor", "ConstantConditions"})
     @Bean
     public RedisCacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
             .entryTtl(cfg.getCacheRedisTtl())
             .prefixKeysWith("manon_");
-        Set<String> cacheNames = new HashSet<>();
-        cacheNames.addAll(Globals.CacheNames.allCaches());
-        return RedisCacheManager.builder(redisTemplate.getConnectionFactory())
+        Set<String> cacheNames = new HashSet<>(Globals.CacheNames.allCaches());
+        return RedisCacheManager.builder(Objects.requireNonNull(redisTemplate.getConnectionFactory()))
             .cacheDefaults(config)
             .initialCacheNames(cacheNames)
             .build();
