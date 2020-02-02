@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import static io.restassured.http.ContentType.JSON;
-import static java.lang.System.currentTimeMillis;
 import static manon.app.Globals.API.API_USER;
 import static org.apache.http.HttpStatus.SC_OK;
 
@@ -64,11 +63,9 @@ public class Rs {
                 }
             }
             return RestAssured.given()
-                .header("X-Request-Id", "user-" + currentTimeMillis())
                 .header("Authorization", "Bearer " + token);
         }
         return RestAssured.given()
-            .header("X-Request-Id", "anon-" + currentTimeMillis())
             .auth().none();
     }
 

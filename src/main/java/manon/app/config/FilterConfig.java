@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.UUID;
 
-import static manon.util.Tools.Mdc.KEY_REQUEST_ID;
+import static manon.util.Tools.Mdc.KEY_CORRELATION_ID;
 import static manon.util.Tools.Mdc.KEY_URI;
 import static manon.util.Tools.Mdc.KEY_USER;
 import static manon.util.Tools.isBlank;
@@ -47,13 +47,10 @@ public class FilterConfig {
                 Principal principal = null;
                 if (request instanceof HttpServletRequest) {
                     principal = ((HttpServletRequest) request).getUserPrincipal();
-                    String requestId = ((HttpServletRequest) request).getHeader("X-Request-Id");
-                    if (requestId != null) {
-                        MDC.put(KEY_REQUEST_ID, requestId);
-                    }
                     MDC.put(KEY_URI, ((HttpServletRequest) request).getRequestURI());
                 }
                 MDC.put(KEY_USER, principal != null && !isBlank(principal.getName()) ? principal.getName() : "anonymous");
+                MDC.put(KEY_CORRELATION_ID, Long.toString(System.nanoTime()));
 
                 chain.doFilter(request, response);
             } catch (Error | Exception throwable) {

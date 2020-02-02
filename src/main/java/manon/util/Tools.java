@@ -27,8 +27,8 @@ public final class Tools {
     public static final class Mdc {
         /** {@value} MDC environment key. */
         public static final String KEY_ENV = "env";
-        /** {@value} MDC request id key. */
-        public static final String KEY_REQUEST_ID = "reqId";
+        /** {@value} MDC correlation id key. */
+        public static final String KEY_CORRELATION_ID = "reqId";
         /** {@value} MDC user key. */
         public static final String KEY_USER = "user";
         /** {@value} MDC user key. */
