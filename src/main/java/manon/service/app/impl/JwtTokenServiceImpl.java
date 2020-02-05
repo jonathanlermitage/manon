@@ -40,7 +40,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         this.cfg = cfg;
         this.jwtIssuer = cfg.getSecurityJwtIssuer();
         this.jwtSigningKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(cfg.getSecurityJwtSigningKeyB64()));
-        this.jwtParser = Jwts.parser().setSigningKey(jwtSigningKey);
+        this.jwtParser = Jwts.parserBuilder().setSigningKey(jwtSigningKey).build();
         this.authTokenService = authTokenService;
     }
 
@@ -59,8 +59,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
-            .setSigningKey(cfg.getSecurityJwtSigningKeyB64())
+        return jwtParser
             .parseClaimsJws(token)
             .getBody();
     }
