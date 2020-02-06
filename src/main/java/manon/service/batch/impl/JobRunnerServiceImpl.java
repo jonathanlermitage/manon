@@ -1,6 +1,5 @@
 package manon.service.batch.impl;
 
-import lombok.RequiredArgsConstructor;
 import manon.batch.UserSnapshotJobConfig;
 import manon.err.batch.TaskNotFoundException;
 import manon.service.batch.JobRunnerService;
@@ -22,12 +21,15 @@ import java.util.Collections;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class JobRunnerServiceImpl implements InitializingBean, JobRunnerService {
 
-    private final JobLauncher launcher;
+    public JobRunnerServiceImpl(JobLauncher launcher,
+                                @Qualifier(UserSnapshotJobConfig.JOB_NAME) Job userSnapshotJob) {
+        this.launcher = launcher;
+        this.userSnapshotJob = userSnapshotJob;
+    }
 
-    @Qualifier(UserSnapshotJobConfig.JOB_NAME)
+    private final JobLauncher launcher;
     private final Job userSnapshotJob;
 
     private Map<String, Job> jobs;
