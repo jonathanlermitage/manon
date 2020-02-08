@@ -1,9 +1,11 @@
 package manon.util;
 
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.ServerSocket;
 import java.time.Duration;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -28,5 +30,14 @@ public class TestTools {
     @Contract(pure = true)
     public static int days(@NotNull Duration duration) {
         return (int) (duration.getSeconds() / 86_400L);
+    }
+
+    /** Return a free port number on localhost. */
+    @SneakyThrows
+    public static int findFreePort() {
+        try (ServerSocket socket = new ServerSocket(0)) {
+            socket.setReuseAddress(true);
+            return socket.getLocalPort();
+        }
     }
 }

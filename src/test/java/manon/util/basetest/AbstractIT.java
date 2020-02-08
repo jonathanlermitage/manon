@@ -27,6 +27,7 @@ import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
 import manon.service.user.UserSnapshotService;
 import manon.service.user.UserStatsService;
+import manon.util.TestTools;
 import manon.util.web.AuthMode;
 import manon.util.web.Page;
 import manon.util.web.Rs;
@@ -43,6 +44,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -85,6 +88,8 @@ public abstract class AbstractIT {
     protected Cfg cfg;
     @Autowired
     protected ObjectMapper objectMapper;
+    @Autowired
+    private JavaMailSender mailSender;
 
     @SpyBean
     protected AuthTokenService authTokenService;
@@ -222,12 +227,13 @@ public abstract class AbstractIT {
         MDC.clear();
     }
 
-
     @BeforeAll
     public final void startFakeMailServer() {
         MDC.put(KEY_ENV, ENV);
         log.debug("starting GreenMail server...");
-        ServerSetup serverSetup = new ServerSetup(cfg.getMailPort(), cfg.getMailHost(), ServerSetup.PROTOCOL_SMTP);
+        int freeSmtpPort = TestTools.findFreePort();
+        ((JavaMailSenderImpl) mailSender).setPort(freeSmtpPort);
+        ServerSetup serverSetup = new ServerSetup(freeSmtpPort, cfg.getMailHost(), ServerSetup.PROTOCOL_SMTP);
         serverSetup.setVerbose(false);
         greenMail = new GreenMail(serverSetup);
         greenMail.setUser(cfg.getMailUsername(), cfg.getMailPassword());
@@ -240,9 +246,10 @@ public abstract class AbstractIT {
     }
 
     @AfterAll
-    public final void stopFakeMailServer() {
+    public final void stopFakeMailServer() throws FolderException {
         MDC.put(KEY_ENV, ENV);
         log.debug("stopping GreenMail server...");
+        greenMail.purgeEmailFromAllMailboxes();
         greenMail.stop();
         log.debug("stopped GreenMail server");
         MDC.clear();
