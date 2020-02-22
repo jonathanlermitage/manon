@@ -84,6 +84,7 @@ public abstract class AbstractIT {
     @Autowired(required = false)
     protected PerformanceRecorder performanceRecorder;
 
+    //<editor-fold desc="beans">
     @Autowired
     protected Cfg cfg;
     @Autowired
@@ -119,6 +120,7 @@ public abstract class AbstractIT {
     protected UserSnapshotService userSnapshotService;
     @SpyBean
     protected UserStatsService userStatsService;
+    //</editor-fold>
 
     private final String ENV = "junit";
     private final String API_V1 = "/api/v1";
