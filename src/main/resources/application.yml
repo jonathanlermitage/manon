@@ -29,6 +29,12 @@ spring:
       auth: true
       starttls.enable: true
     test-connection: ${MANON_MAIL_TEST_CONNECTION:false}
+  rabbitmq:
+    addresses: ${MANON_RABBITMQ_ADDRESSES:localhost}
+    host: ${MANON_RABBITMQ_HOST:localhost}
+    password: ${MANON_RABBITMQ_PASSWORD:guest}
+    port: ${MANON_RABBITMQ_PORT:5672}
+    username: ${MANON_RABBITMQ_USERNAME:guest}
   redis:
     database: ${MANON_REDIS_DATABASE:0}
     host: ${MANON_REDIS_HOST:""}

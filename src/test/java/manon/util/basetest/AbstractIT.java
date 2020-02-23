@@ -13,12 +13,14 @@ import manon.Application;
 import manon.app.Cfg;
 import manon.document.user.UserEntity;
 import manon.err.user.UserNotFoundException;
+import manon.msgqueue.MessageReceiver;
 import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
 import manon.service.app.PerformanceRecorder;
 import manon.service.app.PingService;
 import manon.service.app.TrxDemoService;
 import manon.service.batch.JobRunnerService;
+import manon.service.msg.MessageService;
 import manon.service.user.FriendshipEventService;
 import manon.service.user.FriendshipRequestService;
 import manon.service.user.FriendshipService;
@@ -105,6 +107,10 @@ public abstract class AbstractIT {
     @SpyBean
     protected JwtTokenService jwtTokenService;
     @SpyBean
+    protected MessageReceiver messageReceiver;
+    @SpyBean
+    protected MessageService messageService;
+    @SpyBean
     protected PasswordEncoderService passwordEncoderService;
     @SpyBean
     protected PingService pingService;
@@ -176,6 +182,8 @@ public abstract class AbstractIT {
         Mockito.clearInvocations(friendshipRequestService);
         Mockito.clearInvocations(jobRunnerService);
         Mockito.clearInvocations(jwtTokenService);
+        Mockito.clearInvocations(messageReceiver);
+        Mockito.clearInvocations(messageService);
         Mockito.clearInvocations(passwordEncoderService);
         Mockito.clearInvocations(pingService);
         Mockito.clearInvocations(registrationService);

@@ -41,7 +41,8 @@ public class ActuatorIT extends AbstractIT {
                 containsString("\"mainDatasource\":{\"status\":\"UP\""),
                 containsString("\"springbatchDatasource\":{\"status\":\"UP\""),
                 containsString("\"diskSpace\":{\"status\":\"UP\""),
-                containsString("\"ping\":{\"status\":\"UP\""));
+                containsString("\"ping\":{\"status\":\"UP\""),
+                containsString("\"rabbit\":{\"status\":\"UP\""));
         } else {
             response.body(equalTo("{\"status\":\"UP\"}"));
         }

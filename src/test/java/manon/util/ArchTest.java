@@ -82,9 +82,10 @@ public class ArchTest extends AbstractParallelTest {
             .layer("API").definedBy("..api..")
             .layer("Batch").definedBy("..batch..")
             .layer("Repository").definedBy("..repository..")
+            .layer("Queue").definedBy("..msgqueue..")
             .layer("Service").definedBy("..service..")
             .whereLayer("Repository").mayOnlyBeAccessedByLayers("Batch", "Service")
-            .whereLayer("Service").mayOnlyBeAccessedByLayers("API", "Batch", "Config")
+            .whereLayer("Service").mayOnlyBeAccessedByLayers("API", "Batch", "Config", "Queue")
             .check(PROJECT);
     }
 
