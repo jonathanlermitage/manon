@@ -44,7 +44,7 @@ public class UserSnapshotEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonView(WithLUserView.class)
+    @JsonView(WithUserView.class)
     @ManyToOne(fetch = LAZY)
     private UserEntity user;
 
@@ -96,6 +96,6 @@ public class UserSnapshotEntity implements Serializable {
             .build();
     }
 
-    public interface WithLUserView {
+    public interface WithUserView {
     }
 }
