@@ -11,12 +11,12 @@ import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.service.user.UserSnapshotService;
 import manon.service.user.UserStatsService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -53,56 +53,6 @@ public class UserSnapshotJobConfig {
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
 
-    @Bean
-    @StepScope
-    public RepositoryItemReader<UserEntity> reader() {
-        RepositoryItemReader<UserEntity> reader = new RepositoryItemReader<>();
-        reader.setRepository(userRepository);
-        reader.setSort(SORT);
-        reader.setMethodName("findAll");
-        reader.setPageSize(cfg.getBatchUserSnapshotChunk());
-        return reader;
-    }
-
-    @Bean
-    @StepScope
-    public RepositoryItemWriter<UserSnapshotEntity> writer() {
-        RepositoryItemWriter<UserSnapshotEntity> writer = new RepositoryItemWriter<>();
-        writer.setRepository(userSnapshotRepository);
-        writer.setMethodName("save");
-        return writer;
-    }
-
-    @Bean
-    public ItemProcessor<UserEntity, UserSnapshotEntity> processor() {
-        return new UserItemProcessor();
-    }
-
-    @Bean(JOB_STEP0_KEEP_RECENT_NAME)
-    public Step userSnapshotJobStepKeepRecent() {
-        return sbf.get(JOB_STEP0_KEEP_RECENT_NAME)
-            .tasklet(new FlushTasklet())
-            .build();
-    }
-
-    @Bean(JOB_STEP1_SNAPSHOT_NAME)
-    public Step userSnapshotJobStepSnapshot() {
-        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
-            .<UserEntity, UserSnapshotEntity>chunk(cfg.getBatchUserSnapshotChunk())
-            .reader(reader())
-            .processor(processor())
-            .writer(writer())
-            .listener(chunkFlushListener)
-            .build();
-    }
-
-    @Bean(JOB_STEP2_STATS_NAME)
-    public Step userSnapshotJobStepStats() {
-        return sbf.get(JOB_STEP2_STATS_NAME)
-            .tasklet(new StatsTasklet())
-            .build();
-    }
-
     @Bean(JOB_NAME)
     Job userSnapshotJob() {
         return jbf.get(JOB_NAME)
@@ -114,27 +64,81 @@ public class UserSnapshotJobConfig {
             .build();
     }
 
+    //
+    // userSnapshotJobStepKeepRecent
+    //
+
+    public Step userSnapshotJobStepKeepRecent() {
+        return sbf.get(JOB_STEP0_KEEP_RECENT_NAME)
+            .tasklet(new FlushTasklet())
+            .build();
+    }
+
     private class FlushTasklet implements Tasklet {
         @Override
-        public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
+        public RepeatStatus execute(@NotNull StepContribution contribution, @NotNull ChunkContext chunkContext) {
             userSnapshotService.deleteToday();
             userSnapshotService.keepRecent(cfg.getBatchUserSnapshotSnapshotMaxAge());
             return RepeatStatus.FINISHED;
         }
     }
 
-    private class StatsTasklet implements Tasklet {
-        @Override
-        public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
-            userStatsService.save(UserStatsEntity.builder().nbUsers(userSnapshotService.countToday()).build());
-            return RepeatStatus.FINISHED;
-        }
+    //
+    // userSnapshotJobStepSnapshot
+    //
+
+    public Step userSnapshotJobStepSnapshot() {
+        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
+            .<UserEntity, UserSnapshotEntity>chunk(cfg.getBatchUserSnapshotChunk())
+            .reader(reader())
+            .processor(processor())
+            .writer(writer())
+            .listener(chunkFlushListener)
+            .build();
+    }
+
+    public RepositoryItemReader<UserEntity> reader() {
+        RepositoryItemReader<UserEntity> reader = new RepositoryItemReader<>();
+        reader.setRepository(userRepository);
+        reader.setSort(SORT);
+        reader.setMethodName("findAll");
+        reader.setPageSize(cfg.getBatchUserSnapshotChunk());
+        return reader;
+    }
+
+    public ItemProcessor<UserEntity, UserSnapshotEntity> processor() {
+        return new UserItemProcessor();
     }
 
     private static class UserItemProcessor implements ItemProcessor<UserEntity, UserSnapshotEntity> {
         @Override
-        public UserSnapshotEntity process(UserEntity item) {
+        public UserSnapshotEntity process(@NotNull UserEntity item) {
             return UserSnapshotEntity.from(item);
+        }
+    }
+
+    public RepositoryItemWriter<UserSnapshotEntity> writer() {
+        RepositoryItemWriter<UserSnapshotEntity> writer = new RepositoryItemWriter<>();
+        writer.setRepository(userSnapshotRepository);
+        writer.setMethodName("save");
+        return writer;
+    }
+
+    //
+    // userSnapshotJobStepStats
+    //
+
+    public Step userSnapshotJobStepStats() {
+        return sbf.get(JOB_STEP2_STATS_NAME)
+            .tasklet(new StatsTasklet())
+            .build();
+    }
+
+    private class StatsTasklet implements Tasklet {
+        @Override
+        public RepeatStatus execute(@NotNull StepContribution contribution, @NotNull ChunkContext chunkContext) {
+            userStatsService.save(UserStatsEntity.builder().nbUsers(userSnapshotService.countToday()).build());
+            return RepeatStatus.FINISHED;
         }
     }
 }

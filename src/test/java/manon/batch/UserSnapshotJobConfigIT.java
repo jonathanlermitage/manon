@@ -39,7 +39,7 @@ public class UserSnapshotJobConfigIT extends AbstractIT {
         UserEntity userToSnapshot = userService.readOne(userId(1));
 
         //GIVEN existing old, present, recent and future User snapshots
-        List<Integer> delays = Arrays.asList(-1 - maxAge, 0 - maxAge, 1 - maxAge, 0, 1);
+        List<Integer> delays = Arrays.asList(-1 - maxAge, -maxAge, 1 - maxAge, 0, 1);
         List<UserSnapshotEntity> userSnapshots = new ArrayList<>();
 
         // workaround: can't save custom creationDate at creation, do it at update
