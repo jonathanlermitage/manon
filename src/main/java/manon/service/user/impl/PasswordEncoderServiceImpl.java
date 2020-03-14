@@ -1,26 +1,19 @@
 package manon.service.user.impl;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
 import manon.service.user.PasswordEncoderService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 @Service
-@RequiredArgsConstructor
 public class PasswordEncoderServiceImpl implements PasswordEncoderService {
-
-    private final Cfg cfg;
 
     @Getter
     private PasswordEncoder encoder;
 
-    @PostConstruct
-    private void prepare() {
+    public PasswordEncoderServiceImpl(Cfg cfg) {
         encoder = new BCryptPasswordEncoder(cfg.getSecurityBcryptStrength());
     }
 
