@@ -7,6 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+
 @Service
 public class PasswordEncoderServiceImpl implements PasswordEncoderService {
 
@@ -14,7 +16,7 @@ public class PasswordEncoderServiceImpl implements PasswordEncoderService {
     private PasswordEncoder encoder;
 
     public PasswordEncoderServiceImpl(Cfg cfg) {
-        encoder = new BCryptPasswordEncoder(cfg.getSecurityBcryptStrength());
+        encoder = new BCryptPasswordEncoder(cfg.getSecurityBcryptStrength(), new SecureRandom());
     }
 
     @Override
