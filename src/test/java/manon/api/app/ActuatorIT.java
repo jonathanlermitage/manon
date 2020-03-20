@@ -4,12 +4,13 @@ import io.restassured.response.ValidatableResponse;
 import manon.model.user.UserRole;
 import manon.util.basetest.AbstractIT;
 import manon.util.web.Rs;
+import net.javacrumbs.jsonunit.JsonMatchers;
+import net.javacrumbs.jsonunit.core.Option;
+import net.javacrumbs.jsonunit.core.util.ResourceUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWithIgnoringCase;
 
 public class ActuatorIT extends AbstractIT {
@@ -37,13 +38,10 @@ public class ActuatorIT extends AbstractIT {
     public void shouldGetHealthActuatorWithMinimalOrFullInformation(Rs rs, boolean isFullInfo) {
         ValidatableResponse response = rs.getSpec().get("/actuator/health").then();
         if (isFullInfo) {
-            response.body(
-                containsString("\"mainDatasource\":{\"status\":\"UP\""),
-                containsString("\"springbatchDatasource\":{\"status\":\"UP\""),
-                containsString("\"diskSpace\":{\"status\":\"UP\""),
-                containsString("\"ping\":{\"status\":\"UP\""));
+            response.body(JsonMatchers.jsonEquals(ResourceUtils.resource("expected/actuator-health-full.json"))
+                .when(Option.IGNORING_ARRAY_ORDER, Option.IGNORING_EXTRA_FIELDS));
         } else {
-            response.body(equalTo("{\"status\":\"UP\"}"));
+            response.body(JsonMatchers.jsonEquals(ResourceUtils.resource("expected/actuator-health.json")));
         }
     }
 
