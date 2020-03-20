@@ -33,6 +33,10 @@
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.web" level="ERROR"/>
 
+    <!-- Hamcrests reports may be useless while using JsonUnit. Helpful messages are logged at DEBUG level by JsonUnit. -->
+    <!-- see https://github.com/lukas-krecan/JsonUnit#logging -->
+    <logger name="net.javacrumbs.jsonunit.difference" level="DEBUG"/>
+
     <!-- Don't care about Spring Integration Testing related INFO messages. -->
     <logger name="org.springframework.orm" level="WARN"/>
     <logger name="org.springframework.scheduling" level="WARN"/>

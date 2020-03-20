@@ -1,0 +1,35 @@
+{
+  "status": "UP",
+  "components": {
+    "db": {
+      "status": "UP",
+      "components": {
+        "mainDatasource": {
+          "status": "UP",
+          "details": {
+            "database": "${json-unit.ignore}",
+            "validationQuery": "${json-unit.ignore}"
+          }
+        },
+        "springbatchDatasource": {
+          "status": "UP",
+          "details": {
+            "database": "${json-unit.ignore}",
+            "validationQuery": "${json-unit.ignore}"
+          }
+        }
+      }
+    },
+    "diskSpace": {
+      "status": "UP",
+      "details": {
+        "total": "${json-unit.any-number}",
+        "free": "${json-unit.any-number}",
+        "threshold": "${json-unit.any-number}"
+      }
+    },
+    "ping": {
+      "status": "UP"
+    }
+  }
+}
