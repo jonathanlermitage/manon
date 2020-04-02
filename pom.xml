@@ -33,8 +33,11 @@
         <skipUT>false</skipUT>
 
         <!-- Override spring-boot-dependencies versions: -->
+        <!-- - version provided by spring-boot-dependencies is too old (v2),
+               fix https://github.com/rest-assured/rest-assured/issues/1283 -->
+        <groovy.version>3.0.2</groovy.version>
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
-        <rest-assured.version>4.2.0</rest-assured.version>
+        <rest-assured.version>4.3.0</rest-assured.version>
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
         <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
 
@@ -130,6 +133,15 @@
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>${owasp-dependency-check-plugin.version}</version>
+            </dependency>
+
+            <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            <!-- Allow versions-maven-plugin to detect new version. -->
+            <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
             </dependency>
         </dependencies>
 
