@@ -28,18 +28,6 @@ matrix:
       env: PROFILE=test-mariadb MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true" MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
       script: ./mvnw clean verify -P test-mariadb,coverage,ci -B
 
-    - name: jdk13 postgresql
-      os: linux
-      jdk: openjdk13
-      env: PROFILE=test-postgres MANON_TEST_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5440/manon" MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:postgresql://127.0.0.1:5441/manon_batch"
-      script: ./mvnw clean verify -P test-postgres,coverage,ci -B
-
-    - name: jdk13 mariadb
-      os: linux
-      jdk: openjdk13
-      env: PROFILE=test-mariadb MANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true" MANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true"
-      script: ./mvnw clean verify -P test-mariadb,coverage,ci -B
-
     - name: jdk14 postgresql
       os: linux
       jdk: openjdk14
@@ -53,8 +41,7 @@ matrix:
       script: ./mvnw clean verify -P test-mariadb,coverage,ci -B
 
   allow_failures:
-    - jdk: openjdk13 # snapshot and non-LTS jdk can fail, I won't use it in production but it's useful to prepare migration to next LTS release
-    - jdk: openjdk14 # will be supported asap
+    - jdk: openjdk14 # snapshot and non-LTS jdk can fail, I won't use it in production but it's useful to prepare migration to next LTS release
 
 language: java
 
