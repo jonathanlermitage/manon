@@ -1,5 +1,7 @@
 package manon.service.user.impl;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
 import manon.dto.user.UserWithSnapshotsDto;
@@ -18,8 +20,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.lang.System.currentTimeMillis;
+import static manon.document.user.UserEntity.Validation.USERNAME_MAX_LENGTH;
 
 public class UserServiceIT extends AbstractIT {
 
@@ -211,11 +216,28 @@ public class UserServiceIT extends AbstractIT {
             .isInstanceOf(PasswordNotMatchException.class);
     }
 
-    @Test
-    public void shouldSave() {
+    public Object[] dataProviderUsernames() {
+        Faker faker = new Faker();
+        Set<String> names = new HashSet<>();
+        for (int i = 0; i < 50; i++) {
+            Name name = faker.name();
+            String validUsername = name.nameWithMiddle().toUpperCase()
+                .replaceAll("\\s+", "_")
+                .replaceAll("[^A-Z_]+", "");
+            if (validUsername.length() > USERNAME_MAX_LENGTH) {
+                validUsername = validUsername.substring(0, USERNAME_MAX_LENGTH);
+            }
+            names.add(validUsername);
+        }
+        return names.toArray();
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProviderUsernames")
+    public void shouldSave(String validUsername) {
         LocalDateTime before = Tools.now();
         userService.save(UserEntity.builder()
-            .username("SHOULD_SAVE_USERNAME")
+            .username(validUsername)
             .password("password")
             .registrationState(RegistrationState.ACTIVE)
             .authorities(UserRole.PLAYER.name())
@@ -224,7 +246,7 @@ public class UserServiceIT extends AbstractIT {
             .build());
         LocalDateTime after = Tools.now();
 
-        UserEntity user = userService.readByUsername("SHOULD_SAVE_USERNAME");
+        UserEntity user = userService.readByUsername(validUsername);
         Assertions.assertThat(user.getCreationDate()).isBetween(before, after);
         Assertions.assertThat(user.getUpdateDate()).isBetween(before, after);
         Assertions.assertThat(user.getVersion()).isGreaterThanOrEqualTo(0);
