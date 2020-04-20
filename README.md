@@ -67,7 +67,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL (HSQLDB,
 * **Spring Actuator** web endpoints configured
   * show **Git information** (branch, commit...) into Actuator's `info` endpoint. See last commit of [actuator-git-info](https://github.com/jonathanlermitage/manon/tree/actuator-git-info) branch 
 * **Swagger UI** to provide documentation about REST API endpoints
-  * run application and check `http://localhost:8080/swagger-ui.html`. See commit [834852c](https://github.com/jonathanlermitage/manon/commit/834852cd5ce8bbb869a189aecdd90097c9168152) ([spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger) branch)
+  * run application and check [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html). See commit [834852c](https://github.com/jonathanlermitage/manon/commit/834852cd5ce8bbb869a189aecdd90097c9168152) ([spring5-swagger](https://github.com/jonathanlermitage/manon/tree/spring5-swagger) branch)
 * **Docker** builds without Docker daemon thanks to **[Jib](https://github.com/GoogleContainerTools/jib)**. **Docker Compose** support
   * See [DEPLOY.md](DEPLOY.md) to package and run application. See commit [de7335b](https://github.com/jonathanlermitage/manon/commit/de7335b2be850ca6a7b683bdbe2b86adc990b594) ([spring5-light-docker-jib](https://github.com/jonathanlermitage/manon/tree/spring5-light-docker-jib) branch)
 * **ELK** stack (**ElasticSearch Logstash Kibana**) via Docker plus Docker Compose to parse application and Nginx logs, and Cerebro to monitor ElasticSearch node
@@ -78,7 +78,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL (HSQLDB,
 * integration with **[Maven enforcer plugin](https://maven.apache.org/enforcer/maven-enforcer-plugin/)**. See last commit of [spring5-light-maven-enforcer-plugin](https://github.com/jonathanlermitage/manon/tree/spring5-light-maven-enforcer-plugin) branch
 * integration with **[OWASP dependency check plugin](https://jeremylong.github.io/DependencyCheck/index.html)**. See last commit of [spring5-light-owasp-dependency-check-plugin](https://github.com/jonathanlermitage/manon/tree/spring5-light-owasp-dependency-check-plugin) branch
 * Spring Boot dependency management without Spring Boot parent POM. See last commit of [spring5-light-spring-boot-dependencies](https://github.com/jonathanlermitage/manon/tree/spring5-light-spring-boot-dependencies) branch
-* use [**Glowroot**](https://glowroot.org/) monitoring tool (via regular Docker build, not Jib). Run `./do docker up` then check `http://localhost:4000`. See last commit of [spring5-light-glowroot-docker](https://github.com/jonathanlermitage/manon/tree/spring5-light-glowroot-docker) branch
+* use [**Glowroot**](https://glowroot.org/) monitoring tool (via regular Docker build, not Jib). Run `./do docker up` then check [`http://localhost:4000`](http://localhost:4000). See last commit of [spring5-light-glowroot-docker](https://github.com/jonathanlermitage/manon/tree/spring5-light-glowroot-docker) branch
 
 For fun and to show some skills :cat:
 

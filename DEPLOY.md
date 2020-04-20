@@ -50,14 +50,14 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Application listens on port 8081 and its logs are stored in `~/manon-app-logs/`.
 * Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
   * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
-* Check application connectivity by visiting `http://localhost:8081/actuator/health`.
+* Check application connectivity by visiting [`http://localhost:8081/actuator/health`](http://localhost:8081/actuator/health).
 * Replace `8081` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.
 * Launch a batch (e.g. `userSnapshotJob`) `curl -X POST http://localhost:8000/api/v1/sys/batch/start/userSnapshotJob --header "Authorization: Bearer REPLACE_BY_ADMIN_TOKEN"` then check the `user_stats` and `user_snapshot` MariaDB tables.
 * Connect to MariaDB business database: `./do maria` (it connects to database via container's MySQL Client). You can now query tables.
 * Connect to MariaDB Spring Batch database: `./do maria-batch` (it connects to database via container's MySQL Client). You can now query tables.
-* Play with Prometheus by visiting `http://localhost:9090` (go to Alerts or Graph, then use auto-completion to fetch some data, e.g. "system_cpu_usage"). Check `http://localhost:9090/targets` to ensure both `prometheus` and `spring-actuator` endpoints are UP.
-* Play with Grafana by visiting `http://localhost:3000`
+* Play with Prometheus by visiting [`http://localhost:9090`](http://localhost:9090) (go to Alerts or Graph, then use auto-completion to fetch some data, e.g. "system_cpu_usage"). Check [`http://localhost:9090/targets`](http://localhost:9090/targets) to ensure both `prometheus` and `spring-actuator` endpoints are UP.
+* Play with Grafana by visiting [`http://localhost:3000`](http://localhost:3000)
   * log in with `admin`/`admin`
   * go to `Configuration`, `Data Sources`, `Add data source`, choose `Prometheus`, name: `Prometheus` (case is important), url: `http://prometheus:9090`, `Save & Test`
   * go to `Dashboards`, `Manage`, `Import`, past content of [manon-dashboard.json](docker/grafana/manon-dashboard.json) file, `Load`, `Import`
@@ -66,11 +66,11 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 #### Deploy ELK stack and Cerebro
 
 * Run ELK stack images via Docker Compose: `./do upelk`.
-* Visit `http://localhost:5601` and go to `Dev Tools`. You can now send queries to Elasticsearch to find some logs:
+* Visit [`http://localhost:5601`](http://localhost:5601) and go to `Dev Tools`. You can now send queries to Elasticsearch to find some logs:
   * Get application logs via: `GET /manon-app-*/_search`.
   * Get Nginx access logs via: `GET /manon-nginx-access-*/_search`.
   * You can delete these logs via: `DELETE /manon*`. Play with application and show logs again.
 * Optional: run Cerebro via Docker Compose: `./do upcerebro`.
-  * Visit `http://localhost:9000` and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `docker/cerebro/cerebro.conf` file for details).
+  * Visit [`http://localhost:9000`](http://localhost:9000) and select `Main Cluster` (it's an alias for `http://elasticsearch:9200`, see `docker/cerebro/cerebro.conf` file for details).
 
 You can now stop images via `./do stopcerebro` (Cerebro), `./do stopelk` (ELK stack), `./do stop` (application and dependencies).
