@@ -18,7 +18,7 @@ public class PasswordEncoderServiceIT extends AbstractNoUserIT {
     @Test
     public void shouldFailToEncodeNull() {
         assertThatThrownBy(() -> passwordEncoderService.encode(null))
-            .isInstanceOf(NullPointerException.class);
+            .isInstanceOf(Exception.class);
     }
 
     @Test
