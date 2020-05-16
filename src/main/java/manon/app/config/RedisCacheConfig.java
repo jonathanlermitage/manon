@@ -31,7 +31,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     public RedisCacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
             .entryTtl(cfg.getCacheRedisTtl())
-            .prefixKeysWith("manon_");
+            .prefixCacheNameWith("manon_");
         Set<String> cacheNames = new HashSet<>(Globals.CacheNames.allCaches());
         return RedisCacheManager.builder(Objects.requireNonNull(redisTemplate.getConnectionFactory()))
             .cacheDefaults(config)

@@ -3,7 +3,7 @@
 ### (warning: avoid tabs, indent with two spaces)
 
 spring:
-  http.converters.preferred-json-mapper: jackson
+  mvc.converters.preferred-json-mapper: jackson
   batch.job.enabled: false
   main.banner-mode: console
   datasource:
@@ -43,12 +43,13 @@ server:
   ssl.enabled: false # encryption is handled by Nginx proxy
   undertow.accesslog.enabled: false
   servlet.context-path: "/"
+  error.include-message: always
 
 info.app:
   name: manon
   version: @project.version@
   flyway.version: @flyway.version@
-  jackson.version: @jackson.version@
+  jackson.version: @jackson-bom.version@
   jjwt.version: @jjwt.version@
 
 management:

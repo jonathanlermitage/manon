@@ -48,7 +48,7 @@ public class ActuatorIT extends AbstractIT {
     @Test
     public void shouldGetInfoActuatorWhenAdmin() {
         whenAdmin().getSpec().get("/actuator/info").then().body(
-            startsWithIgnoringCase("{\"app\":{\"name\":\"manon\",\"version\":\"" + cfg.getVersion() + "\"")
+            startsWithIgnoringCase("{\"app\":{\"version\":\"" + cfg.getVersion() + "\",\"name\":\"manon\"")
         );
     }
 }
