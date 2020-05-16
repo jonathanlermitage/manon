@@ -6,7 +6,6 @@ import manon.util.basetest.AbstractIT;
 import manon.util.web.Rs;
 import net.javacrumbs.jsonunit.JsonMatchers;
 import net.javacrumbs.jsonunit.core.Option;
-import net.javacrumbs.jsonunit.core.util.ResourceUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,10 +37,10 @@ public class ActuatorIT extends AbstractIT {
     public void shouldGetHealthActuatorWithMinimalOrFullInformation(Rs rs, boolean isFullInfo) {
         ValidatableResponse response = rs.getSpec().get("/actuator/health").then();
         if (isFullInfo) {
-            response.body(JsonMatchers.jsonEquals(ResourceUtils.resource("expected/actuator-health-full.json"))
+            response.body(JsonMatchers.jsonEquals(resource("expected/actuator-health-full.json"))
                 .when(Option.IGNORING_ARRAY_ORDER, Option.IGNORING_EXTRA_FIELDS));
         } else {
-            response.body(JsonMatchers.jsonEquals(ResourceUtils.resource("expected/actuator-health.json")));
+            response.body(JsonMatchers.jsonEquals(resource("expected/actuator-health.json")));
         }
     }
 

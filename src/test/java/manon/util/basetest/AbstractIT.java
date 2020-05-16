@@ -49,11 +49,13 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -404,5 +406,15 @@ public abstract class AbstractIT {
             sb.append(base);
         }
         return sb.toString();
+    }
+
+    /**
+     * Read a resource file from classpath.
+     * @param resource resource path, something like "your/file.ext".
+     * @return file content.
+     */
+    @SneakyThrows(IOException.class)
+    public String resource(String resource) {
+        return new String(Files.readAllBytes(ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + resource).toPath()));
     }
 }
