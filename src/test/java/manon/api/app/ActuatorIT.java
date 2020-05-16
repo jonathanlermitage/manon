@@ -36,11 +36,13 @@ public class ActuatorIT extends AbstractIT {
     @MethodSource("dataProviderShouldGetFullHealth")
     public void shouldGetHealthActuatorWithMinimalOrFullInformation(Rs rs, boolean isFullInfo) {
         ValidatableResponse response = rs.getSpec().get("/actuator/health").then();
+        // TODO register and play with Liveness and Readiness probes, see https://theprogrammersfirst.blogspot.com/2020/04/spring-boot-liveness-and-readiness.html
+        // .whenIgnoringPaths("groups") -> "groups":["liveness","readiness"] may be present if run in Kubernetes, at least on Cirrus CI
         if (isFullInfo) {
             response.body(JsonMatchers.jsonEquals(resource("expected/actuator-health-full.json"))
-                .when(Option.IGNORING_ARRAY_ORDER, Option.IGNORING_EXTRA_FIELDS));
+                .when(Option.IGNORING_ARRAY_ORDER, Option.IGNORING_EXTRA_FIELDS).whenIgnoringPaths("groups"));
         } else {
-            response.body(JsonMatchers.jsonEquals(resource("expected/actuator-health.json")));
+            response.body(JsonMatchers.jsonEquals(resource("expected/actuator-health.json")).whenIgnoringPaths("groups"));
         }
     }
 
