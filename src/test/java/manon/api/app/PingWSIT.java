@@ -14,10 +14,10 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-public class PingWSIT extends AbstractNoUserIT {
+class PingWSIT extends AbstractNoUserIT {
 
     @Test
-    public void shouldPingAccessibleUrl() throws UnsupportedEncodingException {
+    void shouldPingAccessibleUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         whenAdmin().getSpec()
@@ -28,7 +28,7 @@ public class PingWSIT extends AbstractNoUserIT {
     }
 
     @Test
-    public void shouldNotPingInaccessibleUrl() throws UnsupportedEncodingException {
+    void shouldNotPingInaccessibleUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + RestAssured.port + "/actuator/health2";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         whenAdmin().getSpec()
@@ -39,7 +39,7 @@ public class PingWSIT extends AbstractNoUserIT {
     }
 
     @Test
-    public void shouldNotPingInvalidUrl() throws UnsupportedEncodingException {
+    void shouldNotPingInvalidUrl() throws UnsupportedEncodingException {
         String wsUrl = RestAssured.baseURI + ":" + 1 + "/actuator/health2";
         String urlencodedWsUrl = URLEncoder.encode(wsUrl, StandardCharsets.UTF_8.name());
         whenAdmin().getSpec()

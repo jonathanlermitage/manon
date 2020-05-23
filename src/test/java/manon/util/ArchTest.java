@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
-public class ArchTest extends AbstractParallelTest {
+class ArchTest extends AbstractParallelTest {
 
     private static final JavaClasses PROJECT = new ClassFileImporter()
         .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_JARS)
@@ -61,21 +61,21 @@ public class ArchTest extends AbstractParallelTest {
         };
 
     @Test
-    public void shouldNotDependOnJDKInternals() {
+    void shouldNotDependOnJDKInternals() {
         classes()
             .should().onlyAccessClassesThat().resideOutsideOfPackages("com.sun..", "sun..")
             .check(PROJECT);
     }
 
     @Test
-    public void shouldVerifyProductionCodeDontUseMethodThatExistsForTests() {
+    void shouldVerifyProductionCodeDontUseMethodThatExistsForTests() {
         classes()
             .should(NOT_CALL_METHOD_THAT_EXISTS_FOR_TESTS)
             .check(PROJECT);
     }
 
     @Test
-    public void shouldVerifyLayeredArchitecture() {
+    void shouldVerifyLayeredArchitecture() {
         // a professional project would also define layers like Entity and Dto, then ensure strong architecture
         layeredArchitecture()
             .layer("Config").definedBy("manon.app.config..", "manon")
@@ -89,7 +89,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyServiceDependsOnItsOwnRepository() {
+    void shouldVerifyServiceDependsOnItsOwnRepository() {
         classes().that()
             .areAnnotatedWith(Service.class)
             .should(NOT_CALL_OTHER_SERVICE_REPOSITORY)
@@ -97,7 +97,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyControlerArch() {
+    void shouldVerifyControlerArch() {
         classes().that()
             .haveSimpleNameEndingWith("WS")
             .should().beAnnotatedWith(RestController.class)
@@ -108,7 +108,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyRepositoryArch() {
+    void shouldVerifyRepositoryArch() {
         classes().that()
             .haveSimpleNameEndingWith("Repository")
             .should().beAnnotatedWith(Repository.class)
@@ -118,7 +118,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyRepositoryAreUsedByServicesOnly() {
+    void shouldVerifyRepositoryAreUsedByServicesOnly() {
         classes().that()
             .areAnnotatedWith(Repository.class)
             .should().onlyBeAccessed().byClassesThat().areAnnotatedWith(Service.class)
@@ -126,7 +126,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyRepositoryCustomArch() {
+    void shouldVerifyRepositoryCustomArch() {
         classes().that()
             .haveSimpleNameEndingWith("RepositoryCustom")
             .should().notBeAnnotatedWith(Repository.class)
@@ -136,7 +136,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyRepositoryImplArch() {
+    void shouldVerifyRepositoryImplArch() {
         classes().that()
             .haveSimpleNameEndingWith("RepositoryImpl")
             .should().beAnnotatedWith(Repository.class)
@@ -146,7 +146,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyServiceArch() {
+    void shouldVerifyServiceArch() {
         classes().that()
             .haveSimpleNameEndingWith("Service")
             .should().notBeAnnotatedWith(Service.class)
@@ -156,7 +156,7 @@ public class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    public void shouldVerifyServicesImplArch() {
+    void shouldVerifyServicesImplArch() {
         classes().that()
             .haveSimpleNameEndingWith("ServiceImpl")
             .should().beAnnotatedWith(Service.class)

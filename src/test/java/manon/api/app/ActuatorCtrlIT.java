@@ -17,7 +17,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Slf4j
-public class ActuatorCtrlIT extends AbstractMockIT {
+class ActuatorCtrlIT extends AbstractMockIT {
 
     /**
      * Spring Boot 2 actuator endpoints and configured visibility to public.
@@ -26,7 +26,7 @@ public class ActuatorCtrlIT extends AbstractMockIT {
      * <a href="https://docs.spring.io/spring-boot/docs/2.0.x/actuator-api/html/">Actuator API</a>.
      * @return HTTP verb; is public; is enabled.
      */
-    public Object[][] dataProviderShouldGetSpringBoot2Actuator() {
+    Object[][] dataProviderShouldGetSpringBoot2Actuator() {
         return new Object[][]{
             {GET, "/actuator", false, true},
             {GET, "/actuator/auditevents", false, false},
@@ -49,7 +49,7 @@ public class ActuatorCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldGetSpringBoot2Actuator")
-    public void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) {
+    void shouldGetSpringBoot2Actuator(HttpMethod verb, String endpoint, boolean isPublic, boolean isEnabled) {
         call(whenActuator(), verb, endpoint).statusCode(isEnabled ? SC_OK : SC_NOT_FOUND);
         call(whenAdmin(), verb, endpoint).statusCode(isEnabled ? SC_OK : SC_NOT_FOUND);
         call(whenP1(), verb, endpoint).statusCode(isPublic ? isEnabled ? SC_OK : SC_NOT_FOUND : SC_FORBIDDEN);

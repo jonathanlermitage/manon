@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class JacksonConfigIT extends AbstractNoUserIT {
+class JacksonConfigIT extends AbstractNoUserIT {
 
     @Test
-    public void shouldRegisterExpectedJacksonModules() {
+    void shouldRegisterExpectedJacksonModules() {
         List<String> registeredModules = objectMapper.getRegisteredModuleIds()
             .stream()
             .map(Object::toString)

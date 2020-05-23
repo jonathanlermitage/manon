@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static manon.util.Tools.repeat;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ToolsTest {
+class ToolsTest {
 
     private static Object[][] dataProviderShouldVerifyIsBlank() {
         return new Object[][]{
@@ -19,11 +19,11 @@ public class ToolsTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyIsBlank")
-    public void shouldVerifyIsBlank(String input, Object expected) {
+    void shouldVerifyIsBlank(String input, Object expected) {
         assertThat(Tools.isBlank(input)).isEqualTo(expected);
     }
 
-    public static Object[][] dataProviderShouldVerifyShortenLog() {
+    static Object[][] dataProviderShouldVerifyShortenLog() {
         return new Object[][]{
             {"abc", "abc"},
             {repeat("a", 200), "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... (long string, length=200)"},
@@ -38,11 +38,11 @@ public class ToolsTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyShortenLog")
-    public void shouldVerifyShortenLog(Object input, Object expected) {
+    void shouldVerifyShortenLog(Object input, Object expected) {
         assertThat(Tools.shortenLog(input)).isEqualTo(expected);
     }
 
-    public static Object[][] dataProviderShouldVerifyShortenAndAnonymizeLog() {
+    static Object[][] dataProviderShouldVerifyShortenAndAnonymizeLog() {
         return new Object[][]{
             {"abc", "***"},
             {repeat("a", 200), "******************************... (long string, length=200)"},
@@ -57,11 +57,11 @@ public class ToolsTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyShortenAndAnonymizeLog")
-    public void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
+    void shouldVerifyShortenAndAnonymizeLog(Object input, Object expected) {
         assertThat(Tools.shortenAndAnonymizeLog(input)).isEqualTo(expected);
     }
 
-    public static Object[][] dataProviderShouldVerifyRepeat() {
+    static Object[][] dataProviderShouldVerifyRepeat() {
         return new Object[][]{
             {null, -1, null},
             {null, 0, null},
@@ -88,7 +88,7 @@ public class ToolsTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyRepeat")
-    public void shouldVerifyRepeat(String str, Integer repeat, String expected) {
+    void shouldVerifyRepeat(String str, Integer repeat, String expected) {
         assertThat(repeat(str, repeat)).isEqualTo(expected);
     }
 }

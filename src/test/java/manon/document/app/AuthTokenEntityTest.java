@@ -8,16 +8,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class AuthTokenEntityTest {
+class AuthTokenEntityTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         Assertions.assertThat(AuthTokenEntity.builder().build().toString()).contains(
             "id", "username",
             "expirationDate", "creationDate");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         AuthTokenEntity filled = AuthTokenEntity.builder()
             .id(1)
             .username("u")
@@ -36,25 +36,25 @@ public class AuthTokenEntityTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(AuthTokenEntity o1, AuthTokenEntity o2, boolean expectedEqual) {
+    void shouldVerifyEquals(AuthTokenEntity o1, AuthTokenEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(AuthTokenEntity o1, AuthTokenEntity o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(AuthTokenEntity o1, AuthTokenEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
-    public void shouldVerifyPrePersistOnNew() {
+    void shouldVerifyPrePersistOnNew() {
         AuthTokenEntity o = AuthTokenEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
-    public void shouldVerifyPrePersistOnExisting() {
+    void shouldVerifyPrePersistOnExisting() {
         AuthTokenEntity o = AuthTokenEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();

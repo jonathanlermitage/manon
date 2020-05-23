@@ -20,9 +20,9 @@ import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
 
-public class UserWSValidIT extends AbstractMockIT {
+class UserWSValidIT extends AbstractMockIT {
 
-    public Object[][] dataProviderShouldValidateRegister() {
+    Object[][] dataProviderShouldValidateRegister() {
         return new Object[][]{
             {SC_CREATED, "VALID_USERNAME", "a valid password", null},
             {SC_BAD_REQUEST, "", "", new String[]{USERNAME_SIZE_ERRMSG, PASSWORD_SIZE_ERRMSG}},
@@ -47,7 +47,7 @@ public class UserWSValidIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateRegister")
-    public void shouldValidateRegister(int statusCode, String username, String pwd, String[] errMsg) {
+    void shouldValidateRegister(int statusCode, String username, String pwd, String[] errMsg) {
         ValidatableResponse response = whenAnonymous().getSpec()
             .body(UserLogin.builder().username(username).password(pwd).build())
             .contentType(JSON)
@@ -60,7 +60,7 @@ public class UserWSValidIT extends AbstractMockIT {
         }
     }
 
-    public Object[][] dataProviderShouldValidateUpdate() {
+    Object[][] dataProviderShouldValidateUpdate() {
         return new Object[][]{
             {SC_OK, null, null, null},
             {SC_OK, "", "", null},
@@ -75,7 +75,7 @@ public class UserWSValidIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateUpdate")
-    public void shouldValidateUpdate(int statusCode, String nickname, String email, String errMsg) {
+    void shouldValidateUpdate(int statusCode, String nickname, String email, String errMsg) {
         ValidatableResponse response = whenP1().getSpec()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
             .contentType(JSON)
@@ -88,7 +88,7 @@ public class UserWSValidIT extends AbstractMockIT {
         }
     }
 
-    public Object[][] dataProviderShouldValidateUpdatePassword() {
+    Object[][] dataProviderShouldValidateUpdatePassword() {
         return new Object[][]{
             {SC_OK, pwd(1), "a new valid password", null},
             {SC_BAD_REQUEST, pwd(1), "", PASSWORD_SIZE_ERRMSG},
@@ -99,7 +99,7 @@ public class UserWSValidIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldValidateUpdatePassword")
-    public void shouldValidateUpdatePassword(int statusCode, String oldPwd, String newPwd, String errMsg) {
+    void shouldValidateUpdatePassword(int statusCode, String oldPwd, String newPwd, String errMsg) {
         ValidatableResponse response = whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(oldPwd).newPassword(newPwd).build())
             .contentType(JSON)

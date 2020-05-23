@@ -7,15 +7,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static java.util.Collections.singletonList;
 
-public class MethodExecutionStatsTest {
+class MethodExecutionStatsTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         Assertions.assertThat(sample().toString()).contains(
             "service", "calls", "minTime", "maxTime", "totalTime", "times");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         MethodExecutionStats sample = sample();
         MethodExecutionStats newService = sample();
         newService.setService("updated");
@@ -42,13 +42,13 @@ public class MethodExecutionStatsTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
+    void shouldVerifyEquals(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(MethodExecutionStats o1, MethodExecutionStats o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 

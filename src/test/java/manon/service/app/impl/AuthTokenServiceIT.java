@@ -8,10 +8,10 @@ import org.mockito.Mockito;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /** Test cache applied on {@link manon.service.app.impl.AuthTokenServiceImpl}. */
-public class AuthTokenServiceIT extends AbstractIT {
+class AuthTokenServiceIT extends AbstractIT {
 
     @Test
-    public void shouldUseCacheOnExistsMethod() {
+    void shouldUseCacheOnExistsMethod() {
         long tokenId1 = authTokenService.create(name(1), Tools.tomorrow()).getId();
         long tokenId2 = authTokenService.create(name(2), Tools.tomorrow()).getId();
         Mockito.verify(authTokenService, Mockito.times(0)).exists(tokenId1);
@@ -29,7 +29,7 @@ public class AuthTokenServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldClearCacheWhenUserRevokesHisTokens() {
+    void shouldClearCacheWhenUserRevokesHisTokens() {
         long tokenId1 = authTokenService.create(name(1), Tools.tomorrow()).getId();
         long tokenId2 = authTokenService.create(name(2), Tools.tomorrow()).getId();
         assertThat(authTokenService.exists(tokenId1)).isTrue();
@@ -46,7 +46,7 @@ public class AuthTokenServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldClearCacheWhenRevokeAllExpiredTokens() {
+    void shouldClearCacheWhenRevokeAllExpiredTokens() {
         long tokenId1 = authTokenService.create(name(1), Tools.yesterday()).getId();
         long tokenId2 = authTokenService.create(name(2), Tools.tomorrow()).getId();
         assertThat(authTokenService.exists(tokenId1)).isTrue();
@@ -63,7 +63,7 @@ public class AuthTokenServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldClearCacheWhenDeleteAllTokens() {
+    void shouldClearCacheWhenDeleteAllTokens() {
         long tokenId1 = authTokenService.create(name(1), Tools.tomorrow()).getId();
         long tokenId2 = authTokenService.create(name(2), Tools.tomorrow()).getId();
         assertThat(authTokenService.exists(tokenId1)).isTrue();
@@ -80,7 +80,7 @@ public class AuthTokenServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldClearCacheWhenEvictEntireTokensCache() {
+    void shouldClearCacheWhenEvictEntireTokensCache() {
         long tokenId1 = authTokenService.create(name(1), Tools.tomorrow()).getId();
         long tokenId2 = authTokenService.create(name(2), Tools.tomorrow()).getId();
         assertThat(authTokenService.exists(tokenId1)).isTrue();
@@ -97,7 +97,7 @@ public class AuthTokenServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRebuildCacheOnExistsMethodAfterCacheEviction() {
+    void shouldRebuildCacheOnExistsMethodAfterCacheEviction() {
         long tokenId1 = authTokenService.create(name(1), Tools.tomorrow()).getId();
         long tokenId2 = authTokenService.create(name(2), Tools.tomorrow()).getId();
         Mockito.verify(authTokenService, Mockito.times(0)).exists(tokenId1);

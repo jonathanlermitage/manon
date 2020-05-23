@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-public class UserStatsServiceIT extends AbstractIT {
+class UserStatsServiceIT extends AbstractIT {
 
     @Test
-    public void shouldFindAll() {
+    void shouldFindAll() {
         userStatsService.saveAll(Arrays.asList(
             UserStatsEntity.builder().build(),
             UserStatsEntity.builder().build()
@@ -23,7 +23,7 @@ public class UserStatsServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSave() {
+    void shouldSave() {
         LocalDateTime before = Tools.now();
         userStatsService.save(UserStatsEntity.builder().nbUsers(100).build());
         LocalDateTime after = Tools.now();

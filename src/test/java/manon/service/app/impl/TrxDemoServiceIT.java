@@ -4,10 +4,10 @@ import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TrxDemoServiceIT extends AbstractIT {
+class TrxDemoServiceIT extends AbstractIT {
 
     @Test
-    public void errorShouldRollbackTransaction() {
+    void errorShouldRollbackTransaction() {
         //GIVEN some users in db
         long nbUsersBefore = userService.count();
 
@@ -21,7 +21,7 @@ public class TrxDemoServiceIT extends AbstractIT {
     }
 
     @Test
-    public void runtimeExceptionShouldRollbackTransaction() {
+    void runtimeExceptionShouldRollbackTransaction() {
         //GIVEN some users in db
         long nbUsersBefore = userService.count();
 
@@ -35,7 +35,7 @@ public class TrxDemoServiceIT extends AbstractIT {
     }
 
     @Test
-    public void exceptionShouldNotRollbackTransaction() {
+    void exceptionShouldNotRollbackTransaction() {
         //GIVEN some users in db
         long nbUsersBefore = userService.count();
 

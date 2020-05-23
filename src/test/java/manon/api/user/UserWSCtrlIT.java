@@ -12,9 +12,9 @@ import static io.restassured.http.ContentType.JSON;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 
-public class UserWSCtrlIT extends AbstractMockIT {
+class UserWSCtrlIT extends AbstractMockIT {
 
-    public Object[] dataProviderShouldVerifyRegister() {
+    Object[] dataProviderShouldVerifyRegister() {
         return new Object[]{
             whenAdmin(),
             whenP1(),
@@ -24,7 +24,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyRegister")
-    public void shouldVerifyRegister(Rs rs) {
+    void shouldVerifyRegister(Rs rs) {
         rs.getSpec()
             .body(UserLogin.builder().username("USERNAME").password("PASSWORD").build())
             .contentType(JSON)
@@ -36,7 +36,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyDelete(Rs rs, Integer status) {
+    void shouldVerifyDelete(Rs rs, Integer status) {
         rs.getSpec()
             .contentType(JSON)
             .delete(API_USER)
@@ -47,7 +47,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyRead(Rs rs, Integer status) {
+    void shouldVerifyRead(Rs rs, Integer status) {
         rs.getSpec()
             .get(API_USER)
             .then()
@@ -57,7 +57,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyReadAndIncludeUserSnapshots(Rs rs, Integer status) {
+    void shouldVerifyReadAndIncludeUserSnapshots(Rs rs, Integer status) {
         rs.getSpec()
             .get(API_USER + "/include/usersnapshots")
             .then()
@@ -67,7 +67,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyReadVersion(Rs rs, Integer status) {
+    void shouldVerifyReadVersion(Rs rs, Integer status) {
         rs.getSpec()
             .get(API_USER + "/version")
             .then()
@@ -77,7 +77,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyUpdateField(Rs rs, Integer status) {
+    void shouldVerifyUpdateField(Rs rs, Integer status) {
         rs.getSpec()
             .body(UserUpdateForm.builder().build())
             .contentType(JSON)
@@ -89,7 +89,7 @@ public class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyUpdatePassword(Rs rs, Integer status) {
+    void shouldVerifyUpdatePassword(Rs rs, Integer status) {
         rs.getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword("").newPassword("password").build())
             .contentType(JSON)

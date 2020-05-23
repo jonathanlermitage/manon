@@ -9,9 +9,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-public class AuthWSCtrlIT extends AbstractMockIT {
+class AuthWSCtrlIT extends AbstractMockIT {
 
-    public Object[][] dataProviderAllowActiveUsersWithCredentials() {
+    Object[][] dataProviderAllowActiveUsersWithCredentials() {
         return new Object[][]{
             {whenAdmin(), SC_OK},
             {whenActuator(), SC_OK},
@@ -27,14 +27,14 @@ public class AuthWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderAllowActiveUsersWithCredentials")
-    public void shouldVerifyCreateAuthToken(Rs rs, Integer status) {
+    void shouldVerifyCreateAuthToken(Rs rs, Integer status) {
         login(rs.getUsername(), rs.getPassword())
             .then()
             .statusCode(status);
     }
 
     @Test
-    public void shouldVerifyCreateAuthTokenWhenAnonymous() {
+    void shouldVerifyCreateAuthTokenWhenAnonymous() {
         whenAnonymous().getSpec()
             .then()
             .statusCode(SC_UNAUTHORIZED);
@@ -42,7 +42,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderAllowActiveUsersWithCredentials")
-    public void shouldVerifyRenewAuthToken(Rs rs, Integer status) {
+    void shouldVerifyRenewAuthToken(Rs rs, Integer status) {
         String jwt = jwtTokenService.generateToken(rs.getUsername());
         whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt)
@@ -52,7 +52,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
     }
 
     @Test
-    public void shouldVerifyRenewAuthTokenWhenAnonymous() {
+    void shouldVerifyRenewAuthTokenWhenAnonymous() {
         whenAnonymous().getSpec()
             .post(API_USER + "/auth/renew")
             .then()
@@ -61,7 +61,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderAllowActiveUsersWithCredentials")
-    public void shouldVerifyLogoutAll(Rs rs, Integer status) {
+    void shouldVerifyLogoutAll(Rs rs, Integer status) {
         String jwt = jwtTokenService.generateToken(rs.getUsername());
         whenAnonymous().getSpec()
             .header("Authorization", "Bearer " + jwt)
@@ -71,7 +71,7 @@ public class AuthWSCtrlIT extends AbstractMockIT {
     }
 
     @Test
-    public void shouldVerifyLogoutAllWhenAnonymous() {
+    void shouldVerifyLogoutAllWhenAnonymous() {
         whenAnonymous().getSpec()
             .post(API_USER + "/auth/logout/all")
             .then()

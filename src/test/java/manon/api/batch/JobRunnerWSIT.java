@@ -15,7 +15,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class JobRunnerWSIT extends AbstractIT {
+class JobRunnerWSIT extends AbstractIT {
 
     private static final TaskStatus TASK_STATUS_COMPLETED = TaskStatus.builder()
         .running(ExitStatus.COMPLETED.isRunning())
@@ -24,7 +24,7 @@ public class JobRunnerWSIT extends AbstractIT {
         .build();
 
     @Test
-    public void shouldStartUserSnapshotTask() throws MessagingException {
+    void shouldStartUserSnapshotTask() throws MessagingException {
         Response res = whenAdmin().getSpec()
             .post(API_SYS + "/batch/start/userSnapshotJob");
         res.then()
@@ -43,7 +43,7 @@ public class JobRunnerWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotStartUnknownTask() {
+    void shouldNotStartUnknownTask() {
         whenAdmin().getSpec()
             .post(API_SYS + "/batch/start/foo")
             .then()

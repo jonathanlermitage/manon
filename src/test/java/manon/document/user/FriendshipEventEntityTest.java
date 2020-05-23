@@ -11,15 +11,15 @@ import java.time.LocalDateTime;
 import static manon.model.user.FriendshipEventCode.TARGET_SENT_FRIEND_REQUEST;
 import static manon.model.user.FriendshipEventCode.YOU_ACCEPTED_FRIEND_REQUEST;
 
-public class FriendshipEventEntityTest {
+class FriendshipEventEntityTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         Assertions.assertThat(FriendshipEventEntity.builder().build().toString()).contains(
             "id", "user", "friend", "code", "creationDate");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         FriendshipEventEntity filled = FriendshipEventEntity.builder()
             .id(1)
             .code(TARGET_SENT_FRIEND_REQUEST)
@@ -40,25 +40,25 @@ public class FriendshipEventEntityTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(FriendshipEventEntity o1, FriendshipEventEntity o2, boolean expectedEqual) {
+    void shouldVerifyEquals(FriendshipEventEntity o1, FriendshipEventEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(FriendshipEventEntity o1, FriendshipEventEntity o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(FriendshipEventEntity o1, FriendshipEventEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
-    public void shouldVerifyPrePersistOnNew() {
+    void shouldVerifyPrePersistOnNew() {
         FriendshipEventEntity o = FriendshipEventEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
-    public void shouldVerifyPrePersistOnExisting() {
+    void shouldVerifyPrePersistOnExisting() {
         FriendshipEventEntity o = FriendshipEventEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();

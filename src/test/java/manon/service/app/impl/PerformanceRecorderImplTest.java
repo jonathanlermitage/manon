@@ -5,19 +5,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PerformanceRecorderImplTest {
+class PerformanceRecorderImplTest {
 
     private static final String STATS_TITLE = "Services performance (ms):";
     private static final String STATS_HEADER = " calls     min     max     total     avg  median  name";
 
     @Test
-    public void shouldEmptyShowStats() {
+    void shouldEmptyShowStats() {
         PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Tools.CLOCK);
         assertThat(performanceRecorder.getStats()).isEmpty();
     }
 
     @Test
-    public void shouldShowStats() {
+    void shouldShowStats() {
         PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Tools.CLOCK);
 
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);
@@ -35,7 +35,7 @@ public class PerformanceRecorderImplTest {
     }
 
     @Test
-    public void shouldShowStatsManyTimesWithDifferentOrders() {
+    void shouldShowStatsManyTimesWithDifferentOrders() {
         PerformanceRecorderImpl performanceRecorder = new PerformanceRecorderImpl(Tools.CLOCK);
 
         performanceRecorder.saveTime("manon.user.UserService:do1()", 1);

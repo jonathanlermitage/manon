@@ -6,15 +6,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserPasswordUpdateFormTest {
+class UserPasswordUpdateFormTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         assertThat(UserPasswordUpdateForm.builder().build().toString()).contains(
             "oldPassword", "newPassword");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserPasswordUpdateForm filled = UserPasswordUpdateForm.builder()
             .oldPassword("o")
             .newPassword("n")
@@ -29,13 +29,13 @@ public class UserPasswordUpdateFormTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(UserPasswordUpdateForm o1, UserPasswordUpdateForm o2, boolean expectedEqual) {
+    void shouldVerifyEquals(UserPasswordUpdateForm o1, UserPasswordUpdateForm o2, boolean expectedEqual) {
         assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(UserPasswordUpdateForm o1, UserPasswordUpdateForm o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(UserPasswordUpdateForm o1, UserPasswordUpdateForm o2, boolean expectedEqual) {
         assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 }

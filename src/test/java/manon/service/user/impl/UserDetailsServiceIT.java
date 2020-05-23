@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class UserDetailsServiceIT extends AbstractIT {
+class UserDetailsServiceIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -16,7 +16,7 @@ public class UserDetailsServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldLoadUserByUsername() {
+    void shouldLoadUserByUsername() {
         String username = name(1);
         UserSimpleDetails userSimpleDetailsFound = ((UserDetailsServiceImpl) userDetailsService).loadUserByUsername(username);
         assertThat(userSimpleDetailsFound).isNotNull();
@@ -25,13 +25,13 @@ public class UserDetailsServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFailLoadUserByUnknownUsername() {
+    void shouldFailLoadUserByUnknownUsername() {
         assertThatThrownBy(() -> userDetailsService.loadUserByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
-    public void shouldFailLoadUserByNullUsername() {
+    void shouldFailLoadUserByNullUsername() {
         assertThatThrownBy(() -> userDetailsService.loadUserByUsername(null))
             .isInstanceOf(UserNotFoundException.class);
     }

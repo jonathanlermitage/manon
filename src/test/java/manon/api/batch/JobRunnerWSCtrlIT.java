@@ -8,11 +8,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class JobRunnerWSCtrlIT extends AbstractMockIT {
+class JobRunnerWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifyStartTask(Rs rs, Integer status) throws Exception {
+    void shouldVerifyStartTask(Rs rs, Integer status) throws Exception {
         rs.getSpec()
             .pathParam("job", "foobar")
             .post(API_SYS + "/batch/start/{job}")

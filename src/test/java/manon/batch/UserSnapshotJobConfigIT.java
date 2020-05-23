@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.batch.core.ExitStatus.COMPLETED;
 
-public class UserSnapshotJobConfigIT extends AbstractIT {
+class UserSnapshotJobConfigIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -26,12 +26,12 @@ public class UserSnapshotJobConfigIT extends AbstractIT {
     }
 
     @Test
-    public void shouldCompleteMultipleTimes() throws Exception {
+    void shouldCompleteMultipleTimes() throws Exception {
         checkComplete(2, 3);
         checkComplete(4, 6);
     }
 
-    public void checkComplete(int snapshotsKept, int nbStats) throws Exception {
+    void checkComplete(int snapshotsKept, int nbStats) throws Exception {
         int chunk = cfg.getBatchUserSnapshotChunk();
         int maxAge = TestTools.days(cfg.getBatchUserSnapshotSnapshotMaxAge());
         assertThat(chunk).isEqualTo(10);

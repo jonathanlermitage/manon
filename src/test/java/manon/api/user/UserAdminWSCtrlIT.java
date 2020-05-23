@@ -8,11 +8,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class UserAdminWSCtrlIT extends AbstractMockIT {
+class UserAdminWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifyFindAll(Rs rs, Integer status) {
+    void shouldVerifyFindAll(Rs rs, Integer status) {
         rs.getSpec()
             .get(API_USER_ADMIN + "/all")
             .then()
@@ -22,7 +22,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifyActivate(Rs rs, Integer status) {
+    void shouldVerifyActivate(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/activate")
@@ -33,7 +33,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifyBan(Rs rs, Integer status) {
+    void shouldVerifyBan(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/ban")
@@ -44,7 +44,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifySuspend(Rs rs, Integer status) {
+    void shouldVerifySuspend(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("userId", UNKNOWN_ID)
             .post(API_USER_ADMIN + "/{userId}/suspend")
@@ -55,7 +55,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifySearch(Rs rs, Integer status) {
+    void shouldVerifySearch(Rs rs, Integer status) {
         rs.getSpec()
             .post(API_USER_ADMIN + "/search")
             .then()
@@ -65,7 +65,7 @@ public class UserAdminWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_ADMIN)
-    public void shouldVerifySearchByIdentity(Rs rs, Integer status) {
+    void shouldVerifySearchByIdentity(Rs rs, Integer status) {
         rs.getSpec()
             .post(API_USER_ADMIN + "/search/identity")
             .then()

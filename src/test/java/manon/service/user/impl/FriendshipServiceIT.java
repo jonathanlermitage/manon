@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class FriendshipServiceIT extends AbstractIT {
+class FriendshipServiceIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
         return 3;
     }
 
-    public Object[] dataProviderUnknownUserInCouple() {
+    Object[] dataProviderUnknownUserInCouple() {
         return new Object[][]{
             {UNKNOWN_ID, userId(2)},
             {userId(2), UNKNOWN_ID},
@@ -28,7 +28,7 @@ public class FriendshipServiceIT extends AbstractIT {
     //
 
     @Test
-    public void shouldRevokeFriendship() {
+    void shouldRevokeFriendship() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
         friendshipService.revokeFriendship(userId(1), userId(2));
@@ -39,7 +39,7 @@ public class FriendshipServiceIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderUnknownUserInCouple")
-    public void shouldFailRevokeFriendshipWhenUserNotFound(long userId1, long userId2) {
+    void shouldFailRevokeFriendshipWhenUserNotFound(long userId1, long userId2) {
         Assertions.assertThatThrownBy(() -> friendshipService.revokeFriendship(userId1, userId2))
             .isInstanceOf(FriendshipNotFoundException.class);
     }
@@ -49,7 +49,7 @@ public class FriendshipServiceIT extends AbstractIT {
     //
 
     @Test
-    public void shouldFindAllForWhenUserHasFriends() {
+    void shouldFindAllForWhenUserHasFriends() {
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.askFriendship(userId(1), userId(3));
         friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
@@ -61,7 +61,7 @@ public class FriendshipServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFindAllForWhenUserHasNoFriend() {
+    void shouldFindAllForWhenUserHasNoFriend() {
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
     }
 }

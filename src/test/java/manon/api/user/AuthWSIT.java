@@ -11,10 +11,10 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AuthWSIT extends AbstractIT {
+class AuthWSIT extends AbstractIT {
 
     @Test
-    public void shouldLogin() {
+    void shouldLogin() {
         Response res = whenAnonymous().getSpec()
             .body(UserLogin.builder().username(name(1)).password(pwd(1)).build())
             .contentType(JSON)
@@ -25,7 +25,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldUseToken() {
+    void shouldUseToken() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
         Response res = whenAnonymous().getSpec()
@@ -40,7 +40,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldReuseToken() {
+    void shouldReuseToken() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
         UserEntity dbUser = userService.readOne(userId(1)).toBuilder().password(null).build();
@@ -57,7 +57,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRenewToken() {
+    void shouldRenewToken() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
         Response res = whenAnonymous().getSpec()
@@ -80,7 +80,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRejectTokenIfAccountBanned() {
+    void shouldRejectTokenIfAccountBanned() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
         registrationService.ban(userId(1));
@@ -93,7 +93,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRejectTokenIfAccountDeleted() {
+    void shouldRejectTokenIfAccountDeleted() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
         registrationService.delete(userId(1));
@@ -106,7 +106,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRejectTokenIfAccountSuspended() {
+    void shouldRejectTokenIfAccountSuspended() {
         String jwt = loginAndReturnToken(name(1), pwd(1));
 
         registrationService.suspend(userId(1));
@@ -119,7 +119,7 @@ public class AuthWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldLogOutAllForCurrentUser() {
+    void shouldLogOutAllForCurrentUser() {
         //GIVEN user 1 gets 2 tokens, user 2 get 1 token
         String jwt1a = loginAndReturnToken(name(1), pwd(1));
         String jwt1b = loginAndReturnToken(name(1), pwd(1));

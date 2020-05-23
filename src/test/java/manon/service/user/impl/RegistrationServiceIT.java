@@ -5,17 +5,17 @@ import manon.util.basetest.AbstractNoUserIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class RegistrationServiceIT extends AbstractNoUserIT {
+class RegistrationServiceIT extends AbstractNoUserIT {
 
     @Test
-    public void shouldEnsureExistingAdmin() throws Exception {
+    void shouldEnsureExistingAdmin() throws Exception {
         UserEntity existingAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);
         UserEntity ensuredAdmin = registrationService.ensureAdmin();
         Assertions.assertThat(ensuredAdmin).isEqualTo(existingAdmin);
     }
 
     @Test
-    public void shouldEnsureNewAdminIfAbsent() throws Exception {
+    void shouldEnsureNewAdminIfAbsent() throws Exception {
         UserEntity previousAdmin = userService.findByUsername(cfg.getDefaultUserAdminUsername()).orElseThrow(Exception::new);
         userService.deleteAll();
         Assertions.assertThat(userService.findByUsername(cfg.getDefaultUserAdminUsername())).isNotPresent();

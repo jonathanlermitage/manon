@@ -9,11 +9,11 @@ import static io.restassured.http.ContentType.JSON;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-public class FriendshipWSCtrlIT extends AbstractMockIT {
+class FriendshipWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyAskFriendship(Rs rs, Integer status) {
+    void shouldVerifyAskFriendship(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("id", UNKNOWN_ID)
             .post(API_USER + "/askfriendship/user/{id}")
@@ -24,7 +24,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyAcceptFriendship(Rs rs, Integer status) {
+    void shouldVerifyAcceptFriendship(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("id", UNKNOWN_ID)
             .post(API_USER + "/acceptfriendship/user/{id}")
@@ -35,7 +35,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyRejectFriendship(Rs rs, Integer status) {
+    void shouldVerifyRejectFriendship(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("id", UNKNOWN_ID)
             .post(API_USER + "/rejectfriendship/user/{id}")
@@ -46,7 +46,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyCancelFriendship(Rs rs, Integer status) {
+    void shouldVerifyCancelFriendship(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("id", UNKNOWN_ID)
             .post(API_USER + "/cancelfriendship/user/{id}")
@@ -57,7 +57,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyRevokeFriendship(Rs rs, Integer status) {
+    void shouldVerifyRevokeFriendship(Rs rs, Integer status) {
         rs.getSpec()
             .pathParam("id", UNKNOWN_ID)
             .post(API_USER + "/revokefriendship/user/{id}")
@@ -68,7 +68,7 @@ public class FriendshipWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    public void shouldVerifyGetFriends(Rs rs, Integer status) {
+    void shouldVerifyGetFriends(Rs rs, Integer status) {
         rs.getSpec()
             .contentType(JSON)
             .get(API_USER + "/friends")

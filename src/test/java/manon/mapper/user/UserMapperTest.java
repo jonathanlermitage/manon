@@ -15,9 +15,9 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserMapperTest {
+class UserMapperTest {
 
-    public static Object[][] dataProviderShouldMapUserToUserWithSnapshotsDto() {
+    static Object[][] dataProviderShouldMapUserToUserWithSnapshotsDto() {
 
         //<editor-fold defaultstate="collapsed" desc="user with data">
         UserEntity nestedUser = UserEntity.builder().id(1).build();
@@ -112,7 +112,7 @@ public class UserMapperTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldMapUserToUserWithSnapshotsDto")
-    public void shouldMapUserToUserWithSnapshotsDto(UserEntity user, UserWithSnapshotsDto userWithSnapshotsDto) {
+    void shouldMapUserToUserWithSnapshotsDto(UserEntity user, UserWithSnapshotsDto userWithSnapshotsDto) {
         assertThat(UserMapper.MAPPER.userToUserWithSnapshotsDto(user))
             .isEqualTo(userWithSnapshotsDto);
     }

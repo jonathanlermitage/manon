@@ -11,7 +11,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AuthAdminWSIT extends AbstractIT {
+class AuthAdminWSIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -19,7 +19,7 @@ public class AuthAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRemoveAllExpiredTokens() {
+    void shouldRemoveAllExpiredTokens() {
         long currentNbOfTokens = authTokenService.count();
         LocalDateTime now = Tools.now();
 

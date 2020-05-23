@@ -10,10 +10,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class UserEntityTest {
+class UserEntityTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         Assertions.assertThat(UserEntity.builder().build().toString()).contains(
             "id", "username",
             "authorities", "password", "registrationState",
@@ -21,7 +21,7 @@ public class UserEntityTest {
             "version", "creationDate", "updateDate");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         UserEntity filled = UserEntity.builder()
             .id(1)
             .username("u")
@@ -52,18 +52,18 @@ public class UserEntityTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(UserEntity o1, UserEntity o2, boolean expectedEqual) {
+    void shouldVerifyEquals(UserEntity o1, UserEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(UserEntity o1, UserEntity o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(UserEntity o1, UserEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
-    public void shouldVerifyPrePersistOnNew() {
+    void shouldVerifyPrePersistOnNew() {
         UserEntity o = UserEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
@@ -71,7 +71,7 @@ public class UserEntityTest {
     }
 
     @Test
-    public void shouldVerifyPrePersistOnExisting() {
+    void shouldVerifyPrePersistOnExisting() {
         UserEntity o = UserEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();

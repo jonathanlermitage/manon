@@ -26,7 +26,7 @@ import java.util.Set;
 import static java.lang.System.currentTimeMillis;
 import static manon.document.user.UserEntity.Validation.USERNAME_MAX_LENGTH;
 
-public class UserServiceIT extends AbstractIT {
+class UserServiceIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -34,31 +34,32 @@ public class UserServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldExistOrFail() {
+    void shouldExistOrFail() {
         userService.existOrFail(userId(1));
     }
 
     @Test
-    public void shouldFailExistOrFailUnknown() {
+    void shouldFailExistOrFailUnknown() {
         Assertions.assertThatThrownBy(() -> userService.existOrFail(userId(1), UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
-    public void shouldReadOne() {
+    void shouldReadOne() {
         UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    public void shouldReadOneFailReadLazyDataOutsideASession() {
+    void shouldReadOneFailReadLazyDataOutsideASession() {
         UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
             .isInstanceOf(LazyInitializationException.class);
     }
 
     @Test
-    public void shouldReadOneWhenUserHasSnapshots() {
+    void shouldReadOneWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshotEntity.from(user(1)),
             UserSnapshotEntity.from(user(1))
@@ -67,8 +68,9 @@ public class UserServiceIT extends AbstractIT {
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    public void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() {
+    void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshotEntity.from(user(1)),
             UserSnapshotEntity.from(user(1))
@@ -79,14 +81,14 @@ public class UserServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldReadOneAndFetchUserSnapshotDtos() {
+    void shouldReadOneAndFetchUserSnapshotDtos() {
         UserWithSnapshotsDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
         Assertions.assertThat(dbUser.getUserSnapshots()).isEmpty();
     }
 
     @Test
-    public void shouldReadOneAndFetchUserSnapshotDtosWhenUserHasSnapshots() {
+    void shouldReadOneAndFetchUserSnapshotDtosWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshotEntity.from(user(1)),
             UserSnapshotEntity.from(user(1))
@@ -97,56 +99,56 @@ public class UserServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFailReadOneUnknown() {
+    void shouldFailReadOneUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readOne(UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
-    public void shouldFindByUsername() throws Exception {
+    void shouldFindByUsername() throws Exception {
         Assertions.assertThat(userService.findByUsername(name(1)).orElseThrow(Exception::new).getId()).isEqualTo(userId(1));
     }
 
     @Test
-    public void shouldNotFindByUsername() {
+    void shouldNotFindByUsername() {
         Assertions.assertThat(userService.findByUsername(UNKNOWN_USER_NAME)).isNotPresent();
     }
 
     @Test
-    public void shouldReadByUsername() {
+    void shouldReadByUsername() {
         Assertions.assertThat(userService.readByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
 
     @Test
-    public void shouldFailReadByUsernameUnknown() {
+    void shouldFailReadByUsernameUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
-    public void shouldReadVersionById() {
+    void shouldReadVersionById() {
         Assertions.assertThat(userService.readVersionById(userId(2)).getVersion()).isGreaterThanOrEqualTo(0L);
     }
 
     @Test
-    public void shouldFailReadVersionByIdUnknown() {
+    void shouldFailReadVersionByIdUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readVersionById(UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
-    public void shouldReadIdByUsername() {
+    void shouldReadIdByUsername() {
         Assertions.assertThat(userService.readIdByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
 
     @Test
-    public void shouldFailReadIdByUsernameUnknown() {
+    void shouldFailReadIdByUsernameUnknown() {
         Assertions.assertThatThrownBy(() -> userService.readIdByUsername(UNKNOWN_USER_NAME))
             .isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
-    public void shouldCreateAndCheckEncodedPassword() {
+    void shouldCreateAndCheckEncodedPassword() {
         String rawPassword = "pwd" + currentTimeMillis();
         UserEntity user = userService.create(UserEntity.builder()
             .username(name(100))
@@ -159,36 +161,36 @@ public class UserServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFailCreateExisting() {
+    void shouldFailCreateExisting() {
         Assertions.assertThatThrownBy(() -> userService.create(userService.readOne(userId(1))))
             .isInstanceOf(UserExistsException.class);
     }
 
     @Test
-    public void shouldSetAndCheckEncodedPassword() {
+    void shouldSetAndCheckEncodedPassword() {
         String rawPassword = "pwd" + currentTimeMillis();
         userService.encodeAndSetPassword(userId(3), rawPassword);
         Assertions.assertThat(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
     }
 
-    public Object[] dataProviderRegistrationStates() {
+    Object[] dataProviderRegistrationStates() {
         return RegistrationState.values();
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderRegistrationStates")
-    public void shouldSetRegistrationState(RegistrationState registrationState) {
+    void shouldSetRegistrationState(RegistrationState registrationState) {
         userService.setRegistrationState(userId(4), registrationState);
         Assertions.assertThat(userService.readOne(userId(4)).getRegistrationState()).isEqualTo(registrationState);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderRegistrationStates")
-    public void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
+    void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
         userService.setRegistrationState(UNKNOWN_ID, registrationState);
     }
 
-    public Object[] dataProviderValidPasswords() {
+    Object[] dataProviderValidPasswords() {
         return new String[][]{
             {"", ""},
             {"@ p4ssword!", "@ p4ssword!"}
@@ -197,11 +199,11 @@ public class UserServiceIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderValidPasswords")
-    public void shoudValidatePassword(String rawPassword, String passwordToEncode) {
+    void shoudValidatePassword(String rawPassword, String passwordToEncode) {
         userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode));
     }
 
-    public Object[] dataProviderInvalidPasswords() {
+    Object[] dataProviderInvalidPasswords() {
         return new String[][]{
             {"a password!", "@ p4ssword!"},
             {"", "a"},
@@ -211,12 +213,12 @@ public class UserServiceIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderInvalidPasswords")
-    public void shoudNotValidatePassword(String rawPassword, String passwordToEncode) {
+    void shoudNotValidatePassword(String rawPassword, String passwordToEncode) {
         Assertions.assertThatThrownBy(() -> userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode)))
             .isInstanceOf(PasswordNotMatchException.class);
     }
 
-    public Object[] dataProviderUsernames() {
+    Object[] dataProviderUsernames() {
         Faker faker = new Faker();
         Set<String> names = new HashSet<>();
         for (int i = 0; i < 50; i++) {
@@ -234,7 +236,7 @@ public class UserServiceIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderUsernames")
-    public void shouldSave(String validUsername) {
+    void shouldSave(String validUsername) {
         LocalDateTime before = Tools.now();
         userService.save(UserEntity.builder()
             .username(validUsername)

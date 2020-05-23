@@ -8,15 +8,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class FriendshipRequestEntityTest {
+class FriendshipRequestEntityTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         Assertions.assertThat(FriendshipRequestEntity.builder().build().toString()).contains(
             "id", "requestFrom", "requestTo", "creationDate");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         FriendshipRequestEntity filled = FriendshipRequestEntity.builder()
             .id(1)
             .creationDate(Tools.now())
@@ -35,25 +35,25 @@ public class FriendshipRequestEntityTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(FriendshipRequestEntity o1, FriendshipRequestEntity o2, boolean expectedEqual) {
+    void shouldVerifyEquals(FriendshipRequestEntity o1, FriendshipRequestEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(FriendshipRequestEntity o1, FriendshipRequestEntity o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(FriendshipRequestEntity o1, FriendshipRequestEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
-    public void shouldVerifyPrePersistOnNew() {
+    void shouldVerifyPrePersistOnNew() {
         FriendshipRequestEntity o = FriendshipRequestEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
-    public void shouldVerifyPrePersistOnExisting() {
+    void shouldVerifyPrePersistOnExisting() {
         FriendshipRequestEntity o = FriendshipRequestEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();

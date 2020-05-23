@@ -30,9 +30,9 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserWSIT extends AbstractIT {
+class UserWSIT extends AbstractIT {
 
-    public Object[][] dataProviderShouldRegister() {
+    Object[][] dataProviderShouldRegister() {
         return new Object[][]{
             {"JOHN", "12300"},
             {"BOB DYLAN AND FRIENDS", "PASSWORD"},
@@ -42,7 +42,7 @@ public class UserWSIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldRegister")
-    public void shouldRegister(String name, String pwd) {
+    void shouldRegister(String name, String pwd) {
         whenAnonymous().getSpec()
             .body(UserLogin.builder().username(name).password(pwd).build())
             .contentType(JSON)
@@ -60,7 +60,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotRegisterTwice() {
+    void shouldNotRegisterTwice() {
         whenAnonymous().getSpec()
             .body(UserLogin.builder().username("DUPLICATE").password("12300").build())
             .contentType(JSON)
@@ -77,7 +77,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldDeleteAndLooseAuthorisations() {
+    void shouldDeleteAndLooseAuthorisations() {
         whenP1().getSpec()
             .get(API_USER).then()
             .statusCode(SC_OK);
@@ -90,7 +90,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldRead() {
+    void shouldRead() {
         Response res = whenP1().getSpec()
             .get(API_USER);
         res.then()
@@ -102,7 +102,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldReadWhenUserHasSnapshots() {
+    void shouldReadWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
@@ -118,7 +118,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldReadAndIncludeUserSnapshots() {
+    void shouldReadAndIncludeUserSnapshots() {
         Response res = whenP1().getSpec()
             .get(API_USER + "/include/usersnapshots");
         res.then()
@@ -130,7 +130,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() {
+    void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
@@ -146,7 +146,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldReadVersion() {
+    void shouldReadVersion() {
         Response res = whenP1().getSpec()
             .get(API_USER + "/version");
         res.then()
@@ -156,7 +156,7 @@ public class UserWSIT extends AbstractIT {
         assertThat(webUserVersion).isEqualTo(dbUserVersion);
     }
 
-    public Object[][] dataProviderShouldUpdate() {
+    Object[][] dataProviderShouldUpdate() {
         return new Object[][]{
             {"", ""},
             {"nickname", "test.foo@bar.com"}
@@ -165,7 +165,7 @@ public class UserWSIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldUpdate")
-    public void shouldUpdate(String nickname, String email) {
+    void shouldUpdate(String nickname, String email) {
         UserEntity userBefore = userService.readOne(userId(1));
         whenP1().getSpec()
             .body(UserUpdateForm.builder().nickname(nickname).email(email).build())
@@ -183,7 +183,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldUpdatePassword() {
+    void shouldUpdatePassword() {
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword("a new password").build())
             .contentType(JSON)
@@ -197,7 +197,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldUpdateWithLongestPassword() {
+    void shouldUpdateWithLongestPassword() {
         String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
@@ -212,7 +212,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
+    void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
         // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
         String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
@@ -227,7 +227,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
+    void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
         // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
         String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
@@ -242,7 +242,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotUpdateBadPassword() {
+    void shouldNotUpdateBadPassword() {
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword("wrongpassword").newPassword("a new password").build())
             .contentType(JSON)
@@ -257,7 +257,7 @@ public class UserWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldGetZeroFriends() {
+    void shouldGetZeroFriends() {
         //GIVEN a user with no friend
 
         //WHEN he gets friends

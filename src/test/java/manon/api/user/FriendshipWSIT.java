@@ -32,7 +32,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipWSIT extends AbstractIT {
+class FriendshipWSIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -45,7 +45,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Ask 2 friendship requests. */
     @Test
-    public void shouldAskFriendshipToManyUsers() {
+    void shouldAskFriendshipToManyUsers() {
         //GIVEN 3 users with no friends nor friendship requests
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -108,7 +108,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Ensure we don't store the same friendship request twice. */
     @Test
-    public void shouldNotAskFriendshipTwice() {
+    void shouldNotAskFriendshipTwice() {
         //GIVEN 2 users with no friends nor friendship requests
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -154,7 +154,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotAskFriendshipToFriend() {
+    void shouldNotAskFriendshipToFriend() {
         //GIVEN 2 users that are friends
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -202,7 +202,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Ensure we two users send crossed friendship request. */
     @Test
-    public void shouldNotAskCrossedFriendship() {
+    void shouldNotAskCrossedFriendship() {
         //GIVEN 2 users with no friends nor friendship requests
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -248,7 +248,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotAskFriendshipToUnknownUser() {
+    void shouldNotAskFriendshipToUnknownUser() {
         //GIVEN 1 users with no friends nor friendship requests
         //WHEN P1 tries to ask friendship to unknown user
         whenP1().getSpec()
@@ -266,7 +266,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Ask 2 friendship requests and 1 target accept it. */
     @Test
-    public void shouldAcceptPartOfFriendship() {
+    void shouldAcceptPartOfFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -339,7 +339,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Ask 2 friendship requests and 2 targets accept it. */
     @Test
-    public void shouldAcceptAllFriendship() {
+    void shouldAcceptAllFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -417,7 +417,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotAcceptSelfFriendshipRequest() {
+    void shouldNotAcceptSelfFriendshipRequest() {
         //GIVEN 2 users. P1 asks friendship to P2
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -461,7 +461,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotAcceptUnknownFriendshipRequest() {
+    void shouldNotAcceptUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to accept an unknown friendship request
         whenP1().getSpec()
@@ -477,7 +477,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotAcceptUnknownUserFriendshipRequest() {
+    void shouldNotAcceptUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to accept an unknown user friendship request
         whenP1().getSpec()
@@ -495,7 +495,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Ask many friendship requests and targets reject them. */
     @Test
-    public void shouldRejectFriendship() {
+    void shouldRejectFriendship() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -563,7 +563,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotRejectUnknownFriendshipRequest() {
+    void shouldNotRejectUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to reject an unknown friendship request
         whenP1().getSpec()
@@ -579,7 +579,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotRejectUnknownUserFriendshipRequest() {
+    void shouldNotRejectUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to reject an unknown user friendship request
         whenP1().getSpec()
@@ -597,7 +597,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Create friendship requests, then cancel one of them. */
     @Test
-    public void shouldCancelFriendshipRequest() {
+    void shouldCancelFriendshipRequest() {
         //GIVEN 3 users with no friends nor friendship requests. P1 asked friendship to P2 and P3
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -665,7 +665,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotCancelUnknownFriendshipRequest() {
+    void shouldNotCancelUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to cancel an unknown friendship request
         whenP1().getSpec()
@@ -681,7 +681,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotCancelUnknownUserFriendshipRequest() {
+    void shouldNotCancelUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to cancel an unknown user friendship request
         whenP1().getSpec()
@@ -699,7 +699,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Create friendship requests, accept them, then revoke one of them. */
     @Test
-    public void shouldRevokeFriendship() {
+    void shouldRevokeFriendship() {
         //GIVEN 3 users. P1 is friend with P2 and P3
         UserEntity p1 = userService.readOne(userId(1));
         UserEntity p2 = userService.readOne(userId(2));
@@ -783,7 +783,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotRevokeUnknownFriendshipRequest() {
+    void shouldNotRevokeUnknownFriendshipRequest() {
         //GIVEN 2 users with no friends nor friendship requests
         //WHEN P1 tries to revoke an unknown friendship
         whenP1().getSpec()
@@ -799,7 +799,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotRevokeUnknownUserFriendshipRequest() {
+    void shouldNotRevokeUnknownUserFriendshipRequest() {
         //GIVEN 1 user with no friends nor friendship requests
         //WHEN P1 tries to revoke an unknown user friendship
         whenP1().getSpec()
@@ -817,7 +817,7 @@ public class FriendshipWSIT extends AbstractIT {
 
     /** Only {@link FriendshipEventEntity.Validation#MAX_EVENTS_PER_USER} most recent user's friendshipEvents should be kept. */
     @Test
-    public void shouldCheckEventsMaintenance() {
+    void shouldCheckEventsMaintenance() {
         //GIVEN two users with no event
         assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(1))).isEqualTo(0);
         assertThat(friendshipEventService.countAllFriendshipEventsByUser(userId(2))).isEqualTo(0);
@@ -840,7 +840,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldGetFriends() {
+    void shouldGetFriends() {
         //GIVEN a P1 user with 2 friends P2 and P3: P1 initiated friendship with P2 and P3
         friendshipRequestService.askFriendship(userId(1), userId(2));
         friendshipRequestService.askFriendship(userId(1), userId(3));
@@ -888,7 +888,7 @@ public class FriendshipWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldGetFriendsMixed() {
+    void shouldGetFriendsMixed() {
         //GIVEN a P1 user with 2 friends P2 and P3: P2 and P3 initiated friendship with P1
         friendshipRequestService.askFriendship(userId(2), userId(1));
         friendshipRequestService.askFriendship(userId(3), userId(1));

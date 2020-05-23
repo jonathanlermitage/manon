@@ -21,7 +21,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserAdminWSIT extends AbstractIT {
+class UserAdminWSIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -29,7 +29,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFindAllDesc() {
+    void shouldFindAllDesc() {
         Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,DESC");
         res.then()
@@ -47,7 +47,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFindAllAsc() {
+    void shouldFindAllAsc() {
         Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?offset=0&size=100&sort=creationDate,ASC");
         res.then()
@@ -65,7 +65,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFindAllSmallPageStartPart() {
+    void shouldFindAllSmallPageStartPart() {
         Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?size=" + (userCount - 1));
         res.then()
@@ -78,7 +78,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFindAllPageEndPart() {
+    void shouldFindAllPageEndPart() {
         Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?page=1&size=" + (userCount - 1));
         res.then()
@@ -91,7 +91,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFindAllSmallPageMiddlePart() {
+    void shouldFindAllSmallPageMiddlePart() {
         Response res = whenAdmin().getSpec()
             .get(API_USER_ADMIN + "/all?size=1");
         res.then()
@@ -104,7 +104,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldCycleRegistrationState() {
+    void shouldCycleRegistrationState() {
         List<Long> uids = Arrays.asList(userId(1), userId(2));
         for (long uid : uids) {
             whenAdmin().getSpec()
@@ -129,7 +129,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotActivateUnknown() {
+    void shouldNotActivateUnknown() {
         whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/activate")
             .then()
@@ -139,7 +139,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotBanUnknown() {
+    void shouldNotBanUnknown() {
         whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/ban")
             .then()
@@ -149,7 +149,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldNotSuspendUnknown() {
+    void shouldNotSuspendUnknown() {
         whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/" + UNKNOWN_ID + "/suspend")
             .then()
@@ -159,7 +159,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSearchWithPredicateOnRegistrationState() {
+    void shouldSearchWithPredicateOnRegistrationState() {
         Response res = whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/search?offset=0&size=100&sort=creationDate,DESC&registrationState=ACTIVE");
         res.then()
@@ -177,7 +177,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSearchWithPredicateOnUsername() {
+    void shouldSearchWithPredicateOnUsername() {
         Response res = whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/search?offset=0&size=100&sort=creationDate,DESC&username=" + name(1));
         res.then()
@@ -191,7 +191,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSearchWithoutPredicate() {
+    void shouldSearchWithoutPredicate() {
         Response res = whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/search?offset=0&size=100&sort=creationDate,DESC");
         res.then()
@@ -209,7 +209,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSearchByIdentityWithPredicate() {
+    void shouldSearchByIdentityWithPredicate() {
         Response res = whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/search/identity?offset=0&size=100&sort=creationDate,DESC" +
                 "&username=" + name(1) + "&nickname=foo1&email=email1");
@@ -224,7 +224,7 @@ public class UserAdminWSIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSearchByIdentityWithoutPredicate() {
+    void shouldSearchByIdentityWithoutPredicate() {
         Response res = whenAdmin().getSpec()
             .post(API_USER_ADMIN + "/search/identity?offset=0&size=100&sort=creationDate,DESC");
         res.then()

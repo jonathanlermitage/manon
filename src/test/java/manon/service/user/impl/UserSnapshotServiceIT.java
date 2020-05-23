@@ -15,10 +15,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-public class UserSnapshotServiceIT extends AbstractIT {
+class UserSnapshotServiceIT extends AbstractIT {
 
     @Test
-    public void shouldFindOne() throws Exception {
+    void shouldFindOne() throws Exception {
         saveUserSnapshot();
         UserSnapshotEntity us = saveUserSnapshot();
         saveUserSnapshot();
@@ -28,7 +28,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    public void shouldFindOneFailReadLazyDataOutsideASession() {
+    void shouldFindOneFailReadLazyDataOutsideASession() {
         UserSnapshotEntity us = saveUserSnapshot();
 
         Assertions.assertThatThrownBy(() -> userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new).getUser().hashCode())
@@ -36,11 +36,11 @@ public class UserSnapshotServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldFailFindOneUnknown() {
+    void shouldFailFindOneUnknown() {
         Assertions.assertThat(userSnapshotService.findOne(UNKNOWN_ID)).isEmpty();
     }
 
-    public Object[] dataProviderCount() {
+    Object[] dataProviderCount() {
         return new Object[][]{
             {0, 0},
             {1, 1},
@@ -50,7 +50,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderCount")
-    public void shouldCount(int created, int expected) {
+    void shouldCount(int created, int expected) {
         for (int i = 0; i < created; i++) {
             saveUserSnapshot();
         }
@@ -59,7 +59,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldCountToday() {
+    void shouldCountToday() {
         for (int i = 0; i < 3; i++) {
             userSnapshotService.saveAll(Arrays.asList(
                 makeUserSnapshot(),
@@ -72,7 +72,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldDeleteToday() {
+    void shouldDeleteToday() {
         LocalDateTime yesterday = Tools.yesterday();
         LocalDateTime tomorrow = Tools.tomorrow();
         for (int i = 0; i < 3; i++) {
@@ -93,7 +93,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldKeepRecent() {
+    void shouldKeepRecent() {
         LocalDateTime before2Days = Tools.nowMinusDays(2);
         for (int i = 0; i < 3; i++) {
             userSnapshotService.saveAll(Arrays.asList(
@@ -113,7 +113,7 @@ public class UserSnapshotServiceIT extends AbstractIT {
     }
 
     @Test
-    public void shouldSaveAll() {
+    void shouldSaveAll() {
         LocalDateTime before = Tools.now();
         userSnapshotService.saveAll(Arrays.asList(
             makeUserSnapshot(),

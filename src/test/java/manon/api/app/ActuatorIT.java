@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.hamcrest.Matchers.startsWithIgnoringCase;
 
-public class ActuatorIT extends AbstractIT {
+class ActuatorIT extends AbstractIT {
 
     @Override
     public int getNumberOfUsers() {
@@ -23,7 +23,7 @@ public class ActuatorIT extends AbstractIT {
      * Health actuator endpoint should show minimal information to anonymous and users without the {@link UserRole#ACTUATOR} role.
      * @return user; true if full information should be shown, false for minimal information.
      */
-    public Object[][] dataProviderShouldGetFullHealth() {
+    Object[][] dataProviderShouldGetFullHealth() {
         return new Object[][]{
             {whenActuator(), true},
             {whenAdmin(), true},
@@ -34,7 +34,7 @@ public class ActuatorIT extends AbstractIT {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldGetFullHealth")
-    public void shouldGetHealthActuatorWithMinimalOrFullInformation(Rs rs, boolean isFullInfo) {
+    void shouldGetHealthActuatorWithMinimalOrFullInformation(Rs rs, boolean isFullInfo) {
         ValidatableResponse response = rs.getSpec().get("/actuator/health").then();
         // TODO register and play with Liveness and Readiness probes, see https://theprogrammersfirst.blogspot.com/2020/04/spring-boot-liveness-and-readiness.html
         // .whenIgnoringPaths("groups") -> "groups":["liveness","readiness"] may be present if run in Kubernetes, at least on Cirrus CI
@@ -47,7 +47,7 @@ public class ActuatorIT extends AbstractIT {
     }
 
     @Test
-    public void shouldGetInfoActuatorWhenAdmin() {
+    void shouldGetInfoActuatorWhenAdmin() {
         whenAdmin().getSpec().get("/actuator/info").then().body(
             startsWithIgnoringCase("{\"app\":{\"version\":\"" + cfg.getVersion() + "\",\"name\":\"manon\"")
         );

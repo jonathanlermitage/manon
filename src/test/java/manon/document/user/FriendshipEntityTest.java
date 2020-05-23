@@ -8,15 +8,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
 
-public class FriendshipEntityTest {
+class FriendshipEntityTest {
 
     @Test
-    public void shouldVerifyToString() {
+    void shouldVerifyToString() {
         Assertions.assertThat(FriendshipEntity.builder().build().toString()).contains(
             "id", "requestFrom", "requestTo", "creationDate");
     }
 
-    public static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
+    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
         FriendshipEntity filled = FriendshipEntity.builder()
             .id(1)
             .requestFrom(UserEntity.builder().username("f").build())
@@ -35,25 +35,25 @@ public class FriendshipEntityTest {
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyEquals(FriendshipEntity o1, FriendshipEntity o2, boolean expectedEqual) {
+    void shouldVerifyEquals(FriendshipEntity o1, FriendshipEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
     }
 
     @ParameterizedTest
     @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    public void shouldVerifyHashCode(FriendshipEntity o1, FriendshipEntity o2, boolean expectedEqual) {
+    void shouldVerifyHashCode(FriendshipEntity o1, FriendshipEntity o2, boolean expectedEqual) {
         Assertions.assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
     }
 
     @Test
-    public void shouldVerifyPrePersistOnNew() {
+    void shouldVerifyPrePersistOnNew() {
         FriendshipEntity o = FriendshipEntity.builder().build();
         o.prePersist();
         Assertions.assertThat(o.getCreationDate()).isNotNull();
     }
 
     @Test
-    public void shouldVerifyPrePersistOnExisting() {
+    void shouldVerifyPrePersistOnExisting() {
         FriendshipEntity o = FriendshipEntity.builder().build();
         o.prePersist();
         LocalDateTime creationDate = o.getCreationDate();
