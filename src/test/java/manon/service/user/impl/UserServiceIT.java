@@ -184,10 +184,15 @@ class UserServiceIT extends AbstractIT {
         Assertions.assertThat(userService.readOne(userId(4)).getRegistrationState()).isEqualTo(registrationState);
     }
 
+    @SuppressWarnings("CatchMayIgnoreException")
     @ParameterizedTest
     @MethodSource("dataProviderRegistrationStates")
     void shouldNotFailWhenSetRegistrationStateOfUnknownUser(RegistrationState registrationState) {
-        userService.setRegistrationState(UNKNOWN_ID, registrationState);
+        try {
+            userService.setRegistrationState(UNKNOWN_ID, registrationState);
+        } catch (Throwable e) {
+            Assertions.fail("should be allowed to set registration on unknown user", e);
+        }
     }
 
     Object[] dataProviderValidPasswords() {
