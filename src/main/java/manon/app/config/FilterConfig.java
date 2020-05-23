@@ -30,7 +30,7 @@ public class FilterConfig {
 
     @Bean
     @Primary
-    public FilterRegistrationBean getFilterRegistrationBean() {
+    public FilterRegistrationBean<LoggingFilter> getFilterRegistrationBean() {
         FilterRegistrationBean<LoggingFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new LoggingFilter());
         registration.addUrlPatterns("/*");

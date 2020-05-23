@@ -28,7 +28,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     private final Cfg cfg;
 
     @Bean
-    public RedisCacheManager cacheManager(RedisTemplate redisTemplate) {
+    public RedisCacheManager cacheManager(RedisTemplate<Object, Object> redisTemplate) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
             .entryTtl(cfg.getCacheRedisTtl())
             .prefixCacheNameWith("manon_");
