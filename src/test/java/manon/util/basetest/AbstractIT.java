@@ -284,6 +284,7 @@ public abstract class AbstractIT {
             log.info(performanceRecorder.getStats());
         }
         logGCStats();
+        logMemoryStats();
         MDC.clear();
     }
 
@@ -296,9 +297,22 @@ public abstract class AbstractIT {
         }
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long gcActivityRatio = (garbageCollectionTime * 100) / uptime;
-        log.info("GC stats:\n - total GC collections: {}\n - total GC collection time: {}ms (activity ratio: {}%)\n - JVM uptime: {}ms\n",
+        log.info("GC stats:\n - total GC collections: {}\n - total GC collection time: {}ms (activity ratio: {}%)\n - JVM uptime: {}ms",
             totalGarbageCollections, garbageCollectionTime, gcActivityRatio, uptime);
         assertThat(gcActivityRatio).as("GC pressure should be low (less than 10% execution time)").isLessThan(10);
+    }
+
+    private void logMemoryStats() {
+        Runtime runtime = Runtime.getRuntime();
+        long maxMemory = runtime.maxMemory();
+        long allocatedMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+        long mb = 1024 * 1024;
+        log.info("Memory stats:\n - free memory: {}MB,\n - allocated memory: {}MB\n - max memory: {}MB\n - total free memory: {}MB",
+            freeMemory / mb,
+            allocatedMemory / mb,
+            maxMemory / mb,
+            (freeMemory + (maxMemory - allocatedMemory)) / mb);
     }
 
     //
