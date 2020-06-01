@@ -94,7 +94,7 @@ First, install JDK8+ and Maven3+.
 You can now use the `./do` Linux Bash script:  
 ```
 do help         show this help message
-do fixgit       set executable flag on git index for required files
+do fixgit       set executable flag on git index for required files, also call git add --update --renormalize
 do conv         generate a Dependency Convergence report in target/site/dependency-convergence.html
 do oga          check for deprecated groupId and artifactId couples
 do owasp        generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html
