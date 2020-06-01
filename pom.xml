@@ -41,7 +41,7 @@
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
 
-        <archunit.version>0.13.1</archunit.version>
+        <archunit.version>0.14.1</archunit.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <greenmail.version>1.5.13</greenmail.version>
         <guava.version>29.0-jre</guava.version>
