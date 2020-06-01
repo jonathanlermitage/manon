@@ -11,7 +11,8 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo ""
         echo "Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")"
         echo ""
-        echo "fixgit       set executable flag on git index for required files, also call git add --update --renormalize"
+        echo "fixgit       set executable flag on git index for required files"
+        echo "normgit      call git add --update --renormalize"
         echo "conv         generate a Dependency Convergence report in target/site/dependency-convergence.html"
         echo "oga          check for deprecated groupId and artifactId couples"
         echo "owasp        generate a OWASP dependencies vulnerabilities report in target/dependency-check-report.html"
@@ -57,6 +58,9 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "'do' has now executable flag on git index"
         git update-index --chmod=+x "mvnw"
         echo "'mvnw' has now executable flag on git index"
+        ;;
+
+    "normgit")
         git add --update --renormalize
         echo "renormalized"
         ;;
