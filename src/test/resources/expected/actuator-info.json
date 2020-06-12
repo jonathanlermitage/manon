@@ -1,0 +1,15 @@
+{
+  "app": {
+    "name": "manon",
+    "version": "${json-unit.ignore}",
+    "flyway": {
+      "version": "${json-unit.ignore}"
+    },
+    "jackson": {
+      "version": "${json-unit.ignore}"
+    },
+    "jjwt": {
+      "version": "${json-unit.ignore}"
+    }
+  }
+}

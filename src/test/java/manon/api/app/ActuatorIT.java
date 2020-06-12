@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.hamcrest.Matchers.startsWithIgnoringCase;
-
 class ActuatorIT extends AbstractIT {
 
     @Override
@@ -48,8 +46,8 @@ class ActuatorIT extends AbstractIT {
 
     @Test
     void shouldGetInfoActuatorWhenAdmin() {
-        whenAdmin().getSpec().get("/actuator/info").then().body(
-            startsWithIgnoringCase("{\"app\":{\"version\":\"" + cfg.getVersion() + "\",\"name\":\"manon\"")
-        );
+        whenAdmin().getSpec().get("/actuator/info").then()
+            .body(JsonMatchers.jsonEquals(resource("expected/actuator-info.json"))
+                .when(Option.IGNORING_ARRAY_ORDER).whenIgnoringPaths("git"));
     }
 }

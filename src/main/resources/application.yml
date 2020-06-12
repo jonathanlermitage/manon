@@ -43,7 +43,9 @@ server:
   ssl.enabled: false # encryption is handled by Nginx proxy
   undertow.accesslog.enabled: false
   servlet.context-path: "/"
-  error.include-message: always
+  error:
+    include-message: always
+    include-binding-errors: always
 
 info.app:
   name: manon
