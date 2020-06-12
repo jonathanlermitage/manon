@@ -1,7 +1,10 @@
+os:
+  - linux
+
 services:
   - docker
 
-matrix:
+jobs:
   include:
 
     - name: jdk8 postgresql
