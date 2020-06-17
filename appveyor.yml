@@ -8,10 +8,10 @@ before_build:
   - set "PATH=C:\Program Files\Java\jdk11\bin;%PATH%"
 
 build_script:
-  - mvnw clean package -DskipTests -B
+  - mvnw --no-transfer-progress clean package -DskipTests -B
 
 test_script:
-  - mvnw verify -P ci -B
+  - mvnw --no-transfer-progress verify -P ci -B
 
 cache:
   - C:\Users\appveyor\.m2
