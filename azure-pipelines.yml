@@ -44,4 +44,4 @@ steps:
       publishJUnitResults: true
       testResultsFiles: '**/TEST-*.xml'
       goals: 'verify'
-      options: '-P test-mariadb,coverage,ci -B'
+      options: '-P test-mariadb,coverage,ci -B -U'

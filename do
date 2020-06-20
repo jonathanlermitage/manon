@@ -66,7 +66,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "conv")
-        sh ./mvnw project-info-reports:dependency-convergence
+        sh ./mvnw project-info-reports:dependency-convergence -U
         ;;
 
     "oga")
@@ -78,7 +78,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "t")
-        sh ./mvnw verify
+        sh ./mvnw verify -U
         ;;
 
     "td")
@@ -114,19 +114,19 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "ut")
-        sh ./mvnw test
+        sh ./mvnw test -U
         ;;
 
     "tc")
-        sh ./mvnw verify -P coverage
+        sh ./mvnw verify -U -P coverage
         ;;
 
     "itc")
-        sh ./mvnw verify -P coverage -DskipUT=true
+        sh ./mvnw verify -U -P coverage -DskipUT=true
         ;;
 
     "b")
-        sh ./mvnw compile -DskipUT=true -DskipIT=true -T1
+        sh ./mvnw compile -DskipUT=true -DskipIT=true -T1 -U
         ;;
 
     "c")
@@ -134,11 +134,11 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "p")
-        sh ./mvnw package -DskipUT=true -DskipIT=true -T1
+        sh ./mvnw package -DskipUT=true -DskipIT=true -T1 -U
         ;;
 
     "rd")
-        sh ./mvnw package -DskipUT=true -DskipIT=true -T1
+        sh ./mvnw package -DskipUT=true -DskipIT=true -T1 -U
         (
             cd target/ || exit
             java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
@@ -158,7 +158,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "dt")
-        sh ./mvnw dependency:tree
+        sh ./mvnw dependency:tree -U
         ;;
 
     "sc")
@@ -166,7 +166,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "tsc")
-        sh ./mvnw verify sonar:sonar -P coverage -Dsonar.organization="$TK1_MANON_SONAR_ORGA" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="$TK1_MANON_SONAR_LOGIN"
+        sh ./mvnw verify sonar:sonar -U -P coverage -Dsonar.organization="$TK1_MANON_SONAR_ORGA" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login="$TK1_MANON_SONAR_LOGIN"
         ;;
 
     "sb")
@@ -226,11 +226,11 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
     "jib")
         docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
         docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
-        sh ./mvnw compile jib:dockerBuild -DskipUT=true -DskipIT=true -P jib
+        sh ./mvnw compile jib:dockerBuild -DskipUT=true -DskipIT=true -U -P jib
         ;;
 
     "jibtar")
-        sh ./mvnw compile jib:buildTar -DskipUT=true -DskipIT=true -P jib
+        sh ./mvnw compile jib:buildTar -DskipUT=true -DskipIT=true -U -P jib
         ;;
 
     "up")

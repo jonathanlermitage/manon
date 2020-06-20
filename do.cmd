@@ -36,7 +36,7 @@ if [%1] == [normgit] (
   echo renormalized
 )
 if [%1] == [conv] (
-  mvnw project-info-reports:dependency-convergence
+  mvnw project-info-reports:dependency-convergence -U
 )
 if [%1] == [oga] (
   mvnw biz.lermitage.oga:oga-maven-plugin:check
@@ -45,28 +45,28 @@ if [%1] == [owasp] (
   mvnw org.owasp:dependency-check-maven:check -P owasp
 )
 if [%1] == [t] (
-  mvnw clean verify
+  mvnw clean verify -U
 )
 if [%1] == [ut] (
-  mvnw clean test
+  mvnw clean test -U
 )
 if [%1] == [tc] (
-  mvnw clean verify -P coverage
+  mvnw clean verify -U -P coverage
 )
 if [%1] == [itc] (
-  mvnw clean verify -P coverage -DskipUT=true
+  mvnw clean verify -U -P coverage -DskipUT=true
 )
 if [%1] == [b] (
-  mvnw clean compile -DskipUT=true -DskipIT=true -T1
+  mvnw clean compile -DskipUT=true -DskipIT=true -T1 -U
 )
 if [%1] == [c] (
   mvnw clean
 )
 if [%1] == [p] (
-  mvnw clean package -DskipUT=true -DskipIT=true -T1
+  mvnw clean package -DskipUT=true -DskipIT=true -T1 -U
 )
 if [%1] == [rd] (
-  mvnw clean package -DskipUT=true -DskipIT=true -T1
+  mvnw clean package -DskipUT=true -DskipIT=true -T1 -U
   cd target
   java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
   cd ..
@@ -81,20 +81,20 @@ if [%1] == [uv] (
   mvnw versions:update-properties -U
 )
 if [%1] == [dt] (
-  mvnw dependency:tree
+  mvnw dependency:tree -U
 )
 if [%1] == [sc] (
   mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [tsc] (
-  mvnw clean verify sonar:sonar -P coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  mvnw clean verify sonar:sonar -U -P coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [sb] (
   mvnw clean compile spotbugs:spotbugs spotbugs:gui -P spotbugs
 )
 if [%1] == [jib] (
-  mvnw clean compile jib:dockerBuild -DskipUT=true -DskipIT=true -P jib
+  mvnw clean compile jib:dockerBuild -DskipUT=true -DskipIT=true -U -P jib
 )
 if [%1] == [jibtar] (
-  mvnw clean compile jib:buildTar -DskipUT=true -DskipIT=true -P jib
+  mvnw clean compile jib:buildTar -DskipUT=true -DskipIT=true -U -P jib
 )
