@@ -58,6 +58,9 @@ before_install:
   - docker-compose -f ./docker/docker-compose-test.yml up -d
   - sudo netstat -antp
 
+install:
+  - mvn --no-transfer-progress install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
