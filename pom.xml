@@ -51,7 +51,6 @@
         <jjwt.version>0.11.2</jjwt.version>
         <json-unit.version>2.18.1</json-unit.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
-        <opentest4j.version>1.2.0</opentest4j.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
 
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
@@ -91,11 +90,6 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.opentest4j</groupId>
-                <artifactId>opentest4j</artifactId>
-                <version>${opentest4j.version}</version>
             </dependency>
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
