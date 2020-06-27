@@ -15,10 +15,20 @@ class FriendshipServiceIT extends AbstractIT {
         return 3;
     }
 
+    @Override
+    public void beforeEachTestOnceDbPopulated() {
+        super.beforeEachTestOnceDbPopulated();
+        uid1 = userId(1);
+        uid2 = userId(2);
+    }
+
+    long uid1;
+    long uid2;
+
     Object[] dataProviderUnknownUserInCouple() {
         return new Object[][]{
-            {UNKNOWN_ID, userId(2)},
-            {userId(2), UNKNOWN_ID},
+            {UNKNOWN_ID, uid2},
+            {uid2, UNKNOWN_ID},
             {UNKNOWN_ID, UNKNOWN_ID}
         };
     }
@@ -29,12 +39,12 @@ class FriendshipServiceIT extends AbstractIT {
 
     @Test
     void shouldRevokeFriendship() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
-        friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
-        friendshipService.revokeFriendship(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
+        friendshipRequestService.acceptFriendshipRequest(uid1, uid2);
+        friendshipService.revokeFriendship(uid1, uid2);
 
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
-        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).isEmpty();
+        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(uid1, uid2)).isZero();
     }
 
     @ParameterizedTest
@@ -50,18 +60,18 @@ class FriendshipServiceIT extends AbstractIT {
 
     @Test
     void shouldFindAllForWhenUserHasFriends() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
-        friendshipRequestService.askFriendship(userId(1), userId(3));
-        friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
-        friendshipRequestService.acceptFriendshipRequest(userId(1), userId(3));
+        friendshipRequestService.askFriendship(uid1, uid2);
+        friendshipRequestService.askFriendship(uid1, userId(3));
+        friendshipRequestService.acceptFriendshipRequest(uid1, uid2);
+        friendshipRequestService.acceptFriendshipRequest(uid1, userId(3));
 
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).containsExactlyInAnyOrder(
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).containsExactlyInAnyOrder(
             UserPublicInfo.from(user(2)), UserPublicInfo.from(user(3))
         );
     }
 
     @Test
     void shouldFindAllForWhenUserHasNoFriend() {
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).isEmpty();
     }
 }

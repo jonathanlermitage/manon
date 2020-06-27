@@ -21,6 +21,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.lang.System.currentTimeMillis;
@@ -40,7 +41,8 @@ class UserServiceIT extends AbstractIT {
 
     @Test
     void shouldFailExistOrFailUnknown() {
-        Assertions.assertThatThrownBy(() -> userService.existOrFail(userId(1), UNKNOWN_ID))
+        long uid1 = userId(1);
+        Assertions.assertThatThrownBy(() -> userService.existOrFail(uid1, UNKNOWN_ID))
             .isInstanceOf(UserNotFoundException.class);
     }
 
@@ -54,7 +56,8 @@ class UserServiceIT extends AbstractIT {
     @Test
     void shouldReadOneFailReadLazyDataOutsideASession() {
         UserEntity dbUser = userService.readOne(userId(1));
-        Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
+        List<UserSnapshotEntity> lazyUserSnapshots = dbUser.getUserSnapshots();
+        Assertions.assertThatThrownBy(lazyUserSnapshots::size)
             .isInstanceOf(LazyInitializationException.class);
     }
 
@@ -76,7 +79,8 @@ class UserServiceIT extends AbstractIT {
             UserSnapshotEntity.from(user(1))
         ));
         UserEntity dbUser = userService.readOne(userId(1));
-        Assertions.assertThatThrownBy(() -> dbUser.getUserSnapshots().size())
+        List<UserSnapshotEntity> lazyUserSnapshots = dbUser.getUserSnapshots();
+        Assertions.assertThatThrownBy(lazyUserSnapshots::size)
             .isInstanceOf(LazyInitializationException.class);
     }
 
@@ -162,7 +166,9 @@ class UserServiceIT extends AbstractIT {
 
     @Test
     void shouldFailCreateExisting() {
-        Assertions.assertThatThrownBy(() -> userService.create(userService.readOne(userId(1))))
+        ;
+        UserEntity existingUser = userService.readOne(userId(1));
+        Assertions.assertThatThrownBy(() -> userService.create(existingUser))
             .isInstanceOf(UserExistsException.class);
     }
 
@@ -219,7 +225,8 @@ class UserServiceIT extends AbstractIT {
     @ParameterizedTest
     @MethodSource("dataProviderInvalidPasswords")
     void shoudNotValidatePassword(String rawPassword, String passwordToEncode) {
-        Assertions.assertThatThrownBy(() -> userService.validatePassword(rawPassword, passwordEncoderService.encode(passwordToEncode)))
+        String encodedPassword = passwordEncoderService.encode(passwordToEncode);
+        Assertions.assertThatThrownBy(() -> userService.validatePassword(rawPassword, encodedPassword))
             .isInstanceOf(PasswordNotMatchException.class);
     }
 
@@ -256,6 +263,6 @@ class UserServiceIT extends AbstractIT {
         UserEntity user = userService.readByUsername(validUsername);
         Assertions.assertThat(user.getCreationDate()).isBetween(before, after);
         Assertions.assertThat(user.getUpdateDate()).isBetween(before, after);
-        Assertions.assertThat(user.getVersion()).isGreaterThanOrEqualTo(0);
+        Assertions.assertThat(user.getVersion()).isNotNegative();
     }
 }

@@ -12,6 +12,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class FriendshipRequestServiceIT extends AbstractIT {
 
+    @Override
+    public void beforeEachTestOnceDbPopulated() {
+        super.beforeEachTestOnceDbPopulated();
+        uid1 = userId(1);
+        uid2 = userId(2);
+    }
+
+    long uid1;
+    long uid2;
+
     Object[] dataProviderUnknownUserInCouple() {
         return new Object[][]{
             {UNKNOWN_ID, userId(2)},
@@ -26,10 +36,10 @@ class FriendshipRequestServiceIT extends AbstractIT {
 
     @Test
     void shouldAskFriendship() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
 
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
-        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(1);
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).isEmpty();
+        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(uid1, uid2)).isEqualTo(1);
     }
 
     @ParameterizedTest
@@ -41,18 +51,18 @@ class FriendshipRequestServiceIT extends AbstractIT {
 
     @Test
     void shouldFailAskFriendshipWhenFriendshipRequestExists() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
 
-        Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(userId(1), userId(2)))
+        Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(uid1, uid2))
             .isInstanceOf(FriendshipRequestExistsException.class);
     }
 
     @Test
     void shouldFailAskFriendshipWhenFriendshipExists() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
-        friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
+        friendshipRequestService.acceptFriendshipRequest(uid1, uid2);
 
-        Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(userId(1), userId(2)))
+        Assertions.assertThatThrownBy(() -> friendshipRequestService.askFriendship(uid1, uid2))
             .isInstanceOf(FriendshipExistsException.class);
     }
 
@@ -62,11 +72,11 @@ class FriendshipRequestServiceIT extends AbstractIT {
 
     @Test
     void shouldAcceptFriendshipRequest() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
-        friendshipRequestService.acceptFriendshipRequest(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
+        friendshipRequestService.acceptFriendshipRequest(uid1, uid2);
 
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).hasSize(1);
-        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).hasSize(1);
+        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(uid1, uid2)).isZero();
     }
 
     @ParameterizedTest
@@ -82,11 +92,11 @@ class FriendshipRequestServiceIT extends AbstractIT {
 
     @Test
     void shouldRejectFriendshipRequest() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
-        friendshipRequestService.rejectFriendshipRequest(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
+        friendshipRequestService.rejectFriendshipRequest(uid1, uid2);
 
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
-        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).isEmpty();
+        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(uid1, uid1)).isZero();
     }
 
     @ParameterizedTest
@@ -102,11 +112,11 @@ class FriendshipRequestServiceIT extends AbstractIT {
 
     @Test
     void shouldCancelFriendshipRequest() {
-        friendshipRequestService.askFriendship(userId(1), userId(2));
-        friendshipRequestService.cancelFriendshipRequest(userId(1), userId(2));
+        friendshipRequestService.askFriendship(uid1, uid2);
+        friendshipRequestService.cancelFriendshipRequest(uid1, uid2);
 
-        Assertions.assertThat(friendshipService.findAllPublicInfoFor(userId(1))).isEmpty();
-        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(userId(1), userId(2))).isEqualTo(0);
+        Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).isEmpty();
+        Assertions.assertThat(friendshipRequestService.countFriendshipRequestCouple(uid1, uid1)).isZero();
     }
 
     @ParameterizedTest

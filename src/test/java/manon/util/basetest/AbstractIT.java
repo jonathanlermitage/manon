@@ -171,6 +171,7 @@ public abstract class AbstractIT {
     public void clearData() {
         userIdCache.clear();
         initDb();
+        beforeEachTestOnceDbPopulated();
 
         Mockito.clearInvocations(authTokenService);
         Mockito.clearInvocations(friendshipService);
@@ -186,6 +187,11 @@ public abstract class AbstractIT {
         Mockito.clearInvocations(userService);
         Mockito.clearInvocations(userSnapshotService);
         Mockito.clearInvocations(userStatsService);
+    }
+
+    /** Execute code before each test, after database initialization. */
+    public void beforeEachTestOnceDbPopulated() {
+        // n/a
     }
 
     private void clearDb() {

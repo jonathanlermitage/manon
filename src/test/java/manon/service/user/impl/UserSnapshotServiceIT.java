@@ -28,10 +28,11 @@ class UserSnapshotServiceIT extends AbstractIT {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
-    void shouldFindOneFailReadLazyDataOutsideASession() {
+    void shouldFindOneFailReadLazyDataOutsideASession() throws Exception {
         UserSnapshotEntity us = saveUserSnapshot();
 
-        Assertions.assertThatThrownBy(() -> userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new).getUser().hashCode())
+        UserEntity lazyUser = userSnapshotService.findOne(us.getId()).orElseThrow(Exception::new).getUser();
+        Assertions.assertThatThrownBy(lazyUser::hashCode)
             .isInstanceOf(LazyInitializationException.class);
     }
 
@@ -85,7 +86,7 @@ class UserSnapshotServiceIT extends AbstractIT {
 
         userSnapshotService.deleteToday();
 
-        Assertions.assertThat(userSnapshotService.countToday()).isEqualTo(0);
+        Assertions.assertThat(userSnapshotService.countToday()).isZero();
         Assertions.assertThat(userSnapshotService.count()).isEqualTo(6);
         userSnapshotService.findAll().forEach(userSnapshot ->
             Assertions.assertThat(userSnapshot.getCreationDate())
