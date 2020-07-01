@@ -52,6 +52,10 @@ public class Globals {
         /** {@value}, enable API performance recorder. Should be used in development or test environment only. */
         public static final String ENABLE_PERFORMANCE_RECORDER = "manon.performance-recorder.enabled";
 
+        /** {@value}, Enable logging of web requests. When enabled, the logging level of CommonsRequestLoggingFilter
+         * should be set to DEBUG. Should be used in development or test environment only. */
+        public static final String ENABLE_WEB_REQUESTS_LOGGING = "manon.web.request-logging.enabled";
+
         /** {@value}, cache type: {@link #CACHE_PROVIDER_EMBEDDED} or {@link #CACHE_PROVIDER_REDIS}. */
         public static final String CACHE_PROVIDER = "manon.cache.provider";
 
