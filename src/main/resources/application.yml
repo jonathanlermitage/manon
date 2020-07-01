@@ -113,3 +113,4 @@ manon:
       issuer: ${MANON_JWT_ISSUER:default_issuer}
       signing-key-b64: ${MANON_JWT_SIGNINGKEYB64:NDlEM3JweG5TcFY3TXg2eSEyNkJmMmNRV2VEQXZQNWdRQU1CUlZTdURHeT9SZzUyQ0FuTnAqKl8tLTdIcw==}
       token-ttl: ${MANON_JWT_TOKENTTL:7200s}
+  web.request-logging.enabled: false

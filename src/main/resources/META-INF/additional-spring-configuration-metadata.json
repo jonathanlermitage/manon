@@ -139,6 +139,11 @@
       "name": "manon.batch.notification-email-to",
       "type": "java.lang.String",
       "description": "Send a notification to this email every time a batch is executed."
+    },
+    {
+      "name": "manon.web.request-logging.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable logging of web requests. When enabled, the logging level of CommonsRequestLoggingFilter should be set to DEBUG. Should be used in development or test environment only."
     }
   ],
   "hints": [

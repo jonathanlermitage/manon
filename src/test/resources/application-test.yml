@@ -16,6 +16,7 @@ manon:
   httpclient: # speed up tests on wanted timeouts
     connect-timeout: 250ms
     read-timeout: 250ms
+  web.request-logging.enabled: true
 
 spring:
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver

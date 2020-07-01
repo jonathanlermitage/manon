@@ -15,6 +15,7 @@ manon:
   performance-recorder.enabled: true
   security.bcrypt.strength: 4
   cache.provider: ${MANON_TEST_CACHE_PROVIDER:redis}
+  web.request-logging.enabled: true
 
 spring:
   datasource:

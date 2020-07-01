@@ -32,6 +32,7 @@
     <logger name="manon" level="TRACE"/>
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.web" level="ERROR"/>
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>
 
     <!-- Hamcrests reports may be useless while using JsonUnit. Helpful messages are logged at DEBUG level by JsonUnit. -->
     <!-- see https://github.com/lukas-krecan/JsonUnit#logging -->
