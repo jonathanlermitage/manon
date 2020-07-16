@@ -37,12 +37,12 @@
                fix https://github.com/rest-assured/rest-assured/issues/1283 -->
         <groovy.version>3.0.4</groovy.version>
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
-        <rest-assured.version>4.3.0</rest-assured.version>
+        <rest-assured.version>4.3.1</rest-assured.version>
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
 
         <archunit.version>0.14.1</archunit.version>                           <!-- https://github.com/TNG/ArchUnit/releases -->
-        <greenmail.version>1.5.13</greenmail.version>                         <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
+        <greenmail.version>1.5.14</greenmail.version>                         <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>29.0-jre</guava.version>                               <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                          <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
