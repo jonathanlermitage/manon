@@ -35,7 +35,7 @@
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies is too old (v2),
                fix https://github.com/rest-assured/rest-assured/issues/1283 -->
-        <groovy.version>3.0.4</groovy.version>
+        <groovy.version>3.0.5</groovy.version>
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
         <rest-assured.version>4.3.1</rest-assured.version>
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
