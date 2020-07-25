@@ -51,7 +51,7 @@ public final class Tools {
     /** Get current date as {@code java.time.LocalDateTime} from {@value ZONE_ID_NAME} timezone. */
     @NotNull
     public static LocalDateTime now() {
-        return ZonedDateTime.now(ZONE_ID).toLocalDateTime().truncatedTo(ChronoUnit.MICROS);
+        return truncate(ZonedDateTime.now(ZONE_ID).toLocalDateTime().truncatedTo(ChronoUnit.MICROS));
     }
 
     /** Get current date as {@code java.util.Date} from {@value ZONE_ID_NAME} timezone. */
@@ -74,6 +74,10 @@ public final class Tools {
 
     public static LocalDateTime nowPlusDays(int nbDays) {
         return now().plus(Period.ofDays(nbDays));
+    }
+
+    public static LocalDateTime truncate(LocalDateTime ldt) {
+        return ldt.truncatedTo(ChronoUnit.MILLIS);
     }
 
     /**
