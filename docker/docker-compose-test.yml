@@ -4,7 +4,7 @@ services:
 
   maria-test:
     container_name: maria-test
-    image: mariadb:10.4.13 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.4.14 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3307:3306"
     environment:
@@ -13,7 +13,7 @@ services:
 
   maria-batch-test:
     container_name: maria-batch-test
-    image: mariadb:10.4.13 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.4.14 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3308:3306"
     environment:
@@ -22,7 +22,7 @@ services:
 
   postgres-test:
     container_name: postgres-test
-    image: postgres:12.3 # see https://hub.docker.com/_/postgres/
+    image: postgres:12.4 # see https://hub.docker.com/_/postgres/
     ports:
       - "5440:5432"
     environment:
@@ -31,7 +31,7 @@ services:
 
   postgres-batch-test:
     container_name: postgres-batch-test
-    image: postgres:12.3 # see https://hub.docker.com/_/postgres/
+    image: postgres:12.4 # see https://hub.docker.com/_/postgres/
     ports:
       - "5441:5432"
     environment:
@@ -40,7 +40,7 @@ services:
 
   redis-test:
     container_name: redis-test
-    image: redis:6.0.5-alpine # see https://hub.docker.com/_/redis/
+    image: redis:6.0.6-alpine # see https://hub.docker.com/_/redis/
     ports:
       - "6380:6379"
     volumes:
