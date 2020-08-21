@@ -1,13 +1,13 @@
 package manon.api.user;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.document.DefaultView;
 import manon.document.user.UserEntity;
+import manon.dto.user.UserDto;
+import manon.mapper.user.UserMapper;
 import manon.model.user.UserSimpleDetails;
 import manon.service.user.RegistrationService;
 import manon.service.user.UserService;
@@ -40,11 +40,11 @@ public class UserAdminWS {
     /** Get all users. */
     @ApiOperation(value = "Get all users. Result is paginated.", produces = JSON, response = Page.class)
     @GetMapping(value = "/all")
-    @JsonView(DefaultView.class)
-    public Page<UserEntity> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
-                                    Pageable pageable) {
+    public Page<UserDto> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
+                                 Pageable pageable) {
         log.debug("admin {} finds all users pageable {}", admin.getUsername(), pageable);
-        return userService.findAll(pageable);
+        Page<UserEntity> res = userService.findAll(pageable);
+        return UserMapper.MAPPER.toUserDtoPage(res, pageable);
     }
 
     /** Activate a user. */
@@ -76,25 +76,25 @@ public class UserAdminWS {
 
     @ApiOperation(value = "Search users via Querydsl.", produces = JSON, response = Page.class)
     @PostMapping(value = "/search")
-    @JsonView(DefaultView.class)
-    public Page<UserEntity> search(@AuthenticationPrincipal UserSimpleDetails admin,
-                                   @QuerydslPredicate(root = UserEntity.class) Predicate predicate,
-                                   Pageable pageable) {
+    public Page<UserDto> search(@AuthenticationPrincipal UserSimpleDetails admin,
+                                @QuerydslPredicate(root = UserEntity.class) Predicate predicate,
+                                Pageable pageable) {
         log.debug("admin {} uses Querydsl to search users with predicate {}, page {}",
             admin.getUsername(), predicate, pageable);
-        return userService.search(predicate, pageable);
+        Page<UserEntity> res = userService.search(predicate, pageable);
+        return UserMapper.MAPPER.toUserDtoPage(res, pageable);
     }
 
     @ApiOperation(value = "Search users via username, nickname or email.", produces = JSON, response = Page.class)
     @PostMapping(value = "/search/identity")
-    @JsonView(DefaultView.class)
-    public Page<UserEntity> searchByIdentity(@AuthenticationPrincipal UserSimpleDetails admin,
-                                             @RequestParam(name = "username", required = false) String username,
-                                             @RequestParam(name = "nickname", required = false) String nickname,
-                                             @RequestParam(name = "email", required = false) String email,
-                                             Pageable pageable) {
+    public Page<UserDto> searchByIdentity(@AuthenticationPrincipal UserSimpleDetails admin,
+                                          @RequestParam(name = "username", required = false) String username,
+                                          @RequestParam(name = "nickname", required = false) String nickname,
+                                          @RequestParam(name = "email", required = false) String email,
+                                          Pageable pageable) {
         log.debug("admin {} uses Querydsl to search users with username {}, nickname {}, email {}, page {}",
             admin.getUsername(), username, nickname, email, pageable);
-        return userService.searchByIdentity(username, nickname, email, pageable);
+        Page<UserEntity> res = userService.searchByIdentity(username, nickname, email, pageable);
+        return UserMapper.MAPPER.toUserDtoPage(res, pageable);
     }
 }

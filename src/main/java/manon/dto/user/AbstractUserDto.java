@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * {@link UserWithSnapshotsDto} should inherit from {@link UserDto} (and {@link UserDto}
  * inherit from nothing and declare fields below), but since {@link UserWithSnapshotsDto} contains a list
  * of {@link UserSnapshotDto} elements, which contain {@link UserDto} items too,
- * {@link UserMapper#userToUserWithSnapshotsDto(UserEntity)} fails to populate it.
+ * {@link UserMapper#toUserWithSnapshotsDto(UserEntity)} fails to populate it.
  * <p>
  * A solution is to write a custom mapper, but I don't want to do MapStruct's job.<br/>
  * An other solution, chosen here, is to play with class names and create a common ancestor for both

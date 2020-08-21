@@ -82,4 +82,7 @@ public class FriendshipWS {
         log.debug("user {} reads his friends", user.getIdentity());
         return friendshipService.findAllPublicInfoFor(user.getUserId());
     }
+
+
+    // TODO getFriendshipRequests
 }

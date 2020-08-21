@@ -1,7 +1,6 @@
 package manon.document.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -44,7 +43,6 @@ public class UserSnapshotEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonView(WithUserView.class)
     @ManyToOne(fetch = LAZY)
     private UserEntity user;
 
@@ -80,22 +78,5 @@ public class UserSnapshotEntity implements Serializable {
         if (creationDate == null) {
             creationDate = Tools.now();
         }
-    }
-
-    /** Populate a {@link UserSnapshotEntity} from a {@link UserEntity}. */
-    public static UserSnapshotEntity from(UserEntity user) {
-        return UserSnapshotEntity.builder()
-            .user(user)
-            .userUsername(user.getUsername())
-            .userAuthorities(user.getAuthorities())
-            .userPassword(user.getPassword())
-            .userRegistrationState(user.getRegistrationState())
-            .userNickname(user.getNickname())
-            .userEmail(user.getEmail())
-            .userVersion(user.getVersion())
-            .build();
-    }
-
-    public interface WithUserView {
     }
 }

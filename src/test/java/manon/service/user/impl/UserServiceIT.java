@@ -8,6 +8,7 @@ import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
 import manon.err.user.UserNotFoundException;
+import manon.mapper.user.UserMapper;
 import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
 import manon.util.Tools;
@@ -64,8 +65,8 @@ class UserServiceIT extends AbstractIT {
     @Test
     void shouldReadOneWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshotEntity.from(user(1)),
-            UserSnapshotEntity.from(user(1))
+            UserMapper.MAPPER.toUserSnapshotEntity(user(1)),
+            UserMapper.MAPPER.toUserSnapshotEntity(user(1))
         ));
         UserEntity dbUser = userService.readOne(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
@@ -75,8 +76,8 @@ class UserServiceIT extends AbstractIT {
     @Test
     void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshotEntity.from(user(1)),
-            UserSnapshotEntity.from(user(1))
+            UserMapper.MAPPER.toUserSnapshotEntity(user(1)),
+            UserMapper.MAPPER.toUserSnapshotEntity(user(1))
         ));
         UserEntity dbUser = userService.readOne(userId(1));
         List<UserSnapshotEntity> lazyUserSnapshots = dbUser.getUserSnapshots();
@@ -94,8 +95,8 @@ class UserServiceIT extends AbstractIT {
     @Test
     void shouldReadOneAndFetchUserSnapshotDtosWhenUserHasSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
-            UserSnapshotEntity.from(user(1)),
-            UserSnapshotEntity.from(user(1))
+            UserMapper.MAPPER.toUserSnapshotEntity(user(1)),
+            UserMapper.MAPPER.toUserSnapshotEntity(user(1))
         ));
         UserWithSnapshotsDto dbUser = userService.readOneAndFetchUserSnapshotDtos(userId(1));
         Assertions.assertThat(dbUser.getId()).isEqualTo(userId(1));
@@ -166,7 +167,6 @@ class UserServiceIT extends AbstractIT {
 
     @Test
     void shouldFailCreateExisting() {
-        ;
         UserEntity existingUser = userService.readOne(userId(1));
         Assertions.assertThatThrownBy(() -> userService.create(existingUser))
             .isInstanceOf(UserExistsException.class);

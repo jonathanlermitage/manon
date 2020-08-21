@@ -9,6 +9,7 @@ import manon.err.user.FriendshipNotFoundException;
 import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
 import manon.err.user.UserNotFoundException;
+import manon.mapper.user.UserMapper;
 import manon.model.user.UserPublicInfo;
 import manon.util.basetest.AbstractIT;
 import org.hamcrest.Matchers;
@@ -858,9 +859,9 @@ class FriendshipWSIT extends AbstractIT {
         friendshipRequestService.askFriendship(uid1, uid3);
         friendshipRequestService.acceptFriendshipRequest(uid1, uid2);
         friendshipRequestService.acceptFriendshipRequest(uid1, uid3);
-        UserPublicInfo upi1 = UserPublicInfo.from(userService.readOne(uid1));
-        UserPublicInfo upi2 = UserPublicInfo.from(userService.readOne(uid2));
-        UserPublicInfo upi3 = UserPublicInfo.from(userService.readOne(uid3));
+        UserPublicInfo upi1 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid1));
+        UserPublicInfo upi2 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid2));
+        UserPublicInfo upi3 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid3));
 
         //WHEN P1 gets friends
         Response p1Res = whenP1().getSpec()
@@ -906,9 +907,9 @@ class FriendshipWSIT extends AbstractIT {
         friendshipRequestService.askFriendship(uid3, uid1);
         friendshipRequestService.acceptFriendshipRequest(uid2, uid1);
         friendshipRequestService.acceptFriendshipRequest(uid3, uid1);
-        UserPublicInfo upi1 = UserPublicInfo.from(userService.readOne(uid1));
-        UserPublicInfo upi2 = UserPublicInfo.from(userService.readOne(uid2));
-        UserPublicInfo upi3 = UserPublicInfo.from(userService.readOne(uid3));
+        UserPublicInfo upi1 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid1));
+        UserPublicInfo upi2 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid2));
+        UserPublicInfo upi3 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid3));
 
         //WHEN P1 gets friends
         Response p1Res = whenP1().getSpec()

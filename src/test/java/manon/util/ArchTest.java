@@ -60,6 +60,25 @@ class ArchTest extends AbstractParallelTest {
             }
         };
 
+    private static final ArchCondition<JavaClass> NOT_HAVE_METHODS_RETURNING_ENTITIES =
+        new ArchCondition<JavaClass>("controllers methods should not return entities") {
+            @Override
+            public void check(@NotNull JavaClass item, ConditionEvents events) {
+                item.getMethods()
+                    .forEach(method -> {
+                        // TODO can't detect collections of forbidden objects, see https://github.com/TNG/ArchUnit/issues/413
+                        JavaClass rawReturnType = method.getRawReturnType();
+                        if (rawReturnType.getName().contains("manon.document.")) {
+                            String message = String.format("Class %s's method %s returns an entity of type %s",
+                                item.getSimpleName(),
+                                method.getName(),
+                                rawReturnType.getName());
+                            events.add(SimpleConditionEvent.violated(method, message));
+                        }
+                    });
+            }
+        };
+
     @Test
     void shouldNotDependOnJDKInternals() {
         classes()
@@ -76,13 +95,16 @@ class ArchTest extends AbstractParallelTest {
 
     @Test
     void shouldVerifyLayeredArchitecture() {
-        // a professional project would also define layers like Entity and Dto, then ensure strong architecture
+        // a real-life project would also define layers like Entity and Dto, then ensure strong architecture
         layeredArchitecture()
+            .layer("API").definedBy("manon.api..")
+            .layer("Batch").definedBy("manon.batch..")
             .layer("Config").definedBy("manon.app.config..", "manon")
-            .layer("API").definedBy("..api..")
-            .layer("Batch").definedBy("..batch..")
-            .layer("Repository").definedBy("..repository..")
-            .layer("Service").definedBy("..service..")
+            .layer("Repository").definedBy("manon.repository..")
+            .layer("Service").definedBy("manon.service..")
+            .whereLayer("API").mayNotBeAccessedByAnyLayer()
+            .whereLayer("Batch").mayNotBeAccessedByAnyLayer()
+            .whereLayer("Config").mayNotBeAccessedByAnyLayer()
             .whereLayer("Repository").mayOnlyBeAccessedByLayers("Batch", "Service")
             .whereLayer("Service").mayOnlyBeAccessedByLayers("API", "Batch", "Config")
             .check(PROJECT);
@@ -104,6 +126,14 @@ class ArchTest extends AbstractParallelTest {
             .andShould().beAnnotatedWith(RequestMapping.class)
             .andShould().notBeInterfaces()
             .andShould().resideInAPackage("..api..")
+            .check(PROJECT);
+    }
+
+    @Test
+    void shouldVerifyControllersDontReturnEntities() {
+        classes().that()
+            .haveSimpleNameEndingWith("WS")
+            .should(NOT_HAVE_METHODS_RETURNING_ENTITIES)
             .check(PROJECT);
     }
 

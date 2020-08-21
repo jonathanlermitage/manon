@@ -1,13 +1,13 @@
 package manon.api.user;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import manon.document.DefaultView;
 import manon.document.user.UserEntity;
+import manon.dto.user.UserDto;
 import manon.dto.user.UserWithSnapshotsDto;
+import manon.mapper.user.UserMapper;
 import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
@@ -41,13 +41,13 @@ public class UserWS {
     private final UserService userService;
 
     /** Register a new user. */
-    @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = UserEntity.class)
+    @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = UserDto.class)
     @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
-    @JsonView(DefaultView.class)
-    public UserEntity register(@RequestBody @Validated UserLogin userLogin) {
+    public UserDto register(@RequestBody @Validated UserLogin userLogin) {
         log.debug("user registration with {}", userLogin);
-        return registrationService.registerPlayer(userLogin.getUsername(), userLogin.getPassword());
+        UserEntity res = registrationService.registerPlayer(userLogin.getUsername(), userLogin.getPassword());
+        return UserMapper.MAPPER.toUserDto(res);
     }
 
     /** Unregister a user. */
@@ -59,12 +59,12 @@ public class UserWS {
     }
 
     /** Get user. */
-    @ApiOperation(value = "Get my user information.", produces = JSON, response = UserEntity.class)
+    @ApiOperation(value = "Get my user information.", produces = JSON, response = UserDto.class)
     @GetMapping
-    @JsonView(DefaultView.class)
-    public UserEntity read(@AuthenticationPrincipal UserSimpleDetails user) {
+    public UserDto read(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
-        return userService.readOne(user.getUserId());
+        UserEntity res = userService.readOne(user.getUserId());
+        return UserMapper.MAPPER.toUserDto(res);
     }
 
     /** Get user and linked user snapshots. */

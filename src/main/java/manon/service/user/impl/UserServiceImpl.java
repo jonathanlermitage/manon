@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserWithSnapshotsDto readOneAndFetchUserSnapshotDtos(long id) {
-        return UserMapper.MAPPER.userToUserWithSnapshotsDto(
+        return UserMapper.MAPPER.toUserWithSnapshotsDto(
             userRepository.findAndFetchUserSnapshots(id).orElseThrow(UserNotFoundException::new));
     }
 

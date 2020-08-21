@@ -5,102 +5,34 @@ import manon.document.user.UserSnapshotEntity;
 import manon.dto.user.UserDto;
 import manon.dto.user.UserSnapshotDto;
 import manon.dto.user.UserWithSnapshotsDto;
-import manon.model.user.RegistrationState;
-import manon.model.user.UserRole;
-import manon.util.Tools;
+import manon.model.user.UserPublicInfo;
+import manon.util.mapper.UserMapperDataset;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserMapperTest {
 
-    static Object[][] dataProviderShouldMapUserToUserWithSnapshotsDto() {
+    static Object[][] dataProvider_shouldVerify_toUserWithSnapshotsDto() {
 
-        //<editor-fold defaultstate="collapsed" desc="user with data">
-        UserEntity nestedUser = UserEntity.builder().id(1).build();
+        //<editor-fold defaultstate="collapsed" desc="dataset">
+        UserEntity nestedUser = UserMapperDataset.toUserEntity(1);
+        UserSnapshotEntity userSnapshot1 = UserMapperDataset.toUserSnapshotEntity(1, nestedUser);
+        UserSnapshotEntity userSnapshot2 = UserMapperDataset.toUserSnapshotEntity(2, nestedUser);
+        UserEntity user = UserMapperDataset.toUserEntity(1, userSnapshot1, userSnapshot2);
 
-        UserSnapshotEntity userSnapshot1 = UserSnapshotEntity.builder()
-            .id(1)
-            .user(nestedUser)
-            .userUsername("u1")
-            .userAuthorities(UserRole.PLAYER.name())
-            .userPassword("apassword1")
-            .userRegistrationState(RegistrationState.ACTIVE)
-            .userNickname("n1")
-            .userEmail("e1")
-            .userVersion(1)
-            .creationDate(Tools.now())
-            .build();
-
-        UserSnapshotEntity userSnapshot2 = UserSnapshotEntity.builder()
-            .id(1)
-            .user(nestedUser)
-            .userUsername("u2")
-            .userAuthorities(UserRole.PLAYER.name())
-            .userPassword("apassword2")
-            .userRegistrationState(RegistrationState.SUSPENDED)
-            .userNickname("n2")
-            .userEmail("e2")
-            .userVersion(2)
-            .creationDate(Tools.now())
-            .build();
-
-        UserEntity user = UserEntity.builder()
-            .id(1)
-            .username("u")
-            .authorities(UserRole.PLAYER.name())
-            .password("apassword")
-            .registrationState(RegistrationState.ACTIVE)
-            .nickname("n")
-            .email("e")
-            .version(3)
-            .creationDate(Tools.now())
-            .updateDate(Tools.now())
-            .userSnapshots(Arrays.asList(
-                userSnapshot1,
-                userSnapshot2
-            ))
-            .build();
-
-        UserDto userDto = new UserDto();
-        userDto.setId(nestedUser.getId());
-
-        UserSnapshotDto userSnapshotDto1 = new UserSnapshotDto();
-        userSnapshotDto1.setId(userSnapshot1.getId());
-        userSnapshotDto1.setUser(userDto);
-        userSnapshotDto1.setUserUsername(userSnapshot1.getUserUsername());
-        userSnapshotDto1.setUserAuthorities(userSnapshot1.getUserAuthorities());
-        userSnapshotDto1.setUserRegistrationState(userSnapshot1.getUserRegistrationState());
-        userSnapshotDto1.setUserNickname(userSnapshot1.getUserNickname());
-        userSnapshotDto1.setUserEmail(userSnapshot1.getUserEmail());
-        userSnapshotDto1.setCreationDate(userSnapshot1.getCreationDate());
-
-        UserSnapshotDto userSnapshotDto2 = new UserSnapshotDto();
-        userSnapshotDto2.setId(userSnapshot2.getId());
-        userSnapshotDto2.setUser(userDto);
-        userSnapshotDto2.setUserUsername(userSnapshot2.getUserUsername());
-        userSnapshotDto2.setUserAuthorities(userSnapshot2.getUserAuthorities());
-        userSnapshotDto2.setUserRegistrationState(userSnapshot2.getUserRegistrationState());
-        userSnapshotDto2.setUserNickname(userSnapshot2.getUserNickname());
-        userSnapshotDto2.setUserEmail(userSnapshot2.getUserEmail());
-        userSnapshotDto2.setCreationDate(userSnapshot2.getCreationDate());
-
-        UserWithSnapshotsDto userWithSnapshotsDto = new UserWithSnapshotsDto();
-        userWithSnapshotsDto.setId(user.getId());
-        userWithSnapshotsDto.setUsername(user.getUsername());
-        userWithSnapshotsDto.setAuthorities(user.getAuthorities());
-        userWithSnapshotsDto.setRegistrationState(user.getRegistrationState());
-        userWithSnapshotsDto.setNickname(user.getNickname());
-        userWithSnapshotsDto.setEmail(user.getEmail());
-        userWithSnapshotsDto.setCreationDate(user.getCreationDate());
-        userWithSnapshotsDto.setUpdateDate(user.getUpdateDate());
-        userWithSnapshotsDto.setUserSnapshots(Arrays.asList(
-            userSnapshotDto1,
-            userSnapshotDto2
-        ));
+        UserDto userDto = UserMapperDataset.toUserDto(nestedUser);
+        UserSnapshotDto userSnapshotDto1 = UserMapperDataset.toUserSnapshotDto(userDto, userSnapshot1);
+        UserSnapshotDto userSnapshotDto2 = UserMapperDataset.toUserSnapshotDto(userDto, userSnapshot2);
+        UserWithSnapshotsDto userWithSnapshotsDto = UserMapperDataset.toUserWithSnapshotsDto(userDto, userSnapshotDto1, userSnapshotDto2);
         //</editor-fold>
 
         return new Object[][]{
@@ -111,9 +43,161 @@ class UserMapperTest {
     }
 
     @ParameterizedTest
-    @MethodSource("dataProviderShouldMapUserToUserWithSnapshotsDto")
-    void shouldMapUserToUserWithSnapshotsDto(UserEntity user, UserWithSnapshotsDto userWithSnapshotsDto) {
-        assertThat(UserMapper.MAPPER.userToUserWithSnapshotsDto(user))
-            .isEqualTo(userWithSnapshotsDto);
+    @MethodSource("dataProvider_shouldVerify_toUserWithSnapshotsDto")
+    void shouldVerify_toUserWithSnapshotsDto(UserEntity from, UserWithSnapshotsDto to) {
+        assertThat(UserMapper.MAPPER.toUserWithSnapshotsDto(from))
+            .isEqualTo(to);
+    }
+
+    static Object[][] dataProvider_shouldVerify_toUserSnapshotEntity() {
+
+        //<editor-fold defaultstate="collapsed" desc="dataset">
+        UserEntity nestedUser = UserMapperDataset.toUserEntity(1);
+        UserSnapshotEntity userSnapshot1 = UserMapperDataset.toUserSnapshotEntity(1, nestedUser);
+        UserSnapshotEntity userSnapshot2 = UserMapperDataset.toUserSnapshotEntity(2, nestedUser);
+        UserEntity user = UserMapperDataset.toUserEntity(1, userSnapshot1, userSnapshot2);
+
+        UserSnapshotEntity userSnapshotEntity = UserMapperDataset.toUserSnapshotEntity(nestedUser);
+        //</editor-fold>
+
+        return new Object[][]{
+            {null, null},
+            {new UserEntity(), UserSnapshotEntity.builder().user(new UserEntity()).build()},
+            {user, userSnapshotEntity}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProvider_shouldVerify_toUserSnapshotEntity")
+    void shouldVerify_toUserSnapshotEntity(UserEntity from, UserSnapshotEntity to) {
+        UserSnapshotEntity mapped = UserMapper.MAPPER.toUserSnapshotEntity(from);
+        assertThat(mapped).isEqualTo(to);
+        if (from != null && to != null) {
+            assertThat(mapped.getUser()).isEqualTo(to.getUser());
+        }
+    }
+
+    static Object[][] dataProvider_shouldVerify_toUserDto() {
+
+        //<editor-fold defaultstate="collapsed" desc="dataset">
+        UserEntity userEntity = UserMapperDataset.toUserEntity(1);
+        UserSnapshotEntity userSnapshot1 = UserMapperDataset.toUserSnapshotEntity(1, userEntity);
+        UserSnapshotEntity userSnapshot2 = UserMapperDataset.toUserSnapshotEntity(2, userEntity);
+        UserEntity user = UserMapperDataset.toUserEntity(1, userSnapshot1, userSnapshot2);
+
+        UserDto userDto = UserMapperDataset.toUserDto(userEntity);
+        //</editor-fold>
+
+        return new Object[][]{
+            {null, null},
+            {new UserEntity(), new UserDto()},
+            {user, userDto}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProvider_shouldVerify_toUserDto")
+    void shouldVerify_toUserDto(UserEntity from, UserDto to) {
+        assertThat(UserMapper.MAPPER.toUserDto(from))
+            .isEqualTo(to);
+    }
+
+    static Object[][] dataProvider_shouldVerify_toUserDtoList() {
+
+        //<editor-fold defaultstate="collapsed" desc="dataset">
+        UserEntity nestedUserEntity1 = UserMapperDataset.toUserEntity(1);
+        UserSnapshotEntity userSnapshot11 = UserMapperDataset.toUserSnapshotEntity(1, nestedUserEntity1);
+        UserSnapshotEntity userSnapshot12 = UserMapperDataset.toUserSnapshotEntity(2, nestedUserEntity1);
+        UserEntity userEntity1 = UserMapperDataset.toUserEntity(1, userSnapshot11, userSnapshot12);
+
+        UserEntity nestedUserEntity2 = UserMapperDataset.toUserEntity(2);
+        UserSnapshotEntity userSnapshot21 = UserMapperDataset.toUserSnapshotEntity(3, nestedUserEntity2);
+        UserSnapshotEntity userSnapshot22 = UserMapperDataset.toUserSnapshotEntity(4, nestedUserEntity2);
+        UserEntity userEntity2 = UserMapperDataset.toUserEntity(2, userSnapshot21, userSnapshot22);
+
+        List<UserEntity> userEntities = Arrays.asList(userEntity1, userEntity2);
+
+        UserDto userDto1 = UserMapperDataset.toUserDto(nestedUserEntity1);
+        UserDto userDto2 = UserMapperDataset.toUserDto(nestedUserEntity2);
+        List<UserDto> userDtos = Arrays.asList(userDto1, userDto2);
+        //</editor-fold>
+
+        return new Object[][]{
+            {null, null},
+            {Collections.singletonList(new UserEntity()), Collections.singletonList(new UserDto())},
+            {userEntities, userDtos}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProvider_shouldVerify_toUserDtoList")
+    void shouldVerify_toUserDtoList(List<UserEntity> from, List<UserDto> to) {
+        assertThat(UserMapper.MAPPER.toUserDtoList(from))
+            .isEqualTo(to);
+    }
+
+    static Object[][] dataProvider_shouldVerify_toUserDtoPage() {
+
+        //<editor-fold defaultstate="collapsed" desc="dataset">
+        UserEntity nestedUserEntity1 = UserMapperDataset.toUserEntity(1);
+        UserSnapshotEntity userSnapshot11 = UserMapperDataset.toUserSnapshotEntity(1, nestedUserEntity1);
+        UserSnapshotEntity userSnapshot12 = UserMapperDataset.toUserSnapshotEntity(2, nestedUserEntity1);
+        UserEntity userEntity1 = UserMapperDataset.toUserEntity(1, userSnapshot11, userSnapshot12);
+
+        UserEntity nestedUserEntity2 = UserMapperDataset.toUserEntity(2);
+        UserSnapshotEntity userSnapshot21 = UserMapperDataset.toUserSnapshotEntity(3, nestedUserEntity2);
+        UserSnapshotEntity userSnapshot22 = UserMapperDataset.toUserSnapshotEntity(4, nestedUserEntity2);
+        UserEntity userEntity2 = UserMapperDataset.toUserEntity(2, userSnapshot21, userSnapshot22);
+
+        Pageable pageable = Pageable.unpaged();
+
+        List<UserEntity> userEntities = Arrays.asList(userEntity1, userEntity2);
+        PageImpl<UserEntity> userEntitiesPage = new PageImpl<>(userEntities, pageable, userEntities.size());
+
+        UserDto userDto1 = UserMapperDataset.toUserDto(nestedUserEntity1);
+        UserDto userDto2 = UserMapperDataset.toUserDto(nestedUserEntity2);
+        List<UserDto> userDtos = Arrays.asList(userDto1, userDto2);
+        PageImpl<UserDto> userDtosPage = new PageImpl<>(userDtos, pageable, userDtos.size());
+
+        PageImpl<UserEntity> emptyUserEntitiesPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
+        PageImpl<UserDto> emptyUserDtosPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
+        //</editor-fold>
+
+        return new Object[][]{
+            {null, pageable, null},
+            {emptyUserEntitiesPage, pageable, emptyUserDtosPage},
+            {userEntitiesPage, pageable, userDtosPage}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProvider_shouldVerify_toUserDtoPage")
+    void shouldVerify_toUserDtoPage(Page<UserEntity> from, Pageable pageable, Page<UserDto> to) {
+        assertThat(UserMapper.MAPPER.toUserDtoPage(from, pageable))
+            .isEqualTo(to);
+    }
+
+    static Object[][] dataProvider_toUserPublicInfo() {
+
+        //<editor-fold defaultstate="collapsed" desc="dataset">
+        UserEntity nestedUserEntity1 = UserMapperDataset.toUserEntity(1);
+        UserSnapshotEntity userSnapshot11 = UserMapperDataset.toUserSnapshotEntity(1, nestedUserEntity1);
+        UserSnapshotEntity userSnapshot12 = UserMapperDataset.toUserSnapshotEntity(2, nestedUserEntity1);
+        UserEntity userEntity = UserMapperDataset.toUserEntity(1, userSnapshot11, userSnapshot12);
+
+        UserPublicInfo userPublicInfo = UserMapperDataset.toUserPublicInfo(userEntity);
+        //</editor-fold>
+
+        return new Object[][]{
+            {null, null},
+            {userEntity, userPublicInfo}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProvider_toUserPublicInfo")
+    void shouldVerify_toUserPublicInfo(UserEntity from, UserPublicInfo to) {
+        assertThat(UserMapper.MAPPER.toUserPublicInfo(from))
+            .isEqualTo(to);
     }
 }

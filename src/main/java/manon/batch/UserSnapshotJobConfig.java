@@ -7,6 +7,7 @@ import manon.batch.listener.JobListener;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
 import manon.document.user.UserStatsEntity;
+import manon.mapper.user.UserMapper;
 import manon.repository.user.UserRepository;
 import manon.repository.user.UserSnapshotRepository;
 import manon.service.user.UserSnapshotService;
@@ -113,7 +114,7 @@ public class UserSnapshotJobConfig {
     private static class UserItemProcessor implements ItemProcessor<UserEntity, UserSnapshotEntity> {
         @Override
         public UserSnapshotEntity process(@NotNull UserEntity item) {
-            return UserSnapshotEntity.from(item);
+            return UserMapper.MAPPER.toUserSnapshotEntity(item);
         }
     }
 

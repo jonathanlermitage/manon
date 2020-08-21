@@ -1,7 +1,7 @@
 package manon.service.user.impl;
 
 import manon.err.user.FriendshipNotFoundException;
-import manon.model.user.UserPublicInfo;
+import manon.mapper.user.UserMapper;
 import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -66,7 +66,7 @@ class FriendshipServiceIT extends AbstractIT {
         friendshipRequestService.acceptFriendshipRequest(uid1, userId(3));
 
         Assertions.assertThat(friendshipService.findAllPublicInfoFor(uid1)).containsExactlyInAnyOrder(
-            UserPublicInfo.from(user(2)), UserPublicInfo.from(user(3))
+            UserMapper.MAPPER.toUserPublicInfo(user(2)), UserMapper.MAPPER.toUserPublicInfo(user(3))
         );
     }
 

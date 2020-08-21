@@ -1,7 +1,6 @@
 package manon.document.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -13,7 +12,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import manon.document.DefaultView;
 import manon.model.user.RegistrationState;
 import manon.util.Tools;
 import org.springframework.data.annotation.Version;
@@ -101,7 +99,6 @@ public class UserEntity implements Serializable, UserVersionProjection {
     @Column(length = EMAIL_MAX_LENGTH, unique = true)
     private String email;
 
-    @JsonView(WithUserSnapshots.class)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserSnapshotEntity> userSnapshots;
 
@@ -150,8 +147,5 @@ public class UserEntity implements Serializable, UserVersionProjection {
         public static final int PASSWORD_MIN_LENGTH = 4;
         public static final int PASSWORD_MAX_LENGTH = 256;
         public static final String PASSWORD_SIZE_ERRMSG = "PASSWORD_SIZE";
-    }
-
-    public interface WithUserSnapshots extends DefaultView {
     }
 }

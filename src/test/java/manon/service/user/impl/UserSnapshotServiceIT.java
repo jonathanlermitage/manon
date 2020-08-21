@@ -3,6 +3,7 @@ package manon.service.user.impl;
 import lombok.SneakyThrows;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
+import manon.mapper.user.UserMapper;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
 import org.assertj.core.api.Assertions;
@@ -131,7 +132,7 @@ class UserSnapshotServiceIT extends AbstractIT {
     @SneakyThrows
     private UserSnapshotEntity makeUserSnapshot() {
         UserEntity user = userService.findByUsername(name(1)).orElseThrow(Exception::new);
-        return UserSnapshotEntity.from(user);
+        return UserMapper.MAPPER.toUserSnapshotEntity(user);
     }
 
     private UserSnapshotEntity saveUserSnapshot() {

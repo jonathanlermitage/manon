@@ -3,6 +3,7 @@ package manon.batch;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
 import manon.document.user.UserStatsEntity;
+import manon.mapper.user.UserMapper;
 import manon.util.TestTools;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
@@ -44,7 +45,7 @@ class UserSnapshotJobConfigIT extends AbstractIT {
 
         // workaround: can't save custom creationDate at creation, do it at update
         for (int i = 0; i < delays.size(); i++) {
-            userSnapshots.add(UserSnapshotEntity.from(userToSnapshot));
+            userSnapshots.add(UserMapper.MAPPER.toUserSnapshotEntity(userToSnapshot));
         }
         userSnapshotService.saveAll(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {

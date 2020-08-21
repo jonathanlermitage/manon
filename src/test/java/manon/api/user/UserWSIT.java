@@ -3,8 +3,10 @@ package manon.api.user;
 import io.restassured.response.Response;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
+import manon.dto.user.UserDto;
 import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.UserExistsException;
+import manon.mapper.user.UserMapper;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.form.UserLogin;
 import manon.model.user.form.UserPasswordUpdateForm;
@@ -95,14 +97,13 @@ class UserWSIT extends AbstractIT {
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
-        UserEntity webUser = readValue(res, UserEntity.class);
+        UserDto webUser = readValue(res, UserDto.class);
         UserEntity dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
-        assertThat(webUser).isEqualTo(dbUser);
-        assertThat(webUser.getUserSnapshots()).isNull();
+        assertThat(webUser).isEqualTo(UserMapper.MAPPER.toUserDto(dbUser));
     }
 
     @Test
-    void shouldReadWhenUserHasSnapshots() {
+    void shouldReadAndNotIncludeUserSnapshots() {
         userSnapshotService.saveAll(Arrays.asList(
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
@@ -111,10 +112,9 @@ class UserWSIT extends AbstractIT {
             .get(API_USER);
         res.then()
             .statusCode(SC_OK);
-        UserEntity webUser = readValue(res, UserEntity.class);
+        UserDto webUser = readValue(res, UserDto.class);
         UserEntity dbUser = userService.readOneAndFetchUserSnapshots(userId(1)).toBuilder().password(null).build();
-        assertThat(webUser).isEqualTo(dbUser);
-        assertThat(webUser.getUserSnapshots()).isNull();
+        assertThat(webUser).isEqualTo(UserMapper.MAPPER.toUserDto(dbUser));
     }
 
     @Test
