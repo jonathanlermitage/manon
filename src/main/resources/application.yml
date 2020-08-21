@@ -47,6 +47,9 @@ server:
     include-message: always
     include-binding-errors: always
 
+springfox.documentation:
+  swagger-ui.base-url: "/"
+
 info.app:
   name: manon
   version: @project.version@

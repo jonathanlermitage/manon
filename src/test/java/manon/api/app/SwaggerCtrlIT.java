@@ -11,7 +11,7 @@ class SwaggerCtrlIT extends AbstractMockIT {
     @MethodSource(DP_ALLOW_AUTHENTICATED_AND_ANONYMOUS)
     void shouldGetSwaggerIndex(Rs rs, Integer status) {
         rs.getSpec()
-            .get("/swagger-ui.html")
+            .get("/swagger-ui/")
             .then()
             .statusCode(status);
     }
