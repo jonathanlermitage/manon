@@ -30,7 +30,6 @@ public final class UserUpdateForm {
     @Size(max = EMAIL_MAX_LENGTH, message = EMAIL_SIZE_ERRMSG)
     private String email;
 
-
     @Override
     public String toString() {
         return "UserUpdateForm{" +
