@@ -117,4 +117,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     public List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestTo(long userId) {
         return friendshipRequestRepository.findAllByRequestTo(userId);
     }
+
+    @Override
+    public List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestFromOrTo(long userId) {
+        return friendshipRequestRepository.findAllByRequestFromOrTo(userId);
+    }
 }

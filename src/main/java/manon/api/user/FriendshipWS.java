@@ -4,6 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import manon.document.user.FriendshipRequestEntity;
+import manon.dto.user.FriendshipRequestDto;
+import manon.mapper.user.FriendshipMapper;
 import manon.model.user.UserPublicInfo;
 import manon.model.user.UserSimpleDetails;
 import manon.service.user.FriendshipRequestService;
@@ -83,6 +86,12 @@ public class FriendshipWS {
         return friendshipService.findAllPublicInfoFor(user.getUserId());
     }
 
-
-    // TODO getFriendshipRequests
+    /** Get friendship requests. */
+    @ApiOperation(value = "Get friendship requests.", produces = JSON, response = List.class)
+    @GetMapping("/friendshiprequests")
+    public List<FriendshipRequestDto> getFriendshipRequests(@AuthenticationPrincipal UserSimpleDetails user) {
+        log.debug("user {} reads his friendship requests", user.getIdentity());
+        List<FriendshipRequestEntity> requests = friendshipRequestService.findAllFriendshipRequestsByRequestFromOrTo(user.getUserId());
+        return FriendshipMapper.MAPPER.toFriendshipRequestDto(requests);
+    }
 }

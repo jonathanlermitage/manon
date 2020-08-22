@@ -76,4 +76,15 @@ class FriendshipWSCtrlIT extends AbstractMockIT {
             .statusCode(status);
         verify(friendshipWS, status).getFriends(any());
     }
+
+    @ParameterizedTest
+    @MethodSource(DP_ALLOW_AUTHENTICATED)
+    void shouldVerifyGetFriendshipRequests(Rs rs, Integer status) {
+        rs.getSpec()
+            .contentType(JSON)
+            .get(API_USER + "/friendshiprequests")
+            .then()
+            .statusCode(status);
+        verify(friendshipWS, status).getFriendshipRequests(any());
+    }
 }

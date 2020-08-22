@@ -35,4 +35,9 @@ public interface FriendshipRequestRepository extends JpaRepository<FriendshipReq
     @Query("select f from FriendshipRequest f " +
         "where f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
     List<FriendshipRequestEntity> findAllByRequestTo(@Param("userId") long userId);
+
+    /** Find all friendship requests from or to given user. */
+    @Query("select f from FriendshipRequest f " +
+        "where f.requestFrom.id = :userId or f.requestTo.id = :userId order by f.creationDate desc, f.id desc")
+    List<FriendshipRequestEntity> findAllByRequestFromOrTo(@Param("userId") long userId);
 }

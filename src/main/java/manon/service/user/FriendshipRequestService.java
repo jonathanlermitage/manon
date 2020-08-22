@@ -50,4 +50,7 @@ public interface FriendshipRequestService {
     /** Find all friendship requests to given user. */
     @ExistForTesting(why = "FriendshipWSIntegrationTest")
     List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestTo(long userId);
+
+    /** Find all friendship requests from or to given user. */
+    public List<FriendshipRequestEntity> findAllFriendshipRequestsByRequestFromOrTo(long userId);
 }

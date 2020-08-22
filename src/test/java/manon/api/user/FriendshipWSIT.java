@@ -5,6 +5,7 @@ import manon.document.user.FriendshipEntity;
 import manon.document.user.FriendshipEventEntity;
 import manon.document.user.FriendshipRequestEntity;
 import manon.document.user.UserEntity;
+import manon.dto.user.FriendshipRequestDto;
 import manon.err.user.FriendshipNotFoundException;
 import manon.err.user.FriendshipRequestExistsException;
 import manon.err.user.FriendshipRequestNotFoundException;
@@ -822,6 +823,51 @@ class FriendshipWSIT extends AbstractIT {
 
         //THEN nothing changed for P1
         shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
+    }
+
+    //
+    // getFriendshipRequests
+    //
+
+    /** Create 2 friendship requests and fetch them. */
+    @Test
+    void shouldAskFriendshipToManyUsersThenFetch() {
+        //GIVEN 3 users. P1 asks friendship with P2, and P3 with P1
+        UserPublicInfo upi1 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid1));
+        UserPublicInfo upi2 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid2));
+        UserPublicInfo upi3 = UserMapper.MAPPER.toUserPublicInfo(userService.readOne(uid3));
+        whenP1().getSpec()
+            .post(API_USER + "/askfriendship/user/" + uid2)
+            .then()
+            .statusCode(SC_OK);
+        whenP3().getSpec()
+            .post(API_USER + "/askfriendship/user/" + uid1)
+            .then()
+            .statusCode(SC_OK);
+
+        //WHEN P1 and P2 fetch their friendship requests
+        Response res1 = whenP1().getSpec()
+            .get(API_USER + "/friendshiprequests");
+        res1.then()
+            .statusCode(SC_OK);
+        FriendshipRequestDto[] requests1 = readValue(res1, FriendshipRequestDto[].class);
+        Response res2 = whenP2().getSpec()
+            .get(API_USER + "/friendshiprequests");
+        res2.then()
+            .statusCode(SC_OK);
+        FriendshipRequestDto[] requests2 = readValue(res2, FriendshipRequestDto[].class);
+
+        //THEN P1 sees his friendship requests
+        assertThat(requests1).hasSize(2);
+        assertThat(requests1[0].getRequestFrom()).isEqualTo(upi3);
+        assertThat(requests1[0].getRequestTo()).isEqualTo(upi1);
+        assertThat(requests1[1].getRequestFrom()).isEqualTo(upi1);
+        assertThat(requests1[1].getRequestTo()).isEqualTo(upi2);
+
+        //THEN P2 sees his friendship request
+        assertThat(requests2).hasSize(1);
+        assertThat(requests2[0].getRequestFrom()).isEqualTo(upi1);
+        assertThat(requests2[0].getRequestTo()).isEqualTo(upi2);
     }
 
     //
