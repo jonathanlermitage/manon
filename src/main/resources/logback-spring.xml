@@ -20,7 +20,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>%clr(%d){faint} %clr([%thread]){magenta} %clr(%-5level) %clr(%logger{36}.%M){cyan} L.%L %clr([%mdc]){blue} %m%n%wEx</Pattern>
+            <Pattern>%clr(%d{HH:mm:ss.SSS}){faint} %clr(%thread){magenta} %clr(%-5level) %clr(%logger{20}.%M){cyan}:%L %clr(%mdc){blue} %m%n%wEx</Pattern>
         </encoder>
     </appender>
 
