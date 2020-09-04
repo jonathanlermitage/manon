@@ -2,6 +2,7 @@
 <!--suppress CheckTagEmptyBody -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!--<editor-fold desc="header">-->
     <modelVersion>4.0.0</modelVersion>
     <artifactId>manon-light</artifactId>
     <groupId>nanon</groupId>
@@ -9,6 +10,7 @@
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>manon</description>
+    <!--</editor-fold>-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,8 +20,8 @@
     </parent>
 
     <properties>
+        <!--<editor-fold desc="params">-->
         <coverageSurefireArgLine></coverageSurefireArgLine>
-        <docker-base-image>openjdk:11.0.8-jre-slim</docker-base-image>
         <docker-target-image>lermitage-manon:${project.version}</docker-target-image>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -31,6 +33,8 @@
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
         <skipIT>false</skipIT>
         <skipUT>false</skipUT>
+        <!--</editor-fold>-->
+        <docker-base-image>openjdk:11.0.8-jre-slim</docker-base-image>
 
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies is too old (v2),
