@@ -9,8 +9,8 @@
         <file>logs/manon-test.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/manon-test_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxHistory>365</maxHistory>
-            <totalSizeCap>50MB</totalSizeCap>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>20MB</totalSizeCap>
             <maxFileSize>5MB</maxFileSize>
         </rollingPolicy>
         <encoder>
