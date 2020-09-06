@@ -3,6 +3,7 @@ package manon.dto.user;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import manon.document.user.UserEntity;
 import manon.mapper.user.UserMapper;
 import manon.model.user.RegistrationState;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
  * declare any field because everything comes from the ancestor: this is not perfect, but it works.
  */
 @Data
+@EqualsAndHashCode(exclude = {"id", "creationDate", "updateDate"})
 public abstract class AbstractUserDto {
 
     private long id;
