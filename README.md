@@ -13,10 +13,10 @@
     <a href="https://bettercodehub.com/results/jonathanlermitage/manon"><img src="https://bettercodehub.com/edge/badge/jonathanlermitage/manon?branch=spring5-light" alt="Bettercodehub"></a>
 </p>
 
-1. [Project](https://github.com/jonathanlermitage/manon#project)  
-2. [Author](https://github.com/jonathanlermitage/manon#author)
-3. [Compilation and test](https://github.com/jonathanlermitage/manon#compilation-and-test)
-4. [License](https://github.com/jonathanlermitage/manon#license)
+1. [Project](#project)  
+2. [Author](#author)
+3. [Compilation and test](#compilation-and-test)
+4. [License](#license)
 
 ## Project
 
