@@ -7,6 +7,7 @@ import manon.repository.app.AuthTokenRepository;
 import manon.service.app.AuthTokenService;
 import manon.util.ExistForTesting;
 import manon.util.Tools;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -56,9 +57,11 @@ public class AuthTokenServiceImpl implements AuthTokenService {
      * mode in this case. Also, the proxy must be fully initialized to provide the expected behavior, so you should not rely on this feature
      * in your initialization code (that is, <code>@PostConstruct</code>).</cite>
      */
-    @SuppressWarnings("ConstantConditions")
     private void evictTokenExistenceCache(long id) {
-        cm.getCache(Globals.CacheNames.CACHE_TOKEN_EXISTENCE).evict(id);
+        Cache cache = cm.getCache(Globals.CacheNames.CACHE_TOKEN_EXISTENCE);
+        if (cache != null) {
+            cache.evict(id);
+        }
     }
 
     @Override
