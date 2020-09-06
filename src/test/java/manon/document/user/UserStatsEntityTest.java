@@ -32,7 +32,7 @@ class UserStatsEntityTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.forClass(UserStatsEntity.class)
             .withIgnoredFields("id", "creationDate")
             .verify();

@@ -33,7 +33,7 @@ class AuthTokenEntityTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.forClass(AuthTokenEntity.class)
             .withIgnoredFields("id", "creationDate")
             .verify();

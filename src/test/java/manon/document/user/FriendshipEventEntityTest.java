@@ -32,7 +32,7 @@ class FriendshipEventEntityTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.forClass(FriendshipEventEntity.class)
             .withIgnoredFields("id", "creationDate")
             .withPrefabValues(UserEntity.class,

@@ -14,7 +14,7 @@ class UserPublicInfoTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.simple().forClass(UserPublicInfo.class)
             .verify();
     }

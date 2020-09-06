@@ -14,7 +14,7 @@ class UserLoginTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.simple().forClass(UserLogin.class)
             .verify();
     }

@@ -14,7 +14,7 @@ class UserPasswordUpdateFormTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.simple().forClass(UserPasswordUpdateForm.class)
             .verify();
     }

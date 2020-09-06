@@ -35,7 +35,7 @@ class UserSnapshotEntityTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.forClass(UserSnapshotEntity.class)
             .withIgnoredFields("id", "user", "creationDate")
             .withPrefabValues(UserEntity.class,

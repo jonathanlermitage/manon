@@ -14,7 +14,7 @@ class TaskStatusTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.simple().forClass(TaskStatus.class)
             .verify();
     }

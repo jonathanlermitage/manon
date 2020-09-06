@@ -15,7 +15,7 @@ class MethodExecutionStatsTest {
     }
 
     @Test
-    public void shouldVerifyEqualsContract() {
+    void shouldVerifyEqualsContract() {
         EqualsVerifier.simple().forClass(MethodExecutionStats.class)
             .verify();
     }
