@@ -52,7 +52,7 @@
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>20.1.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
         <jjwt.version>0.11.2</jjwt.version>                          <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>2.18.1</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <json-unit.version>2.19.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <mapstruct.version>1.3.1.Final</mapstruct.version>           <!-- https://github.com/mapstruct/mapstruct/releases -->
         <springfox-swagger.version>3.0.0</springfox-swagger.version> <!-- https://github.com/springfox/springfox/blob/master/docs/release-notes.md -->
 
