@@ -28,7 +28,7 @@ import static manon.document.user.UserEntity.Validation.USERNAME_MAX_LENGTH;
 @Table(name = "auth_token")
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = "creationDate")
+@EqualsAndHashCode(exclude = {"id", "creationDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor

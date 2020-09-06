@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 @Table(name = "friendship_request")
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = "creationDate")
+@EqualsAndHashCode(exclude = {"id", "creationDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor

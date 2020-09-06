@@ -31,7 +31,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "user_snapshot")
 @Getter
 @ToString(exclude = "user")
-@EqualsAndHashCode(exclude = {"user", "creationDate"})
+@EqualsAndHashCode(exclude = {"id", "user", "creationDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor

@@ -55,7 +55,7 @@ import static manon.document.user.UserEntity.Validation.USERNAME_SIZE_ERRMSG;
 @QueryEntity
 @Getter
 @ToString(exclude = "userSnapshots")
-@EqualsAndHashCode(exclude = {"userSnapshots", "version", "creationDate", "updateDate"})
+@EqualsAndHashCode(exclude = {"id", "userSnapshots", "version", "creationDate", "updateDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor

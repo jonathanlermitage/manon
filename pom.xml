@@ -46,6 +46,7 @@
         <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
 
         <archunit.version>0.14.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
+        <equalsverifier.version>3.4.2</equalsverifier.version>       <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>1.6.0</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>29.0-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
@@ -387,6 +388,12 @@
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>${javafaker.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>${equalsverifier.version}</version>
             <scope>test</scope>
         </dependency>
 

@@ -1,8 +1,7 @@
 package manon.model.user.form;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,28 +13,9 @@ class UserLoginTest {
             "username", "password");
     }
 
-    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        UserLogin filled = UserLogin.builder()
-            .username("u")
-            .password("p")
-            .build();
-        return new Object[][]{
-            {UserLogin.builder().build(), UserLogin.builder().build(), true},
-            {filled.toBuilder().build(), filled, true},
-            {filled.toBuilder().username("updated").build(), filled, false},
-            {filled.toBuilder().password("updated").build(), filled, false}
-        };
-    }
-
-    @ParameterizedTest
-    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    void shouldVerifyEquals(UserLogin o1, UserLogin o2, boolean expectedEqual) {
-        assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
-    }
-
-    @ParameterizedTest
-    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    void shouldVerifyHashCode(UserLogin o1, UserLogin o2, boolean expectedEqual) {
-        assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
+    @Test
+    public void shouldVerifyEqualsContract() {
+        EqualsVerifier.simple().forClass(UserLogin.class)
+            .verify();
     }
 }

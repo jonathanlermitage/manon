@@ -1,7 +1,6 @@
 package manon.api.user;
 
 import io.restassured.response.Response;
-import manon.document.user.UserEntity;
 import manon.dto.user.UserDto;
 import manon.err.user.UserNotFoundException;
 import manon.util.basetest.AbstractIT;

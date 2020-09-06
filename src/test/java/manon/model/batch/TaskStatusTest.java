@@ -1,8 +1,7 @@
 package manon.model.batch;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,30 +13,9 @@ class TaskStatusTest {
             "running", "exitCode", "exitDescription");
     }
 
-    static Object[][] dataProviderShouldVerifyEqualsAndHashCode() {
-        TaskStatus filled = TaskStatus.builder()
-            .running(true)
-            .exitCode("c")
-            .exitDescription("d")
-            .build();
-        return new Object[][]{
-            {TaskStatus.builder().build(), TaskStatus.builder().build(), true},
-            {filled.toBuilder().build(), filled, true},
-            {filled.toBuilder().running(false).build(), filled, false},
-            {filled.toBuilder().exitCode("updated").build(), filled, false},
-            {filled.toBuilder().exitDescription("updated").build(), filled, false}
-        };
-    }
-
-    @ParameterizedTest
-    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    void shouldVerifyEquals(TaskStatus o1, TaskStatus o2, boolean expectedEqual) {
-        assertThat(o1.equals(o2)).isEqualTo(expectedEqual);
-    }
-
-    @ParameterizedTest
-    @MethodSource("dataProviderShouldVerifyEqualsAndHashCode")
-    void shouldVerifyHashCode(TaskStatus o1, TaskStatus o2, boolean expectedEqual) {
-        assertThat(o1.hashCode() == o2.hashCode()).isEqualTo(expectedEqual);
+    @Test
+    public void shouldVerifyEqualsContract() {
+        EqualsVerifier.simple().forClass(TaskStatus.class)
+            .verify();
     }
 }
