@@ -16,7 +16,8 @@
 1. [Project](#project)  
 2. [Author](#author)
 3. [Compilation and test](#compilation-and-test)
-4. [License](#license)
+4. [Tips](#tips)
+5. [License](#license)
 
 ## Project
 
