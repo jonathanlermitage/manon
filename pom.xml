@@ -37,8 +37,7 @@
         <docker-base-image>openjdk:11.0.8-jre-slim</docker-base-image>
 
         <!-- Override spring-boot-dependencies versions: -->
-        <!-- - version provided by spring-boot-dependencies is too old (v2),
-               fix https://github.com/rest-assured/rest-assured/issues/1283 -->
+        <!-- - version provided by spring-boot-dependencies is too old (v2), fix https://github.com/rest-assured/rest-assured/issues/1283 -->
         <groovy.version>3.0.5</groovy.version>
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
         <rest-assured.version>4.3.1</rest-assured.version>
