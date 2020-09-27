@@ -62,7 +62,7 @@
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html (lib used by plugin) -->
         <jib-maven-plugin.version>2.5.2</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
         <oga-maven-plugin.version>1.1.0</oga-maven-plugin.version>
-        <owasp-dependency-check-plugin.version>5.3.2</owasp-dependency-check-plugin.version>
+        <owasp-dependency-check-plugin.version>6.0.2</owasp-dependency-check-plugin.version>
         <spotbugs-maven-plugin.version>4.0.4</spotbugs-maven-plugin.version>
     </properties>
 
