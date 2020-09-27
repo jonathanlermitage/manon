@@ -6,6 +6,9 @@ import manon.err.user.UserNotFoundException;
 import manon.util.basetest.AbstractIT;
 import manon.util.web.Page;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -158,10 +161,15 @@ class UserAdminWSIT extends AbstractIT {
             .body(MANAGED_ERROR_TYPE, equalTo(UserNotFoundException.class.getSimpleName()));
     }
 
-    @Test
-    void shouldSearchWithPredicateOnRegistrationState() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "/search?offset=0&size=100&sort=creationDate,DESC&registrationState=ACTIVE",
+        "/search?offset=0&size=100&sort=creationDate,DESC",
+        "/search/identity?offset=0&size=100&sort=creationDate,DESC"
+    })
+    void shouldSearchWithPredicateAndReturnManyResults(String query) {
         Response res = whenAdmin().getSpec()
-            .post(API_USER_ADMIN + "/search?offset=0&size=100&sort=creationDate,DESC&registrationState=ACTIVE");
+            .post(API_USER_ADMIN + query);
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
@@ -176,10 +184,19 @@ class UserAdminWSIT extends AbstractIT {
         }
     }
 
-    @Test
-    void shouldSearchWithPredicateOnUsername() {
+    Object[] dataProviderShouldSearchWithPredicateAndReturnSingleResult() {
+        return new Object[]{
+            "/search?offset=0&size=100&sort=creationDate,DESC&username=" + name(1),
+            "/search/identity?offset=0&size=100&sort=creationDate,DESC" +
+                "&username=" + name(1) + "&nickname=foo1&email=email1"
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProviderShouldSearchWithPredicateAndReturnSingleResult")
+    void shouldSearchWithPredicateAndReturnOneResult(String query) {
         Response res = whenAdmin().getSpec()
-            .post(API_USER_ADMIN + "/search?offset=0&size=100&sort=creationDate,DESC&username=" + name(1));
+            .post(API_USER_ADMIN + query);
         res.then()
             .contentType(JSON)
             .statusCode(SC_OK);
@@ -188,56 +205,5 @@ class UserAdminWSIT extends AbstractIT {
         assertThat(users).hasSize(1);
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(users.get(0).getUsername()).isEqualTo(name(1));
-    }
-
-    @Test
-    void shouldSearchWithoutPredicate() {
-        Response res = whenAdmin().getSpec()
-            .post(API_USER_ADMIN + "/search?offset=0&size=100&sort=creationDate,DESC");
-        res.then()
-            .contentType(JSON)
-            .statusCode(SC_OK);
-        Page<UserDto> result = readPage(res, UserDto.class);
-        List<UserDto> users = result.getContent();
-        assertThat(users).hasSize(userCount);
-        assertThat(result.getTotalElements()).isEqualTo(userCount);
-        for (int i = 1; i < users.size(); i++) {
-            LocalDateTime top = users.get(i - 1).getCreationDate();
-            LocalDateTime bottom = users.get(i).getCreationDate();
-            assertThat(top).as("order").isAfterOrEqualTo(bottom);
-        }
-    }
-
-    @Test
-    void shouldSearchByIdentityWithPredicate() {
-        Response res = whenAdmin().getSpec()
-            .post(API_USER_ADMIN + "/search/identity?offset=0&size=100&sort=creationDate,DESC" +
-                "&username=" + name(1) + "&nickname=foo1&email=email1");
-        res.then()
-            .contentType(JSON)
-            .statusCode(SC_OK);
-        Page<UserDto> result = readPage(res, UserDto.class);
-        List<UserDto> users = result.getContent();
-        assertThat(users).hasSize(1);
-        assertThat(result.getTotalElements()).isEqualTo(1);
-        assertThat(users.get(0).getUsername()).isEqualTo(name(1));
-    }
-
-    @Test
-    void shouldSearchByIdentityWithoutPredicate() {
-        Response res = whenAdmin().getSpec()
-            .post(API_USER_ADMIN + "/search/identity?offset=0&size=100&sort=creationDate,DESC");
-        res.then()
-            .contentType(JSON)
-            .statusCode(SC_OK);
-        Page<UserDto> result = readPage(res, UserDto.class);
-        List<UserDto> users = result.getContent();
-        assertThat(users).hasSize(userCount);
-        assertThat(result.getTotalElements()).isEqualTo(userCount);
-        for (int i = 1; i < users.size(); i++) {
-            LocalDateTime top = users.get(i - 1).getCreationDate();
-            LocalDateTime bottom = users.get(i).getCreationDate();
-            assertThat(top).as("order").isAfterOrEqualTo(bottom);
-        }
     }
 }
