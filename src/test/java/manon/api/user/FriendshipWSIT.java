@@ -15,6 +15,8 @@ import manon.model.user.UserPublicInfo;
 import manon.util.basetest.AbstractIT;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -474,12 +476,17 @@ class FriendshipWSIT extends AbstractIT {
             FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
-    @Test
-    void shouldNotAcceptUnknownFriendshipRequest() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "/acceptfriendship",
+        "/rejectfriendship",
+        "/cancelfriendship"
+    })
+    void shouldNotModifyUnknownFriendshipRequest(String action) {
         //GIVEN 2 users with no friends nor friendship requests
-        //WHEN P1 tries to accept an unknown friendship request
+        //WHEN P1 tries to do given 'action' on an unknown friendship request
         whenP1().getSpec()
-            .post(API_USER + "/acceptfriendship/user/" + uid2)
+            .post(API_USER + action + "/user/" + uid2)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
 
@@ -490,12 +497,17 @@ class FriendshipWSIT extends AbstractIT {
         shouldHaveNoFriendNorFriendshipRequestNorEvent(2);
     }
 
-    @Test
-    void shouldNotAcceptUnknownUserFriendshipRequest() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "/acceptfriendship",
+        "/rejectfriendship",
+        "/cancelfriendship"
+    })
+    void shouldNotModifyUnknownUserFriendshipRequest(String action) {
         //GIVEN 1 user with no friends nor friendship requests
-        //WHEN P1 tries to accept an unknown user friendship request
+        //WHEN P1 tries to do given 'action' on an unknown user friendship request
         whenP1().getSpec()
-            .post(API_USER + "/acceptfriendship/user/" + UNKNOWN_ID)
+            .post(API_USER + action + "/user/" + UNKNOWN_ID)
             .then().statusCode(SC_NOT_FOUND)
             .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
 
@@ -576,35 +588,6 @@ class FriendshipWSIT extends AbstractIT {
             FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
     }
 
-    @Test
-    void shouldNotRejectUnknownFriendshipRequest() {
-        //GIVEN 2 users with no friends nor friendship requests
-        //WHEN P1 tries to reject an unknown friendship request
-        whenP1().getSpec()
-            .post(API_USER + "/rejectfriendship/user/" + uid2)
-            .then().statusCode(SC_NOT_FOUND)
-            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
-
-        //THEN nothing changed for P1
-        shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
-
-        //THEN nothing changed for P2
-        shouldHaveNoFriendNorFriendshipRequestNorEvent(2);
-    }
-
-    @Test
-    void shouldNotRejectUnknownUserFriendshipRequest() {
-        //GIVEN 1 user with no friends nor friendship requests
-        //WHEN P1 tries to reject an unknown user friendship request
-        whenP1().getSpec()
-            .post(API_USER + "/rejectfriendship/user/" + UNKNOWN_ID)
-            .then().statusCode(SC_NOT_FOUND)
-            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
-
-        //THEN nothing changed for P1
-        shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
-    }
-
     //
     // cancelFriendshipRequest
     //
@@ -676,35 +659,6 @@ class FriendshipWSIT extends AbstractIT {
         assertThat(p3FriendshipEvents).hasSize(1);
         assertThat(p3FriendshipEvents.get(0)).isEqualToComparingOnlyGivenFields(
             FriendshipEventEntity.builder().code(TARGET_SENT_FRIEND_REQUEST).friend(p1).build(), "code", "friend");
-    }
-
-    @Test
-    void shouldNotCancelUnknownFriendshipRequest() {
-        //GIVEN 2 users with no friends nor friendship requests
-        //WHEN P1 tries to cancel an unknown friendship request
-        whenP1().getSpec()
-            .post(API_USER + "/cancelfriendship/user/" + uid2)
-            .then().statusCode(SC_NOT_FOUND)
-            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
-
-        //THEN nothing changed for P1
-        shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
-
-        //THEN nothing changed for P2
-        shouldHaveNoFriendNorFriendshipRequestNorEvent(2);
-    }
-
-    @Test
-    void shouldNotCancelUnknownUserFriendshipRequest() {
-        //GIVEN 1 user with no friends nor friendship requests
-        //WHEN P1 tries to cancel an unknown user friendship request
-        whenP1().getSpec()
-            .post(API_USER + "/cancelfriendship/user/" + UNKNOWN_ID)
-            .then().statusCode(SC_NOT_FOUND)
-            .body(MANAGED_ERROR_TYPE, Matchers.equalTo(FriendshipRequestNotFoundException.class.getSimpleName()));
-
-        //THEN nothing changed for P1
-        shouldHaveNoFriendNorFriendshipRequestNorEvent(1);
     }
 
     //
