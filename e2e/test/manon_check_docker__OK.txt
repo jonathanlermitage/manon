@@ -1,0 +1,8 @@
+nginx
+manon
+maria-batch
+redis
+prometheus
+grafana
+greenmail
+maria

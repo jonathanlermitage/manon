@@ -137,6 +137,8 @@ do maria        connect to dockerized MariaDB business database by calling MySQL
 do maria-batch  connect to dockerized MariaDB Spring Batch database by calling MySQL Client provided by container
 do mariah       connect to dockerized MariaDB business database by calling host MySQL Client (mysql-client package must be installed)
 do mariah-batch connect to dockerized MariaDB Spring Batch database by calling host MySQL Client (mysql-client package must be installed)
+do e2e          run some end-to-end (e2e) tests with Docker. Application image is built from a Dockerfile
+do e2ejib       run some end-to-end (e2e) tests with Docker. Application image is built with Jib
 ```
 
 Nota: the Linux Bash script can chain parameters, e.g.: `./do cdi rmi w 3.6.0 c tc docker up`.  

@@ -51,6 +51,8 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "maria-batch  connect to dockerized MariaDB Spring Batch database by calling MySQL Client provided by container"
         echo "mariah       connect to dockerized MariaDB business database by calling host MySQL Client (mysql-client package must be installed)"
         echo "mariah-batch connect to dockerized MariaDB Spring Batch database by calling host MySQL Client (mysql-client package must be installed)"
+        echo "e2e          run some end-to-end (e2e) tests with Docker. Application image is built from a Dockerfile"
+        echo "e2ejib       run some end-to-end (e2e) tests with Docker. Application image is built with Jib"
         ;;
 
     "fixgit")
@@ -58,6 +60,12 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "'do' has now executable flag on git index"
         git update-index --chmod=+x "mvnw"
         echo "'mvnw' has now executable flag on git index"
+        git update-index --chmod=+x "e2e/run-e2e-docker.sh"
+        echo "'e2e/run-e2e-docker.sh' has now executable flag on git index"
+        git update-index --chmod=+x "e2e/run-e2e-jib.sh"
+        echo "'e2e/run-e2e-jib.sh' has now executable flag on git index"
+        git update-index --chmod=+x "e2e/_e2e-executor.sh"
+        echo "'e2e/_e2e-executor.sh' has now executable flag on git index"
         ;;
 
     "normgit")
@@ -310,6 +318,14 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
 
     "mariah-batch")
         mysql -h $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' maria-batch) --port 3306 --protocol=TCP --user=root --password=woot manon_batch
+        ;;
+
+    "e2e")
+        ./e2e/run-e2e-docker.sh
+        ;;
+
+    "e2ejib")
+        ./e2e/run-e2e-jib.sh
         ;;
 
     esac
