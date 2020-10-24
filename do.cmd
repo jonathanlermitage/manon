@@ -30,6 +30,12 @@ if [%1] == [fixgit] (
   echo 'do' has now executable flag on git index
   git update-index --chmod=+x mvnw
   echo 'mvnw' has now executable flag on git index
+  git update-index --chmod=+x e2e/run-e2e-docker.sh
+  echo 'e2e/run-e2e-docker.sh' has now executable flag on git index
+  git update-index --chmod=+x e2e/run-e2e-jib.sh
+  echo 'e2e/run-e2e-jib.sh' has now executable flag on git index
+  git update-index --chmod=+x e2e/_e2e-executor.sh
+  echo 'e2e/_e2e-executor.sh' has now executable flag on git index
 )
 if [%1] == [normgit] (
   git add --update --renormalize

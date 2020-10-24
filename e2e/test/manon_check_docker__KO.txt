@@ -1,0 +1,6 @@
+nginx
+maria-batch
+redis
+prometheus
+grafana
+maria
