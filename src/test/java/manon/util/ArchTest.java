@@ -66,13 +66,12 @@ class ArchTest extends AbstractParallelTest {
             public void check(@NotNull JavaClass item, ConditionEvents events) {
                 item.getMethods()
                     .forEach(method -> {
-                        // TODO can't detect collections of forbidden objects, see https://github.com/TNG/ArchUnit/issues/413
-                        JavaClass rawReturnType = method.getRawReturnType();
-                        if (rawReturnType.getName().contains("manon.document.")) {
+                        String typeName = method.reflect().getGenericReturnType().getTypeName();
+                        if (typeName.contains("manon.document.")) {
                             String message = String.format("Class %s's method %s returns an entity of type %s",
                                 item.getSimpleName(),
                                 method.getName(),
-                                rawReturnType.getName());
+                                typeName);
                             events.add(SimpleConditionEvent.violated(method, message));
                         }
                     });
