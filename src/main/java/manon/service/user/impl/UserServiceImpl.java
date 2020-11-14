@@ -109,13 +109,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserEntity> searchByIdentity(String username, String nickname, String email, Pageable pageable) {
         BooleanBuilder predicate = new BooleanBuilder();
-        if (!StringUtils.isEmpty(username)) {
+        if (StringUtils.hasText(username)) {
             predicate.or(QUserEntity.userEntity.username.equalsIgnoreCase(username));
         }
-        if (!StringUtils.isEmpty(nickname)) {
+        if (StringUtils.hasText(nickname)) {
             predicate.or(QUserEntity.userEntity.nickname.equalsIgnoreCase(nickname));
         }
-        if (!StringUtils.isEmpty(email)) {
+        if (StringUtils.hasText(email)) {
             predicate.or(QUserEntity.userEntity.email.equalsIgnoreCase(email));
         }
         return search(predicate.getValue(), pageable);

@@ -10,8 +10,10 @@ import manon.api.user.UserAdminWS;
 import manon.api.user.UserWS;
 import manon.util.web.AuthMode;
 import manon.util.web.Rs;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
@@ -19,7 +21,6 @@ import static java.lang.System.currentTimeMillis;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Used to mock all controllers and test access rights or input validation.
@@ -37,6 +38,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     private static final String PWD = "password" + currentTimeMillis();
 
     private boolean initialized = false;
+    private AutoCloseable closeableMocks;
 
     /** Clear data before test class, not before each test method. */
     @Override
@@ -89,7 +91,7 @@ public abstract class AbstractMockIT extends AbstractIT {
 
     @BeforeEach
     public void setUpMocks() {
-        initMocks(this);
+        closeableMocks = MockitoAnnotations.openMocks(this);
         Mockito.clearInvocations(authAdminWS);
         Mockito.clearInvocations(authWS);
         Mockito.clearInvocations(friendshipWS);
@@ -97,6 +99,11 @@ public abstract class AbstractMockIT extends AbstractIT {
         Mockito.clearInvocations(pingWS);
         Mockito.clearInvocations(userAdminWS);
         Mockito.clearInvocations(userWs);
+    }
+
+    @AfterEach
+    public void releaseMocks() throws Exception {
+        closeableMocks.close();
     }
 
     public <T> T verify(T mock, int status) {
