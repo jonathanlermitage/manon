@@ -4,7 +4,7 @@ echo "-------------------------------------"
 echo "  Run e2e tests with Docker build"
 echo "-------------------------------------"
 
-echo "Buil project"
+echo "Build project"
 sh ./mvnw package -DskipUT=true -DskipIT=true -U
 
 echo "Buil application image from Dockerfile"
