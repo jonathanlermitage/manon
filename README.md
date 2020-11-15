@@ -3,7 +3,7 @@
     <a href="https://ci.appveyor.com/project/jonathanlermitage/manon"><img src="https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true" alt="Appveyor CI"/></a>
     <a href="https://travis-ci.org/jonathanlermitage/manon"><img src="https://img.shields.io/travis/jonathanlermitage/manon/spring5-light.svg?logo=travis" alt="Travis CI"/></a>
     <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light" alt="Cirrus CI"/></a>
-    <a href="https://github.com/jonathanlermitage/manon/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg" alt="License"/></a>
+    <a href="https://github.com/jonathanlermitage/manon/blob/spring5-light/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg" alt="License"/></a>
     <a href="https://sourcespy.com/github/jonathanlermitagemanon/"><img src="https://sourcespy.com/shield.svg" alt="SourceSpy Dashboard"/></a>
     <br/>
     <a href="https://sonarcloud.io/dashboard?id=nanon%3Amanon-light"><img src="https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status" alt="SonarCloud"/></a>
