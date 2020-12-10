@@ -106,6 +106,3 @@ after_success:
 cache:
   directories:
     - '$HOME/.m2'
-
-git:
-  depth: 3
