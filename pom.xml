@@ -47,10 +47,10 @@
                See https://github.com/mapstruct/mapstruct/issues/2267 and https://github.com/rzwitserloot/lombok/issues/2626 -->
         <lombok.version>1.18.12</lombok.version> <!-- https://projectlombok.org/changelog -->
 
-        <archunit.version>0.14.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
+        <archunit.version>0.15.0</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.5</equalsverifier.version>         <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>1.6.1</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
-        <guava.version>30.0-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
+        <guava.version>30.1-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>20.1.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
