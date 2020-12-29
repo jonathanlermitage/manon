@@ -85,7 +85,7 @@ services:
 
   greenmail:
     container_name: greenmail
-    image: greenmail/standalone:1.5.13 # see https://hub.docker.com/r/greenmail/standalone
+    image: greenmail/standalone:1.6.1 # see https://hub.docker.com/r/greenmail/standalone
     ports:
       - "3025:3025"
     environment:
@@ -99,7 +99,7 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:1.19.5-alpine # see https://hub.docker.com/_/nginx/
+    image: nginx:1.19.6-alpine # see https://hub.docker.com/_/nginx/
     ports:
       - "8000:80"
     volumes:
