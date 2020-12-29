@@ -73,10 +73,10 @@
 
     <repositories>
         <!-- Jcenter isn't mandatory but it integrates some artefacts faster than Central. -->
-        <repository>
+        <!--repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
-        </repository>
+        </repository-->
     </repositories>
 
     <dependencyManagement>
