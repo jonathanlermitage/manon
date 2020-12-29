@@ -17,6 +17,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "${TitleColor}Helper: (tip: you can chain parameters, e.g.: \"./do cdi rmi docker\" or \"./do w 3.6.0 c t\")${ResetColor}"
         echo ""
         echo "${CmdColor}fixgit       ${ResetColor}set executable flag on git index for required files"
+        echo "${CmdColor}fixexec      ${ResetColor}set executable permission for required files (chmod +x on bash scripts)"
         echo "${CmdColor}normgit      ${ResetColor}call git add --update --renormalize"
         echo "${CmdColor}conv         ${ResetColor}generate a Dependency Convergence report in target/site/dependency-convergence.html"
         echo "${CmdColor}oga          ${ResetColor}check for deprecated groupId and artifactId couples"
@@ -71,6 +72,19 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "${OkColor}'e2e/run-e2e-jib.sh' has now executable flag on git index${ResetColor}"
         git update-index --chmod=+x "e2e/_e2e-executor.sh"
         echo "${OkColor}'e2e/_e2e-executor.sh' has now executable flag on git index${ResetColor}"
+        ;;
+
+    "fixexec")
+        chmod +x ./do
+        echo "${OkColor}'do' is now executable${ResetColor}"
+        chmod +x ./mvnw
+        echo "${OkColor}'mvnw' is now executable${ResetColor}"
+        chmod +x ./e2e/run-e2e-docker.sh
+        echo "${OkColor}'e2e/run-e2e-docker.sh' is now executable${ResetColor}"
+        chmod +x ./e2e/run-e2e-jib.sh
+        echo "${OkColor}'e2e/run-e2e-jib.sh' is now executable${ResetColor}"
+        chmod +x ./e2e/_e2e-executor.sh
+        echo "${OkColor}'e2e/_e2e-executor.sh' is now executable${ResetColor}"
         ;;
 
     "normgit")

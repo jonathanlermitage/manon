@@ -98,6 +98,7 @@ You can now use the `./do` Linux Bash script:
 ```
 do help         show this help message
 do fixgit       set executable flag on git index for required files
+do fixexec      set executable permission for required files (chmod +x on bash scripts)
 do normgit      call git add --update --renormalize
 do conv         generate a Dependency Convergence report in target/site/dependency-convergence.html
 do oga          check for deprecated groupId and artifactId couples
