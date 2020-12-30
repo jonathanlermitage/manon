@@ -82,6 +82,7 @@ Some experimentation with **Spring Boot 2**, JDK8+, JUnit5, TestNG, SQL (HSQLDB,
 * integration with **[OWASP dependency check plugin](https://jeremylong.github.io/DependencyCheck/index.html)**. See last commit of [spring5-light-owasp-dependency-check-plugin](https://github.com/jonathanlermitage/manon/tree/spring5-light-owasp-dependency-check-plugin) branch
 * Spring Boot dependency management without Spring Boot parent POM. See last commit of [spring5-light-spring-boot-dependencies](https://github.com/jonathanlermitage/manon/tree/spring5-light-spring-boot-dependencies) branch
 * use [**Glowroot**](https://glowroot.org/) monitoring tool (via regular Docker build, not Jib). Run `./do docker up` then check [`http://localhost:4000`](http://localhost:4000). See last commit of [spring5-light-glowroot-docker](https://github.com/jonathanlermitage/manon/tree/spring5-light-glowroot-docker) branch
+* **[Spring Boot Admin](https://github.com/codecentric/spring-boot-admin)** (server with UI, and client). Run `./do docker up` then check [`http://localhost:28080`](http://localhost:28080). See last commit of [spring-boot-admin](https://github.com/jonathanlermitage/manon/tree/spring-boot-admin) branch (not merged into main branch yet)
 
 For fun and to show some skills :cat:
 
