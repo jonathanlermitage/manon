@@ -320,7 +320,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "gatling")
-        docker-compose -f ./docker/docker-compose-gatling.yml up --force-recreate
+        docker-compose -f ./docker/docker-compose-gatling.yml up --build --force-recreate --renew-anon-volumes
         ;;
 
     "maria")
