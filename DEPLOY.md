@@ -12,10 +12,10 @@ First, go to project's root and make the `./do` utility script executable if nee
 
 ### Docker Compose 
 
-* application + Nginx + MariaDB + Redis + Greenmail + Prometheus
+* application + Nginx + MariaDB + Redis + Greenmail + Prometheus + Spring Boot Admin
 * log analysis via ELK + Cerebro
 
-Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, [Redis](https://redis.io) cache, [Greenmail](https://github.com/greenmail-mail-test/greenmail) server to fake email messaging, an ELK stack to parse logs, and [Prometheus](https://prometheus.io) to monitor metrics provided by Spring Boot Actuator. To proceed, follow these steps:
+Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) and OpenJDK11, two [MariaDB](https://downloads.mariadb.org) databases (one for business tables, an other for Spring Batch tables), [Nginx](http://nginx.org/en/download.html) as HTTP proxy, [Redis](https://redis.io) cache, [Greenmail](https://github.com/greenmail-mail-test/greenmail) server to fake email messaging, an ELK stack to parse logs, [Prometheus](https://prometheus.io) to monitor metrics provided by Spring Boot Actuator, and [Spring Boot Admin](https://github.com/codecentric/spring-boot-admin) (Admin UI). To proceed, follow these steps:
 
 #### Preparation: create directories and install software
 
@@ -62,6 +62,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
   * go to `Configuration`, `Data Sources`, `Add data source`, choose `Prometheus`, name: `Prometheus` (case is important), url: `http://prometheus:9090`, `Save & Test`
   * go to `Dashboards`, `Manage`, `Import`, past content of [manon-dashboard.json](docker/grafana/manon-dashboard.json) file, `Load`, `Import`
   * go to `Dashboards`, `Home`, open the `manon` dashboard: you should see JDBC and CPU metrics
+* Play with Spring Boot Admin by visiting [`http://localhost:28080`](http://localhost:28080). You should see the `manon` application.
 
 #### Deploy ELK stack and Cerebro
 

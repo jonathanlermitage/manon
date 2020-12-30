@@ -3,6 +3,11 @@
 ### (warning: avoid tabs, indent with two spaces)
 
 spring:
+  boot.admin.client:
+    # see https://codecentric.github.io/spring-boot-admin/current/#spring-boot-admin-client for config keys
+    enabled: ${MANON_SPRINGBOOTADMIN_ENABLE:false}
+    url: ${MANON_SPRINGBOOTADMIN_URL:}
+    instance.prefer-ip: true
   mvc.converters.preferred-json-mapper: jackson
   batch.job.enabled: false
   main.banner-mode: console
@@ -37,6 +42,7 @@ spring:
     fail-on-write-error: true
     file: manon.pid
   output.ansi.enabled: always
+  application.name: manon
 server:
   compression.enabled: false # compression is handled by Nginx proxy
   servlet.application-display-name: manon
@@ -63,8 +69,7 @@ management:
     env.enabled: true
     health:
       enabled: true
-      show-details: when_authorized
-      roles: "ROLE_ACTUATOR"
+      show-details: always
     info.enabled: true
     mappings.enabled: true
     metrics.enabled: true

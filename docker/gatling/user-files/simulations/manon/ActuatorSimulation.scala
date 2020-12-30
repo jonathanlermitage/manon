@@ -19,7 +19,7 @@ class ActuatorSimulation extends Simulation {
         // Health Check as guest user
         .exec(http("request_health_asGuest")
             .get("/actuator/health")
-            .check(bodyString.is("""{"status":"UP"}"""))
+            .check(substring(""""status":"UP"""").find.exists)
         )
 
         // authenticate as admin user

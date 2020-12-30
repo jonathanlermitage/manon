@@ -204,6 +204,8 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         docker-compose -f ./docker/docker-compose.yml stop
         docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
         docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
+        docker rm $(docker ps -a | grep "lermitage-springbootadmin" | awk '{print $1}')
+        docker rmi $(docker images | grep -E "^lermitage-springbootadmin|<none>" | awk '{print $3}')
         ;;
 
     "cdi")
@@ -236,10 +238,19 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "docker")
+        # cleanup images
         docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
         docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
+        docker rm $(docker ps -a | grep "lermitage-springbootadmin" | awk '{print $1}')
+        docker rmi $(docker images | grep -E "^lermitage-springbootadmin|<none>" | awk '{print $3}')
+        # build manon
         sh ./mvnw package -DskipUT=true -DskipIT=true -T1
         docker build -f ./docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
+        # build spring-boot-admin
+        cd docker/spring-boot-admin || exit
+        sh ./mvnw package
+        docker build -f ./Dockerfile -t lermitage-springbootadmin:1.0.0-SNAPSHOT .
+        cd ../..
         ;;
 
     "dockerpull")
@@ -251,13 +262,22 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         ;;
 
     "jib")
+        # cleanup images
         docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
         docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
+        docker rm $(docker ps -a | grep "lermitage-springbootadmin" | awk '{print $1}')
+        docker rmi $(docker images | grep -E "^lermitage-springbootadmin|<none>" | awk '{print $3}')
+        # build manon
         sh ./mvnw compile jib:dockerBuild -DskipUT=true -DskipIT=true -U -P jib
+        # build spring-boot-admin
+        cd docker/spring-boot-admin || exit
+        sh ./mvnw compile jib:dockerBuild -P jib
+        cd ../..
         ;;
 
     "jibtar")
         sh ./mvnw compile jib:buildTar -DskipUT=true -DskipIT=true -U -P jib
+        sh ./docker/springbootadmin/mvnw compile jib:buildTar -DskipUT=true -DskipIT=true -U -P jib
         ;;
 
     "up")
@@ -292,6 +312,11 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
             sudo chown -R grafana ~/manon-grafana-data
             echo "$HOME/manon-grafana-data directory created"
         fi
+        docker-compose -f ./docker/docker-compose.yml up -d springbootadmin
+        echo "Starting springbootadmin and wait 10 seconds..."
+        sleep 10
+        echo "Done, springbootadmin should be open to connections. If manon startup fails, please restart springbootadmin"
+        echo "Starting manon"
         docker-compose -f ./docker/docker-compose.yml up -d
         ;;
 

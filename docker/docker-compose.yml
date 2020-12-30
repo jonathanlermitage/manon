@@ -30,6 +30,8 @@ services:
       MANON_MAIL_USERNAME: "sender"
       MANON_MAIL_PASSWORD: "woot"
       MANON_MAIL_TEST_CONNECTION: "true"
+      MANON_SPRINGBOOTADMIN_ENABLE: "true"
+      MANON_SPRINGBOOTADMIN_URL: http://springbootadmin:28080
     depends_on:
       - maria
       - redis
@@ -40,6 +42,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  springbootadmin:
+    container_name: springbootadmin
+    image: lermitage-springbootadmin:1.0.0-SNAPSHOT
+    ports:
+      - "28080:28080"
 
   maria:
     container_name: maria
