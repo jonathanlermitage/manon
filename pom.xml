@@ -34,7 +34,7 @@
         <skipIT>false</skipIT>
         <skipUT>false</skipUT>
         <!--</editor-fold>-->
-        <docker-base-image>openjdk:11.0.9.1-jre-slim</docker-base-image>
+        <docker-base-image>openjdk:11.0.10-jre-slim</docker-base-image>
 
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies is too old (v2), fix https://github.com/rest-assured/rest-assured/issues/1283 -->
@@ -48,14 +48,14 @@
         <lombok.version>1.18.12</lombok.version> <!-- https://projectlombok.org/changelog -->
 
         <archunit.version>0.15.0</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
-        <equalsverifier.version>3.5.1</equalsverifier.version>       <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
+        <equalsverifier.version>3.5.2</equalsverifier.version>       <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>1.6.1</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>30.1-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>20.1.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
         <jjwt.version>0.11.2</jjwt.version>                          <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>2.22.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <json-unit.version>2.23.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>           <!-- https://github.com/mapstruct/mapstruct/releases -->
         <springfox-swagger.version>3.0.0</springfox-swagger.version> <!-- https://github.com/springfox/springfox/blob/master/docs/release-notes.md -->

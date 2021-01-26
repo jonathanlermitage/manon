@@ -1,5 +1,5 @@
 # package app with openjdk jre (see https://hub.docker.com/_/openjdk/)
-FROM openjdk:11.0.9.1-jre-slim
+FROM openjdk:11.0.10-jre-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/*
 

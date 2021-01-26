@@ -20,7 +20,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 #### Preparation: create directories and install software
 
 * Elasticsearch may need `sudo sysctl -w vm.max_map_count=262144`.
-* Install **Docker**:
+* Install **Docker**: ([otherwise, see online help from Docker website](https://docs.docker.com/engine/install/ubuntu/))
   ```bash
   # install Docker Community Edition, tested on Lubuntu 18.04 LTS
   sudo apt-get remove docker docker-engine docker.io
@@ -36,7 +36,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Install **Docker Compose**:
   ```bash
   sudo rm /usr/local/bin/docker-compose
-  sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   sudo chmod +x /usr/local/bin/docker-compose
   ```
  
@@ -50,6 +50,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Application listens on port 8081 and its logs are stored in `~/manon-app-logs/`.
 * Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
   * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
+* Check Swagger UI by visiting [http://localhost:8000/swagger-ui/](http://localhost:8000/swagger-ui/) and [http://localhost:8000/v2/api-docs](http://localhost:8000/v2/api-docs).
 * Check application connectivity by visiting [`http://localhost:8081/actuator/health`](http://localhost:8081/actuator/health).
 * Replace `8081` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.

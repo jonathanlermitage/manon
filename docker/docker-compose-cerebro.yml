@@ -8,7 +8,7 @@ services:
 
   cerebro:
     container_name: cerebro
-    image: lmenezes/cerebro:0.9.2 # see https://hub.docker.com/r/lmenezes/cerebro/tags
+    image: lmenezes/cerebro:0.9.3 # see https://hub.docker.com/r/lmenezes/cerebro/tags
     ports:
       - "9000:9000"
     volumes:
