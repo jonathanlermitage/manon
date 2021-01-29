@@ -43,9 +43,6 @@
         <rest-assured.version>4.3.3</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
         <spring-boot.version>2.4.2</spring-boot.version>
-        <!-- - temporary workaround: 1.18.16 introduced a breaking change for mapstruct.
-               See https://github.com/mapstruct/mapstruct/issues/2267 and https://github.com/rzwitserloot/lombok/issues/2626 -->
-        <lombok.version>1.18.12</lombok.version> <!-- https://projectlombok.org/changelog -->
 
         <archunit.version>0.15.0</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.5.2</equalsverifier.version>       <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
@@ -512,6 +509,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <showDeprecation>true</showDeprecation>
                     <annotationProcessorPaths>
                         <path>
@@ -519,11 +518,11 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
                         </path>
-                        <!--path> TODO uncomment to use lombok > 1.18.12, but mapstruct integration is still buggy
+                        <path>
                           <groupId>org.projectlombok</groupId>
                           <artifactId>lombok-mapstruct-binding</artifactId>
                           <version>${lombok-mapstruct-binding.version}</version>
-                        </path-->
+                        </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
