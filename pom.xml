@@ -68,14 +68,6 @@
         <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
-    <repositories>
-        <!-- Jcenter isn't mandatory but it integrates some artefacts faster than Central. -->
-        <!--repository>
-            <id>jcenter</id>
-            <url>https://jcenter.bintray.com/</url>
-        </repository-->
-    </repositories>
-
     <dependencyManagement>
 
         <dependencies>
