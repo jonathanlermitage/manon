@@ -528,6 +528,7 @@
                         <!-- Tweak MapStruct, see https://mapstruct.org/documentation/stable/reference/html/#configuration-options -->
                         <arg>-Amapstruct.defaultComponentModel=spring</arg>
                         <arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
+                        <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
