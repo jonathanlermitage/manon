@@ -524,6 +524,11 @@
                     <!-- Generate metadata on method parameters to enable usage of @Cacheable + @Spybean. Without this, @Cacheable
                          can't recognize named parameters. See https://github.com/spring-projects/spring-boot/issues/13945 -->
                     <parameters>true</parameters>
+                    <compilerArgs>
+                        <!-- Tweak MapStruct, see https://mapstruct.org/documentation/stable/reference/html/#configuration-options -->
+                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                        <arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
