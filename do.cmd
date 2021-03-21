@@ -10,6 +10,7 @@ if [%1] == [help] (
   echo  ut      run unit tests only, no integration tests
   echo  tc      run unit + integration tests and generate coverage data
   echo  itc     run integration tests only and generate coverage data
+  echo  pit     run mutation tests with Pitest
   echo  sc      compute and upload Sonar analysis to SonarCloud
   echo  tsc     similar to "do tc" then "do sc"
   echo  sb      scan with SpotBugs then show GUI
@@ -61,6 +62,9 @@ if [%1] == [tc] (
 )
 if [%1] == [itc] (
   mvnw clean verify -U -P coverage -DskipUT=true
+)
+if [%1] == [pit] (
+  mvnw clean compile test-compile -DwithHistory org.pitest:pitest-maven:mutationCoverage
 )
 if [%1] == [b] (
   mvnw clean compile -DskipUT=true -DskipIT=true -T1 -U
