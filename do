@@ -28,6 +28,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "${CmdColor}ut           ${ResetColor}run unit tests only, no integration tests"
         echo "${CmdColor}tc           ${ResetColor}run unit + integration tests and generate coverage data"
         echo "${CmdColor}itc          ${ResetColor}run integration tests only and generate coverage data"
+        echo "${CmdColor}pit          ${ResetColor}run mutation tests with Pitest"
         echo "${CmdColor}gatling      ${ResetColor}benchmark application via a Gatling container (run './do up' first to start application)"
         echo "${CmdColor}sc           ${ResetColor}compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
         echo "${CmdColor}tsc          ${ResetColor}similar to \"do tc\" then \"do sc\""
@@ -150,6 +151,10 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
 
     "itc")
         sh ./mvnw verify -U -P coverage -DskipUT=true
+        ;;
+
+    "pit")
+        sh ./mvnw clean compile test-compile -DwithHistory org.pitest:pitest-maven:mutationCoverage
         ;;
 
     "b")
