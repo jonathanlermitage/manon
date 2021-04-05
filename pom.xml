@@ -46,8 +46,8 @@
 
         <archunit.version>0.17.0</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.5.5</equalsverifier.version>       <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
-        <greenmail.version>1.6.2</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
-        <guava.version>30.1.1-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
+        <greenmail.version>1.6.3</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
+        <guava.version>30.1.1-jre</guava.version>                    <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>20.1.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
@@ -62,11 +62,11 @@
         <findsecbugs-plugin.version>1.11.0</findsecbugs-plugin.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html (lib used by plugin) -->
         <jib-maven-plugin.version>2.8.0</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
-        <oga-maven-plugin.version>1.2.0</oga-maven-plugin.version>
-        <owasp-dependency-check-plugin.version>6.1.2</owasp-dependency-check-plugin.version>
+        <oga-maven-plugin.version>1.3.0</oga-maven-plugin.version>
+        <owasp-dependency-check-plugin.version>6.1.5</owasp-dependency-check-plugin.version>
         <pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
         <pitest-maven.version>1.6.4</pitest-maven.version>
-        <spotbugs-maven-plugin.version>4.2.0</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.2.2</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
