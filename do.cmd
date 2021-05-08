@@ -26,6 +26,12 @@ if [%1] == [help] (
   echo  jibtar  build and save Docker image to a tarball
 )
 
+if "%USE_MVND%"== "yes" (
+    @set MVN_CMD=mvnd
+) else (
+    @set MVN_CMD=mvnw
+)
+
 if [%1] == [fixgit] (
   git update-index --chmod=+x do
   echo 'do' has now executable flag on git index
@@ -43,40 +49,40 @@ if [%1] == [normgit] (
   echo renormalized
 )
 if [%1] == [conv] (
-  mvnw project-info-reports:dependency-convergence -U
+  %MVN_CMD% project-info-reports:dependency-convergence -U
 )
 if [%1] == [oga] (
-  mvnw biz.lermitage.oga:oga-maven-plugin:check
+  %MVN_CMD% biz.lermitage.oga:oga-maven-plugin:check
 )
 if [%1] == [owasp] (
-  mvnw org.owasp:dependency-check-maven:check -P owasp
+  %MVN_CMD% org.owasp:dependency-check-maven:check -P owasp
 )
 if [%1] == [t] (
-  mvnw clean verify -U
+  %MVN_CMD% clean verify -U
 )
 if [%1] == [ut] (
-  mvnw clean test -U
+  %MVN_CMD% clean test -U
 )
 if [%1] == [tc] (
-  mvnw clean verify -U -P coverage
+  %MVN_CMD% clean verify -U -P coverage
 )
 if [%1] == [itc] (
-  mvnw clean verify -U -P coverage -DskipUT=true
+  %MVN_CMD% clean verify -U -P coverage -DskipUT=true
 )
 if [%1] == [pit] (
-  mvnw clean compile test-compile -DwithHistory org.pitest:pitest-maven:mutationCoverage
+  %MVN_CMD% clean compile test-compile -DwithHistory org.pitest:pitest-maven:mutationCoverage
 )
 if [%1] == [b] (
-  mvnw clean compile -DskipUT=true -DskipIT=true -T1 -U
+  %MVN_CMD% clean compile -DskipUT=true -DskipIT=true -T1 -U
 )
 if [%1] == [c] (
-  mvnw clean
+  %MVN_CMD% clean
 )
 if [%1] == [p] (
-  mvnw clean package -DskipUT=true -DskipIT=true -T1 -U
+  %MVN_CMD% clean package -DskipUT=true -DskipIT=true -T1 -U
 )
 if [%1] == [rd] (
-  mvnw clean package -DskipUT=true -DskipIT=true -T1 -U
+  %MVN_CMD% clean package -DskipUT=true -DskipIT=true -T1 -U
   cd target
   java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
   cd ..
@@ -85,26 +91,26 @@ if [%1] == [w] (
   mvn -N io.takari:maven:wrapper -Dmaven=%2
 )
 if [%1] == [cv] (
-  mvnw versions:display-property-updates -U
+  %MVN_CMD% versions:display-property-updates -U
 )
 if [%1] == [uv] (
-  mvnw versions:update-properties -U
+  %MVN_CMD% versions:update-properties -U
 )
 if [%1] == [dt] (
-  mvnw dependency:tree -U
+  %MVN_CMD% dependency:tree -U
 )
 if [%1] == [sc] (
-  mvnw sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  %MVN_CMD% sonar:sonar -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [tsc] (
-  mvnw clean verify sonar:sonar -U -P coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
+  %MVN_CMD% clean verify sonar:sonar -U -P coverage -Dsonar.organization=%TK1_MANON_SONAR_ORGA% -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%TK1_MANON_SONAR_LOGIN%
 )
 if [%1] == [sb] (
-  mvnw clean compile spotbugs:spotbugs spotbugs:gui -P spotbugs
+  %MVN_CMD% clean compile spotbugs:spotbugs spotbugs:gui -P spotbugs
 )
 if [%1] == [jib] (
-  mvnw clean compile jib:dockerBuild -DskipUT=true -DskipIT=true -U -P jib
+  %MVN_CMD% clean compile jib:dockerBuild -DskipUT=true -DskipIT=true -U -P jib
 )
 if [%1] == [jibtar] (
-  mvnw clean compile jib:buildTar -DskipUT=true -DskipIT=true -U -P jib
+  %MVN_CMD% clean compile jib:buildTar -DskipUT=true -DskipIT=true -U -P jib
 )
