@@ -1,0 +1,5 @@
+# Hadolint (Haskell Dockerfile Linter) config. See https://github.com/hadolint/hadolint#configure
+
+ignored:
+  # ignore "Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`"
+  - DL3008
