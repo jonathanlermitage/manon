@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.1</version>
+        <version>2.5.3</version>
         <relativePath/>
     </parent>
 
@@ -42,17 +42,17 @@
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
         <rest-assured.version>4.4.0</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>2.5.1</spring-boot.version>
+        <spring-boot.version>2.5.3</spring-boot.version>
 
-        <archunit.version>0.19.0</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
-        <equalsverifier.version>3.6.1</equalsverifier.version>       <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
+        <archunit.version>0.20.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
+        <equalsverifier.version>3.7</equalsverifier.version>         <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>1.6.4</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>30.1.1-jre</guava.version>                    <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>21.0.1</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
         <jjwt.version>0.11.2</jjwt.version>                          <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>2.26.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <json-unit.version>2.27.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>           <!-- https://github.com/mapstruct/mapstruct/releases -->
         <springfox-swagger.version>3.0.0</springfox-swagger.version> <!-- https://github.com/springfox/springfox/blob/master/docs/release-notes.md -->
@@ -61,12 +61,12 @@
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <findsecbugs-plugin.version>1.11.0</findsecbugs-plugin.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html (lib used by plugin) -->
-        <jib-maven-plugin.version>3.1.1</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
-        <oga-maven-plugin.version>1.4.0</oga-maven-plugin.version>
+        <jib-maven-plugin.version>3.1.2</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
+        <oga-maven-plugin.version>1.6.0</oga-maven-plugin.version>
         <owasp-dependency-check-plugin.version>6.2.2</owasp-dependency-check-plugin.version>
         <pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
         <pitest-maven.version>1.6.7</pitest-maven.version>
-        <spotbugs-maven-plugin.version>4.2.3</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.3.0</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
@@ -577,6 +577,10 @@
                 <groupId>biz.lermitage.oga</groupId>
                 <artifactId>oga-maven-plugin</artifactId>
                 <version>${oga-maven-plugin.version}</version>
+                <configuration>
+                    <ignoreListFile>.mvn/oga-ignore-list.json</ignoreListFile>
+                <failOnError>false</failOnError>
+            </configuration>
             </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>

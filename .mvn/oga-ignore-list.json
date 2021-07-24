@@ -1,0 +1,7 @@
+{
+    "ignoreList": [
+        {
+            "item": "pl.project13.maven:git-commit-id-plugin"
+        }
+    ]
+}
