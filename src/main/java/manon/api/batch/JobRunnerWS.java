@@ -1,7 +1,7 @@
 package manon.api.batch;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.model.batch.TaskStatus;
@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_SYS;
-import static manon.util.Tools.Media.JSON;
 
 /** Job API. */
-@Api(description = "Start batch jobs. Used by: admin.")
+@Tag(name = "Start batch jobs. Used by: admin.")
 @RestController
 @RequestMapping(value = API_SYS)
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class JobRunnerWS {
     private final JobRunnerService jobRunnerService;
     private final NotificationService notificationService;
 
-    @ApiOperation(value = "Start given job.", produces = JSON, response = TaskStatus.class)
+    @Operation(summary = "Start given job.")
     @PostMapping(value = "/batch/start/{job}")
     public TaskStatus startJob(@AuthenticationPrincipal UserSimpleDetails sys, @PathVariable("job") String job)
         throws JobParametersInvalidException, JobExecutionAlreadyRunningException,

@@ -1,16 +1,12 @@
 package manon.app.config;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,22 +15,11 @@ public class SwaggerConfig {
     private final Cfg cfg;
 
     @Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("manon.api"))
-            .paths(PathSelectors.any())
-            .build().apiInfo(metaData());
-    }
-
-    private ApiInfo metaData() {
-        return new ApiInfoBuilder()
-            .title("Manon REST API")
-            .description("Some experimentation with Spring Boot, etc.")
-            .version(cfg.getVersion())
-            .license("MIT")
-            .licenseUrl("https://opensource.org/licenses/MIT")
-            .contact(new Contact("Jonathan Lermitage", "https://github.com/jonathanlermitage/manon", "jonathan.lermitage@gmail.com"))
-            .build();
+    public OpenAPI springShopOpenAPI() {
+        return new OpenAPI()
+            .info(new Info().title("Manon REST API")
+                .description("Some experimentation with Spring Boot, etc.")
+                .version(cfg.getVersion())
+                .license(new License().name("MIT").url("https://opensource.org/licenses/MIT")));
     }
 }

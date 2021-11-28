@@ -1,7 +1,7 @@
 package manon.api.user;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.user.UserEntity;
@@ -30,7 +30,7 @@ import static manon.util.Tools.Media.JSON;
 import static org.springframework.http.HttpStatus.CREATED;
 
 /** User API. */
-@Api(description = "Register new user and manipulate own user data. Used by: registered users, except registration that is public.")
+@Tag(name = "Register new user and manipulate own user data. Used by: registered users, except registration that is public.")
 @RestController
 @RequestMapping(value = API_USER)
 @RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class UserWS {
     private final UserService userService;
 
     /** Register a new user. */
-    @ApiOperation(value = "Register and return a new user. This endpoint is public.", consumes = JSON, produces = JSON, response = UserDto.class)
+    @Operation(summary = "Register and return a new user. This endpoint is public.")
     @PostMapping(consumes = JSON)
     @ResponseStatus(CREATED)
     public UserDto register(@RequestBody @Validated UserLogin userLogin) {
@@ -51,7 +51,7 @@ public class UserWS {
     }
 
     /** Unregister a user. */
-    @ApiOperation(value = "Unregister me.")
+    @Operation(summary = "Unregister me.")
     @DeleteMapping
     public void delete(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} deletes himself", user.getIdentity());
@@ -59,7 +59,7 @@ public class UserWS {
     }
 
     /** Get user. */
-    @ApiOperation(value = "Get my user information.", produces = JSON, response = UserDto.class)
+    @Operation(summary = "Get my user information.")
     @GetMapping
     public UserDto read(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
@@ -68,7 +68,7 @@ public class UserWS {
     }
 
     /** Get user and linked user snapshots. */
-    @ApiOperation(value = "Get my user information and linked user snapshots.", produces = JSON, response = UserWithSnapshotsDto.class)
+    @Operation(summary = "Get my user information and linked user snapshots.")
     @GetMapping("/include/usersnapshots")
     public UserWithSnapshotsDto readAndIncludeUserSnapshots(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his user", user.getIdentity());
@@ -76,7 +76,7 @@ public class UserWS {
     }
 
     /** Get user's version. */
-    @ApiOperation(value = "Get my user version number.", produces = JSON, response = Long.class)
+    @Operation(summary = "Get my user version number.")
     @GetMapping("/version")
     public long readVersion(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his version", user.getIdentity());
@@ -84,7 +84,7 @@ public class UserWS {
     }
 
     /** Update one user's user field. */
-    @ApiOperation(value = "Update my user data.", consumes = JSON)
+    @Operation(summary = "Update my user data.")
     @PutMapping(value = "/field", consumes = JSON)
     public void update(@AuthenticationPrincipal UserSimpleDetails user,
                        @RequestBody @Validated UserUpdateForm userUpdateForm) {
@@ -93,7 +93,7 @@ public class UserWS {
     }
 
     /** Update current user's password. */
-    @ApiOperation(value = "Update my user password.", consumes = JSON)
+    @Operation(summary = "Update my user password.")
     @PutMapping(value = "/password", consumes = JSON)
     public void updatePassword(@AuthenticationPrincipal UserSimpleDetails user,
                                @RequestBody @Validated UserPasswordUpdateForm userPasswordUpdateForm) {

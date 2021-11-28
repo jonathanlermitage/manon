@@ -1,7 +1,7 @@
 package manon.api.user;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.service.app.AuthTokenService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static manon.app.Globals.API.API_USER_ADMIN;
 
 /** User API. */
-@Api(description = "Authentication administration tasks. Used by: admin.")
+@Tag(name = "Authentication administration tasks. Used by: admin.")
 @RestController
 @RequestMapping(value = API_USER_ADMIN)
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class AuthAdminWS {
 
     private final AuthTokenService authTokenService;
 
-    @ApiOperation(value = "Maintenance: remove all expired authentication token references from database.")
+    @Operation(summary = "Maintenance: remove all expired authentication token references from database.")
     @DeleteMapping(value = "/auth/expired/all")
     public void removeAllExpiredTokens() {
         authTokenService.removeAllExpired();

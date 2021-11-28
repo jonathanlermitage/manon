@@ -79,14 +79,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/health", "/actuator/prometheus").permitAll()
                 .antMatchers("/actuator").hasRole(ACTUATOR)
                 .antMatchers("/actuator/**").hasRole(ACTUATOR)
-                .antMatchers("/swagger-resources",
-                    "/swagger-resources/configuration/ui",
-                    "/swagger-resources/configuration/security",
-                    "/swagger-ui.html",
-                    "/swagger-ui/",
+                .antMatchers("/swagger-ui.html",
                     "/swagger-ui/**",
-                    "/webjars/**",
-                    "/v2/api-docs").permitAll()
+                    "/v3/api-docs",
+                    "/v3/api-docs/swagger-config",
+                    "/v3/api-docs.yaml").permitAll()
 
                 .anyRequest().denyAll()
             );
