@@ -47,8 +47,11 @@ server:
     include-message: always
     include-binding-errors: always
 
-springfox.documentation:
-  swagger-ui.base-url: "/"
+springdoc:
+  swagger-ui.path: "/swagger-ui.html"
+  api-docs.path: "/v3/api-docs"
+  packagesToScan: "manon.api"
+  pathsToMatch: "/**"
 
 info.app:
   name: manon

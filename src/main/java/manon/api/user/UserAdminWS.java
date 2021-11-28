@@ -1,8 +1,8 @@
 package manon.api.user;
 
 import com.querydsl.core.types.Predicate;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.user.UserEntity;
@@ -23,11 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_USER_ADMIN;
-import static manon.util.Tools.Media.JSON;
-import static manon.util.Tools.Media.TEXT;
 
 /** User admin API. */
-@Api(description = "User administration tasks. Used by: admin.")
+@Tag(name = "User administration tasks. Used by: admin.")
 @RestController
 @RequestMapping(value = API_USER_ADMIN)
 @RequiredArgsConstructor
@@ -38,7 +36,7 @@ public class UserAdminWS {
     private final UserService userService;
 
     /** Get all users. */
-    @ApiOperation(value = "Get all users. Result is paginated.", produces = JSON, response = Page.class)
+    @Operation(summary = "Get all users. Result is paginated.")
     @GetMapping(value = "/all")
     public Page<UserDto> findAll(@AuthenticationPrincipal UserSimpleDetails admin,
                                  Pageable pageable) {
@@ -48,7 +46,7 @@ public class UserAdminWS {
     }
 
     /** Activate a user. */
-    @ApiOperation(value = "Activate a user. Returns registration state name.", produces = TEXT)
+    @Operation(summary = "Activate a user. Returns registration state name.")
     @PostMapping(value = "/{userId}/activate")
     public String activate(@AuthenticationPrincipal UserSimpleDetails admin,
                            @PathVariable("userId") long userId) {
@@ -57,7 +55,7 @@ public class UserAdminWS {
     }
 
     /** Suspend a user. */
-    @ApiOperation(value = "Suspend a user. Returns registration state name.", produces = TEXT)
+    @Operation(summary = "Suspend a user. Returns registration state name.")
     @PostMapping(value = "/{userId}/suspend")
     public String suspend(@AuthenticationPrincipal UserSimpleDetails admin,
                           @PathVariable("userId") long userId) {
@@ -66,7 +64,7 @@ public class UserAdminWS {
     }
 
     /** Ban a user. */
-    @ApiOperation(value = "Ban a user. Returns registration state name.", produces = TEXT)
+    @Operation(summary = "Ban a user. Returns registration state name.")
     @PostMapping(value = "/{userId}/ban")
     public String ban(@AuthenticationPrincipal UserSimpleDetails admin,
                       @PathVariable("userId") long userId) {
@@ -74,7 +72,7 @@ public class UserAdminWS {
         return registrationService.ban(userId).getRegistrationState().name();
     }
 
-    @ApiOperation(value = "Search users via Querydsl.", produces = JSON, response = Page.class)
+    @Operation(summary = "Search users via Querydsl.")
     @PostMapping(value = "/search")
     public Page<UserDto> search(@AuthenticationPrincipal UserSimpleDetails admin,
                                 @QuerydslPredicate(root = UserEntity.class) Predicate predicate,
@@ -85,7 +83,7 @@ public class UserAdminWS {
         return UserMapper.MAPPER.toUserDtoPage(res, pageable);
     }
 
-    @ApiOperation(value = "Search users via username, nickname or email.", produces = JSON, response = Page.class)
+    @Operation(summary = "Search users via username, nickname or email.")
     @PostMapping(value = "/search/identity")
     public Page<UserDto> searchByIdentity(@AuthenticationPrincipal UserSimpleDetails admin,
                                           @RequestParam(name = "username", required = false) String username,

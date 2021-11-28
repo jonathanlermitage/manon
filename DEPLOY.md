@@ -50,7 +50,7 @@ Application dockerized with [Jib](https://github.com/GoogleContainerTools/jib) a
 * Application listens on port 8081 and its logs are stored in `~/manon-app-logs/`.
 * Check application healthcheck: wait 40s, then run `docker inspect --format "{{json .State.Health }}" manon | jq`. 
   * Please note that healthcheck won't work if you built image with Jib: `openjdk` image doesn't contain `curl` software, I installed it in `Dockerfile` only.
-* Check Swagger UI by visiting [http://localhost:8000/swagger-ui/](http://localhost:8000/swagger-ui/) and [http://localhost:8000/v2/api-docs](http://localhost:8000/v2/api-docs).
+* Check Swagger UI by visiting [http://localhost:8000/swagger-ui.html](http://localhost:8000/swagger-ui.html), JSON OpenAPI docs [http://localhost:8000/v3/api-docs](http://localhost:8000/v3/api-docs) and YAML OpenAPI docs [http://localhost:8000/v3/api-docs.yaml](http://localhost:8000/v3/api-docs.yaml).
 * Check application connectivity by visiting [`http://localhost:8081/actuator/health`](http://localhost:8081/actuator/health).
 * Replace `8081` by `8000` to access application via Nginx proxy.
 * Check Nginx error and access logs in `~/manon-nginx-logs`.

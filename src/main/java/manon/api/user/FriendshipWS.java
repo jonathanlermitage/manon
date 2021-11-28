@@ -1,7 +1,7 @@
 package manon.api.user;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.document.user.FriendshipRequestEntity;
@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static manon.app.Globals.API.API_USER;
-import static manon.util.Tools.Media.JSON;
 
-@Api(description = "Friendship operations between users. Used by: registered users.")
+@Tag(name = "Friendship operations between users. Used by: registered users.")
 @RestController
 @RequestMapping(value = API_USER)
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class FriendshipWS {
     private final FriendshipRequestService friendshipRequestService;
 
     /** Create a friendship request to another user. */
-    @ApiOperation(value = "Create a friendship request to another user.")
+    @Operation(summary = "Create a friendship request to another user.")
     @PostMapping("/askfriendship/user/{id}")
     public void askFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                               @PathVariable("id") long id) {
@@ -43,7 +42,7 @@ public class FriendshipWS {
     }
 
     /** Accept a friendship request from another user. */
-    @ApiOperation(value = "Accept a friendship request from another user.")
+    @Operation(summary = "Accept a friendship request from another user.")
     @PostMapping("/acceptfriendship/user/{id}")
     public void acceptFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") long id) {
@@ -52,7 +51,7 @@ public class FriendshipWS {
     }
 
     /** Reject a friendship request from another user. */
-    @ApiOperation(value = "Reject a friendship request from another user.")
+    @Operation(summary = "Reject a friendship request from another user.")
     @PostMapping("/rejectfriendship/user/{id}")
     public void rejectFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") long id) {
@@ -61,7 +60,7 @@ public class FriendshipWS {
     }
 
     /** Cancel a friendship request to another user. */
-    @ApiOperation(value = "Cancel a friendship request to another user.")
+    @Operation(summary = "Cancel a friendship request to another user.")
     @PostMapping("/cancelfriendship/user/{id}")
     public void cancelFriendshipRequest(@AuthenticationPrincipal UserSimpleDetails user,
                                         @PathVariable("id") long id) {
@@ -70,7 +69,7 @@ public class FriendshipWS {
     }
 
     /** Delete an existing friendship relation with another user. */
-    @ApiOperation(value = "Delete an existing friendship relation with another user.")
+    @Operation(summary = "Delete an existing friendship relation with another user.")
     @PostMapping("/revokefriendship/user/{id}")
     public void revokeFriendship(@AuthenticationPrincipal UserSimpleDetails user,
                                  @PathVariable("id") long id) {
@@ -79,7 +78,7 @@ public class FriendshipWS {
     }
 
     /** Get friends public information. */
-    @ApiOperation(value = "Get friends public information. Returns complete list of friends.", produces = JSON, response = List.class)
+    @Operation(summary = "Get friends public information. Returns complete list of friends.")
     @GetMapping("/friends")
     public List<UserPublicInfo> getFriends(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his friends", user.getIdentity());
@@ -87,7 +86,7 @@ public class FriendshipWS {
     }
 
     /** Get friendship requests. */
-    @ApiOperation(value = "Get friendship requests.", produces = JSON, response = List.class)
+    @Operation(summary = "Get friendship requests.")
     @GetMapping("/friendshiprequests")
     public List<FriendshipRequestDto> getFriendshipRequests(@AuthenticationPrincipal UserSimpleDetails user) {
         log.debug("user {} reads his friendship requests", user.getIdentity());

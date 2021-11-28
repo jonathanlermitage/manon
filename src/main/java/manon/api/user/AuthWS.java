@@ -1,7 +1,7 @@
 package manon.api.user;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.err.user.UserNotFoundException;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static manon.app.Globals.API.API_USER;
 
 /** User API. */
-@Api(description = "Manage authentication. Used by: registered users, except authorization that is public.")
+@Tag(name = "Manage authentication. Used by: registered users, except authorization that is public.")
 @RestController
 @RequestMapping(value = API_USER)
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class AuthWS {
     private final AuthTokenService authTokenService;
     private final JwtTokenService jwtTokenService;
 
-    @ApiOperation(value = "Authenticate and get a JWT token for me.")
+    @Operation(summary = "Authenticate and get a JWT token for me.")
     @PostMapping(value = "/auth/authorize")
     public String createAuthToken(@RequestBody @Validated UserLogin userLogin) {
         Authentication authentication = authenticationManager.authenticate(
@@ -45,13 +45,13 @@ public class AuthWS {
         return jwtTokenService.generateToken(userLogin.getUsername());
     }
 
-    @ApiOperation(value = "Generate a new JWT token for me.")
+    @Operation(summary = "Generate a new JWT token for me.")
     @PostMapping(value = "/auth/renew")
     public String renewAuthToken(@AuthenticationPrincipal UserSimpleDetails user) {
         return jwtTokenService.generateToken(user.getUsername());
     }
 
-    @ApiOperation(value = "Invaldate all my JWT tokens.")
+    @Operation(summary = "Invaldate all my JWT tokens.")
     @PostMapping(value = "/auth/logout/all")
     public void logoutAll(@AuthenticationPrincipal UserSimpleDetails user) {
         authTokenService.removeUserTokens(user.getUsername());

@@ -1,7 +1,7 @@
 package manon.api.app;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import manon.service.app.PingService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static manon.app.Globals.API.API_SYS;
 
-@Api(description = "Ping service.")
+@Tag(name = "Ping service.")
 @RestController
 @RequestMapping(value = API_SYS)
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class PingWS {
 
     private final PingService pingService;
 
-    @ApiOperation(value = "Check that an URL can be reached.")
+    @Operation(summary = "Check that an URL can be reached.")
     @GetMapping("/ping/{encodedUrl}")
     public void ping(@PathVariable("encodedUrl") String encodedUrl) {
         pingService.ping(encodedUrl);
