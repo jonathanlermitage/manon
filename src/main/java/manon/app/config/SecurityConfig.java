@@ -65,25 +65,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilterBefore(jwtAuthenticationFilterConfig, UsernamePasswordAuthenticationFilter.class)
 
             .authorizeRequests(a -> a
-                .antMatchers(API_SYS + "/**").hasRole(ADMIN)
+                .mvcMatchers(API_SYS + "/**").hasRole(ADMIN)
 
-                .antMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
+                .mvcMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
 
-                .antMatchers(POST, API_USER).permitAll() // user registration
-                .antMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
-                .antMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
-                .antMatchers(API_USER + "/**").hasRole(PLAYER)
+                .mvcMatchers(POST, API_USER).permitAll() // user registration
+                .mvcMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
+                .mvcMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
+                .mvcMatchers(API_USER + "/**").hasRole(PLAYER)
 
-                .antMatchers(API_BASE + "/**").authenticated()
+                .mvcMatchers(API_BASE + "/**").authenticated()
 
-                .antMatchers("/actuator/health", "/actuator/prometheus").permitAll()
-                .antMatchers("/actuator").hasRole(ACTUATOR)
-                .antMatchers("/actuator/**").hasRole(ACTUATOR)
-                .antMatchers("/swagger-ui.html",
+                .mvcMatchers("/actuator/health", "/actuator/prometheus").permitAll()
+                .mvcMatchers("/actuator").hasRole(ACTUATOR)
+                .mvcMatchers("/actuator/**").hasRole(ACTUATOR)
+                .mvcMatchers("/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs",
                     "/v3/api-docs/swagger-config",
                     "/v3/api-docs.yaml").permitAll()
+
+                // allow access to '/error', otherwise it's protected by spring-security and error bodies are blank
+                .mvcMatchers("/error").permitAll()
 
                 .anyRequest().denyAll()
             );

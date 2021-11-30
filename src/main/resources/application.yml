@@ -14,6 +14,10 @@ spring:
   data:
     jpa.repositories.bootstrap-mode: deferred
     redis.repositories.enabled: false
+  jackson:
+    default-property-inclusion: use_defaults
+    mapper.default_view_inclusion: true
+    serialization.write-dates-as-timestamps: false
   jpa:
     hibernate.ddl-auto: validate
     open-in-view: false # should always be disabled. See https://github.com/spring-projects/spring-boot/issues/7107#issuecomment-271709902
@@ -37,6 +41,7 @@ spring:
     fail-on-write-error: true
     file: manon.pid
   output.ansi.enabled: always
+
 server:
   compression.enabled: false # compression is handled by Nginx proxy
   servlet.application-display-name: manon
@@ -82,7 +87,9 @@ management:
   health:
     mail.enabled: ${MANON_MAIL_MANAGEMENT:true}
     redis.enabled: ${MANON_REDIS_MANAGEMENT:false}
-  info.git.mode: simple
+  info:
+    env.enabled: true
+    git.mode: simple
 
 manon:
   batch:

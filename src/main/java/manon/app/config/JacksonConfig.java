@@ -1,8 +1,6 @@
 package manon.app.config;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,15 +20,5 @@ public class JacksonConfig {
     @Bean
     public Hibernate5Module hibernate5Module() {
         return new Hibernate5Module();
-    }
-
-    @Bean
-    public JavaTimeModule javaTimeModule() {
-        return new JavaTimeModule();
-    }
-
-    @Bean
-    public Jdk8Module jdk8Module() {
-        return new Jdk8Module();
     }
 }
