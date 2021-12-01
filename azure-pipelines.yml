@@ -12,8 +12,6 @@ pool:
 
 strategy:
   matrix:
-    run_on_jdk8:
-      CUSTOM_JDK_VERSION_OPTION: '1.8'
     run_on_jdk11:
       CUSTOM_JDK_VERSION_OPTION: '1.11'
 
