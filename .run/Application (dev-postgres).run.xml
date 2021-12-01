@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Application (dev-postgres)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="manon-light" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="manon.Application" />
+    <option name="ACTIVE_PROFILES" value="dev-postgres" />
+    <option name="VM_PARAMETERS" value="-Xms128m -Xmx256m -Dfile.encoding=UTF-8" />
+    <option name="WORKING_DIRECTORY" value="file://target/" />
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <method v="2">
+      <option name="MakeProject" enabled="true" />
+    </method>
+  </configuration>
+</component>
