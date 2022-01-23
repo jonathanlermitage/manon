@@ -17,7 +17,6 @@ package manon.err;
  * thrown from a transactional method do not result in rollback in the default
  * configuration.</cite>
  */
-@SuppressWarnings("serial")
 public abstract class AbstractManagedException extends RuntimeException {
 
     public String getErrorType() {
