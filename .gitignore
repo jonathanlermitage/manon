@@ -9,6 +9,9 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
+### macOS ###
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
@@ -22,6 +25,9 @@ Desktop.ini
 *.iws
 *.iml
 *.ipr
+.run/
+# JPA Buddy
+.jpb/
 
 ### NetBeans ###
 nbproject/private/

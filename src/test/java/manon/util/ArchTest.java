@@ -9,6 +9,7 @@ import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 import manon.util.basetest.AbstractParallelTest;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ class ArchTest extends AbstractParallelTest {
         .importPackages("manon..");
 
     private static final ArchCondition<JavaClass> NOT_CALL_METHOD_THAT_EXISTS_FOR_TESTS =
-        new ArchCondition<JavaClass>("not call methods that exist for tests") {
+        new ArchCondition<>("not call methods that exist for tests") {
             @Override
             public void check(@NotNull JavaClass item, ConditionEvents events) {
                 item.getMethodCallsFromSelf().stream()
@@ -42,7 +43,7 @@ class ArchTest extends AbstractParallelTest {
         };
 
     private static final ArchCondition<JavaClass> NOT_CALL_OTHER_SERVICE_REPOSITORY =
-        new ArchCondition<JavaClass>("service should not depend on other services repositories (fooService should depend on fooRepository, not barRepository)") {
+        new ArchCondition<>("service should not depend on other services repositories (fooService should depend on fooRepository, not barRepository)") {
             @Override
             public void check(@NotNull JavaClass item, ConditionEvents events) {
                 if (item.isAnnotatedWith(Service.class)) {
@@ -61,7 +62,7 @@ class ArchTest extends AbstractParallelTest {
         };
 
     private static final ArchCondition<JavaClass> NOT_HAVE_METHODS_RETURNING_ENTITIES =
-        new ArchCondition<JavaClass>("controllers methods should not return entities") {
+        new ArchCondition<>("controllers methods should not return entities") {
             @Override
             public void check(@NotNull JavaClass item, ConditionEvents events) {
                 item.getMethods()
@@ -155,6 +156,7 @@ class ArchTest extends AbstractParallelTest {
     }
 
     @Test
+    @Disabled("there is no RepositoryCustom classes yet") // TODO activate arch-test if added RepositoryCustom classes
     void shouldVerifyRepositoryCustomArch() {
         classes().that()
             .haveSimpleNameEndingWith("RepositoryCustom")
@@ -165,6 +167,7 @@ class ArchTest extends AbstractParallelTest {
     }
 
     @Test
+    @Disabled("there is no RepositoryImpl classes yet") // TODO activate arch-test if added RepositoryImpl classes
     void shouldVerifyRepositoryImplArch() {
         classes().that()
             .haveSimpleNameEndingWith("RepositoryImpl")
