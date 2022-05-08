@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>2.6.7</version>
         <relativePath/>
     </parent>
 
@@ -40,20 +40,20 @@
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
         <rest-assured.version>5.0.1</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-boot.version>2.6.7</spring-boot.version>
 
         <archunit.version>0.23.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.10</equalsverifier.version>        <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
-        <greenmail.version>1.6.8</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
+        <greenmail.version>1.6.9</greenmail.version>                 <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>31.1-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>23.0.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
-        <jjwt.version>0.11.2</jjwt.version>                          <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>2.33.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <jjwt.version>0.11.5</jjwt.version>                          <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
+        <json-unit.version>2.35.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>           <!-- https://github.com/mapstruct/mapstruct/releases -->
-        <springdoc.version>1.6.7</springdoc.version>                 <!-- https://springdoc.org/#migrating-from-springfox -->
+        <springdoc.version>1.6.8</springdoc.version>                 <!-- https://springdoc.org/#migrating-from-springfox -->
 
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
@@ -61,9 +61,9 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html (lib used by plugin) -->
         <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
         <oga-maven-plugin.version>1.7.0</oga-maven-plugin.version>
-        <owasp-dependency-check-plugin.version>7.0.4</owasp-dependency-check-plugin.version>
+        <owasp-dependency-check-plugin.version>7.1.0</owasp-dependency-check-plugin.version>
         <pitest-junit5-plugin.version>0.15</pitest-junit5-plugin.version>
-        <pitest-maven.version>1.7.5</pitest-maven.version>
+        <pitest-maven.version>1.7.6</pitest-maven.version>
         <spotbugs-maven-plugin.version>4.6.0.0</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.10.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
@@ -174,17 +174,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -387,6 +377,13 @@
             <artifactId>javafaker</artifactId>
             <version>${javafaker.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <!-- javafaker depends on an old version of snakeyaml, our project uses a more recent version -->
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
@@ -427,8 +424,6 @@
                             <excludes>
                                 <!-- JUnit4 replaced by JUnit5. -->
                                 <exclude>junit:junit</exclude>
-                                <!-- Tomcat replaced by Undertow.-->
-                                <exclude>org.springframework.boot:spring-boot-starter-tomcat</exclude>
                             </excludes>
                         </bannedDependencies>
                     </rules>
