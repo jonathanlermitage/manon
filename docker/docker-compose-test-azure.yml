@@ -1,10 +1,10 @@
 version: '3.4'
-# FIXME (specific to MS Azure pipeline) Can't connect to MariaDB 10.3.18, so I downgraded to 10.3.17. Still investigating this issue.
+# FIXME (specific to MS Azure pipeline) Can't connect to MariaDB 10.3.18, so I downgraded to 10.7.4. Still investigating this issue.
 services:
 
   maria-test:
     container_name: maria-test
-    image: mariadb:10.3.17 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.7.4 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3307:3306"
     environment:
@@ -13,7 +13,7 @@ services:
 
   maria-batch-test:
     container_name: maria-batch-test
-    image: mariadb:10.3.17 # see https://hub.docker.com/_/mariadb/
+    image: mariadb:10.7.4 # see https://hub.docker.com/_/mariadb/
     ports:
       - "3308:3306"
     environment:
