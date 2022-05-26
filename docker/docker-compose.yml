@@ -17,10 +17,10 @@ services:
     environment:
       MANON_SQL_USERNAME: root
       MANON_SQL_PASSWORD: woot
-      MANON_SQL_JDBC_URL: jdbc:mariadb://maria:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
+      MANON_SQL_JDBC_URL: jdbc:mariadb://maria:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true
       MANON_BATCH_SQL_USERNAME: root
       MANON_BATCH_SQL_PASSWORD: woot
-      MANON_BATCH_SQL_JDBC_URL: jdbc:mariadb://maria-batch:3306/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true
+      MANON_BATCH_SQL_JDBC_URL: jdbc:mariadb://maria-batch:3306/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true
       MANON_REDIS_DATABASE: 1
       MANON_REDIS_HOST: redis
       MANON_REDIS_PORT: 6379

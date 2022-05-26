@@ -7,14 +7,14 @@ manon:
   batch.datasource:
     username: ${MANON_DEV_BATCH_SQL_USERNAME:root}
     password: ${MANON_DEV_BATCH_SQL_PASSWORD:woot}
-    jdbcUrl: ${MANON_DEV_BATCH_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+    jdbcUrl: ${MANON_DEV_BATCH_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true}
   cache.provider: ${MANON_DEV_CACHE_PROVIDER:embedded}
 
 spring:
   datasource:
     username: ${MANON_DEV_SQL_USERNAME:root}
     password: ${MANON_DEV_SQL_PASSWORD:woot}
-    jdbcUrl: ${MANON_DEV_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+    jdbcUrl: ${MANON_DEV_SQL_JDBC_URL:jdbc:mariadb://localhost:3306/manon_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true}
   mail:
     host: ${MANON_DEV_MAIL_HOST:}
     port: ${MANON_DEV_MAIL_PORT:}

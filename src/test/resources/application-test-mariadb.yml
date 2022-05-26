@@ -8,7 +8,7 @@ manon:
     datasource:
       username: ${MANON_TEST_BATCH_SQL_USERNAME:root}
       password: ${MANON_TEST_BATCH_SQL_PASSWORD:woot}
-      jdbcUrl: ${MANON_TEST_BATCH_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+      jdbcUrl: ${MANON_TEST_BATCH_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true}
     user-snapshot.chunk: 10
   performance-recorder.enabled: true
   security.bcrypt.strength: 4
@@ -19,7 +19,7 @@ spring:
   datasource:
     username: ${MANON_TEST_SQL_USERNAME:root}
     password: ${MANON_TEST_SQL_PASSWORD:woot}
-    jdbcUrl: ${MANON_TEST_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true}
+    jdbcUrl: ${MANON_TEST_SQL_JDBC_URL:jdbc:mariadb://127.0.0.1:3306/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true}
   mail:
     host: "127.0.0.1"
     port: 10025

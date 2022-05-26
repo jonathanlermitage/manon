@@ -118,8 +118,8 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         docker-compose -f ./docker/docker-compose-test.yml up -d redis-test
         echo "run tests"
         sh ./mvnw verify -P test-mariadb \
-            -DMANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true" \
-            -DMANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true" \
+            -DMANON_TEST_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true" \
+            -DMANON_TEST_BATCH_SQL_JDBC_URL="jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true" \
             -DMANON_TEST_REDIS_PORT=6380
         echo "stop test containers"
         docker-compose -f ./docker/docker-compose-test.yml down

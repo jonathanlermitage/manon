@@ -16,8 +16,8 @@ strategy:
       CUSTOM_JDK_VERSION_OPTION: '1.11'
 
 steps:
-  - script: echo '##vso[task.setvariable variable=MANON_TEST_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true'
-  - script: echo '##vso[task.setvariable variable=MANON_TEST_BATCH_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useMysqlMetadata=true'
+  - script: echo '##vso[task.setvariable variable=MANON_TEST_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true'
+  - script: echo '##vso[task.setvariable variable=MANON_TEST_BATCH_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3308/manon_batch?useUnicode=true&characterEncoding=utf8&autoReconnect=true'
   - script: echo '##vso[task.setvariable variable=MANON_TEST_REDIS_PORT]6380'
   - script: sudo /etc/init.d/mysql stop
   - script: sudo netstat -antp
