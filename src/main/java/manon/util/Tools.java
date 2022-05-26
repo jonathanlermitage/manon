@@ -115,7 +115,7 @@ public final class Tools {
         if (obj == null) {
             return "null";
         }
-        String str = obj.toString();
+        String str = obj instanceof String ? ((String) obj) : obj.toString();
         if (str.length() > 100) {
             return str.substring(0, 30) + "... (long string, length=" + str.length() + ")";
         }
@@ -127,27 +127,10 @@ public final class Tools {
         if (obj == null) {
             return "null";
         }
-        String str = obj.toString();
+        String str = obj instanceof String ? ((String) obj) : obj.toString();
         if (str.length() > 100) {
-            return repeat("*", 30) + "... (long string, length=" + str.length() + ")";
+            return "*".repeat(30) + "... (long string, length=" + str.length() + ")";
         }
-        return repeat("*", str.length());
-    }
-
-    @Contract("null, _ -> null")
-    public static String repeat(String str, int repeat) {
-        if (str == null) {
-            return null;
-        } else if (repeat <= 0) {
-            return "";
-        } else if (repeat == 1) {
-            return str;
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < repeat; i++) {
-                sb.append(str);
-            }
-            return sb.toString();
-        }
+        return "*".repeat(str.length());
     }
 }

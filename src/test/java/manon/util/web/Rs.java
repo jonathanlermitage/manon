@@ -1,6 +1,8 @@
 package manon.util.web;
 
 import io.restassured.RestAssured;
+import io.restassured.config.ConnectionConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.EqualsAndHashCode;
@@ -10,6 +12,8 @@ import manon.model.user.form.UserLogin;
 import manon.service.app.JwtTokenService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.http.ContentType.JSON;
 import static manon.app.Globals.API.API_USER;
@@ -37,15 +41,19 @@ public class Rs {
     public static JwtTokenService tokenProvider;
 
     /** User's username. Blank if anonymous. */
-    private String username;
+    private final String username;
     /** User's raw password. Blank if anonymous. */
-    private String password;
+    private final String password;
     /** Indicates if an authentication is performed. */
-    private boolean authenticated;
+    private final boolean authenticated;
     /** Authentication token. Will be computed in {@link #getSpec()}} if null, otherwise use provided value. */
     private String token;
     /** How to retrieve authentication token. */
-    private AuthMode authMode;
+    private final AuthMode authMode;
+
+    private static final RestAssuredConfig KEEP_IDLE_CONNECTIONS_OPEN_CFG = RestAssured.config()
+        .connectionConfig(new ConnectionConfig()
+            .closeIdleConnectionsAfterEachResponseAfter(1, TimeUnit.DAYS));
 
     /** Ready-to-use {@link RequestSpecification} configured to use a user's credentials. */
     public RequestSpecification getSpec() {
@@ -63,9 +71,11 @@ public class Rs {
                 }
             }
             return RestAssured.given()
+                .config(KEEP_IDLE_CONNECTIONS_OPEN_CFG)
                 .header("Authorization", "Bearer " + token);
         }
         return RestAssured.given()
+            .config(KEEP_IDLE_CONNECTIONS_OPEN_CFG)
             .auth().none();
     }
 

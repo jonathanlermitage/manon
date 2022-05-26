@@ -173,7 +173,7 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         sh ./mvnw package -DskipUT=true -DskipIT=true -T1 -U
         (
             cd target/ || exit
-            java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
+            java -jar -Xms128m -Xmx512m -Dspring.profiles.active=dev-mariadb -Dfile.encoding=UTF-8 -Djdk.io.File.enableADS=true -Djava.awt.headless=true -XX:CompileThreshold=1500 manon.jar
         )
         ;;
 

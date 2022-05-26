@@ -3,17 +3,17 @@ package manon.app.config;
 import lombok.RequiredArgsConstructor;
 import manon.model.user.UserRole;
 import manon.service.user.PasswordEncoderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,38 +31,41 @@ import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+// Migrated to Spring Security 5.7: WebSecurityConfigurerAdapter has been deprecated.
+// See https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter for help with migration.
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, order = HIGHEST_PRECEDENCE)
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private static final String ACTUATOR = UserRole.ACTUATOR.name();
     private static final String ADMIN = UserRole.ADMIN.name();
     private static final String PLAYER = UserRole.PLAYER.name();
 
-    private final PasswordEncoderService passwordEncoderService;
-    private final JwtAuthenticationEntryPointConfig jwtAuthenticationEntryPointConfig;
-    private final JwtAuthenticationFilterConfig jwtAuthenticationFilterConfig;
-    private final UserDetailsService userDetailsService;
-
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager globalAuthenticationManagerBean(ObjectPostProcessor<Object> objectPostProcessor,
+                                                                 UserDetailsService userDetailsService,
+                                                                 PasswordEncoderService passwordEncoderService) throws Exception {
+        return new AuthenticationManagerBuilder(objectPostProcessor)
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoderService.getEncoder())
+            .and().build();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
+    @Bean
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+                                                          JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                                                          JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        return http
             .csrf(AbstractHttpConfigurer::disable)
             .cors(withDefaults())
 
             .sessionManagement(httpSecurity -> httpSecurity.sessionCreationPolicy(STATELESS))
 
-            .exceptionHandling(httpSecurity -> httpSecurity.authenticationEntryPoint(jwtAuthenticationEntryPointConfig))
+            .exceptionHandling(httpSecurity -> httpSecurity.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 
-            .addFilterBefore(jwtAuthenticationFilterConfig, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
             .authorizeRequests(a -> a
                 .mvcMatchers(API_SYS + "/**").hasRole(ADMIN)
@@ -89,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/error").permitAll()
 
                 .anyRequest().denyAll()
-            );
+            ).build();
     }
 
     @Bean
@@ -104,10 +107,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderService.getEncoder());
     }
 }

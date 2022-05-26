@@ -37,11 +37,11 @@ class UserWSValidIT extends AbstractMockIT {
             {SC_BAD_REQUEST, null, "123456", new String[]{USERNAME_SIZE_ERRMSG}},
             {SC_BAD_REQUEST, "", "123456", new String[]{USERNAME_SIZE_ERRMSG}},
             {SC_BAD_REQUEST, "U", "123456", new String[]{USERNAME_SIZE_ERRMSG}},
-            {SC_BAD_REQUEST, verylongString("U"), "123456", new String[]{USERNAME_SIZE_ERRMSG}},
+            {SC_BAD_REQUEST, veryLongString("U"), "123456", new String[]{USERNAME_SIZE_ERRMSG}},
             {SC_BAD_REQUEST, "USERNAME", null, new String[]{PASSWORD_SIZE_ERRMSG}},
             {SC_BAD_REQUEST, "USERNAME", "", new String[]{PASSWORD_SIZE_ERRMSG}},
             {SC_BAD_REQUEST, "USERNAME", "1", new String[]{PASSWORD_SIZE_ERRMSG}},
-            {SC_BAD_REQUEST, "USERNAME", verylongString("1"), new String[]{PASSWORD_SIZE_ERRMSG}}
+            {SC_BAD_REQUEST, "USERNAME", veryLongString("1"), new String[]{PASSWORD_SIZE_ERRMSG}}
         };
     }
 
@@ -67,9 +67,9 @@ class UserWSValidIT extends AbstractMockIT {
             {SC_OK, "", "valid@email.com", null},
             {SC_OK, "a valid nickname", "", null},
             {SC_OK, "a valid nickname", "valid@email.com", null},
-            {SC_BAD_REQUEST, "", verylongString("averylongemail") + "@test.com", EMAIL_SIZE_ERRMSG},
+            {SC_BAD_REQUEST, "", veryLongString("averylongemail") + "@test.com", EMAIL_SIZE_ERRMSG},
             {SC_BAD_REQUEST, "anickname!!!", "", NICKNAME_PATTERN_ERRMSG},
-            {SC_BAD_REQUEST, verylongString("averylongnickname"), "", NICKNAME_SIZE_ERRMSG}
+            {SC_BAD_REQUEST, veryLongString("averylongnickname"), "", NICKNAME_SIZE_ERRMSG}
         };
     }
 
@@ -93,7 +93,7 @@ class UserWSValidIT extends AbstractMockIT {
             {SC_OK, pwd(1), "a new valid password", null},
             {SC_BAD_REQUEST, pwd(1), "", PASSWORD_SIZE_ERRMSG},
             {SC_BAD_REQUEST, pwd(1), null, PASSWORD_SIZE_ERRMSG},
-            {SC_BAD_REQUEST, pwd(1), verylongString("averylongpassword"), PASSWORD_SIZE_ERRMSG}
+            {SC_BAD_REQUEST, pwd(1), veryLongString("averylongpassword"), PASSWORD_SIZE_ERRMSG}
         };
     }
 

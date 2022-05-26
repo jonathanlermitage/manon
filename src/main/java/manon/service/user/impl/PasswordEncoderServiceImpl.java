@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 public class PasswordEncoderServiceImpl implements PasswordEncoderService {
 
     @Getter
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     public PasswordEncoderServiceImpl(Cfg cfg) {
         encoder = new BCryptPasswordEncoder(cfg.getSecurityBcryptStrength(), new SecureRandom());

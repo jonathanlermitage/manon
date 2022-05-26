@@ -43,7 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -420,12 +420,8 @@ public abstract class AbstractIT {
     }
 
     /** Compute a long string. */
-    public final String verylongString(String base) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 500; i++) {
-            sb.append(base);
-        }
-        return sb.toString();
+    public final String veryLongString(String base) {
+        return base.repeat(500);
     }
 
     /**

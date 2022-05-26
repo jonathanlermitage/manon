@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <version>2.7.0</version>
         <relativePath/>
     </parent>
 
@@ -28,7 +28,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <start-class>manon.Application</start-class>
-        <surefireArgLine>-Xms128m -Xmx1g -Dfile.encoding=UTF-8 -Djava.awt.headless=true</surefireArgLine>
+        <!-- Set jdk.io.File.enableADS as a workaround for https://www.oracle.com/java/technologies/javase/11-0-15-1-relnotes.html#Remaining -->
+        <surefireArgLine>-Xms128m -Xmx1g -Dfile.encoding=UTF-8 -Djava.awt.headless=true -Djdk.io.File.enableADS=true</surefireArgLine>
         <surefirePerformanceArgLine>-XX:TieredStopAtLevel=1</surefirePerformanceArgLine>
         <surefireProfileArgLine>-Dspring.profiles.active=test</surefireProfileArgLine>
         <skipIT>false</skipIT>
@@ -38,9 +39,9 @@
 
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
-        <rest-assured.version>5.0.1</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
+        <rest-assured.version>5.1.0</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>2.6.7</spring-boot.version>
+        <spring-boot.version>2.7.0</spring-boot.version>
 
         <archunit.version>0.23.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.10</equalsverifier.version>        <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
@@ -63,9 +64,9 @@
         <oga-maven-plugin.version>1.7.0</oga-maven-plugin.version>
         <owasp-dependency-check-plugin.version>7.1.0</owasp-dependency-check-plugin.version>
         <pitest-junit5-plugin.version>0.15</pitest-junit5-plugin.version>
-        <pitest-maven.version>1.7.6</pitest-maven.version>
-        <spotbugs-maven-plugin.version>4.6.0.0</spotbugs-maven-plugin.version>
-        <versions-maven-plugin.version>2.10.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
+        <pitest-maven.version>1.8.0</pitest-maven.version>
+        <spotbugs-maven-plugin.version>4.7.0.0</spotbugs-maven-plugin.version>
+        <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
     <dependencyManagement>
@@ -174,7 +175,17 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -424,6 +435,8 @@
                             <excludes>
                                 <!-- JUnit4 replaced by JUnit5. -->
                                 <exclude>junit:junit</exclude>
+                                <!-- Tomcat replaced by Undertow.-->
+                                <exclude>org.springframework.boot:spring-boot-starter-tomcat</exclude>
                             </excludes>
                         </bannedDependencies>
                     </rules>
@@ -510,6 +523,7 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
+                        <!-- Important: ensure spring-boot-configuration-processor is declared AFTER any other processor -->
                         <path>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -806,6 +820,9 @@
                             <container>
                                 <jvmFlags>
                                     <jvmFlag>-Dfile.encoding=UTF-8</jvmFlag>
+                                    <!-- Set jdk.io.File.enableADS as a workaround for
+                                    https://www.oracle.com/java/technologies/javase/11-0-15-1-relnotes.html#Remaining -->
+                                    <jvmFlag>-Djdk.io.File.enableADS=true</jvmFlag>
                                 </jvmFlags>
                                 <mainClass>${start-class}</mainClass>
                                 <ports>

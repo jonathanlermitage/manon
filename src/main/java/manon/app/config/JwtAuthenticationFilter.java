@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @Configuration
 @RequiredArgsConstructor
-public class JwtAuthenticationFilterConfig extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String HEADER_STRING = "Authorization";
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilterConfig extends OncePerRequestFilter {
             try {
                 username = jwtTokenService.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                logger.info("an error occured during getting username from token: " + e.getMessage());
+                logger.info("an error occurred during getting username from token: " + e.getMessage());
             } catch (ExpiredJwtException e) {
                 logger.info("the token is expired and not valid anymore: " + e.getMessage());
             } catch (SecurityException e) {

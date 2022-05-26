@@ -18,4 +18,5 @@ VOLUME /tmp
 
 COPY target/manon.jar app.jar
 
-ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-javaagent:/glowroot/glowroot.jar","-jar","/app.jar"]
+# set jdk.io.File.enableADS as a workaround for https://www.oracle.com/java/technologies/javase/11-0-15-1-relnotes.html#Remaining
+ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Djdk.io.File.enableADS=true", "-javaagent:/glowroot/glowroot.jar","-jar","/app.jar"]
