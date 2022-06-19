@@ -2,6 +2,7 @@ package manon.batch.listener;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.listener.ChunkListenerSupport;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class ChunkFlushListener extends ChunkListenerSupport {
     private final EntityManager em;
 
     @Override
-    public void afterChunk(ChunkContext context) {
+    public void afterChunk(@NotNull ChunkContext context) {
         super.afterChunk(context);
         em.flush();
         em.clear();

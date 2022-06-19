@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface UserStatsService {
 
-    void save(UserStatsEntity entity);
+    void persist(UserStatsEntity entity);
 
     @ExistForTesting(why = {"UserSnapshotJobConfigIntegrationTest", "UserStatsServiceIntegrationTest"})
     List<UserStatsEntity> findAll();
 
     @ExistForTesting(why = "UserStatsServiceIntegrationTest")
-    void saveAll(Iterable<UserStatsEntity> entities);
+    void persistAll(Iterable<UserStatsEntity> entities);
 
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();

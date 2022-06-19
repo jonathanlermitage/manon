@@ -58,8 +58,8 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public FriendshipEntity save(FriendshipEntity entity) {
-        return friendshipRepository.save(entity);
+    public FriendshipEntity persist(FriendshipEntity entity) {
+        return friendshipRepository.persist(entity);
     }
 
     @Override

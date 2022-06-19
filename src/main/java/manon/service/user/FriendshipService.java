@@ -25,7 +25,7 @@ public interface FriendshipService {
 
     long countCouple(long userId1, long userId2);
 
-    FriendshipEntity save(FriendshipEntity entity);
+    FriendshipEntity persist(FriendshipEntity entity);
 
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();

@@ -64,7 +64,7 @@ class UserServiceIT extends AbstractIT {
 
     @Test
     void shouldReadOneWhenUserHasSnapshots() {
-        userSnapshotService.saveAll(Arrays.asList(
+        userSnapshotService.persistAll(Arrays.asList(
             UserMapper.MAPPER.toUserSnapshotEntity(user(1)),
             UserMapper.MAPPER.toUserSnapshotEntity(user(1))
         ));
@@ -75,7 +75,7 @@ class UserServiceIT extends AbstractIT {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     void shouldReadOneWhenUserHasSnapshotsFailReadLazyDataOutsideASession() {
-        userSnapshotService.saveAll(Arrays.asList(
+        userSnapshotService.persistAll(Arrays.asList(
             UserMapper.MAPPER.toUserSnapshotEntity(user(1)),
             UserMapper.MAPPER.toUserSnapshotEntity(user(1))
         ));
@@ -94,7 +94,7 @@ class UserServiceIT extends AbstractIT {
 
     @Test
     void shouldReadOneAndFetchUserSnapshotDtosWhenUserHasSnapshots() {
-        userSnapshotService.saveAll(Arrays.asList(
+        userSnapshotService.persistAll(Arrays.asList(
             UserMapper.MAPPER.toUserSnapshotEntity(user(1)),
             UserMapper.MAPPER.toUserSnapshotEntity(user(1))
         ));
@@ -250,7 +250,7 @@ class UserServiceIT extends AbstractIT {
     @MethodSource("dataProviderUsernames")
     void shouldSave(String validUsername) {
         LocalDateTime before = Tools.now();
-        userService.save(UserEntity.builder()
+        userService.persist(UserEntity.builder()
             .username(validUsername)
             .password("password")
             .registrationState(RegistrationState.ACTIVE)

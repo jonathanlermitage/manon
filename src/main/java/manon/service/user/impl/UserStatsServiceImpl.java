@@ -18,8 +18,8 @@ public class UserStatsServiceImpl implements UserStatsService {
     private final UserStatsRepository userStatsRepository;
 
     @Override
-    public void save(UserStatsEntity entity) {
-        userStatsRepository.save(entity);
+    public void persist(UserStatsEntity entity) {
+        userStatsRepository.persist(entity);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class UserStatsServiceImpl implements UserStatsService {
 
     @Override
     @ExistForTesting(why = "UserStatsServiceIntegrationTest")
-    public void saveAll(Iterable<UserStatsEntity> entities) {
-        userStatsRepository.saveAll(entities);
+    public void persistAll(Iterable<UserStatsEntity> entities) {
+        userStatsRepository.persistAll(entities);
     }
 
     @Override

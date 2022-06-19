@@ -78,7 +78,7 @@ public interface UserService {
     long count();
 
     @ExistForTesting
-    UserEntity save(UserEntity user);
+    UserEntity persist(UserEntity user);
 
     @ExistForTesting
     void existOrFail(long... ids);

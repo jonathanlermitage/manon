@@ -29,10 +29,13 @@ public interface UserSnapshotService {
     List<UserSnapshotEntity> findAll();
 
     @ExistForTesting
-    UserSnapshotEntity save(UserSnapshotEntity entity);
+    UserSnapshotEntity persist(UserSnapshotEntity entity);
 
     @ExistForTesting
-    void saveAll(Iterable<UserSnapshotEntity> entities);
+    void persistAll(Iterable<UserSnapshotEntity> entities);
+
+    @ExistForTesting
+    void updateAll(Iterable<UserSnapshotEntity> entities);
 
     @ExistForTesting(why = "AbstractIntegrationTest")
     void deleteAll();

@@ -4,6 +4,7 @@ import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
 import manon.document.user.UserVersionProjection;
 import manon.model.user.RegistrationState;
+import manon.repository.WorkaroundUntilHibernate6;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long>, QuerydslPredicateExecutor<UserEntity> {
+public interface UserRepository
+    extends JpaRepository<UserEntity, Long>,
+    QuerydslPredicateExecutor<UserEntity>,
+    WorkaroundUntilHibernate6<UserEntity> {
 
     Optional<UserEntity> findByUsername(String username);
 

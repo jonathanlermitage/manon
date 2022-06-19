@@ -104,7 +104,7 @@ class UserWSIT extends AbstractIT {
 
     @Test
     void shouldReadAndNotIncludeUserSnapshots() {
-        userSnapshotService.saveAll(Arrays.asList(
+        userSnapshotService.persistAll(Arrays.asList(
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));
@@ -131,7 +131,7 @@ class UserWSIT extends AbstractIT {
 
     @Test
     void shouldReadAndIncludeUserSnapshotsWhenUserHasSnapshots() {
-        userSnapshotService.saveAll(Arrays.asList(
+        userSnapshotService.persistAll(Arrays.asList(
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("x1").build(),
             UserSnapshotEntity.builder().user(user(1)).userUsername("u1").userNickname("y1").build()
         ));

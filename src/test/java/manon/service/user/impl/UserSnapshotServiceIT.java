@@ -63,8 +63,8 @@ class UserSnapshotServiceIT extends AbstractIT {
     @Test
     void shouldCountToday() {
         for (int i = 0; i < 3; i++) {
-            userSnapshotService.saveAll(Arrays.asList(
-                makeUserSnapshot(),
+            userSnapshotService.persist(makeUserSnapshot());
+            userSnapshotService.updateAll(Arrays.asList(
                 saveUserSnapshot().toBuilder().creationDate(Tools.yesterday()).build(),
                 saveUserSnapshot().toBuilder().creationDate(Tools.tomorrow()).build()
             ));
@@ -78,8 +78,8 @@ class UserSnapshotServiceIT extends AbstractIT {
         LocalDateTime yesterday = Tools.yesterday();
         LocalDateTime tomorrow = Tools.tomorrow();
         for (int i = 0; i < 3; i++) {
-            userSnapshotService.saveAll(Arrays.asList(
-                makeUserSnapshot(),
+            userSnapshotService.persist(makeUserSnapshot());
+            userSnapshotService.updateAll(Arrays.asList(
                 saveUserSnapshot().toBuilder().creationDate(yesterday).build(),
                 saveUserSnapshot().toBuilder().creationDate(tomorrow).build()
             ));
@@ -98,8 +98,8 @@ class UserSnapshotServiceIT extends AbstractIT {
     void shouldKeepRecent() {
         LocalDateTime before2Days = Tools.nowMinusDays(2);
         for (int i = 0; i < 3; i++) {
-            userSnapshotService.saveAll(Arrays.asList(
-                makeUserSnapshot(),
+            userSnapshotService.persist(makeUserSnapshot());
+            userSnapshotService.updateAll(Arrays.asList(
                 saveUserSnapshot().toBuilder().creationDate(Tools.nowMinusDays(3)).build(),
                 saveUserSnapshot().toBuilder().creationDate(before2Days).build(),
                 saveUserSnapshot().toBuilder().creationDate(Tools.yesterday()).build(),
@@ -117,7 +117,7 @@ class UserSnapshotServiceIT extends AbstractIT {
     @Test
     void shouldSaveAll() {
         LocalDateTime before = Tools.now();
-        userSnapshotService.saveAll(Arrays.asList(
+        userSnapshotService.persistAll(Arrays.asList(
             makeUserSnapshot(),
             makeUserSnapshot()
         ));
@@ -136,6 +136,6 @@ class UserSnapshotServiceIT extends AbstractIT {
     }
 
     private UserSnapshotEntity saveUserSnapshot() {
-        return userSnapshotService.save(makeUserSnapshot());
+        return userSnapshotService.persist(makeUserSnapshot());
     }
 }

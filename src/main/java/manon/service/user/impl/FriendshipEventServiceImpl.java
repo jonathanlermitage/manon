@@ -8,7 +8,6 @@ import manon.repository.user.FriendshipEventRepository;
 import manon.service.user.FriendshipEventService;
 import manon.service.user.UserService;
 import manon.util.ExistForTesting;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
     public void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         UserEntity userFrom = userService.readOne(userIdFrom);
         UserEntity userTo = userService.readOne(userIdTo);
-        friendshipEventRepository.saveAll(Arrays.asList(
+        friendshipEventRepository.persistAll(Arrays.asList(
             FriendshipEventEntity.builder()
                 .user(userFrom)
                 .friend(userTo)
@@ -47,7 +46,7 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
     }
 
     /** Keep only {@link FriendshipEventEntity.Validation#MAX_EVENTS_PER_USER} recent friendshipEvents on users. */
-    private void keepEvents(@NotNull long... userIds) {
+    private void keepEvents(long... userIds) {
         for (long userId : userIds) {
             List<FriendshipEventEntity> events = friendshipEventRepository.findAllByUserOrderByCreationDateDesc(userId);
             if (events.size() > FriendshipEventEntity.Validation.MAX_EVENTS_PER_USER) {

@@ -138,7 +138,7 @@ public class UserSnapshotJobConfig {
     private class StatsTasklet implements Tasklet {
         @Override
         public RepeatStatus execute(@NotNull StepContribution contribution, @NotNull ChunkContext chunkContext) {
-            userStatsService.save(UserStatsEntity.builder().nbUsers(userSnapshotService.countToday()).build());
+            userStatsService.persist(UserStatsEntity.builder().nbUsers(userSnapshotService.countToday()).build());
             return RepeatStatus.FINISHED;
         }
     }

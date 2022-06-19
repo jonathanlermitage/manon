@@ -47,11 +47,11 @@ class UserSnapshotJobConfigIT extends AbstractIT {
         for (int i = 0; i < delays.size(); i++) {
             userSnapshots.add(UserMapper.MAPPER.toUserSnapshotEntity(userToSnapshot));
         }
-        userSnapshotService.saveAll(userSnapshots);
+        userSnapshotService.persistAll(userSnapshots);
         for (int i = 0; i < delays.size(); i++) {
             userSnapshots.set(i, userSnapshots.get(i).toBuilder().creationDate(Tools.nowPlusDays(delays.get(i))).build());
         }
-        userSnapshotService.saveAll(userSnapshots);
+        userSnapshotService.updateAll(userSnapshots);
 
         long expectedTodayUserSnapshots = userService.count();
         long expectedUserSnapshots = expectedTodayUserSnapshots + snapshotsKept; // keep 1 - maxAge and 0, other are too old, present or future

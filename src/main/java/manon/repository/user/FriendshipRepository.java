@@ -1,6 +1,7 @@
 package manon.repository.user;
 
 import manon.document.user.FriendshipEntity;
+import manon.repository.WorkaroundUntilHibernate6;
 import manon.util.ExistForTesting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,7 +13,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Repository
-public interface FriendshipRepository extends JpaRepository<FriendshipEntity, Long> {
+public interface FriendshipRepository
+    extends JpaRepository<FriendshipEntity, Long>,
+    WorkaroundUntilHibernate6<FriendshipEntity> {
 
     /** Find a friendship between two users. */
     @Query("select count(f) from Friendship f " +

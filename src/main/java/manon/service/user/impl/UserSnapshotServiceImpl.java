@@ -57,14 +57,20 @@ public class UserSnapshotServiceImpl implements UserSnapshotService {
     }
 
     @Override
-    public UserSnapshotEntity save(UserSnapshotEntity entity) {
-        return userSnapshotRepository.save(entity);
+    public UserSnapshotEntity persist(UserSnapshotEntity entity) {
+        return userSnapshotRepository.persist(entity);
     }
 
     @Override
     @ExistForTesting
-    public void saveAll(Iterable<UserSnapshotEntity> entities) {
-        userSnapshotRepository.saveAll(entities);
+    public void persistAll(Iterable<UserSnapshotEntity> entities) {
+        userSnapshotRepository.persistAll(entities);
+    }
+
+    @Override
+    @ExistForTesting
+    public void updateAll(Iterable<UserSnapshotEntity> entities) {
+        userSnapshotRepository.updateAll(entities);
     }
 
     @Override

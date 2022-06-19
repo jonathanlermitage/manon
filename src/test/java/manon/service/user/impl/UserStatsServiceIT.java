@@ -14,7 +14,7 @@ class UserStatsServiceIT extends AbstractIT {
 
     @Test
     void shouldFindAll() {
-        userStatsService.saveAll(Arrays.asList(
+        userStatsService.persistAll(Arrays.asList(
             UserStatsEntity.builder().build(),
             UserStatsEntity.builder().build()
         ));
@@ -25,7 +25,7 @@ class UserStatsServiceIT extends AbstractIT {
     @Test
     void shouldSave() {
         LocalDateTime before = Tools.now();
-        userStatsService.save(UserStatsEntity.builder().nbUsers(100).build());
+        userStatsService.persist(UserStatsEntity.builder().nbUsers(100).build());
         LocalDateTime after = Tools.now();
 
         List<UserStatsEntity> us = userStatsService.findAll();
