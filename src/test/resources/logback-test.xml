@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- see https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html -->
 <!-- see /org/springframework/boot/logging/logback/defaults.xml -->
+<!-- see https://logback.qos.ch/manual/appenders.html#AsyncAppender -->
 <configuration scan="false" packagingData="true">
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
@@ -18,15 +19,29 @@
         </encoder>
     </appender>
 
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="FILE" />
+    </appender>
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <Pattern>%clr(%d{HH:mm:ss.SSS}){faint} %clr(%thread){magenta} %clr(%-5level) %clr(%logger{20}.%M){cyan}:%L %clr(%mdc){blue} %m%n%wEx</Pattern>
         </encoder>
     </appender>
 
+    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="CONSOLE" />
+    </appender>
+
     <root level="WARN">
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_CONSOLE"/>
     </root>
 
     <logger name="manon" level="TRACE"/>

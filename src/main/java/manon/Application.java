@@ -1,23 +1,30 @@
 package manon;
 
+import ch.qos.logback.classic.LoggerContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.Cfg;
 import manon.service.user.RegistrationService;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -36,13 +43,21 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplicationBuilder app = new SpringApplicationBuilder(Application.class);
-        app.build().addListeners(new ApplicationPidFileWriter());
+        SpringApplication buildapp = app.build();
+        buildapp.addListeners(new ApplicationPidFileWriter());
+        buildapp.addListeners((ApplicationListener<ContextClosedEvent>) event -> {
+            log.info("Shutdown process initiated...");
+            // shutdown the Logback’s working thread gracefully
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            loggerContext.stop();
+        });
         ConfigurableApplicationContext ctx = app.run(args);
         if (log.isDebugEnabled()) {
-            Stream.of(ctx.getBeanDefinitionNames())
+            List<String> autoconfig = Stream.of(ctx.getBeanDefinitionNames())
                 .filter(s -> s.startsWith("org.springframework") && s.contains(".autoconfigure."))
                 .sorted()
-                .forEach(s -> log.debug("Loaded autoconfig: " + s));
+                .collect(Collectors.toList());
+            log.debug("Loaded autoconfig: " + autoconfig);
         }
     }
 
