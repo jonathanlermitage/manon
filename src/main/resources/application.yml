@@ -33,7 +33,7 @@ spring:
       auth: true
       starttls.enable: true
     test-connection: ${MANON_MAIL_TEST_CONNECTION:false}
-  redis:
+  redis: # TODO move to spring.data.redis. See https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0.0-M5-Configuration-Changelog
     database: ${MANON_REDIS_DATABASE:0}
     host: ${MANON_REDIS_HOST:""}
     port: ${MANON_REDIS_PORT:0}

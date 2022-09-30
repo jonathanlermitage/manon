@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
+        <version>2.7.4</version>
         <relativePath/>
     </parent>
 
@@ -39,9 +39,9 @@
 
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->
-        <rest-assured.version>5.1.1</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
+        <rest-assured.version>5.2.0</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>2.7.3</spring-boot.version>
+        <spring-boot.version>2.7.4</spring-boot.version>
 
         <archunit.version>0.23.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.10.1</equalsverifier.version>      <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
@@ -62,11 +62,11 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html (lib used by plugin) -->
         <jib-maven-plugin.version>3.3.0</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
         <oga-maven-plugin.version>1.8.0</oga-maven-plugin.version>
-        <owasp-dependency-check-plugin.version>7.1.2</owasp-dependency-check-plugin.version>
-        <pitest-junit5-plugin.version>1.0.0</pitest-junit5-plugin.version>
+        <owasp-dependency-check-plugin.version>7.2.1</owasp-dependency-check-plugin.version>
+        <pitest-junit5-plugin.version>1.1.0</pitest-junit5-plugin.version>
         <pitest-maven.version>1.9.5</pitest-maven.version>
-        <spotbugs-maven-plugin.version>4.7.1.1</spotbugs-maven-plugin.version>
-        <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
+        <spotbugs-maven-plugin.version>4.7.2.0</spotbugs-maven-plugin.version>
+        <versions-maven-plugin.version>2.12.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
     <dependencyManagement>
@@ -589,10 +589,18 @@
                 <groupId>biz.lermitage.oga</groupId>
                 <artifactId>oga-maven-plugin</artifactId>
                 <version>${oga-maven-plugin.version}</version>
-                <configuration>
-                    <ignoreListFile>.mvn/oga-ignore-list.json</ignoreListFile>
-                <failOnError>false</failOnError>
-            </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <ignoreListFile>.mvn/oga-ignore-list.json</ignoreListFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
