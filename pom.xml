@@ -43,15 +43,15 @@
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
         <spring-boot.version>2.7.4</spring-boot.version>
 
-        <archunit.version>0.23.1</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
+        <archunit.version>1.0.0</archunit.version>                  <!-- https://github.com/TNG/ArchUnit/releases -->
         <equalsverifier.version>3.10.1</equalsverifier.version>      <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
-        <greenmail.version>1.6.10</greenmail.version>                <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
+        <greenmail.version>1.6.11</greenmail.version>                <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>31.1-jre</guava.version>                      <!-- https://github.com/google/guava/releases -->
         <javafaker.version>1.0.2</javafaker.version>                 <!-- https://github.com/DiUS/java-faker/tags -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>23.0.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
         <jjwt.version>0.11.5</jjwt.version>                          <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>2.35.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <json-unit.version>2.36.0</json-unit.version>                <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>           <!-- https://github.com/mapstruct/mapstruct/releases -->
         <springdoc.version>1.6.11</springdoc.version>                <!-- https://springdoc.org/#migrating-from-springfox -->
@@ -64,7 +64,7 @@
         <oga-maven-plugin.version>1.8.0</oga-maven-plugin.version>
         <owasp-dependency-check-plugin.version>7.2.1</owasp-dependency-check-plugin.version>
         <pitest-junit5-plugin.version>1.1.0</pitest-junit5-plugin.version>
-        <pitest-maven.version>1.9.5</pitest-maven.version>
+        <pitest-maven.version>1.9.7</pitest-maven.version>
         <spotbugs-maven-plugin.version>4.7.2.0</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.12.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>

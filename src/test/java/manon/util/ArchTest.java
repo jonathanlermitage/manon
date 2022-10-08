@@ -97,6 +97,7 @@ class ArchTest extends AbstractParallelTest {
     void shouldVerifyLayeredArchitecture() {
         // a real-life project would also define layers like Entity and Dto, then ensure strong architecture
         layeredArchitecture()
+            .consideringOnlyDependenciesInLayers()
             .layer("API").definedBy("manon.api..")
             .layer("Batch").definedBy("manon.batch..")
             .layer("Config").definedBy("manon.app.config..", "manon")
@@ -119,7 +120,7 @@ class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    void shouldVerifyControlerArch() {
+    void shouldVerifyControllerArch() {
         classes().that()
             .haveSimpleNameEndingWith("WS")
             .should().beAnnotatedWith(RestController.class)
