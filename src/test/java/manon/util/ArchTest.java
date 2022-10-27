@@ -16,8 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
+import static com.tngtech.archunit.library.plantuml.rules.PlantUmlArchCondition.Configuration.consideringOnlyDependenciesInDiagram;
+import static com.tngtech.archunit.library.plantuml.rules.PlantUmlArchCondition.adhereToPlantUmlDiagram;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ArchTest extends AbstractParallelTest {
 
@@ -108,6 +114,15 @@ class ArchTest extends AbstractParallelTest {
             .whereLayer("Config").mayNotBeAccessedByAnyLayer()
             .whereLayer("Repository").mayOnlyBeAccessedByLayers("Batch", "Service")
             .whereLayer("Service").mayOnlyBeAccessedByLayers("API", "Batch", "Config")
+            .check(PROJECT);
+    }
+
+    @Test
+    void shouldVerifyLayeredArchitectureWithPUML() throws MalformedURLException {
+        URL diag = ArchTest.class.getResource("../../expected/layers.puml");
+        assertThat(diag).isNotNull();
+        classes()
+            .should(adhereToPlantUmlDiagram(diag, consideringOnlyDependenciesInDiagram()))
             .check(PROJECT);
     }
 

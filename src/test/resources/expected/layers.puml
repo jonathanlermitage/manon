@@ -1,0 +1,17 @@
+@startuml
+
+[API] <<manon.api..>>
+[Batch] <<manon.batch..>>
+[Config] <<manon.app.config..>>
+[Application] <<manon>>
+[Service] <<manon.service..>>
+[Repository] <<manon.repository..>>
+
+[API] -> [Service]
+[Batch] --> [Service]
+[Config] --> [Service]
+[Application] --> [Service]
+[Service] --> [Repository]
+[Batch] --> [Repository]
+
+@enduml
