@@ -30,7 +30,7 @@ public class FriendshipEventServiceImpl implements FriendshipEventService {
     public void registerEvents(long userIdFrom, long userIdTo, FriendshipEventCode eventCodeFrom, FriendshipEventCode eventCodeTo) {
         UserEntity userFrom = userService.readOne(userIdFrom);
         UserEntity userTo = userService.readOne(userIdTo);
-        friendshipEventRepository.persistAll(Arrays.asList(
+        friendshipEventRepository.saveAll(Arrays.asList(
             FriendshipEventEntity.builder()
                 .user(userFrom)
                 .friend(userTo)

@@ -1,7 +1,6 @@
 package manon.repository.user;
 
 import manon.document.user.FriendshipEventEntity;
-import manon.repository.WorkaroundUntilHibernate6;
 import manon.util.ExistForTesting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FriendshipEventRepository
-    extends JpaRepository<FriendshipEventEntity, Long>,
-    WorkaroundUntilHibernate6<FriendshipEventEntity> {
+public interface FriendshipEventRepository extends JpaRepository<FriendshipEventEntity, Long> {
 
     @Query("select f from FriendshipEvent f where f.user.id = :userId order by f.creationDate desc, f.id desc")
     List<FriendshipEventEntity> findAllByUserOrderByCreationDateDesc(@Param("userId") long userId);

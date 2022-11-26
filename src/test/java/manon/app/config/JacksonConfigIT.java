@@ -3,13 +3,10 @@ package manon.app.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 import manon.util.basetest.AbstractNoUserIT;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +26,6 @@ class JacksonConfigIT extends AbstractNoUserIT {
         assertThat(objectMapper.getSerializationConfig().getDefaultPropertyInclusion().getValueInclusion())
             .isEqualTo(JsonInclude.Include.USE_DEFAULTS);
 
-        assertThat(registeredModules).containsAll(Arrays.asList(
-            AfterburnerModule.class.getCanonicalName(),
-            Hibernate5Module.class.getCanonicalName(),
-            Jdk8Module.class.getCanonicalName()
-        ));
+        assertThat(registeredModules).contains(Jdk8Module.class.getCanonicalName());
     }
 }

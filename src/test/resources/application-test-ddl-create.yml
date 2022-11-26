@@ -19,6 +19,11 @@ manon:
   web.request-logging.enabled: true
 
 spring:
+  data:
+    redis:
+      database: 0
+      host: "localhost"
+      port: 0
   datasource.driver-class-name: org.hsqldb.jdbc.JDBCDriver
   datasource.jdbcUrl: "jdbc:hsqldb:mem:manon"
   flyway.enabled: false
@@ -30,10 +35,6 @@ spring:
     password: woot
     properties.mail.smtp.auth: true
     test-connection: false # fake mail server is started AFTER test
-  redis:
-    database: 0
-    host: "localhost"
-    port: 0
 
 management:
   health:

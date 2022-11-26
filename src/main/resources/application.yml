@@ -13,7 +13,11 @@ spring:
     driver-class-name: ${MANON_SQL_DRIVER_CLASSNAME:org.mariadb.jdbc.Driver}
   data:
     jpa.repositories.bootstrap-mode: deferred
-    redis.repositories.enabled: false
+    redis:
+      database: ${MANON_REDIS_DATABASE:0}
+      host: ${MANON_REDIS_HOST:""}
+      port: ${MANON_REDIS_PORT:0}
+      repositories.enabled: false
   jackson:
     default-property-inclusion: use_defaults
     mapper.default_view_inclusion: true
@@ -33,10 +37,6 @@ spring:
       auth: true
       starttls.enable: true
     test-connection: ${MANON_MAIL_TEST_CONNECTION:false}
-  redis: # TODO move to spring.data.redis. See https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0.0-M5-Configuration-Changelog
-    database: ${MANON_REDIS_DATABASE:0}
-    host: ${MANON_REDIS_HOST:""}
-    port: ${MANON_REDIS_PORT:0}
   pid:
     fail-on-write-error: true
     file: manon.pid
@@ -57,6 +57,7 @@ springdoc:
   api-docs.path: "/v3/api-docs"
   packagesToScan: "manon.api"
   pathsToMatch: "/**"
+  show-actuator: true
 
 info.app:
   name: manon

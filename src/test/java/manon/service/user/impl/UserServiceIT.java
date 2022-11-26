@@ -1,7 +1,5 @@
 package manon.service.user.impl;
 
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
 import manon.document.user.UserEntity;
 import manon.document.user.UserSnapshotEntity;
 import manon.dto.user.UserWithSnapshotsDto;
@@ -13,6 +11,8 @@ import manon.model.user.RegistrationState;
 import manon.model.user.UserRole;
 import manon.util.Tools;
 import manon.util.basetest.AbstractIT;
+import net.datafaker.Faker;
+import net.datafaker.providers.base.Name;
 import org.assertj.core.api.Assertions;
 import org.hibernate.LazyInitializationException;
 import org.junit.jupiter.api.Test;

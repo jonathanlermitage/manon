@@ -4,16 +4,15 @@
 # https://aka.ms/yaml
 
 trigger:
-  - spring5-light
-  - spring5-light-ms-azure-pipeline
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 strategy:
   matrix:
-    run_on_jdk11:
-      CUSTOM_JDK_VERSION_OPTION: '1.11'
+    run_on_jdk17:
+      CUSTOM_JDK_VERSION_OPTION: '17'
 
 steps:
   - script: echo '##vso[task.setvariable variable=MANON_TEST_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true'

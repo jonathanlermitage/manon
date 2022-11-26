@@ -15,7 +15,7 @@ public class SwaggerConfig {
     private final Cfg cfg;
 
     @Bean
-    public OpenAPI springShopOpenAPI() {
+    public OpenAPI openAPI() {
         return new OpenAPI()
             .info(new Info().title("Manon REST API")
                 .description("Some experimentation with Spring Boot, etc.")

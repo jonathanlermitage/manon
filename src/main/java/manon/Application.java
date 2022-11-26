@@ -1,6 +1,7 @@
 package manon;
 
 import ch.qos.logback.classic.LoggerContext;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import manon.app.Cfg;
@@ -22,9 +23,7 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -55,8 +54,7 @@ public class Application extends SpringBootServletInitializer {
         if (log.isDebugEnabled()) {
             List<String> autoconfig = Stream.of(ctx.getBeanDefinitionNames())
                 .filter(s -> s.startsWith("org.springframework") && s.contains(".autoconfigure."))
-                .sorted()
-                .collect(Collectors.toList());
+                .sorted().toList();
             log.debug("Loaded autoconfig: " + autoconfig);
         }
     }

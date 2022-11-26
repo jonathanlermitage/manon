@@ -11,6 +11,11 @@ manon:
   cache.provider: ${MANON_DEV_CACHE_PROVIDER:embedded}
 
 spring:
+  data:
+    redis:
+      database: ${MANON_DEV_REDIS_DATABASE:0}
+      host: ${MANON_DEV_REDIS_HOST:""}
+      port: ${MANON_DEV_REDIS_PORT:0}
   datasource:
     username: ${MANON_DEV_SQL_USERNAME:root}
     password: ${MANON_DEV_SQL_PASSWORD:woot}
@@ -21,10 +26,6 @@ spring:
     username: ${MANON_DEV_MAIL_USERNAME:}
     password: ${MANON_DEV_MAIL_PASSWORD:}
     test-connection: ${MANON_DEV_MAIL_TEST_CONNECTION:false}
-  redis:
-    database: ${MANON_DEV_REDIS_DATABASE:0}
-    host: ${MANON_DEV_REDIS_HOST:""}
-    port: ${MANON_DEV_REDIS_PORT:0}
 
 management:
   health:

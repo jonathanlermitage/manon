@@ -1,12 +1,12 @@
 package manon.app.config;
 
+import jakarta.annotation.PostConstruct;
 import manon.app.Cfg;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import static manon.app.Globals.Datasources.SPRINGBATCH_DATASOURCE;

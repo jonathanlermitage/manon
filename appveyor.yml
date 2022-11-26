@@ -2,10 +2,11 @@ version: build-{build}.{branch}
 clone_depth: 3
 
 platform: x64
+image: Visual Studio 2019
 
 before_build:
-  - set "JAVA_HOME=C:\Program Files\Java\jdk11"
-  - set "PATH=C:\Program Files\Java\jdk11\bin;%PATH%"
+  - set "JAVA_HOME=C:\Program Files\Java\jdk17"
+  - set "PATH=C:\Program Files\Java\jdk17\bin;%PATH%"
 
 build_script:
   - mvnw --no-transfer-progress clean package -DskipTests -B -U

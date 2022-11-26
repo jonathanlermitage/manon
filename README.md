@@ -1,16 +1,10 @@
 <p align="center">
-    <a href="https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory"><img src="https://dev.azure.com/jonathanlermitage/manon/_apis/build/status/jonathanlermitage.manon?branchName=spring5-light" alt="Azure CI"/></a>
+    <a href="https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory"><img src="https://dev.azure.com/jonathanlermitage/manon/_apis/build/status/jonathanlermitage.manon?branchName=main" alt="Azure CI"/></a>
     <a href="https://ci.appveyor.com/project/jonathanlermitage/manon"><img src="https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true" alt="Appveyor CI"/></a>
-    <a href="https://travis-ci.org/jonathanlermitage/manon"><img src="https://img.shields.io/travis/jonathanlermitage/manon/spring5-light.svg?logo=travis" alt="Travis CI"/></a>
-    <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/spring5-light"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=spring5-light" alt="Cirrus CI"/></a>
-    <a href="https://github.com/jonathanlermitage/manon/blob/spring5-light/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg" alt="License"/></a>
-    <a href="https://sourcespy.com/github/jonathanlermitagemanon/"><img src="https://sourcespy.com/shield.svg" alt="SourceSpy Dashboard"/></a>
-    <br/>
-    <a href="https://sonarcloud.io/dashboard?id=nanon%3Amanon-light"><img src="https://sonarcloud.io/api/project_badges/measure?project=nanon%3Amanon-light&metric=alert_status" alt="SonarCloud"/></a>
-    <a href="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light"><img src="https://codecov.io/gh/jonathanlermitage/manon/branch/spring5-light/graph/badge.svg" alt="Codecov"/></a>
+    <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/main"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=main" alt="Cirrus CI"/></a>
+    <a href="https://github.com/jonathanlermitage/manon/blob/main/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg" alt="License"/></a>
     <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18" alt="LGTM alerts"/></a>
     <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18" alt="LGTM grade"/></a>
-    <a href="https://bettercodehub.com/results/jonathanlermitage/manon"><img src="https://bettercodehub.com/edge/badge/jonathanlermitage/manon?branch=spring5-light" alt="Bettercodehub"></a>
 </p>
 
 1. [Project](#project)  
@@ -21,12 +15,14 @@
 
 ## Project
 
-Some experimentation with **Spring Boot 2**, JDK11+, JUnit5, TestNG, SQL (HSQLDB, MariaDB, PostgreSQL), NoSQL (Redis, MongoDB), Docker, ELK stack, etc. It demonstrates usage of:
+Some experimentation with **Spring Boot 3**, JDK17, JUnit5, TestNG, SQL (HSQLDB, MariaDB, PostgreSQL), NoSQL (Redis, MongoDB), Docker, ELK stack, etc. It demonstrates usage of:
 
 * **Maven** (latest version) and **Gradle** build tools
   * migration from **Maven to Gradle** (but I'll stick to Maven). Stable and functional, but still needs some improvements. See commit [cf79b9c](https://github.com/jonathanlermitage/manon/commit/cf79b9c1f0a7eee7ffcd8a1fd0b1e05e11f1de75) ([spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle) branch)
 * **Spring Boot 2** (Spring Framework 5)
   * you can compare [spring4](https://github.com/jonathanlermitage/manon/tree/spring4) and [spring5](https://github.com/jonathanlermitage/manon/tree/spring5) branches to study migration from Spring Boot 1 (Spring Framework 4) to Spring Boot 2
+* **Spring Boot 3** (Spring Framework 6)
+  * see commit `Spring Boot 3 migration` in [main](https://github.com/jonathanlermitage/manon/tree/main) branch
 * replace **Tomcat** by **Undertow**. See last commit of [spring5-light-undertow](https://github.com/jonathanlermitage/manon/tree/spring5-light-undertow) branch. Also, it seems to fix some annoying `ConnectionClosedException: Premature end of chunk coded message body: closing chunk expected` issues when sending a large number (2000+) of HTTP requests with message body
 * **Spring Web** with a **REST API**
 * **Spring Security**, to authenticate users via auth_basic and fetch authentication data from SQL database 
@@ -63,7 +59,7 @@ Some experimentation with **Spring Boot 2**, JDK11+, JUnit5, TestNG, SQL (HSQLDB
     * make embedded MongoDB work with version from 3.6 to 4.0: see commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2) ([spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x) branch)
 * replace **HSQLDB** by **H2**. See commit [ae4701e](https://github.com/jonathanlermitage/manon/commit/ae4701e6b0ed490aed32c5b07c84c5b52711188b) ([spring5-light-hsqldb-to-h2](https://github.com/jonathanlermitage/manon/tree/spring5-light-hsqldb-to-h2) branch)
 * migration to **Java 8 new [Date and Time API](https://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html) ([JSR-310](https://jcp.org/en/jsr/detail?id=310))**. See last commit of [spring5-light-java8-datetime-api](https://github.com/jonathanlermitage/manon/tree/spring5-light-java8-datetime-api) branch
-* integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Travis](https://travis-ci.org/jonathanlermitage/manon)** (Linux and MacOS CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[MS Azure DevOps Pipelines](https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory)** (CI), **[CodeCov](https://codecov.io/gh/jonathanlermitage/manon)** (code coverage), **[SonarCloud](https://sonarcloud.io/dashboard?id=nanon:manon)** (code quality), **[LGTM](https://lgtm.com/)** (code quality), **[Better Code Hub](https://bettercodehub.com)** (code quality)  
+* integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[MS Azure DevOps Pipelines](https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory)** (CI), **[LGTM](https://lgtm.com/)** (code quality)
 * [Maven](https://github.com/takari/maven-wrapper) and Gradle wrappers, and a `do` Bash script that helps you to launch some usefull commands
 * **code coverage** thanks to **JaCoCo** Maven and Gradle plugin
 * some **AOP** to capture performance of API endpoints
@@ -94,7 +90,7 @@ Linkedin profile: [jonathan-lermitage-092711142](https://www.linkedin.com/in/jon
 
 ## Compilation and test
 
-First, install JDK8+ and Maven3+.
+First, install JDK17+ and Maven3+.
   
 You can now use the `./do` Linux Bash script:  
 ```

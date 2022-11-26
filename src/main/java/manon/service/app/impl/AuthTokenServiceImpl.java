@@ -27,7 +27,7 @@ public class AuthTokenServiceImpl implements AuthTokenService {
 
     @Override
     public AuthTokenEntity create(String username, LocalDateTime expirationDate) {
-        return authTokenRepository.persist(AuthTokenEntity.builder()
+        return authTokenRepository.save(AuthTokenEntity.builder()
             .username(username)
             .expirationDate(expirationDate)
             .build());

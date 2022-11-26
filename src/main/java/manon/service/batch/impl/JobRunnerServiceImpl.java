@@ -3,7 +3,6 @@ package manon.service.batch.impl;
 import manon.batch.UserSnapshotJobConfig;
 import manon.err.batch.TaskNotFoundException;
 import manon.service.batch.JobRunnerService;
-import manon.util.Tools;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -50,6 +49,6 @@ public class JobRunnerServiceImpl implements InitializingBean, JobRunnerService 
     }
 
     private JobParameters todayDateJobParameters() {
-        return new JobParametersBuilder().addDate("START_DATE", Tools.nowAsDate()).toJobParameters();
+        return new JobParametersBuilder().addLong("UNIQUE_VALUE", System.nanoTime()).toJobParameters();
     }
 }

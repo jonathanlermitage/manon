@@ -3,7 +3,7 @@ package manon.app.config;
 import manon.app.Globals;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import static manon.app.Globals.Properties.CACHE_PROVIDER_EMBEDDED;
 @Configuration
 @ConditionalOnProperty(name = CACHE_PROVIDER, havingValue = CACHE_PROVIDER_EMBEDDED)
 @EnableCaching
-public class EmbeddedCacheConfig extends CachingConfigurerSupport {
+public class EmbeddedCacheConfig implements CachingConfigurer {
 
     @Override
     @Bean

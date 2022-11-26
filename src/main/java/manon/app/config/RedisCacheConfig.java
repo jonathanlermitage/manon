@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import manon.app.Cfg;
 import manon.app.Globals;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import static manon.app.Globals.Properties.CACHE_PROVIDER_REDIS;
 @EnableCaching
 @ConditionalOnProperty(name = CACHE_PROVIDER, havingValue = CACHE_PROVIDER_REDIS)
 @RequiredArgsConstructor
-public class RedisCacheConfig extends CachingConfigurerSupport {
+public class RedisCacheConfig implements CachingConfigurer {
 
     private final Cfg cfg;
 

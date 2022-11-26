@@ -16,10 +16,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.RepositoryItemReader;
@@ -28,6 +29,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.Collections;
 import java.util.Map;
@@ -45,19 +47,19 @@ public class UserSnapshotJobConfig {
     private static final Map<String, Sort.Direction> SORT = Collections.singletonMap("id", Sort.Direction.ASC);
 
     private final Cfg cfg;
-    private final JobBuilderFactory jbf;
-    private final StepBuilderFactory sbf;
+    private final JobRepository jobRepository;
     private final JobListener jobListener;
     private final ChunkFlushListener chunkFlushListener;
     private final UserRepository userRepository;
     private final UserSnapshotRepository userSnapshotRepository;
     private final UserSnapshotService userSnapshotService;
     private final UserStatsService userStatsService;
+    private final PlatformTransactionManager platformTransactionManager;
 
     @Bean(JOB_NAME)
     Job userSnapshotJob() {
-        return jbf.get(JOB_NAME)
-            .incrementer(new RunIdIncrementer())
+        JobBuilder jbf = new JobBuilder(JOB_NAME, jobRepository);
+        return jbf.incrementer(new RunIdIncrementer())
             .listener(jobListener)
             .start(userSnapshotJobStepKeepRecent())
             .next(userSnapshotJobStepSnapshot())
@@ -70,8 +72,8 @@ public class UserSnapshotJobConfig {
     //
 
     public Step userSnapshotJobStepKeepRecent() {
-        return sbf.get(JOB_STEP0_KEEP_RECENT_NAME)
-            .tasklet(new FlushTasklet())
+        return new StepBuilder(JOB_STEP0_KEEP_RECENT_NAME, jobRepository)
+            .tasklet(new FlushTasklet(), platformTransactionManager)
             .build();
     }
 
@@ -89,8 +91,8 @@ public class UserSnapshotJobConfig {
     //
 
     public Step userSnapshotJobStepSnapshot() {
-        return sbf.get(JOB_STEP1_SNAPSHOT_NAME)
-            .<UserEntity, UserSnapshotEntity>chunk(cfg.getBatchUserSnapshotChunk())
+        return new StepBuilder(JOB_STEP1_SNAPSHOT_NAME, jobRepository)
+            .<UserEntity, UserSnapshotEntity>chunk(cfg.getBatchUserSnapshotChunk(), platformTransactionManager)
             .reader(reader())
             .processor(processor())
             .writer(writer())
@@ -130,8 +132,8 @@ public class UserSnapshotJobConfig {
     //
 
     public Step userSnapshotJobStepStats() {
-        return sbf.get(JOB_STEP2_STATS_NAME)
-            .tasklet(new StatsTasklet())
+        return new StepBuilder(JOB_STEP2_STATS_NAME, jobRepository)
+            .tasklet(new StatsTasklet(), platformTransactionManager)
             .build();
     }
 

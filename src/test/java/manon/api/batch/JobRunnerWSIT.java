@@ -3,13 +3,12 @@ package manon.api.batch;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import manon.model.batch.TaskStatus;
 import manon.util.basetest.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.ExitStatus;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -50,7 +49,6 @@ class JobRunnerWSIT extends AbstractIT {
             .statusCode(SC_NOT_FOUND);
 
         greenMail.waitForIncomingEmail(1000, 1);
-        MimeMessage[] messages = greenMail.getReceivedMessages();
-        assertThat(messages).isEmpty();
+        assertThat(greenMail.getReceivedMessages()).isEmpty();
     }
 }

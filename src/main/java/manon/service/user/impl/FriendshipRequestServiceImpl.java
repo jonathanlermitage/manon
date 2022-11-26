@@ -49,7 +49,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
         UserEntity userFrom = userService.readOne(userIdFrom);
         UserEntity userTo = userService.readOne(userIdTo);
-        friendshipRequestRepository.persist(FriendshipRequestEntity.builder()
+        friendshipRequestRepository.save(FriendshipRequestEntity.builder()
             .requestFrom(userFrom)
             .requestTo(userTo)
             .build());

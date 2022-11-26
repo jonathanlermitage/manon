@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException();
         }
-        return userRepository.persist(user.toBuilder()
+        return userRepository.save(user.toBuilder()
             .password(passwordEncoderService.encode(user.getPassword()))
             .build());
     }
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @ExistForTesting
     public UserEntity persist(UserEntity user) {
-        return userRepository.persist(user);
+        return userRepository.save(user);
     }
 
     @Override

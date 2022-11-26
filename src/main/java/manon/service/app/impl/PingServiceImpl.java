@@ -23,7 +23,7 @@ public class PingServiceImpl implements PingService {
     @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 50), include = PingException.class)
     public void ping(String encodedUrl) {
         try {
-            String url = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.name());
+            String url = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8);
             restTemplate.getForEntity(url, String.class);
         } catch (Exception e) {
             log.debug("ping failed due to exception: " + e.getMessage());

@@ -58,13 +58,12 @@ class ActuatorCtrlIT extends AbstractMockIT {
 
     private ValidatableResponse call(Rs rs, HttpMethod verb, String endpoint) {
         RequestSpecification spec = rs.getSpec();
-        switch (verb) {
-            case GET:
-                return spec.get(endpoint).then();
-            case POST:
-                return spec.post(endpoint).then();
-            default:
-                throw new IllegalArgumentException("invalid verb:" + verb);
+        if (verb.equals(GET)) {
+            return spec.get(endpoint).then();
         }
+        if (verb.equals(POST)) {
+            return spec.post(endpoint).then();
+        }
+        throw new IllegalArgumentException("invalid verb:" + verb);
     }
 }

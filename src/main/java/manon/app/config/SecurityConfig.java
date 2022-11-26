@@ -5,10 +5,11 @@ import manon.model.user.UserRole;
 import manon.service.user.PasswordEncoderService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,7 +36,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 // See https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter for help with migration.
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, order = HIGHEST_PRECEDENCE)
+@Order(HIGHEST_PRECEDENCE)
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -67,29 +69,29 @@ public class SecurityConfig {
 
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-            .authorizeRequests(a -> a
-                .mvcMatchers(API_SYS + "/**").hasRole(ADMIN)
+            .authorizeHttpRequests(a -> a
+                .requestMatchers(API_SYS + "/**").hasRole(ADMIN)
 
-                .mvcMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
+                .requestMatchers(API_USER_ADMIN + "/**").hasRole(ADMIN)
 
-                .mvcMatchers(POST, API_USER).permitAll() // user registration
-                .mvcMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
-                .mvcMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
-                .mvcMatchers(API_USER + "/**").hasRole(PLAYER)
+                .requestMatchers(POST, API_USER).permitAll() // user registration
+                .requestMatchers(POST, API_USER + "/auth/authorize").permitAll() // user authentication
+                .requestMatchers(POST, API_USER + "/auth/**").authenticated() // token renewal and logout
+                .requestMatchers(API_USER + "/**").hasRole(PLAYER)
 
-                .mvcMatchers(API_BASE + "/**").authenticated()
+                .requestMatchers(API_BASE + "/**").authenticated()
 
-                .mvcMatchers("/actuator/health", "/actuator/prometheus").permitAll()
-                .mvcMatchers("/actuator").hasRole(ACTUATOR)
-                .mvcMatchers("/actuator/**").hasRole(ACTUATOR)
-                .mvcMatchers("/swagger-ui.html",
+                .requestMatchers("/actuator/health", "/actuator/prometheus").permitAll()
+                .requestMatchers("/actuator").hasRole(ACTUATOR)
+                .requestMatchers("/actuator/**").hasRole(ACTUATOR)
+                .requestMatchers("/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs",
                     "/v3/api-docs/swagger-config",
                     "/v3/api-docs.yaml").permitAll()
 
                 // allow access to '/error', otherwise it's protected by spring-security and error bodies are blank
-                .mvcMatchers("/error").permitAll()
+                .requestMatchers("/error").permitAll()
 
                 .anyRequest().denyAll()
             ).build();

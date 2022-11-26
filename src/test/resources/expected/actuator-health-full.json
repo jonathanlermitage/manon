@@ -11,7 +11,7 @@
             "validationQuery": "${json-unit.ignore}"
           }
         },
-        "springbatchDatasource": {
+        "dataSource": {
           "status": "UP",
           "details": {
             "database": "${json-unit.ignore}",

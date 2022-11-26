@@ -1,7 +1,6 @@
 package manon.repository.app;
 
 import manon.document.app.AuthTokenEntity;
-import manon.repository.WorkaroundUntilHibernate6;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,9 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface AuthTokenRepository
-    extends JpaRepository<AuthTokenEntity, Long>,
-    WorkaroundUntilHibernate6<AuthTokenEntity> {
+public interface AuthTokenRepository extends JpaRepository<AuthTokenEntity, Long> {
 
     /** Delete all tokens of given user. */
     void deleteAllByUsername(String username);

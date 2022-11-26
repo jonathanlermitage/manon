@@ -39,7 +39,7 @@ public class Globals {
         public static final String MAIN_DATASOURCE = "mainDatasource";
 
         /** {@value}, name of the datasource that handles Spring Batch tables. */
-        public static final String SPRINGBATCH_DATASOURCE = "springbatchDatasource";
+        public static final String SPRINGBATCH_DATASOURCE = "dataSource"; // FIXME spring data bug on secondary datasource: has to be named 'dataSource' (should be customizable, like 'springbatchDatasource')
     }
 
     /** Properties. */

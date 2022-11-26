@@ -60,14 +60,9 @@ public class Rs {
         if (authenticated) {
             if (token == null) {
                 switch (authMode) {
-                    case FORCED_VIA_SERVICE:
-                        token = tokenProvider.generateToken(username);
-                        break;
-                    case REGULAR_VIA_API:
-                        token = loginAndReturnToken(username, password);
-                        break;
-                    default:
-                        throw new RuntimeException("authentication wanted but mandatory Rs.authMode is not set");
+                    case FORCED_VIA_SERVICE -> token = tokenProvider.generateToken(username);
+                    case REGULAR_VIA_API -> token = loginAndReturnToken(username, password);
+                    default -> throw new RuntimeException("authentication wanted but mandatory Rs.authMode is not set");
                 }
             }
             return RestAssured.given()

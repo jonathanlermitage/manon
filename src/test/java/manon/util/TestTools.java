@@ -23,7 +23,7 @@ public class TestTools {
         while (sb.length() < length) {
             sb.append(word);
         }
-        return sb.length() == length ? sb.toString() : sb.toString().substring(0, length);
+        return sb.length() == length ? sb.toString() : sb.substring(0, length);
     }
 
     /** Convert a duration to a number of days.*/

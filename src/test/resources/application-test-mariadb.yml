@@ -16,6 +16,11 @@ manon:
   web.request-logging.enabled: true
 
 spring:
+  data:
+    redis:
+      database: ${MANON_TEST_REDIS_DATABASE:1}
+      host: ${MANON_TEST_REDIS_HOST:localhost}
+      port: ${MANON_TEST_REDIS_PORT:6379}
   datasource:
     username: ${MANON_TEST_SQL_USERNAME:root}
     password: ${MANON_TEST_SQL_PASSWORD:woot}
@@ -27,10 +32,6 @@ spring:
     password: woot
     properties.mail.smtp.auth: true
     test-connection: false # fake mail server is started AFTER test
-  redis:
-    database: ${MANON_TEST_REDIS_DATABASE:1}
-    host: ${MANON_TEST_REDIS_HOST:localhost}
-    port: ${MANON_TEST_REDIS_PORT:6379}
 
 management:
   health:

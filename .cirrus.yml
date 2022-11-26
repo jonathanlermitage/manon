@@ -1,5 +1,5 @@
 container:
-  image: openjdk:11-jdk-oracle
+  image: eclipse-temurin:17.0.5_8-jdk
 
 test_task:
   script: sh ./mvnw --no-transfer-progress clean verify -P ci -B -U
