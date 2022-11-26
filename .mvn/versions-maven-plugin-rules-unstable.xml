@@ -1,0 +1,5 @@
+<ruleset comparisonMethod="maven">
+    <ignoreVersions>
+        <ignoreVersion type="regex">.*\.jre[0-9]{1}</ignoreVersion>
+    </ignoreVersions>
+</ruleset>

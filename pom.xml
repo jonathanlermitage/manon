@@ -848,6 +848,22 @@
             </build>
         </profile>
 
+        <profile>
+            <id>versions-unstable</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>${versions-maven-plugin.version}</version>
+                        <configuration>
+                            <rulesUri>file:///${basedir}/.mvn/versions-maven-plugin-rules-unstable.xml</rulesUri>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!--profile>
             <id>java11</id>
             <properties>
