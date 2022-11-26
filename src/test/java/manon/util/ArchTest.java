@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -118,7 +117,7 @@ class ArchTest extends AbstractParallelTest {
     }
 
     @Test
-    void shouldVerifyLayeredArchitectureWithPUML() throws MalformedURLException {
+    void shouldVerifyLayeredArchitectureWithPUML() {
         URL diag = ArchTest.class.getResource("../../expected/layers.puml");
         assertThat(diag).isNotNull();
         classes()
