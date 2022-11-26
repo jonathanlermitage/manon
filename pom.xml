@@ -35,7 +35,7 @@
         <skipIT>false</skipIT>
         <skipUT>false</skipUT>
         <!--</editor-fold>-->
-        <docker-base-image>openjdk:11.0.10-jre-slim</docker-base-image>
+        <docker-base-image>eclipse-temurin:17.0.5_8-jre</docker-base-image>
 
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies is a bit old (v3). -->

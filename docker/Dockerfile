@@ -1,5 +1,5 @@
 # package app with openjdk jre (see https://hub.docker.com/_/openjdk/)
-FROM openjdk:11.0.10-jre-slim
+FROM eclipse-temurin:17.0.5_8-jre
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/*
 
