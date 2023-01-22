@@ -10,7 +10,6 @@ if [%1] == [help] (
   echo  ut      run unit tests only, no integration tests
   echo  tc      run unit + integration tests and generate coverage data
   echo  itc     run integration tests only and generate coverage data
-  echo  pit     run mutation tests with Pitest
   echo  sc      compute and upload Sonar analysis to SonarCloud
   echo  tsc     similar to "do tc" then "do sc"
   echo  sb      scan with SpotBugs then show GUI
@@ -19,7 +18,8 @@ if [%1] == [help] (
   echo  p       package
   echo  rd      package and run application with dev profile
   echo  w $V    set or upgrade Maven wrapper to version $V
-  echo  cv      check plugins and dependencies versions
+  echo  cv      check plugins and dependencies stable versions
+  echo  cvu     check plugins and dependencies stable and unstable versions
   echo  uv      update plugins and dependencies versions
   echo  dt      show dependencies tree
   echo  jib     build Docker image to a Docker daemon
@@ -69,9 +69,6 @@ if [%1] == [tc] (
 if [%1] == [itc] (
   %MVN_CMD% clean verify -U -P coverage -DskipUT=true
 )
-if [%1] == [pit] (
-  %MVN_CMD% clean compile test-compile -DwithHistory org.pitest:pitest-maven:mutationCoverage
-)
 if [%1] == [b] (
   %MVN_CMD% clean compile -DskipUT=true -DskipIT=true -T1 -U
 )
@@ -92,6 +89,9 @@ if [%1] == [w] (
 )
 if [%1] == [cv] (
   %MVN_CMD% versions:display-property-updates -U
+)
+if [%1] == [cvu] (
+  %MVN_CMD% versions:display-property-updates -U -P versions-unstable
 )
 if [%1] == [uv] (
   %MVN_CMD% versions:update-properties -U

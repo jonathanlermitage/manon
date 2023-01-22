@@ -45,3 +45,4 @@ services:
       - "6380:6379"
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf

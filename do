@@ -28,7 +28,6 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "${CmdColor}ut           ${ResetColor}run unit tests only, no integration tests"
         echo "${CmdColor}tc           ${ResetColor}run unit + integration tests and generate coverage data"
         echo "${CmdColor}itc          ${ResetColor}run integration tests only and generate coverage data"
-        echo "${CmdColor}pit          ${ResetColor}run mutation tests with Pitest"
         echo "${CmdColor}gatling      ${ResetColor}benchmark application via a Gatling container (run './do up' first to start application)"
         echo "${CmdColor}sc           ${ResetColor}compute and upload Sonar analysis to SonarCloud (set TK1_MANON_SONAR_ORGA and TK1_MANON_SONAR_LOGIN environment variables first)"
         echo "${CmdColor}tsc          ${ResetColor}similar to \"do tc\" then \"do sc\""
@@ -38,7 +37,8 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         echo "${CmdColor}p            ${ResetColor}package"
         echo "${CmdColor}rd           ${ResetColor}package and run application with dev-mariadb profile"
         echo "${CmdColor}w \$V         ${ResetColor}set or upgrade Maven wrapper to version \$V"
-        echo "${CmdColor}cv           ${ResetColor}check plugins and dependencies versions"
+        echo "${CmdColor}cv           ${ResetColor}check plugins and dependencies stable versions"
+        echo "${CmdColor}cvu          ${ResetColor}check plugins and dependencies stable and unstable versions"
         echo "${CmdColor}uv           ${ResetColor}update plugins and dependencies versions"
         echo "${CmdColor}dt           ${ResetColor}show dependencies tree"
         echo "${CmdColor}rmi          ${ResetColor}stop Docker application, then remove its containers and images"
@@ -153,10 +153,6 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
         sh ./mvnw verify -U -P coverage -DskipUT=true
         ;;
 
-    "pit")
-        sh ./mvnw clean compile test-compile -DwithHistory org.pitest:pitest-maven:mutationCoverage
-        ;;
-
     "b")
         sh ./mvnw compile -DskipUT=true -DskipIT=true -T1 -U
         ;;
@@ -183,6 +179,10 @@ for ((cmd = 1; cmd <= $#; cmd++)); do
 
     "cv")
         sh ./mvnw versions:display-property-updates -U
+        ;;
+
+    "cvu")
+        sh ./mvnw versions:display-property-updates -U -P versions-unstable
         ;;
 
     "uv")
