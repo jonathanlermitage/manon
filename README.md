@@ -3,8 +3,6 @@
     <a href="https://ci.appveyor.com/project/jonathanlermitage/manon"><img src="https://ci.appveyor.com/api/projects/status/3tfcq04yte3ff1iq?svg=true" alt="Appveyor CI"/></a>
     <a href="http://cirrus-ci.com/github/jonathanlermitage/manon/main"><img src="https://api.cirrus-ci.com/github/jonathanlermitage/manon.svg?branch=main" alt="Cirrus CI"/></a>
     <a href="https://github.com/jonathanlermitage/manon/blob/main/LICENSE.txt"><img src="https://img.shields.io/github/license/jonathanlermitage/manon.svg" alt="License"/></a>
-    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/alerts/"><img src="https://img.shields.io/lgtm/alerts/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18" alt="LGTM alerts"/></a>
-    <a href="https://lgtm.com/projects/g/jonathanlermitage/manon/context:java"><img src="https://img.shields.io/lgtm/grade/java/g/jonathanlermitage/manon.svg?logo=lgtm&logoWidth=18" alt="LGTM grade"/></a>
 </p>
 
 1. [Project](#project)  
@@ -59,7 +57,7 @@ Some experimentation with **Spring Boot 3**, JDK17, JUnit5, TestNG, SQL (HSQLDB,
     * make embedded MongoDB work with version from 3.6 to 4.0: see commit [a75a917](https://github.com/jonathanlermitage/manon/commit/a75a9178211233c24a6ac7001559fdfdf3413cd2) ([spring5-light-mongo4.0.x](https://github.com/jonathanlermitage/manon/tree/spring5-light-mongo4.0.x) branch)
 * replace **HSQLDB** by **H2**. See commit [ae4701e](https://github.com/jonathanlermitage/manon/commit/ae4701e6b0ed490aed32c5b07c84c5b52711188b) ([spring5-light-hsqldb-to-h2](https://github.com/jonathanlermitage/manon/tree/spring5-light-hsqldb-to-h2) branch)
 * migration to **Java 8 new [Date and Time API](https://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html) ([JSR-310](https://jcp.org/en/jsr/detail?id=310))**. See last commit of [spring5-light-java8-datetime-api](https://github.com/jonathanlermitage/manon/tree/spring5-light-java8-datetime-api) branch
-* integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[MS Azure DevOps Pipelines](https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory)** (CI), **[LGTM](https://lgtm.com/)** (code quality)
+* integration with some free (for open-source) services like **[AppVeyor](https://ci.appveyor.com/project/jonathanlermitage/manon)** (Windows CI), **[Cirrus](https://cirrus-ci.com)** (CI), **[MS Azure DevOps Pipelines](https://dev.azure.com/jonathanlermitage/manon/_build?definitionId=1&view=buildsHistory)** (CI)
 * [Maven](https://github.com/takari/maven-wrapper) and Gradle wrappers, and a `do` Bash script that helps you to launch some usefull commands
 * **code coverage** thanks to **JaCoCo** Maven and Gradle plugin
 * some **AOP** to capture performance of API endpoints
