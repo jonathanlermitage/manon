@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
         <relativePath/>
     </parent>
 
@@ -42,11 +42,11 @@
         <!-- - version provided by spring-boot-dependencies may be a bit old. -->
         <rest-assured.version>5.3.0</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>3.0.2</spring-boot.version>
+        <spring-boot.version>3.0.3</spring-boot.version>
 
         <archunit.version>1.0.1</archunit.version> <!-- https://github.com/TNG/ArchUnit/releases -->
-        <datafaker.version>1.7.0</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
-        <equalsverifier.version>3.13</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
+        <datafaker.version>1.8.0</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
+        <equalsverifier.version>3.13.2</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>2.0.0-alpha-3</greenmail.version> <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>31.1-jre</guava.version> <!-- https://github.com/google/guava/releases -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
@@ -64,9 +64,9 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html -->
         <jib-maven-plugin.version>3.3.1</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
         <oga-maven-plugin.version>1.8.0</oga-maven-plugin.version>
-        <owasp-dependency-check-plugin.version>8.0.2</owasp-dependency-check-plugin.version>
+        <owasp-dependency-check-plugin.version>8.1.0</owasp-dependency-check-plugin.version>
         <spotbugs-maven-plugin.version>4.7.3.0</spotbugs-maven-plugin.version>
-        <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
+        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
     <dependencyManagement>
