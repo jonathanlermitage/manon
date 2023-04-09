@@ -1,5 +1,5 @@
 ### DEV CONFIGURATION for local application
-# Existing PostgreSQL db (schema is managed by Flyway)
+# In-memory HSQLDB db (schema is managed by Flyway)
 # In-memory cache
 ### (warning: avoid tabs, indent with two spaces)
 

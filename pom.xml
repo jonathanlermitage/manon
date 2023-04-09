@@ -61,11 +61,11 @@
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
         <git-commit-id-maven-plugin.version>5.0.0</git-commit-id-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html -->
+        <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html -->
         <jib-maven-plugin.version>3.3.1</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
         <oga-maven-plugin.version>1.8.0</oga-maven-plugin.version>
         <owasp-dependency-check-plugin.version>8.2.1</owasp-dependency-check-plugin.version>
-        <spotbugs-maven-plugin.version>4.7.3.3</spotbugs-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.7.3.4</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
