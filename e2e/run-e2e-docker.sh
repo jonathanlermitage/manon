@@ -7,7 +7,7 @@ echo "-------------------------------------"
 echo "Build project"
 sh ./mvnw package -DskipUT=true -DskipIT=true -U
 
-echo "Buil application image from Dockerfile"
+echo "Build application image from Dockerfile"
 docker rm $(docker ps -a | grep "lermitage-manon" | awk '{print $1}')
 docker rmi $(docker images | grep -E "^lermitage-manon|<none>" | awk '{print $3}')
 docker build -f ./docker/Dockerfile -t lermitage-manon:1.0.0-SNAPSHOT .
