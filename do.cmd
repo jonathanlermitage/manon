@@ -52,7 +52,7 @@ if [%1] == [conv] (
   %MVN_CMD% project-info-reports:dependency-convergence -U
 )
 if [%1] == [oga] (
-  %MVN_CMD% biz.lermitage.oga:oga-maven-plugin:check
+  %MVN_CMD% biz.lermitage.oga:oga-maven-plugin:check -Dmaven.plugin.validation=VERBOSE
 )
 if [%1] == [owasp] (
   %MVN_CMD% org.owasp:dependency-check-maven:check -P owasp
