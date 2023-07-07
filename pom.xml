@@ -48,11 +48,11 @@
         <datafaker.version>2.0.1</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
         <equalsverifier.version>3.14.3</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>2.0.0</greenmail.version> <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
-        <guava.version>32.0.1-jre</guava.version> <!-- https://github.com/google/guava/releases -->
+        <guava.version>32.1.1-jre</guava.version> <!-- https://github.com/google/guava/releases -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
         <jetbrains-annotations.version>24.0.1</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
         <jjwt.version>0.11.5</jjwt.version> <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>2.38.0</json-unit.version> <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <json-unit.version>3.0.0</json-unit.version> <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version> <!-- https://github.com/mapstruct/mapstruct/releases -->
         <springdoc.version>2.1.0</springdoc.version> <!-- https://springdoc.org/v2/ -->
