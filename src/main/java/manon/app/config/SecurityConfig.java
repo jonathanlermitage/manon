@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -35,9 +35,10 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 // Migrated to Spring Security 5.7: WebSecurityConfigurerAdapter has been deprecated.
 // See https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter for help with migration.
 @Configuration
+@EnableGlobalAuthentication
+@EnableMethodSecurity
 @EnableWebSecurity
 @Order(HIGHEST_PRECEDENCE)
-@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -45,14 +46,16 @@ public class SecurityConfig {
     private static final String ADMIN = UserRole.ADMIN.name();
     private static final String PLAYER = UserRole.PLAYER.name();
 
+    private final AuthenticationConfiguration authenticationConfiguration;
+
     @Bean
-    public AuthenticationManager globalAuthenticationManagerBean(ObjectPostProcessor<Object> objectPostProcessor,
-                                                                 UserDetailsService userDetailsService,
-                                                                 PasswordEncoderService passwordEncoderService) throws Exception {
-        return new AuthenticationManagerBuilder(objectPostProcessor)
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoderService.getEncoder())
-            .and().build();
+    public AuthenticationManager authenticationManager() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(PasswordEncoderService passwordEncoderService) {
+        return passwordEncoderService.getEncoder();
     }
 
     @Bean
