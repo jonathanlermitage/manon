@@ -46,7 +46,7 @@
 
         <archunit.version>1.0.1</archunit.version> <!-- https://github.com/TNG/ArchUnit/releases -->
         <datafaker.version>2.0.1</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
-        <equalsverifier.version>3.14.3</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
+        <equalsverifier.version>3.15</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>2.0.0</greenmail.version> <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>32.1.1-jre</guava.version> <!-- https://github.com/google/guava/releases -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
