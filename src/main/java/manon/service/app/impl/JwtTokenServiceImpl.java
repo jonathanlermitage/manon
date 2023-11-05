@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Date;
@@ -32,7 +32,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final Cfg cfg;
     private final String jwtIssuer;
-    private final Key jwtSigningKey;
+    private final SecretKey jwtSigningKey;
     private final JwtParser jwtParser;
     private final AuthTokenService authTokenService;
 
@@ -40,7 +40,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         this.cfg = cfg;
         this.jwtIssuer = cfg.getSecurityJwtIssuer();
         this.jwtSigningKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(cfg.getSecurityJwtSigningKeyB64()));
-        this.jwtParser = Jwts.parserBuilder().setSigningKey(jwtSigningKey).build();
+        this.jwtParser = Jwts.parser().verifyWith(jwtSigningKey).build();
         this.authTokenService = authTokenService;
     }
 
@@ -49,7 +49,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    private long getAuthTokenIdFromToken(String token) {
+    @Override
+    public long getAuthTokenIdFromToken(String token) {
         return getClaimFromToken(token, claims -> Long.parseLong(claims.get(FIELD_TOKEN_ID).toString()));
     }
 
@@ -60,40 +61,46 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private Claims getAllClaimsFromToken(String token) {
         return jwtParser
-            .parseClaimsJws(token)
-            .getBody();
+            .parseSignedClaims(token)
+            .getPayload();
     }
 
     @Override
     public String generateToken(String username) {
         ZonedDateTime expirationDate = Tools.now().plus(cfg.getSecurityJwtTokenTtl()).atZone(Tools.ZONE_ID);
         return Jwts.builder()
-            .setClaims(Jwts.claims().setSubject(username))
-            .addClaims(Collections.singletonMap(FIELD_TOKEN_ID, authTokenService.create(username, expirationDate.toLocalDateTime()).getId()))
-            .setIssuer(jwtIssuer)
-            .setIssuedAt(Tools.nowAsDate())
-            .setExpiration(Date.from(expirationDate.toInstant()))
+            .claims().subject(username).and()
+            .claims(Collections.singletonMap(FIELD_TOKEN_ID, authTokenService.create(username, expirationDate.toLocalDateTime()).getId()))
+            .issuer(jwtIssuer)
+            .issuedAt(Tools.nowAsDate())
+            .expiration(Date.from(expirationDate.toInstant()))
             .signWith(jwtSigningKey)
             .compact();
     }
 
     @Override
     public boolean validateToken(String token, @NotNull UserDetails userDetails) {
-        String username = userDetails.getUsername();
+        String usernameFromAuth = userDetails.getUsername();
         try {
-            jwtParser.parseClaimsJws(token);
+            jwtParser.parseSignedClaims(token);
             if (!authTokenService.exists(getAuthTokenIdFromToken(token))) {
+                log.info("JWT token does not exist in db for user {}", usernameFromAuth);
                 return false;
             }
-            return getUsernameFromToken(token).equals(username);
+            String usernameFromToken = getUsernameFromToken(token);
+            if (!getUsernameFromToken(token).equals(usernameFromAuth)) {
+                log.warn("username '{}' from authentication and username '{}' from JWT token does not match", usernameFromAuth, usernameFromToken);
+                return false;
+            }
+            return getUsernameFromToken(token).equals(usernameFromAuth);
         } catch (SignatureException | MalformedJwtException e) {
-            log.info("invalid JWT signature for user {}: {}" + username, e.getMessage());
+            log.info("invalid JWT signature for user '{}': {}", usernameFromAuth, e.getMessage());
         } catch (ExpiredJwtException e) {
-            log.info("expired JWT token for user {}: {}" + username, e.getMessage());
+            log.info("expired JWT token for user '{}': {}", usernameFromAuth, e.getMessage());
         } catch (UnsupportedJwtException e) {
-            log.info("unsupported JWT token for user {}: {}" + username, e.getMessage());
+            log.info("unsupported JWT token for user '{}': {}", usernameFromAuth, e.getMessage());
         } catch (IllegalArgumentException e) {
-            log.info("JWT token compact of handler are invalid for user {}: {}" + username, e.getMessage());
+            log.info("JWT token compact of handler are invalid for user '{}': {}", usernameFromAuth, e.getMessage());
         }
         return false;
     }

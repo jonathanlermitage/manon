@@ -13,6 +13,8 @@ public interface JwtTokenService {
 
     String getUsernameFromToken(String token);
 
+    long getAuthTokenIdFromToken(String token);
+
     <T> T getClaimFromToken(String token, @NotNull Function<Claims, T> claimsResolver);
 
     String generateToken(String username);
