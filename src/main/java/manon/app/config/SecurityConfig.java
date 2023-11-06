@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,7 +34,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 // Migrated to Spring Security 5.7: WebSecurityConfigurerAdapter has been deprecated.
 // See https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter for help with migration.
 @Configuration
-@EnableGlobalAuthentication
 @EnableMethodSecurity
 @EnableWebSecurity
 @Order(HIGHEST_PRECEDENCE)
