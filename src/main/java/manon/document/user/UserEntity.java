@@ -94,9 +94,9 @@ public class UserEntity implements Serializable, UserVersionProjection {
     @Column(length = NICKNAME_MAX_LENGTH)
     private String nickname;
 
-    /** Email, NOT mandatory. */
+    /** Email, mandatory. */
     @Size(max = EMAIL_MAX_LENGTH, message = EMAIL_SIZE_ERRMSG)
-    @Column(length = EMAIL_MAX_LENGTH, unique = true)
+    @Column(nullable = false, length = EMAIL_MAX_LENGTH, unique = true)
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
