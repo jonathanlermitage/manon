@@ -59,7 +59,7 @@ import static manon.document.user.UserEntity.Validation.USERNAME_SIZE_ERRMSG;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity implements Serializable, UserVersionProjection {
+public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 443313310250932570L;
 
