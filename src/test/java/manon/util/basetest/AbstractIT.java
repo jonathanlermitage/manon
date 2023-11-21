@@ -40,6 +40,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.mockito.Mockito;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -77,6 +78,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Execution(value = ExecutionMode.SAME_THREAD)
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
+@AutoConfigureObservability // make sure actuator prometheus endpoint is enabled during tests
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, MockitoTestExecutionListener.class})
 public abstract class AbstractIT {
 

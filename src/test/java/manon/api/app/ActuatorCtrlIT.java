@@ -40,7 +40,7 @@ class ActuatorCtrlIT extends AbstractMockIT {
             {GET, "/actuator/info", false, true},
             {GET, "/actuator/loggers", false, false},
             {GET, "/actuator/metrics", false, true},
-            //{GET, "/actuator/prometheus", true, true}, // FIXME 404 during integration tests, but it works with real application or e2e
+            {GET, "/actuator/prometheus", true, true},
             {GET, "/actuator/scheduledtasks", false, true},
             {POST, "/actuator/shutdown", false, false},
             {GET, "/actuator/threaddump", false, false}
