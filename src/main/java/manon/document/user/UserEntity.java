@@ -94,9 +94,9 @@ public class UserEntity implements Serializable {
     @Column(length = NICKNAME_MAX_LENGTH)
     private String nickname;
 
-    /** Email, mandatory. */
+    /** Email. */
     @Size(max = EMAIL_MAX_LENGTH, message = EMAIL_SIZE_ERRMSG)
-    @Column(nullable = false, length = EMAIL_MAX_LENGTH, unique = true)
+    @Column(length = EMAIL_MAX_LENGTH)
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

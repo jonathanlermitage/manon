@@ -76,8 +76,6 @@ create table user_stats
     primary key (id)
 );
 alter table user_
-    add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email);
-alter table user_
     add constraint UK_sb8bbouer5wak8vyiiy4pf2bx unique (username);
 alter table friendship
     add constraint FKtr9d7qkl2qu3mlgg4xt1xqenw foreign key (request_from_id) references user_;

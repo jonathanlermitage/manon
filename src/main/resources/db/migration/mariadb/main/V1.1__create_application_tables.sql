@@ -10,15 +10,13 @@ create table user_
         primary key,
     authorities        varchar(255) not null,
     creation_date      datetime(6)  not null,
-    email              varchar(256) null,
+    email              varchar(255) null,
     nickname           varchar(24)  null,
     password           varchar(256) not null,
     registration_state varchar(255) not null,
     update_date        datetime(6)  not null,
     username           varchar(24)  not null,
     version            bigint       not null,
-    constraint uk__user__email
-        unique (email),
     constraint uk__user__username
         unique (username)
 );

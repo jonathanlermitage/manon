@@ -9,9 +9,7 @@ create table user_
         primary key,
     authorities varchar(255) not null,
     creation_date timestamp not null,
-    email varchar(256)
-        constraint uk_ha67cvlhy4nk1prswl5gj1y0y
-        unique,
+    email varchar(255),
     nickname varchar(24),
     password varchar(256) not null,
     registration_state varchar(255) not null,
