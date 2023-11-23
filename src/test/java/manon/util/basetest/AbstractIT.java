@@ -60,7 +60,6 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -213,7 +212,6 @@ public abstract class AbstractIT {
         authTokenService.evictAllCache();
     }
 
-    @SneakyThrows({ExecutionException.class, InterruptedException.class})
     public void initDb() {
         long t1 = currentTimeMillis();
         MDC.put(KEY_ENV, ENV);
@@ -231,7 +229,7 @@ public abstract class AbstractIT {
             registrationService.ensureAdmin();
         }, tasksExecutor);
         CompletableFuture<Void> additionalInitDbTask = CompletableFuture.runAsync(this::additionalParallelInitDb, tasksExecutor);
-        CompletableFuture.allOf(registerPlayerTask, ensureUsersTask, additionalInitDbTask).get();
+        CompletableFuture.allOf(registerPlayerTask, ensureUsersTask, additionalInitDbTask).join();
 
         userCount = (int) userService.count();
 
