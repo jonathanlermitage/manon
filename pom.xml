@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.0</version>
         <relativePath/>
     </parent>
 
@@ -42,7 +42,7 @@
         <!-- - version provided by spring-boot-dependencies may be a bit old. -->
         <rest-assured.version>5.3.2</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
 
         <archunit.version>1.2.0</archunit.version> <!-- https://github.com/TNG/ArchUnit/releases -->
         <datafaker.version>2.0.2</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
