@@ -26,9 +26,7 @@ public class UserMapperDataset {
             .registrationState(RegistrationState.ACTIVE)
             .nickname("nickname" + id)
             .email("u" + id + "@localhost.net")
-            .version(1)
             .creationDate(now)
-            .updateDate(now)
             .userSnapshots(Arrays.asList(userSnapshotEntityList))
             .build();
     }
@@ -42,7 +40,6 @@ public class UserMapperDataset {
             .userRegistrationState(user.getRegistrationState())
             .userNickname(user.getNickname())
             .userEmail(user.getEmail())
-            .userVersion(1)
             .creationDate(now)
             .build();
     }
@@ -60,7 +57,6 @@ public class UserMapperDataset {
         userDto.setNickname(user.getNickname());
         userDto.setEmail(user.getEmail());
         userDto.setCreationDate(user.getCreationDate());
-        userDto.setUpdateDate(user.getUpdateDate());
         return userDto;
     }
 
@@ -86,7 +82,6 @@ public class UserMapperDataset {
         userWithSnapshotsDto.setNickname(user.getNickname());
         userWithSnapshotsDto.setEmail(user.getEmail());
         userWithSnapshotsDto.setCreationDate(user.getCreationDate());
-        userWithSnapshotsDto.setUpdateDate(user.getUpdateDate());
         userWithSnapshotsDto.setUserSnapshots(Arrays.asList(userSnapshots));
         return userWithSnapshotsDto;
     }

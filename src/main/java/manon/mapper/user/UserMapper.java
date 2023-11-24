@@ -36,7 +36,6 @@ public abstract class UserMapper {
     @Mapping(source = "registrationState", target = "userRegistrationState")
     @Mapping(source = "nickname", target = "userNickname")
     @Mapping(source = "email", target = "userEmail")
-    @Mapping(source = "version", target = "userVersion")
     @Mapping(source = "from", target = "user")
     public abstract UserSnapshotEntity toUserSnapshotEntity(UserEntity from);
 

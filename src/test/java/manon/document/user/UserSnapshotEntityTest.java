@@ -13,8 +13,7 @@ class UserSnapshotEntityTest {
         Assertions.assertThat(UserSnapshotEntity.builder().build().toString()).contains(
             "id", "userUsername",
             "userAuthorities", "userPassword", "userRegistrationState",
-            "userNickname", "userEmail",
-            "userVersion", "creationDate");
+            "userNickname", "userEmail", "creationDate");
     }
 
     @Test

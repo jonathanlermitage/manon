@@ -131,17 +131,6 @@ class UserServiceIT extends AbstractIT {
     }
 
     @Test
-    void shouldReadVersionById() {
-        Assertions.assertThat(userService.readVersionById(userId(2)).getVersion()).isGreaterThanOrEqualTo(0L);
-    }
-
-    @Test
-    void shouldFailReadVersionByIdUnknown() {
-        Assertions.assertThatThrownBy(() -> userService.readVersionById(UNKNOWN_ID))
-            .isInstanceOf(UserNotFoundException.class);
-    }
-
-    @Test
     void shouldReadIdByUsername() {
         Assertions.assertThat(userService.readIdByUsername(name(1)).getId()).isEqualTo(userId(1));
     }
@@ -262,7 +251,5 @@ class UserServiceIT extends AbstractIT {
 
         UserEntity user = userService.readByUsername(validUsername);
         Assertions.assertThat(user.getCreationDate()).isBetween(before, after);
-        Assertions.assertThat(user.getUpdateDate()).isBetween(before, after);
-        Assertions.assertThat(user.getVersion()).isNotNegative();
     }
 }

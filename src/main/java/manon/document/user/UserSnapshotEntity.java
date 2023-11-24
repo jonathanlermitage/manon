@@ -65,9 +65,6 @@ public class UserSnapshotEntity implements Serializable {
     @Column(updatable = false)
     private String userEmail;
 
-    @Column(updatable = false)
-    private long userVersion;
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)

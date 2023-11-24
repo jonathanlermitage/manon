@@ -28,7 +28,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.model.user.RegistrationState;
 import manon.util.Tools;
-import org.springframework.data.annotation.Version;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -55,7 +56,7 @@ import static manon.document.user.UserEntity.Validation.USERNAME_SIZE_ERRMSG;
 @QueryEntity
 @Getter
 @ToString(exclude = "userSnapshots")
-@EqualsAndHashCode(exclude = {"id", "userSnapshots", "version", "creationDate", "updateDate"})
+@EqualsAndHashCode(exclude = {"id", "userSnapshots", "creationDate"})
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -86,6 +87,7 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private RegistrationState registrationState;
 
     /** A non-unique name that can change, NOT mandatory. */
@@ -102,27 +104,16 @@ public class UserEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserSnapshotEntity> userSnapshots;
 
-    @Version
-    @Column(nullable = false)
-    private long version;
-
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @Column(nullable = false)
-    private LocalDateTime updateDate;
-
     @PrePersist
     public void prePersist() {
-        LocalDateTime now = Tools.now();
         if (creationDate == null) {
-            creationDate = now;
+            creationDate = Tools.now();
         }
-        updateDate = now;
     }
 
     /** {@link UserEntity} fields validation rules. */

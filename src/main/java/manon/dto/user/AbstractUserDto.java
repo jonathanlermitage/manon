@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
  * declare any field because everything comes from the ancestor: this is not perfect, but it works.
  */
 @Data
-@EqualsAndHashCode(exclude = {"id", "creationDate", "updateDate"})
+@EqualsAndHashCode(exclude = {"id", "creationDate"})
 public abstract class AbstractUserDto {
 
     private long id;
@@ -41,7 +41,4 @@ public abstract class AbstractUserDto {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime creationDate;
-
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime updateDate;
 }

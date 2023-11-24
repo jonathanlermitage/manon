@@ -67,16 +67,6 @@ class UserWSCtrlIT extends AbstractMockIT {
 
     @ParameterizedTest
     @MethodSource(DP_ALLOW_AUTHENTICATED)
-    void shouldVerifyReadVersion(Rs rs, Integer status) {
-        rs.getSpec()
-            .get(API_USER + "/version")
-            .then()
-            .statusCode(status);
-        verify(userWs, status).readVersion(any());
-    }
-
-    @ParameterizedTest
-    @MethodSource(DP_ALLOW_AUTHENTICATED)
     void shouldVerifyUpdateField(Rs rs, Integer status) {
         rs.getSpec()
             .body(UserUpdateForm.builder().build())

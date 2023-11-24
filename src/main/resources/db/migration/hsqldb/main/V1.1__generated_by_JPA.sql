@@ -49,9 +49,7 @@ create table user_
     nickname           varchar(24),
     password           varchar(256) not null,
     registration_state varchar(255) not null,
-    update_date        timestamp    not null,
     username           varchar(24)  not null,
-    version            bigint       not null,
     primary key (id)
 );
 create table user_snapshot
@@ -64,7 +62,6 @@ create table user_snapshot
     user_password           varchar(255),
     user_registration_state integer,
     user_username           varchar(255),
-    user_version            bigint,
     user_id                 bigint,
     primary key (id)
 );

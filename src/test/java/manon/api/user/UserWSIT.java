@@ -54,7 +54,6 @@ class UserWSIT extends AbstractIT {
         UserEntity user = userService.readByUsername(name);
         assertThat(user.getUsername()).isEqualTo(name);
         assertThat(user.getAuthorities()).isEqualTo(PLAYER.getAuthority());
-        assertThat(user.getVersion()).isGreaterThanOrEqualTo(0L);
         assertThat(user.getRegistrationState()).isEqualTo(ACTIVE);
         assertThat(pwd).as("don't store raw passwords!")
             .isNotEqualTo(user.getPassword())
@@ -145,17 +144,6 @@ class UserWSIT extends AbstractIT {
         assertThat(webUser.getUserSnapshots()).hasSize(2).isEqualTo(dbUser.getUserSnapshots());
     }
 
-    @Test
-    void shouldReadVersion() {
-        Response res = whenP1().getSpec()
-            .get(API_USER + "/version");
-        res.then()
-            .statusCode(SC_OK);
-        Long webUserVersion = readValue(res, Long.class);
-        Long dbUserVersion = userService.readOne(userId(1)).getVersion();
-        assertThat(webUserVersion).isEqualTo(dbUserVersion);
-    }
-
     Object[][] dataProviderShouldUpdate() {
         return new Object[][]{
             {"", ""},
@@ -177,7 +165,6 @@ class UserWSIT extends AbstractIT {
         UserEntity userExpected = userBefore.toBuilder()
             .email(email)
             .nickname(nickname)
-            .version(userBefore.getVersion() + 1)
             .build();
         assertThat(userAfter).isEqualTo(userExpected);
     }

@@ -2,7 +2,6 @@ package manon.repository.user;
 
 import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
-import manon.document.user.UserVersionProjection;
 import manon.model.user.RegistrationState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,9 +16,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, Long>, QuerydslPredicateExecutor<UserEntity> {
 
     Optional<UserEntity> findByUsername(String username);
-
-    @Query("select u from User u where u.id = :id")
-    Optional<UserVersionProjection> findVersionById(@Param("id") long id);
 
     @Query("select u from User u where u.username = :username")
     Optional<UserIdProjection> findVersionByUsername(@Param("username") String username);

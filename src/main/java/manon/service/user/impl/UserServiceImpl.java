@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import manon.document.user.QUserEntity;
 import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
-import manon.document.user.UserVersionProjection;
 import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.err.user.UserExistsException;
@@ -63,11 +62,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity readByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-    }
-
-    @Override
-    public UserVersionProjection readVersionById(long id) {
-        return userRepository.findVersionById(id).orElseThrow(UserNotFoundException::new);
     }
 
     @Override

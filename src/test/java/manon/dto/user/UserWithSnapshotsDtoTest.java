@@ -8,7 +8,7 @@ class UserWithSnapshotsDtoTest {
     @Test
     void shouldVerifyEqualsContract() {
         EqualsVerifier.simple().forClass(UserWithSnapshotsDto.class)
-            .withIgnoredFields("id", "creationDate", "updateDate")
+            .withIgnoredFields("id", "creationDate")
             .verify();
     }
 }

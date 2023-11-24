@@ -3,7 +3,6 @@ package manon.service.user;
 import com.querydsl.core.types.Predicate;
 import manon.document.user.UserEntity;
 import manon.document.user.UserIdProjection;
-import manon.document.user.UserVersionProjection;
 import manon.dto.user.UserWithSnapshotsDto;
 import manon.err.user.PasswordNotMatchException;
 import manon.model.user.RegistrationState;
@@ -23,8 +22,6 @@ public interface UserService {
     UserEntity readByUsername(String username);
 
     Optional<UserEntity> findByUsername(String username);
-
-    UserVersionProjection readVersionById(long id);
 
     /**
      * Update a user's data.

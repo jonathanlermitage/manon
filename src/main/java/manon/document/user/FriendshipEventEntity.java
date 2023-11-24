@@ -23,6 +23,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manon.model.user.FriendshipEventCode;
 import manon.util.Tools;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -53,6 +55,7 @@ public class FriendshipEventEntity implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private FriendshipEventCode code;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)

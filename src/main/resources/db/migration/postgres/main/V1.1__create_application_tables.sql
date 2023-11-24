@@ -13,11 +13,9 @@ create table user_
     nickname varchar(24),
     password varchar(256) not null,
     registration_state varchar(255) not null,
-    update_date timestamp not null,
     username varchar(24) not null
         constraint uk_wqsqlvajcne4rlyosglqglhk
-        unique,
-    version bigint not null
+        unique
 );
 
 create table friendship

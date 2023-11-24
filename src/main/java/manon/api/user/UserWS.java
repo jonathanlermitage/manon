@@ -75,14 +75,6 @@ public class UserWS {
         return userService.readOneAndFetchUserSnapshotDtos(user.getUserId());
     }
 
-    /** Get user's version. */
-    @Operation(summary = "Get my user version number.")
-    @GetMapping("/version")
-    public long readVersion(@AuthenticationPrincipal UserSimpleDetails user) {
-        log.debug("user {} reads his version", user.getIdentity());
-        return userService.readVersionById(user.getUserId()).getVersion();
-    }
-
     /** Update one user's user field. */
     @Operation(summary = "Update my user data.")
     @PutMapping(value = "/field", consumes = JSON)
