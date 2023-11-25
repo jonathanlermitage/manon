@@ -314,11 +314,11 @@ public abstract class AbstractIT {
         long allocatedMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
         long mb = 1024 * 1024;
-        log.info("Memory stats:\n - free memory: {}MB,\n - allocated memory: {}MB\n - max memory: {}MB\n - total free memory: {}MB",
+        log.info("Memory stats:\n - free memory: {}MB,\n - allocated memory: {}MB\n - max memory: {}MB\n - max free memory: {}MB",
             freeMemory / mb,
             allocatedMemory / mb,
             maxMemory / mb,
-            (freeMemory + (maxMemory - allocatedMemory)) / mb);
+            (maxMemory - (allocatedMemory - freeMemory)) / mb);
     }
 
     //
