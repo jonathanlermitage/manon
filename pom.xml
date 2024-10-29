@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.5</version>
         <relativePath/>
     </parent>
 
@@ -40,33 +40,33 @@
 
         <!-- Override spring-boot-dependencies versions: -->
         <!-- - version provided by spring-boot-dependencies may be a bit old. -->
-        <rest-assured.version>5.4.0</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
+        <rest-assured.version>5.5.0</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>3.3.0</spring-boot.version>
+        <spring-boot.version>3.3.5</spring-boot.version>
 
         <archunit.version>1.3.0</archunit.version> <!-- https://github.com/TNG/ArchUnit/releases -->
-        <datafaker.version>2.2.2</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
-        <equalsverifier.version>3.16.1</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
-        <greenmail.version>2.0.1</greenmail.version> <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
-        <guava.version>33.2.1-jre</guava.version> <!-- https://github.com/google/guava/releases -->
+        <datafaker.version>2.4.1</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
+        <equalsverifier.version>3.17.1</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
+        <greenmail.version>2.1.0</greenmail.version> <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
+        <guava.version>33.3.1-jre</guava.version> <!-- https://github.com/google/guava/releases -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
-        <jetbrains-annotations.version>24.1.0</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
-        <jjwt.version>0.12.5</jjwt.version> <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
-        <json-unit.version>3.2.7</json-unit.version> <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
+        <jetbrains-annotations.version>26.0.1</jetbrains-annotations.version> <!-- https://github.com/JetBrains/java-annotations/blob/master/CHANGELOG.md -->
+        <jjwt.version>0.12.6</jjwt.version> <!-- https://github.com/jwtk/jjwt/blob/master/CHANGELOG.md -->
+        <json-unit.version>3.4.1</json-unit.version> <!-- https://github.com/lukas-krecan/JsonUnit#release-notes -->
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version> <!-- https://github.com/mapstruct/mapstruct/releases -->
-        <springdoc.version>2.5.0</springdoc.version> <!-- https://springdoc.org/v2/ -->
+        <mapstruct.version>1.6.2</mapstruct.version> <!-- https://github.com/mapstruct/mapstruct/releases -->
+        <springdoc.version>2.6.0</springdoc.version> <!-- https://springdoc.org/v2/ -->
 
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <findsecbugs-plugin.version>1.13.0</findsecbugs-plugin.version>
-        <git-commit-id-maven-plugin.version>8.0.2</git-commit-id-maven-plugin.version>
+        <git-commit-id-maven-plugin.version>9.0.1</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html -->
-        <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
-        <oga-maven-plugin.version>1.9.2</oga-maven-plugin.version>
-        <owasp-dependency-check-plugin.version>9.2.0</owasp-dependency-check-plugin.version>
-        <spotbugs-maven-plugin.version>4.8.5.0</spotbugs-maven-plugin.version>
-        <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
+        <jib-maven-plugin.version>3.4.4</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
+        <oga-maven-plugin.version>1.9.4</oga-maven-plugin.version>
+        <owasp-dependency-check-plugin.version>11.0.0</owasp-dependency-check-plugin.version>
+        <spotbugs-maven-plugin.version>4.8.6.5</spotbugs-maven-plugin.version>
+        <versions-maven-plugin.version>2.17.1</versions-maven-plugin.version> <!-- https://github.com/mojohaus/versions-maven-plugin/releases -->
     </properties>
 
     <dependencyManagement>
