@@ -1,11 +1,7 @@
+${AnsiColor.BRIGHT_MAGENTA}   • ▌ ▄ ·. ${AnsiColor.BRIGHT_GREEN} ▄▄▄· ${AnsiColor.BRIGHT_BLUE} ▐ ▄ ${AnsiColor.BRIGHT_YELLOW}      ${AnsiColor.BRIGHT_CYAN} ▐ ▄
+${AnsiColor.BRIGHT_MAGENTA}   ·██ ▐███▪${AnsiColor.BRIGHT_GREEN}▐█ ▀█ ${AnsiColor.BRIGHT_BLUE}•█▌▐█▪${AnsiColor.BRIGHT_YELLOW}     ${AnsiColor.BRIGHT_CYAN}•█▌▐█
+${AnsiColor.BRIGHT_MAGENTA}   ▐█ ▌▐▌▐█·${AnsiColor.BRIGHT_GREEN}▄█▀▀█ ${AnsiColor.BRIGHT_BLUE}▐█▐▐▌${AnsiColor.BRIGHT_YELLOW} ▄█▀▄ ${AnsiColor.BRIGHT_CYAN}▐█▐▐▌
+${AnsiColor.BRIGHT_MAGENTA}   ██ ██▌▐█▌${AnsiColor.BRIGHT_GREEN}▐█ ▪▐▌${AnsiColor.BRIGHT_BLUE}██▐█▌${AnsiColor.BRIGHT_YELLOW}▐█▌.▐▌${AnsiColor.BRIGHT_CYAN}██▐█▌
+${AnsiColor.BRIGHT_MAGENTA}   ▀▀  █▪▀▀▀${AnsiColor.BRIGHT_GREEN} ▀  ▀ ${AnsiColor.BRIGHT_BLUE}▀▀ █▪${AnsiColor.BRIGHT_YELLOW} ▀█▄▀▪${AnsiColor.BRIGHT_CYAN}▀▀ █▪
 
-${AnsiColor.BRIGHT_RED}<-. (`-')   (`-')  _ <-. (`-')_          ${AnsiColor.GREEN}<-. (`-')_
-${AnsiColor.BRIGHT_RED}   \(${AnsiColor.BRIGHT_CYAN}OO${AnsiColor.BRIGHT_RED} )_  (${AnsiColor.YELLOW}OO${AnsiColor.BRIGHT_RED} ).-/    \( ${AnsiColor.BRIGHT_MAGENTA}OO${AnsiColor.BRIGHT_RED}) )  .->       ${AnsiColor.GREEN}\( ${AnsiColor.BRIGHT_BLUE}OO${AnsiColor.GREEN}) )
-${AnsiColor.BRIGHT_BLUE},--.${AnsiColor.BRIGHT_RED}/  ,${AnsiColor.BRIGHT_BLUE}-${AnsiColor.BRIGHT_RED}.) / ,${AnsiColor.BRIGHT_BLUE}---.  ,--.${AnsiColor.BRIGHT_RED}/${AnsiColor.BRIGHT_BLUE} ,--${AnsiColor.BRIGHT_RED}(`-')${AnsiColor.BRIGHT_BLUE}----. ,--.${AnsiColor.GREEN}/${AnsiColor.BRIGHT_BLUE} ,--${AnsiColor.GREEN}/
-${AnsiColor.BRIGHT_BLUE}|   `.'   | ${AnsiColor.BRIGHT_RED}| \${AnsiColor.BRIGHT_BLUE}/` `\ |   \ |  ${AnsiColor.RED}( OO)${AnsiColor.BRIGHT_BLUE}.-.  '|   \ |  |
-${AnsiColor.BRIGHT_BLUE}|  |'.'|  | ' '|_.' ||  . '|  ${AnsiColor.BRIGHT_RED}( _) ${AnsiColor.BRIGHT_BLUE}| |  ||  . '|  |${AnsiColor.GREEN})
-${AnsiColor.BRIGHT_BLUE}|  |   |  |${AnsiColor.BRIGHT_RED}(${AnsiColor.BRIGHT_BLUE}|  .-.  ||  |\    |${AnsiColor.BRIGHT_RED}\${AnsiColor.BRIGHT_BLUE}|  |${AnsiColor.BRIGHT_RED})${AnsiColor.BRIGHT_BLUE}|  ||  |\    |
-${AnsiColor.BRIGHT_BLUE}|  |   |  | |  | |  ||  | \   | '  '-'  '|  | \   |
-${AnsiColor.BRIGHT_BLUE}`--'   `--' `--' `--'`--'  `--'  `-----' `--'  `--'
-${Ansi.DEFAULT}
 ${AnsiColor.MAGENTA} Running Manon ${AnsiStyle.BOLD}${info.app.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, Spring Boot ${AnsiStyle.BOLD}${spring-boot.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, Flyway ${AnsiStyle.BOLD}${info.app.flyway.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, Jackson ${AnsiStyle.BOLD}${info.app.jackson.version}${AnsiStyle.NORMAL}${AnsiColor.MAGENTA}, JJWT ${AnsiStyle.BOLD}${info.app.jjwt.version} ${AnsiStyle.NORMAL}${AnsiColor.BRIGHT_GREEN}with ${AnsiColor.BRIGHT_RED}❤${Ansi.DEFAULT}
