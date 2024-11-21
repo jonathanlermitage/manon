@@ -46,8 +46,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
-            .setConnectTimeout(cfg.getHttpclientConnectTimeout())
-            .setReadTimeout(cfg.getHttpclientReadTimeout())
+            .connectTimeout(cfg.getHttpclientConnectTimeout())
+            .readTimeout(cfg.getHttpclientReadTimeout())
             .build();
     }
 }
