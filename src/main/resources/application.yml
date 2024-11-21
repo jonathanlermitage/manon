@@ -68,19 +68,19 @@ info.app:
 
 management:
   endpoint:
-    configprops.enabled: true
-    env.enabled: true
+    configprops.access: unrestricted
+    env.access: unrestricted
     health:
-      enabled: true
+      access: unrestricted
       show-details: when_authorized
       roles: "ROLE_ACTUATOR"
-    info.enabled: true
-    mappings.enabled: true
-    metrics.enabled: true
-    prometheus.enabled: true
-    scheduledtasks.enabled: true
+    info.access: unrestricted
+    mappings.access: unrestricted
+    metrics.access: unrestricted
+    prometheus.access: unrestricted
+    scheduledtasks.access: unrestricted
   endpoints:
-    enabled-by-default: false
+    access.default: none
     web:
       base-path: /actuator
       # see available endpoints https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
