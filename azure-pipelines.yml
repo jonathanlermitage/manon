@@ -20,19 +20,18 @@ steps:
   - script: echo '##vso[task.setvariable variable=MANON_TEST_REDIS_PORT]6380'
   - script: sudo /etc/init.d/mysql stop
   - script: sudo netstat -antp
-  - script: docker-compose --version
-  - task: DockerCompose@0
+  - task: DockerCompose@1 # https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/docker-compose-v1?view=azure-pipelines
     inputs:
-      containerregistrytype: 'Container Registry'
+      containerregistrytype: 'Azure Container Registry'
       dockerComposeFile: './docker/docker-compose-test-azure.yml'
       action: 'Run a Docker Compose command'
       dockerComposeCommand: 'up -d'
+      projectName: 'manon_prj_for_azure'
   - script: sleep 15
   - script: sudo netstat -antp
-  - script: cd docker && docker-compose ps && cd ..
   - script: mysql --user=root --password=woot --host=127.0.0.1 --port=3307 --execute="show databases;"
   - script: mysql --user=root --password=woot --host=127.0.0.1 --port=3308 --execute="show databases;"
-  - task: Maven@3 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
+  - task: Maven@4 # see help https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/maven?view=azure-devops
     inputs:
       mavenPomFile: 'pom.xml'
       javaHomeOption: 'JDKVersion'
