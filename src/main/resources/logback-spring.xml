@@ -3,8 +3,8 @@
 <!-- see /org/springframework/boot/logging/logback/defaults.xml -->
 <!-- see https://logback.qos.ch/manual/appenders.html#AsyncAppender -->
 <configuration scan="true" scanPeriod="30 seconds" packagingData="true">
-    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="clr" class="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wEx" class="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/manon.log</file>
