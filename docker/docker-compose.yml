@@ -74,7 +74,7 @@ services:
 
   redis:
     container_name: redis
-    image: redis:7.0.5-alpine # see https://hub.docker.com/_/redis/
+    image: redis:7.4.1-alpine # see https://hub.docker.com/_/redis/
     ports:
       - "6379:6379"
     volumes:
@@ -83,7 +83,7 @@ services:
 
   greenmail:
     container_name: greenmail
-    image: greenmail/standalone:1.6.11 # see https://hub.docker.com/r/greenmail/standalone
+    image: greenmail/standalone:1.6.15 # see https://hub.docker.com/r/greenmail/standalone
     ports:
       - "3025:3025"
     environment:

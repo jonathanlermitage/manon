@@ -38,7 +38,7 @@ services:
 
   redis-test:
     container_name: redis-test
-    image: redis:7.0.5-alpine # see https://hub.docker.com/_/redis/
+    image: redis:7.4.1-alpine # see https://hub.docker.com/_/redis/
     ports:
       - "6380:6379"
     volumes:
