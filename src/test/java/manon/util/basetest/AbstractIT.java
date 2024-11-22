@@ -42,14 +42,11 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
@@ -67,6 +64,7 @@ import static io.restassured.config.EncoderConfig.encoderConfig;
 import static java.lang.System.currentTimeMillis;
 import static manon.util.Tools.Mdc.KEY_ENV;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
@@ -78,7 +76,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Execution(value = ExecutionMode.SAME_THREAD)
 @SpringBootTest(classes = Application.class, webEnvironment = RANDOM_PORT)
 @AutoConfigureObservability // make sure actuator prometheus endpoint is enabled during tests
-@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class, MockitoTestExecutionListener.class})
 public abstract class AbstractIT {
 
     @LocalServerPort
@@ -95,33 +92,33 @@ public abstract class AbstractIT {
     @Autowired
     private JavaMailSender mailSender;
 
-    @SpyBean
+    @MockitoSpyBean
     protected AuthTokenService authTokenService;
-    @SpyBean
+    @MockitoSpyBean
     protected FriendshipService friendshipService;
-    @SpyBean
+    @MockitoSpyBean
     protected FriendshipEventService friendshipEventService;
-    @SpyBean
+    @MockitoSpyBean
     protected FriendshipRequestService friendshipRequestService;
-    @SpyBean
+    @MockitoSpyBean
     protected JobRunnerService jobRunnerService;
-    @SpyBean
+    @MockitoSpyBean
     protected JwtTokenService jwtTokenService;
-    @SpyBean
+    @MockitoSpyBean
     protected PasswordEncoderService passwordEncoderService;
-    @SpyBean
+    @MockitoSpyBean
     protected PingService pingService;
-    @SpyBean
+    @MockitoSpyBean
     protected RegistrationService registrationService;
-    @SpyBean
+    @MockitoSpyBean
     protected TrxDemoService trxDemoService;
-    @SpyBean
+    @MockitoSpyBean
     protected UserDetailsService userDetailsService;
-    @SpyBean
+    @MockitoSpyBean
     protected UserService userService;
-    @SpyBean
+    @MockitoSpyBean
     protected UserSnapshotService userSnapshotService;
-    @SpyBean
+    @MockitoSpyBean
     protected UserStatsService userStatsService;
     //</editor-fold>
 
@@ -165,6 +162,12 @@ public abstract class AbstractIT {
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
         Rs.tokenProvider = jwtTokenService;
+
+        // Check if some spied beans are loaded.
+        // SpringBoot migrations, like 3.4, needed code rework to avoid breaking Mockito.
+        // These checks will say if Mockito integration has been broken.
+        assertNotNull(pingService, "PingService is null. May need to rework Mockito's spy bean integration");
+        assertNotNull(jwtTokenService, "JwtTokenService is null. May need to rework Mockito's spy bean integration");
     }
 
     /** Clear data before each test method. Do NOT override it in non-abstract test classes. */

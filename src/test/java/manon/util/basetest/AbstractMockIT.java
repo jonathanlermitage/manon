@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import manon.api.app.PingWS;
 import manon.api.batch.JobRunnerWS;
 import manon.api.user.AuthAdminWS;
-import manon.api.user.AuthWS;
 import manon.api.user.FriendshipWS;
 import manon.api.user.UserAdminWS;
 import manon.api.user.UserWS;
@@ -14,8 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_OK;
@@ -50,20 +48,17 @@ public abstract class AbstractMockIT extends AbstractIT {
         }
     }
 
-    @SpyBean // not mocked because its needed by security
-    protected AuthWS authWS;
-
-    @MockBean
+    @MockitoBean
     protected AuthAdminWS authAdminWS;
-    @MockBean
+    @MockitoBean
     protected FriendshipWS friendshipWS;
-    @MockBean
+    @MockitoBean
     protected JobRunnerWS jobRunnerWS;
-    @MockBean
+    @MockitoBean
     protected PingWS pingWS;
-    @MockBean
+    @MockitoBean
     protected UserAdminWS userAdminWS;
-    @MockBean
+    @MockitoBean
     protected UserWS userWs;
 
     @Override
@@ -93,7 +88,7 @@ public abstract class AbstractMockIT extends AbstractIT {
     public void setUpMocks() {
         closeableMocks = MockitoAnnotations.openMocks(this);
         Mockito.clearInvocations(authAdminWS);
-        Mockito.clearInvocations(authWS);
+        //Mockito.clearInvocations(authWS);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(jobRunnerWS);
         Mockito.clearInvocations(pingWS);
