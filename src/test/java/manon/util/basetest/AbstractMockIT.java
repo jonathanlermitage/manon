@@ -88,7 +88,6 @@ public abstract class AbstractMockIT extends AbstractIT {
     public void setUpMocks() {
         closeableMocks = MockitoAnnotations.openMocks(this);
         Mockito.clearInvocations(authAdminWS);
-        //Mockito.clearInvocations(authWS);
         Mockito.clearInvocations(friendshipWS);
         Mockito.clearInvocations(jobRunnerWS);
         Mockito.clearInvocations(pingWS);
