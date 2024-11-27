@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import static manon.app.Globals.Datasources.MAIN_DATASOURCE;
 import static manon.app.Globals.Datasources.SPRINGBATCH_DATASOURCE;
 
+// TODO see if https://docs.spring.io/spring-boot/how-to/data-access.html#howto.data-access.configure-two-datasources can help
 @Configuration
 public class DatasourceConfig {
 
