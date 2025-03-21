@@ -199,23 +199,7 @@ class UserWSIT extends AbstractIT {
     }
 
     @Test
-    void shouldVerifyPasswordWithDataLongerThanBCryptMaxLength() {
-        // BCrypt truncates too long password. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
-        String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
-        whenP1().getSpec()
-            .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())
-            .contentType(JSON)
-            .put(API_USER + "/password")
-            .then()
-            .statusCode(SC_OK);
-
-        login(name(1), newPassword.substring(0, 80))
-            .then().statusCode(SC_OK);
-    }
-
-    @Test
     void shouldNotVerifyPasswordWithDataShorterThanBCryptMaxLength() {
-        // BCrypt truncates too long passwords. See https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length
         String newPassword = TestTools.fill("anewpassword", UserEntity.Validation.PASSWORD_MAX_LENGTH);
         whenP1().getSpec()
             .body(UserPasswordUpdateForm.builder().oldPassword(pwd(1)).newPassword(newPassword).build())

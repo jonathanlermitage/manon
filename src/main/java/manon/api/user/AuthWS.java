@@ -9,6 +9,7 @@ import manon.model.user.UserSimpleDetails;
 import manon.model.user.form.UserLogin;
 import manon.service.app.AuthTokenService;
 import manon.service.app.JwtTokenService;
+import manon.util.HashUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,7 +38,7 @@ public class AuthWS {
     @PostMapping(value = "/auth/authorize")
     public String createAuthToken(@RequestBody @Validated UserLogin userLogin) {
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(userLogin.getUsername(), userLogin.getPassword())
+            new UsernamePasswordAuthenticationToken(userLogin.getUsername(), HashUtils.hashRawPassword(userLogin.getPassword()))
         );
         if (!authentication.isAuthenticated()) {
             throw new UserNotFoundException();

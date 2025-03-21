@@ -151,7 +151,7 @@ class UserServiceIT extends AbstractIT {
             .registrationState(RegistrationState.ACTIVE)
             .build());
         Assertions.assertThat(user.getPassword()).isNotEqualTo(rawPassword);
-        Assertions.assertThat(passwordEncoderService.getEncoder().matches(rawPassword, user.getPassword())).isTrue();
+        Assertions.assertThat(passwordEncoderService.matches(rawPassword, user.getPassword())).isTrue();
     }
 
     @Test
@@ -165,7 +165,7 @@ class UserServiceIT extends AbstractIT {
     void shouldSetAndCheckEncodedPassword() {
         String rawPassword = "pwd" + currentTimeMillis();
         userService.encodeAndSetPassword(userId(3), rawPassword);
-        Assertions.assertThat(passwordEncoderService.getEncoder().matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
+        Assertions.assertThat(passwordEncoderService.matches(rawPassword, userService.readOne(userId(3)).getPassword())).isTrue();
     }
 
     Object[] dataProviderRegistrationStates() {
