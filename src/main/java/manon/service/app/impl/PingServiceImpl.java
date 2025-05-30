@@ -20,7 +20,7 @@ public class PingServiceImpl implements PingService {
     private final RestTemplate restTemplate;
 
     @Override
-    @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 50), include = PingException.class)
+    @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 50), retryFor = PingException.class)
     public void ping(String encodedUrl) {
         try {
             String url = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8);

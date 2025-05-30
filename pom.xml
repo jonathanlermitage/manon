@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.6</version>
+        <version>3.5.0</version>
         <relativePath/>
     </parent>
 
@@ -42,7 +42,7 @@
         <!-- - version provided by spring-boot-dependencies may be a bit old. -->
         <rest-assured.version>5.5.5</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>3.4.6</spring-boot.version>
+        <spring-boot.version>3.5.0</spring-boot.version>
 
         <archunit.version>1.4.1</archunit.version> <!-- https://github.com/TNG/ArchUnit/releases -->
         <datafaker.version>2.4.3</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
@@ -60,7 +60,7 @@
         <apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <findsecbugs-plugin.version>1.14.0</findsecbugs-plugin.version>
-        <git-commit-id-maven-plugin.version>9.0.1</git-commit-id-maven-plugin.version>
+        <git-commit-id-maven-plugin.version>9.0.2</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version> <!-- https://www.jacoco.org/jacoco/trunk/doc/changes.html -->
         <jib-maven-plugin.version>3.4.5</jib-maven-plugin.version> <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/CHANGELOG.md -->
         <oga-maven-plugin.version>1.9.4</oga-maven-plugin.version>
