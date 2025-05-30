@@ -26,7 +26,9 @@ public class PingServiceImpl implements PingService {
             String url = URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8);
             restTemplate.getForEntity(url, String.class);
         } catch (Exception e) {
-            log.debug("ping failed due to exception: " + e.getMessage());
+            if (log.isDebugEnabled()) {
+                log.debug("ping failed due to exception: {}", e.getMessage());
+            }
             throw new PingException();
         }
     }
