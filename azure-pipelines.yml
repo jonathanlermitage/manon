@@ -11,8 +11,8 @@ pool:
 
 strategy:
   matrix:
-    run_on_jdk17:
-      CUSTOM_JDK_VERSION_OPTION: '17'
+    run_on_jdk21:
+      CUSTOM_JDK_VERSION_OPTION: '21'
 
 steps:
   - script: echo '##vso[task.setvariable variable=MANON_TEST_SQL_JDBC_URL]jdbc:mariadb://127.0.0.1:3307/manon?useUnicode=true&characterEncoding=utf8&autoReconnect=true'
