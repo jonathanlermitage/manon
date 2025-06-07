@@ -1,5 +1,5 @@
 # package app with openjdk jre (see https://hub.docker.com/_/openjdk/)
-FROM eclipse-temurin:17.0.5_8-jre
+FROM eclipse-temurin:21.0.1_12-jre
 
 WORKDIR /home
 

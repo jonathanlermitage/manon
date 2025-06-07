@@ -13,7 +13,7 @@
 
 ## Project
 
-Some experimentation with **Spring Boot 3**, JDK17, JUnit5, TestNG, SQL (HSQLDB, MariaDB, PostgreSQL), NoSQL (Redis, MongoDB), Docker, ELK stack, etc. It demonstrates usage of:
+Some experimentation with **Spring Boot 3**, JDK21, JUnit5, TestNG, SQL (HSQLDB, MariaDB, PostgreSQL), NoSQL (Redis, MongoDB), Docker, ELK stack, etc. It demonstrates usage of:
 
 * **Maven** (latest version) and **Gradle** build tools
   * migration from **Maven to Gradle** (but I'll stick to Maven). Stable and functional, but still needs some improvements. See commit [cf79b9c](https://github.com/jonathanlermitage/manon/commit/cf79b9c1f0a7eee7ffcd8a1fd0b1e05e11f1de75) ([spring5-mvn-to-gradle](https://github.com/jonathanlermitage/manon/tree/spring5-mvn-to-gradle) branch)
