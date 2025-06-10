@@ -3,7 +3,7 @@
 ### (warning: avoid tabs, indent with two spaces)
 
 spring:
-  mvc.converters.preferred-json-mapper: jackson
+  http.converters.preferred-json-mapper: jackson
   batch.job.enabled: false
   main.banner-mode: console
   datasource:
