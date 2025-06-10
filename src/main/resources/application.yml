@@ -79,12 +79,13 @@ management:
     metrics.access: unrestricted
     prometheus.access: unrestricted
     scheduledtasks.access: unrestricted
+    startup.access: unrestricted
   endpoints:
     access.default: none
     web:
       base-path: /actuator
       # see available endpoints https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
-      exposure.include: ["configprops", "env", "health", "info", "metrics", "prometheus", "scheduledtasks"]
+      exposure.include: ["configprops", "env", "health", "info", "metrics", "prometheus", "scheduledtasks", "startup"]
   health:
     mail.enabled: ${MANON_MAIL_MANAGEMENT:true}
     redis.enabled: ${MANON_REDIS_MANAGEMENT:false}

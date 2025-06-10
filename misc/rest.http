@@ -18,6 +18,14 @@ Content-Type: application/json
 GET http://localhost:8080/actuator/health
 Authorization: Bearer REPLACE_BY_ACTUATOR_TOKEN
 
+### retrieve the application startup steps
+GET http://localhost:8080/actuator/startup
+Authorization: Bearer REPLACE_BY_ACTUATOR_TOKEN
+
+### drain the application startup steps
+POST http://localhost:8080/actuator/startup
+Authorization: Bearer REPLACE_BY_ACTUATOR_TOKEN
+
 ### anonymous and not authorized users get minimal health (app status only)
 GET http://localhost:8080/actuator/health
 

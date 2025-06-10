@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.ApplicationPidFileWriter;
+import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -23,6 +24,7 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -42,6 +44,10 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplicationBuilder app = new SpringApplicationBuilder(Application.class);
+
+        // Track and monitor app startup information https://docs.spring.io/spring-boot/api/rest/actuator/startup.html#startup
+        app.applicationStartup(new BufferingApplicationStartup(2048));
+
         SpringApplication buildapp = app.build();
         buildapp.addListeners(new ApplicationPidFileWriter());
         buildapp.addListeners((ApplicationListener<ContextClosedEvent>) event -> {
@@ -72,7 +78,7 @@ public class Application extends SpringBootServletInitializer {
             System.getProperty("java.vm.version"),
             System.getProperty("java.vm.vendor"),
             System.getProperty("os.name"),
-            System.getProperty("file.encoding"),
+            Charset.defaultCharset().displayName(),
             registrationService.ensureAdmin().getUsername(),
             registrationService.ensureActuator().getUsername(),
             cfg);
