@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
+        <version>3.5.4</version>
         <relativePath/>
     </parent>
 
@@ -42,11 +42,11 @@
         <!-- - version provided by spring-boot-dependencies may be a bit old. -->
         <rest-assured.version>5.5.5</rest-assured.version> <!-- https://github.com/rest-assured/rest-assured/blob/master/changelog.txt -->
         <!-- - to let versions-maven-plugin handle version. Don't forget to update spring-boot-starter-parent manually! -->
-        <spring-boot.version>3.5.3</spring-boot.version>
+        <spring-boot.version>3.5.4</spring-boot.version>
 
         <archunit.version>1.4.1</archunit.version> <!-- https://github.com/TNG/ArchUnit/releases -->
         <datafaker.version>2.4.4</datafaker.version> <!-- https://github.com/datafaker-net/datafaker/tags -->
-        <equalsverifier.version>4.0.5</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
+        <equalsverifier.version>4.0.6</equalsverifier.version> <!-- https://github.com/jqno/equalsverifier/blob/main/CHANGELOG.md -->
         <greenmail.version>2.1.4</greenmail.version> <!-- https://github.com/greenmail-mail-test/greenmail/releases -->
         <guava.version>33.4.8-jre</guava.version> <!-- https://github.com/google/guava/releases -->
         <javax.activation-activation.version>1.1.1</javax.activation-activation.version>
@@ -312,10 +312,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5-jakarta</artifactId>
-        </dependency>
+        </dependency-->
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- Unit Testing. -->
